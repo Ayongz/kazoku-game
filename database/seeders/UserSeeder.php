@@ -15,17 +15,17 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         User::create([
-            'name' => 'Game Master',
-            'email' => 'master@game.com',
-            'password' => Hash::make('password'), // You can use 'password' for easy testing
-            'money_earned' => 500000, // Starts with a lot of money
-            'attempts' => 1,
-            'steal_level' => 3, // Starts with max steal ability
+            'name' => 'Ayong',
+            'email' => 'yong@game.com',
+            'password' => Hash::make('123'), // You can use 'password' for easy testing
+            'money_earned' => 0, // Starts with a lot of money
+            'attempts' => 100,
+            'steal_level' => 0, // Starts with max steal ability
         ]);
 
         User::create([
-            'name' => 'Rookie Player',
-            'email' => 'rookie@game.com',
+            'name' => 'Wei',
+            'email' => 'wei@game.com',
             'password' => Hash::make('password'),
             'money_earned' => 5000, // Small amount of starting money
             'attempts' => 0, // Used their attempt for the hour

@@ -46,7 +46,6 @@
                             <h2 class="card-title h3 fw-bolder @if($user->attempts > 0) text-warning @else text-danger @endif">
                                 {{ $user->attempts }}
                             </h2>
-                            <p class="text-muted small mb-0">Resets to 1 hourly.</p>
                         </div>
                     </div>
                 </div>
@@ -90,41 +89,41 @@
                     </div>
                 </div>
                 
-                <!-- 2. STEAL ABILITY MANAGEMENT -->
+                <!-- 2. QUICK ACTIONS -->
                 <div class="col-12">
                     <div class="card shadow-lg border-0">
                         <div class="card-body p-4 p-md-5">
-                            <h2 class="h3 fw-bold text-danger mb-4">Steal Operations</h2>
+                            <h2 class="h3 fw-bold text-info mb-4">Quick Actions</h2>
                             
-                            <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center border-bottom pb-4 mb-4">
-                                <p class="lead fw-normal text-muted mb-2 mb-sm-0">
-                                    Steal Level: <span class="fw-bolder text-danger">{{ $user->steal_level }} / {{ $maxStealLevel }}</span>
-                                </p>
+                            <div class="row g-3">
+                                <!-- Store Link -->
+                                <div class="col-12 col-md-6">
+                                    <a href="{{ route('store.index') }}" class="btn btn-outline-primary btn-lg w-100 h-100 d-flex flex-column justify-content-center align-items-center text-decoration-none">
+                                        <i class="fas fa-store fa-2x mb-2"></i>
+                                        <span class="fw-bold">Visit Store</span>
+                                        <small class="text-muted">Upgrade abilities</small>
+                                    </a>
+                                </div>
                                 
-                                @if ($user->steal_level < $maxStealLevel)
-                                    <form method="POST" action="{{ route('game.purchase') }}">
+                                <!-- Steal Action (only available if level > 0) -->
+                                <div class="col-12 col-md-6">
+                                    <form method="POST" action="{{ route('game.steal') }}" class="h-100">
                                         @csrf
                                         <button type="submit" 
-                                                class="btn btn-success fw-bold @if($user->money_earned < $stealUpgradeCost) disabled @endif"
-                                                @if($user->money_earned < $stealUpgradeCost) disabled @endif>
-                                            UPGRADE (IDR {{ number_format($stealUpgradeCost, 0, ',', '.') }})
+                                                class="btn btn-lg w-100 h-100 fw-bold @if($user->steal_level > 0) btn-danger @else btn-secondary disabled @endif d-flex flex-column justify-content-center align-items-center"
+                                                @if($user->steal_level === 0) disabled @endif>
+                                            <i class="fas fa-mask fa-2x mb-2"></i>
+                                            @if($user->steal_level > 0)
+                                                <span>ATTEMPT HEIST</span>
+                                                <small>Level {{ $user->steal_level }} ({{ min($user->steal_level * 20, 80) }}% success)</small>
+                                            @else
+                                                <span>HEIST LOCKED</span>
+                                                <small>Visit store to unlock</small>
+                                            @endif
                                         </button>
                                     </form>
-                                @else
-                                    <span class="badge bg-success py-2 px-3 fw-bold">MAX LEVEL REACHED</span>
-                                @endif
+                                </div>
                             </div>
-
-                            <!-- Execute Steal Button (only available if level > 0) -->
-                            <form method="POST" action="{{ route('game.steal') }}">
-                                @csrf
-                                <button type="submit" 
-                                        class="btn btn-lg w-100 fw-bold text-uppercase @if($user->steal_level > 0) btn-danger @else btn-secondary disabled @endif"
-                                        @if($user->steal_level === 0) disabled @endif>
-                                    <i class="fas fa-hand-lizard me-2"></i> ATTEMPT HEIST
-                                </button>
-                            </form>
-                            <p class="text-muted small mt-2 text-center">Success chance and reward depend on your Steal Level.</p>
                         </div>
                     </div>
                 </div>

@@ -11,10 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('game_settings', function (Blueprint $table) {
-            $table->id();
-            $table->decimal('global_prize_pool', 15, 2)->default(1000000);
-            $table->timestamps();
+        Schema::table('users', function (Blueprint $table) {
+            $table->unsignedSmallInteger('auto_earning_level')->default(0)->after('steal_level');
         });
     }
 
@@ -23,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('game_settings');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('auto_earning_level');
+        });
     }
 };
