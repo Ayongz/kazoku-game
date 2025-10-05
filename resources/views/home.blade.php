@@ -6,10 +6,10 @@
         <div class="col-12">
             <!-- Header -->
             <div class="text-center mb-5">
-                <h1 class="display-4 fw-bold text-dark">navbar-brand
+                <h1 class="display-4 fw-bold text-dark">
                     <i class="fas fa-trophy me-3 text-warning"></i>Leaderboard
                 </h1>
-                <p class="lead text-muted">See who's dominating the money game!</p>
+                <p class="lead text-muted">See who's dominating the treasure hunt and climbing the riches!</p>
             </div>
 
             <!-- Game Statistics Cards -->
@@ -21,7 +21,7 @@
                             <i class="fas fa-gift fa-2x mb-2 text-white"></i>
                             <h6 class="text-uppercase text-white-50">Global Prize Pool</h6>
                             <h3 class="fw-bold mb-0 text-white">IDR {{ number_format($globalPrizePool, 0, ',', '.') }}</h3>
-                            <small class="text-white-50">Daily winner takes all!</small>
+                            <small class="text-white-50">Master the treasure hunt!</small>
                         </div>
                     </div>
                 </div>
@@ -33,7 +33,7 @@
                             <i class="fas fa-coins fa-2x mb-2 text-white"></i>
                             <h6 class="text-uppercase text-white-50">Total Money in Game</h6>
                             <h3 class="fw-bold mb-0 text-white">IDR {{ number_format($totalMoneyInGame, 0, ',', '.') }}</h3>
-                            <small class="text-white-50">Earned by all players</small>
+                            <small class="text-white-50">Earned through treasures & abilities</small>
                         </div>
                     </div>
                 </div>
@@ -75,8 +75,8 @@
                                             <th class="border-0 py-3">
                                                 <i class="fas fa-wallet me-1"></i>Money Earned
                                             </th>
-                                            <th class="border-0 py-3 text-center">
-                                                <i class="fas fa-cogs me-1"></i>Abilities
+                            <th class="border-0 py-3 text-center">
+                                                <i class="fas fa-magic me-1"></i>Abilities & Status
                                             </th>
                                         </tr>
                                     </thead>
@@ -132,18 +132,38 @@
                                                     @endif
                                                 </td>
                                                 <td class="py-4 text-center">
-                                                    <div class="d-flex flex-column gap-1">
+                                                    <div class="d-flex flex-wrap justify-content-center gap-1">
                                                         @if($player->steal_level > 0)
                                                             <span class="badge bg-danger">
-                                                                <i class="fas fa-mask me-1"></i>Steal Lv.{{ $player->steal_level }}
+                                                                <i class="fas fa-mask me-1"></i>Auto Steal Lv.{{ $player->steal_level }}
                                                             </span>
                                                         @endif
                                                         @if($player->auto_earning_level > 0)
                                                             <span class="badge bg-warning text-dark">
-                                                                <i class="fas fa-robot me-1"></i>Auto Lv.{{ $player->auto_earning_level }}
+                                                                <i class="fas fa-robot me-1"></i>Auto Click Lv.{{ $player->auto_earning_level }}
                                                             </span>
                                                         @endif
-                                                        @if($player->steal_level === 0 && $player->auto_earning_level === 0)
+                                                        @if($player->treasure_multiplier_level > 0)
+                                                            <span class="badge bg-info">
+                                                                <i class="fas fa-gem me-1"></i>Treasure Lv.{{ $player->treasure_multiplier_level }}
+                                                            </span>
+                                                        @endif
+                                                        @if($player->lucky_strikes_level > 0)
+                                                            <span class="badge bg-success">
+                                                                <i class="fas fa-star me-1"></i>Lucky Lv.{{ $player->lucky_strikes_level }}
+                                                            </span>
+                                                        @endif
+                                                        @if($player->counter_attack_level > 0)
+                                                            <span class="badge bg-dark">
+                                                                <i class="fas fa-shield-alt me-1"></i>Counter Lv.{{ $player->counter_attack_level }}
+                                                            </span>
+                                                        @endif
+                                                        @if($player->shield_expires_at && $player->shield_expires_at > now())
+                                                            <span class="badge bg-secondary">
+                                                                <i class="fas fa-shield-alt me-1"></i>Shield
+                                                            </span>
+                                                        @endif
+                                                        @if($player->steal_level === 0 && $player->auto_earning_level === 0 && $player->treasure_multiplier_level === 0 && $player->lucky_strikes_level === 0 && $player->counter_attack_level === 0)
                                                             <small class="text-muted">No abilities</small>
                                                         @endif
                                                     </div>
@@ -161,7 +181,7 @@
             <!-- Quick Actions -->
             <div class="row mt-5">
                 <div class="col-12 text-center">
-                    <h4 class="mb-4">Ready to climb the ranks?</h4>
+                    <h4 class="mb-4">Ready to hunt for treasures and climb the ranks?</h4>
                     <div class="d-flex flex-column flex-md-row gap-3 justify-content-center">
                         <a href="{{ route('game.dashboard') }}" class="btn btn-primary btn-lg">
                             <i class="fas fa-gamepad me-2"></i>Play Game
@@ -215,6 +235,26 @@
         .table-responsive {
             font-size: 0.9rem;
         }
+        
+        .badge {
+            font-size: 0.7rem;
+            margin: 1px;
+        }
+        
+        .d-flex.flex-wrap .badge {
+            white-space: nowrap;
+        }
+    }
+    
+    /* Enhanced badge styling */
+    .badge {
+        font-weight: 600;
+        border-radius: 6px;
+        padding: 0.4em 0.8em;
+    }
+    
+    .badge i {
+        opacity: 0.9;
     }
 </style>
 @endsection

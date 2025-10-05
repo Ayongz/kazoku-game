@@ -1,73 +1,313 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Login') }}</div>
+<div class="login-wrapper min-vh-100 d-flex align-items-center">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xl-4 col-lg-5 col-md-6 col-sm-8">
+                <div class="login-card">
+                    <!-- Game Logo/Header -->
+                    <div class="text-center mb-4">
+                        <div class="login-logo">
+                            <i class="fas fa-gamepad"></i>
+                        </div>
+                        <h2 class="login-title">Kazoku Game</h2>
+                        <p class="login-subtitle">Enter the ultimate money-earning adventure</p>
+                    </div>
 
-                <div class="card-body">
-                    <form method="POST" action="{{ route('login') }}">
+                    <!-- Login Form -->
+                    <form method="POST" action="{{ route('login') }}" class="login-form">
                         @csrf
 
-                        <div class="row mb-3">
-                            <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
-
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
-
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <!-- <div class="row mb-3">
-                            <div class="col-md-6 offset-md-4">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-
-                                    <label class="form-check-label" for="remember">
-                                        {{ __('Remember Me') }}
-                                    </label>
+                        <!-- Email Field -->
+                        <div class="form-floating mb-3">
+                            <input id="email" type="email" 
+                                   class="form-control custom-input @error('email') is-invalid @enderror" 
+                                   name="email" value="{{ old('email') }}" 
+                                   placeholder="Enter your email"
+                                   required autocomplete="email" autofocus>
+                            <label for="email">
+                                <i class="fas fa-envelope me-2"></i>Email Address
+                            </label>
+                            @error('email')
+                                <div class="invalid-feedback">
+                                    <strong>{{ $message }}</strong>
                                 </div>
-                            </div>
-                        </div> -->
+                            @enderror
+                        </div>
 
-                        <div class="row mb-0">
-                            <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Login') }}
-                                </button>
-
-                                <!-- @if (Route::has('password.request'))
-                                    <a class="btn btn-link" href="{{ route('password.request') }}">
-                                        {{ __('Forgot Your Password?') }}
-                                    </a>
-                                @endif -->
+                        <!-- Password Field -->
+                        <div class="form-floating mb-3">
+                            <input id="password" type="password" 
+                                   class="form-control custom-input @error('password') is-invalid @enderror" 
+                                   name="password" 
+                                   placeholder="Enter your password"
+                                   required autocomplete="current-password">
+                            <label for="password">
+                                <i class="fas fa-lock me-2"></i>Password
+                            </label>
+                            <div class="password-toggle" onclick="togglePassword()">
+                                <i class="fas fa-eye" id="passwordIcon"></i>
                             </div>
+                            @error('password')
+                                <div class="invalid-feedback">
+                                    <strong>{{ $message }}</strong>
+                                </div>
+                            @enderror
+                        </div>
+
+                        <!-- Login Button -->
+                        <div class="d-grid mb-4">
+                            <button type="submit" class="btn btn-login btn-lg">
+                                <i class="fas fa-sign-in-alt me-2"></i>
+                                Start Playing
+                            </button>
                         </div>
                     </form>
+
+                    <!-- Game Features Preview -->
+                    <div class="features-preview">
+                        <div class="feature">
+                            <i class="fas fa-coins"></i>
+                            <span>Earn Money</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-mask"></i>
+                            <span>Auto Steal</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>Shield Protection</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-star"></i>
+                            <span>Lucky Strikes</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<style>
+.login-wrapper {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.login-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.05)"/><circle cx="10" cy="50" r="0.5" fill="rgba(255,255,255,0.05)"/><circle cx="90" cy="30" r="0.5" fill="rgba(255,255,255,0.05)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+    opacity: 0.6;
+}
+
+.login-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    padding: 2.5rem;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    position: relative;
+    z-index: 1;
+    animation: slideUp 0.8s ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.login-logo {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+.login-logo i {
+    font-size: 2rem;
+    color: white;
+}
+
+.login-title {
+    color: #2d3748;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    font-size: 1.8rem;
+}
+
+.login-subtitle {
+    color: #718096;
+    font-size: 0.9rem;
+    margin-bottom: 0;
+}
+
+.custom-input {
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 1rem 1rem 1rem 3rem;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.8);
+}
+
+.custom-input:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    background: white;
+}
+
+.form-floating > label {
+    padding-left: 3rem;
+    color: #718096;
+    font-weight: 500;
+}
+
+.form-floating > .custom-input:focus ~ label,
+.form-floating > .custom-input:not(:placeholder-shown) ~ label {
+    color: #667eea;
+    transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
+}
+
+.password-toggle {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #718096;
+    transition: color 0.3s ease;
+    z-index: 5;
+}
+
+.password-toggle:hover {
+    color: #667eea;
+}
+
+.btn-login {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border: none;
+    border-radius: 12px;
+    padding: 1rem;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: white;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-login::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s;
+}
+
+.btn-login:hover::before {
+    left: 100%;
+}
+
+.btn-login:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+}
+
+.features-preview {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #e2e8f0;
+}
+
+.feature {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #4a5568;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.feature i {
+    color: #667eea;
+    font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+    .login-card {
+        padding: 2rem 1.5rem;
+        margin: 1rem;
+    }
+    
+    .login-title {
+        font-size: 1.5rem;
+    }
+    
+    .features-preview {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+
+<script>
+function togglePassword() {
+    const passwordInput = document.getElementById('password');
+    const passwordIcon = document.getElementById('passwordIcon');
+    
+    if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        passwordIcon.className = 'fas fa-eye-slash';
+    } else {
+        passwordInput.type = 'password';
+        passwordIcon.className = 'fas fa-eye';
+    }
+}
+
+// Add some interactive effects
+document.addEventListener('DOMContentLoaded', function() {
+    // Add focus animations to inputs
+    const inputs = document.querySelectorAll('.custom-input');
+    inputs.forEach(input => {
+        input.addEventListener('focus', function() {
+            this.parentElement.style.transform = 'scale(1.02)';
+        });
+        
+        input.addEventListener('blur', function() {
+            this.parentElement.style.transform = 'scale(1)';
+        });
+    });
+});
+</script>
 @endsection

@@ -49,8 +49,8 @@ class ProcessAutoEarning extends Command
 
             // Only process if there's something to earn
             if ($autoEarnAmount > 0) {
-                // Calculate prize pool contribution (5% of auto earned amount)
-                $prizePoolContribution = $autoEarnAmount * 0.05;
+                // Calculate prize pool contribution (10% of auto earned amount)
+                $prizePoolContribution = $autoEarnAmount * 0.10;
                 $playerReceives = $autoEarnAmount - $prizePoolContribution;
 
                 // Update player money

@@ -28,7 +28,7 @@ Kazoku Game is a **money accumulation strategy game** where players:
 ### 💵 **Active Earning System**
 - **Random Rewards**: Each attempt earns 1,000-10,000 IDR
 - **Limited Attempts**: Players get attempts that regenerate hourly
-- **Prize Pool Contribution**: 5% of earnings contribute to global prize pool
+- **Prize Pool Contribution**: 10% of earnings contribute to global prize pool
 
 ### 🤖 **Auto Earning (Passive Income)**
 - **Progressive Levels**: Upgrade from Level 1-20
@@ -148,9 +148,9 @@ game_settings:
 ### **Earning Progression**
 | Action | Base Amount | Frequency | Contribution to Prize Pool |
 |--------|-------------|-----------|---------------------------|
-| Manual Earning | 1,000-10,000 IDR | Per attempt | 5% |
-| Auto Earning (Lv1) | 0.05% of total/hour | Hourly | 5% |
-| Auto Earning (Lv20) | 1.0% of total/hour | Hourly | 5% |
+| Manual Earning | 1,000-10,000 IDR | Per attempt | 10% |
+| Auto Earning (Lv1) | 0.05% of total/hour | Hourly | 10% |
+| Auto Earning (Lv20) | 1.0% of total/hour | Hourly | 10% |
 | Stealing (Lv1) | 1x manual amount | Manual | Reduces pool |
 
 ### **Upgrade Costs**
@@ -158,7 +158,7 @@ game_settings:
 - **Auto Earning**: 10,000 × level (10K, 20K, 30K, ..., 200K)
 
 ### **Daily Prize Pool**
-- Accumulates from 5% of all player earnings
+- Accumulates from 10% of all player earnings
 - Winner: Player with highest total money at midnight
 - Prize pool resets to 0 after distribution
 - Creates daily competition and engagement
