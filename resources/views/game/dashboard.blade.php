@@ -27,7 +27,7 @@
             <!-- Player & Global Stats - Responsive Grid -->
             <div class="row g-4 mb-5">
                 <!-- Player Money Card -->
-                <div class="col-12 col-md-3">
+                <div class="col-12 col-md-6 col-lg-2-4">
                     <div class="card h-100 shadow-lg border-start border-5 border-primary">
                         <div class="card-body">
                             <p class="card-text text-uppercase text-muted fw-semibold mb-1">Money Earned</p>
@@ -39,7 +39,7 @@
                 </div>
 
                 <!-- Treasure Card -->
-                <div class="col-12 col-md-3">
+                <div class="col-12 col-md-6 col-lg-2-4">
                     <div class="card h-100 shadow-lg border-start border-5 border-warning">
                         <div class="card-body">
                             <p class="card-text text-uppercase text-muted fw-semibold mb-1">Current Treasure</p>
@@ -66,8 +66,38 @@
                     </div>
                 </div>
 
+                <!-- Random Box Card -->
+                <div class="col-12 col-md-6 col-lg-2-4">
+                    <div class="card h-100 shadow-lg border-start border-5 border-info">
+                        <div class="card-body">
+                            <p class="card-text text-uppercase text-muted fw-semibold mb-1">Random Boxes</p>
+                            <h2 class="card-title h3 fw-bolder text-info" id="playerRandomBoxDisplay">
+                                {{ $user->randombox ?? 0 }}
+                            </h2>
+                            <p class="text-muted small mb-3">
+                                @if($user->treasure_rarity_level > 0)
+                                    {{ $user->getRandomBoxChance() }}% chance per treasure
+                                    <br><small class="text-info">From {{ $rarityConfig[$user->treasure_rarity_level]['name'] ?? 'Common' }} treasure</small>
+                                @else
+                                    Upgrade treasure rarity
+                                    <br><small class="text-muted">to get random boxes</small>
+                                @endif
+                            </p>
+                            @if(($user->randombox ?? 0) > 0)
+                                <a href="{{ route('game.inventory') }}" class="btn btn-info btn-sm w-100">
+                                    <i class="fas fa-gift me-1"></i>Open Boxes
+                                </a>
+                            @else
+                                <a href="{{ route('game.inventory') }}" class="btn btn-outline-info btn-sm w-100">
+                                    <i class="fas fa-box me-1"></i>View Inventory
+                                </a>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Shield Protection Card -->
-                <div class="col-12 col-md-3">
+                <div class="col-12 col-md-6 col-lg-2-4">
                     <div class="card h-100 shadow-lg border-start border-5 @if($user->shield_expires_at && $user->shield_expires_at > now()) border-success @else border-secondary @endif">
                         <div class="card-body">
                             <p class="card-text text-uppercase text-muted fw-semibold mb-1">Shield Status</p>
@@ -92,7 +122,7 @@
                 </div>
 
                 <!-- Player Level & Experience Card -->
-                <div class="col-12 col-md-3">
+                <div class="col-12 col-md-6 col-lg-2-4">
                     <div class="card h-100 shadow-lg border-start border-5 border-primary">
                         <div class="card-body">
                             <p class="card-text text-uppercase text-muted fw-semibold mb-1">Player Level</p>
@@ -124,21 +154,17 @@
                         </div>
                     </div>
                 </div>
-                            </h2>
-                        </div>
-                    </div>
-                </div>
             </div>
 
             <!-- Game Actions Section -->
-            <div class="row g-5">
-                
-                <!-- 1. EARN MONEY ACTION -->
-                <div class="col-12">
+            <div class="row justify-content-center">
+                <!-- EARN MONEY ACTION -->
+                <div class="col-12 col-lg-8">
                     <div class="card shadow-lg border-0">
-                        <div class="card-body p-4 p-md-5">
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h2 class="h3 fw-bold text-primary mb-0">Daily Grind</h2>
+                        <div class="card-body p-3 p-md-4">
+                            <!-- Header Section -->
+                            <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-3">
+                                <h2 class="h3 fw-bold text-primary mb-2 mb-md-0">Daily Grind</h2>
                                 
                                 <!-- Auto Click Toggle (Level 5+ Required) -->
                                 @if($user->level >= 5)
@@ -146,7 +172,7 @@
                                         <input class="form-check-input" type="checkbox" id="autoClickToggle" 
                                                @if($user->treasure <= 0) disabled @endif>
                                         <label class="form-check-label fw-bold text-primary" for="autoClickToggle">
-                                            <i class="fas fa-robot me-1"></i>Auto Click
+                                            <i class="fas fa-robot me-1"></i><span class="d-none d-sm-inline">Auto Click</span>
                                         </label>
                                     </div>
                                 @else
@@ -156,25 +182,67 @@
                                 @endif
                             </div>
                             
-                            <p class="text-muted mb-4">
-                                Click below to try and earn money. Uses one treasure.
-                                @if($user->steal_level > 0)
-                                    <br><small class="text-info"><i class="fas fa-mask me-1"></i><strong>Bonus:</strong> Also attempts to steal from other players ({{ $user->steal_level * 5 }}% chance)!</small>
-                                @endif
-                            </p>
+                            <!-- Description -->
+                            <div class="row justify-content-center mb-4">
+                                <div class="col-12 col-md-10">
+                                    <p class="text-muted text-center mb-0">
+                                        Click below to try and earn money. Uses one treasure.
+                                        @if($user->steal_level > 0)
+                                            <br><small class="text-info"><i class="fas fa-mask me-1"></i><strong>Bonus:</strong> Also attempts to steal from other players ({{ $user->steal_level * 5 }}% chance)!</small>
+                                        @endif
+                                    </p>
+                                </div>
+                            </div>
                             
-                            <form method="POST" action="{{ route('game.earn') }}" id="earnMoneyForm">
-                                @csrf
-                                <button type="submit" id="earnMoneyBtn"
-                                        class="btn btn-lg w-100 w-sm-auto fw-bold text-uppercase @if($user->treasure > 0) btn-primary @else btn-secondary disabled @endif"
-                                        @if($user->treasure <= 0) disabled @endif>
-                                    @if($user->treasure > 0)
-                                        <i class="fas fa-coins me-2"></i> OPEN TREASURE NOW
-                                    @else
-                                        OUT OF TREASURE
-                                    @endif
-                                </button>
-                            </form>
+                            <!-- Treasure Section -->
+                            <div class="row justify-content-center">
+                                <div class="col-12 col-sm-8 col-md-6">
+                                    <div class="text-center">
+                                        @php
+                                            // Treasure rarity configuration with random box chances
+                                            $rarityConfig = [
+                                                0 => ['name' => 'Common', 'color' => '#6c757d', 'glow' => 'none', 'icon' => 'fas fa-box', 'chance' => 0],
+                                                1 => ['name' => 'Uncommon', 'color' => '#28a745', 'glow' => '0 0 10px rgba(40, 167, 69, 0.5)', 'icon' => 'fas fa-treasure-chest', 'chance' => 5],
+                                                2 => ['name' => 'Rare', 'color' => '#007bff', 'glow' => '0 0 15px rgba(0, 123, 255, 0.6)', 'icon' => 'fas fa-gem', 'chance' => 7],
+                                                3 => ['name' => 'Epic', 'color' => '#6f42c1', 'glow' => '0 0 20px rgba(111, 66, 193, 0.7)', 'icon' => 'fas fa-crown', 'chance' => 9],
+                                                4 => ['name' => 'Legendary', 'color' => '#fd7e14', 'glow' => '0 0 25px rgba(253, 126, 20, 0.8)', 'icon' => 'fas fa-fire', 'chance' => 11],
+                                                5 => ['name' => 'Mythic', 'color' => '#e83e8c', 'glow' => '0 0 30px rgba(232, 62, 140, 0.9)', 'icon' => 'fas fa-magic', 'chance' => 13],
+                                                6 => ['name' => 'Divine', 'color' => '#ffc107', 'glow' => '0 0 35px rgba(255, 193, 7, 1.0)', 'icon' => 'fas fa-sun', 'chance' => 15],
+                                                7 => ['name' => 'Celestial', 'color' => '#17a2b8', 'glow' => '0 0 40px rgba(23, 162, 184, 1.0)', 'icon' => 'fas fa-star', 'chance' => 17]
+                                            ];
+                                            $currentRarity = $rarityConfig[$user->treasure_rarity_level] ?? $rarityConfig[0];
+                                        @endphp
+                                        
+                                        <!-- Treasure Type Display -->
+                                        <div class="mb-3">
+                                            <span class="badge fs-6 px-3 py-2" style="background-color: {{ $currentRarity['color'] }}; box-shadow: {{ $currentRarity['glow'] }}; color: white; max-width: 100%; word-wrap: break-word;">
+                                                <i class="{{ $currentRarity['icon'] }} me-1"></i>{{ $currentRarity['name'] }} Treasure
+                                            </span>
+                                            @if($currentRarity['chance'] > 0)
+                                                <br>
+                                                <small class="text-muted mt-1 d-block">
+                                                    <i class="fas fa-gift me-1"></i>{{ $currentRarity['chance'] }}% chance for Random Box
+                                                </small>
+                                            @endif
+                                        </div>
+                                        
+                                        <!-- Open Treasure Button -->
+                                        <form method="POST" action="{{ route('game.earn') }}" id="earnMoneyForm" class="d-inline-block">
+                                            @csrf
+                                            <button type="submit" id="earnMoneyBtn"
+                                                    class="btn btn-md fw-bold text-uppercase @if($user->treasure > 0) btn-primary @else btn-secondary disabled @endif"
+                                                    style="border-radius: 12px; padding: 10px 20px; min-width: 160px;"
+                                                    @if($user->treasure <= 0) disabled @endif>
+                                                @if($user->treasure > 0)
+                                                    <i class="fas fa-coins me-2"></i><span class="d-none d-sm-inline">OPEN </span>TREASURE
+                                                @else
+                                                    <span class="d-none d-sm-inline">OUT OF </span>TREASURE
+                                                @endif
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
                             
                             <!-- Steal Success Message (shows below earn money button) -->
                             @if (session('success') && (str_contains(session('success'), 'Heist successful!') || str_contains(session('success'), 'BONUS: Stole')))
@@ -209,6 +277,14 @@
 
 <!-- Auto Click JavaScript -->
 <style>
+    /* 5-column responsive layout */
+    @media (min-width: 992px) {
+        .col-lg-2-4 {
+            flex: 0 0 20%;
+            max-width: 20%;
+        }
+    }
+
     /* Auto-click specific animations */
     .money-update-animation {
         transition: all 0.5s ease;

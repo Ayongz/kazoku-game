@@ -45,6 +45,21 @@
                                     <i class="fas fa-store me-1"></i>{{ __('Store') }}
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('game.inventory') }}">
+                                    <i class="fas fa-box me-1"></i>{{ __('Inventory') }}
+                                    @auth
+                                        @if((auth()->user()->randombox ?? 0) > 0)
+                                            <span class="badge bg-info ms-1">{{ auth()->user()->randombox }}</span>
+                                        @endif
+                                    @endauth
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('game.status') }}">
+                                    <i class="fas fa-chart-line me-1"></i>{{ __('Status') }}
+                                </a>
+                            </li>
                         @endauth
                     </ul>
 

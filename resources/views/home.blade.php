@@ -7,47 +7,181 @@
             <!-- Header -->
             <div class="text-center mb-5">
                 <h1 class="display-4 fw-bold text-dark">
-                    <i class="fas fa-trophy me-3 text-warning"></i>Leaderboard
+                    <i class="fas fa-trophy me-3 text-warning"></i>Kazoku Game Leaderboard
                 </h1>
-                <p class="lead text-muted">See who's dominating the treasure hunt and climbing the riches!</p>
+                <p class="lead text-muted">Master the treasure hunt, collect random boxes, and dominate the rankings!</p>
+                <div class="mt-4">
+                    <a href="{{ route('game.dashboard') }}" class="btn btn-primary btn-lg me-3">
+                        <i class="fas fa-gamepad me-2"></i>Play Now
+                    </a>
+                    <a href="{{ route('game.status') }}" class="btn btn-outline-info btn-lg">
+                        <i class="fas fa-chart-line me-2"></i>View Your Stats
+                    </a>
+                </div>
             </div>
 
-            <!-- Game Statistics Cards -->
+            <!-- Enhanced Game Statistics Cards -->
             <div class="row g-4 mb-5">
                 <!-- Global Prize Pool -->
-                <div class="col-12 col-md-4">
-                    <div class="card border-0 shadow-sm bg-primary">
+                <div class="col-12 col-lg-3 col-md-6">
+                    <div class="card border-0 shadow-lg bg-gradient-primary h-100">
                         <div class="card-body text-white text-center">
-                            <i class="fas fa-gift fa-2x mb-2 text-white"></i>
-                            <h6 class="text-uppercase text-white-50">Global Prize Pool</h6>
-                            <h3 class="fw-bold mb-0 text-white">IDR {{ number_format($globalPrizePool, 0, ',', '.') }}</h3>
-                            <small class="text-white-50">Master the treasure hunt!</small>
+                            <i class="fas fa-gift fa-3x mb-3 text-white"></i>
+                            <h6 class="text-uppercase text-white-50 fw-bold">Global Prize Pool</h6>
+                            <h3 class="fw-bold mb-2 text-white">IDR {{ number_format($globalPrizePool, 0, ',', '.') }}</h3>
+                            <small class="text-white-75">Master the treasure hunt!</small>
                         </div>
                     </div>
                 </div>
 
                 <!-- Total Money in Game -->
-                <div class="col-12 col-md-4">
-                    <div class="card border-0 shadow-sm bg-success">
+                <div class="col-12 col-lg-3 col-md-6">
+                    <div class="card border-0 shadow-lg bg-gradient-success h-100">
                         <div class="card-body text-white text-center">
-                            <i class="fas fa-coins fa-2x mb-2 text-white"></i>
-                            <h6 class="text-uppercase text-white-50">Total Money in Game</h6>
-                            <h3 class="fw-bold mb-0 text-white">IDR {{ number_format($totalMoneyInGame, 0, ',', '.') }}</h3>
-                            <small class="text-white-50">Earned through treasures & abilities</small>
+                            <i class="fas fa-coins fa-3x mb-3 text-white"></i>
+                            <h6 class="text-uppercase text-white-50 fw-bold">Total Wealth</h6>
+                            <h3 class="fw-bold mb-2 text-white">IDR {{ number_format($totalMoneyInGame, 0, ',', '.') }}</h3>
+                            <small class="text-white-75">Earned by all players</small>
                         </div>
                     </div>
                 </div>
 
-                <!-- Your Rank -->
-                <div class="col-12 col-md-4">
-                    <div class="card border-0 shadow-sm bg-info">
+                <!-- Total Random Boxes -->
+                <div class="col-12 col-lg-3 col-md-6">
+                    <div class="card border-0 shadow-lg bg-gradient-info h-100">
                         <div class="card-body text-white text-center">
-                            <i class="fas fa-medal fa-2x mb-2 text-white"></i>
-                            <h6 class="text-uppercase text-white-50">Your Rank</h6>
-                            <h3 class="fw-bold mb-0 text-white">#{{ $userRank }}</h3>
-                            <small class="text-white-50">out of {{ $totalPlayers }} players</small>
+                            <i class="fas fa-box fa-3x mb-3 text-white"></i>
+                            <h6 class="text-uppercase text-white-50 fw-bold">Random Boxes</h6>
+                            <h3 class="fw-bold mb-2 text-white">{{ number_format($totalRandomBoxes, 0, ',', '.') }}</h3>
+                            <small class="text-white-75">Ready to be opened</small>
                         </div>
                     </div>
+                </div>
+
+                <!-- Active Players -->
+                <div class="col-12 col-lg-3 col-md-6">
+                    <div class="card border-0 shadow-lg bg-gradient-warning h-100">
+                        <div class="card-body text-white text-center">
+                            <i class="fas fa-users fa-3x mb-3 text-white"></i>
+                            <h6 class="text-uppercase text-white-50 fw-bold">Active Players</h6>
+                            <h3 class="fw-bold mb-2 text-white">{{ number_format($totalPlayers, 0, ',', '.') }}</h3>
+                            <small class="text-white-75">Competing for glory</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Game Champions Section -->
+            <div class="row g-4 mb-5">
+                <div class="col-12">
+                    <h3 class="fw-bold text-center mb-4">🏆 Game Champions</h3>
+                </div>
+                
+                <!-- Richest Player -->
+                <div class="col-md-3">
+                    <div class="card border-0 shadow-sm text-center h-100">
+                        <div class="card-body">
+                            <i class="fas fa-crown fa-2x text-warning mb-3"></i>
+                            <h6 class="text-uppercase text-muted fw-bold">Richest Player</h6>
+                            @if($topPlayers->count() > 0)
+                                <h5 class="fw-bold text-dark">{{ $topPlayers->first()->name }}</h5>
+                                <p class="text-success mb-0">IDR {{ number_format($topPlayers->first()->money_earned, 0, ',', '.') }}</p>
+                            @else
+                                <p class="text-muted">No players yet</p>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Highest Level -->
+                <div class="col-md-3">
+                    <div class="card border-0 shadow-sm text-center h-100">
+                        <div class="card-body">
+                            <i class="fas fa-star fa-2x text-info mb-3"></i>
+                            <h6 class="text-uppercase text-muted fw-bold">Highest Level</h6>
+                            @if($highestLevelPlayer)
+                                <h5 class="fw-bold text-dark">{{ $highestLevelPlayer->name }}</h5>
+                                <p class="text-info mb-0">Level {{ $highestLevelPlayer->level ?? 1 }}</p>
+                            @else
+                                <p class="text-muted">No players yet</p>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Random Box Master -->
+                <div class="col-md-3">
+                    <div class="card border-0 shadow-sm text-center h-100">
+                        <div class="card-body">
+                            <i class="fas fa-gift fa-2x text-purple mb-3"></i>
+                            <h6 class="text-uppercase text-muted fw-bold">Box Collector</h6>
+                            @if($topRandomBoxPlayer && $topRandomBoxPlayer->randombox > 0)
+                                <h5 class="fw-bold text-dark">{{ $topRandomBoxPlayer->name }}</h5>
+                                <p class="text-purple mb-0">{{ $topRandomBoxPlayer->randombox }} Boxes</p>
+                            @else
+                                <p class="text-muted">No collectors yet</p>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Treasure Rarity King -->
+                <div class="col-md-3">
+                    <div class="card border-0 shadow-sm text-center h-100">
+                        <div class="card-body">
+                            <i class="fas fa-gem fa-2x text-danger mb-3"></i>
+                            <h6 class="text-uppercase text-muted fw-bold">Rarity Master</h6>
+                            @if($topTreasureRarityPlayer && $topTreasureRarityPlayer->treasure_rarity_level > 0)
+                                <h5 class="fw-bold text-dark">{{ $topTreasureRarityPlayer->name }}</h5>
+                                @php
+                                    $rarityNames = \App\Models\User::getTreasureRarityNames();
+                                    $rarityName = $rarityNames[$topTreasureRarityPlayer->treasure_rarity_level] ?? 'Common';
+                                @endphp
+                                <p class="text-danger mb-0">{{ $rarityName }} Treasure</p>
+                            @else
+                                <p class="text-muted">No masters yet</p>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Your Position -->
+            <div class="row mb-5">
+                <div class="col-12">
+                    <div class="card border-0 shadow-lg bg-gradient-secondary">
+                        <div class="card-body text-white text-center py-4">
+                            <h4 class="fw-bold mb-3">Your Current Standing</h4>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="mb-3 mb-md-0">
+                                        <h2 class="fw-bold text-warning">#{{ $userRank }}</h2>
+                                        <small class="text-white-75">Rank out of {{ $totalPlayers }}</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="mb-3 mb-md-0">
+                                        <h2 class="fw-bold text-success">{{ $currentUser->level ?? 1 }}</h2>
+                                        <small class="text-white-75">Your Level</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="mb-3 mb-md-0">
+                                        <h2 class="fw-bold text-info">{{ $currentUser->randombox ?? 0 }}</h2>
+                                        <small class="text-white-75">Random Boxes</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="mb-3 mb-md-0">
+                                        <h2 class="fw-bold text-primary">{{ $currentUser->getRandomBoxChance() }}%</h2>
+                                        <small class="text-white-75">Box Drop Chance</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
                 </div>
             </div>
 
@@ -195,6 +329,211 @@
                             <i class="fas fa-store me-2"></i>Visit Store
                         </a>
                     </div>
+            <!-- Enhanced Leaderboard Table -->
+            <br>
+            <div class="row">
+                <div class="col-12">
+                    <div class="card border-0 shadow-lg">
+                        <div class="card-header bg-gradient-dark text-white py-3">
+                            <h4 class="mb-0 fw-bold">
+                                <i class="fas fa-medal me-2"></i>
+                                Top 10 Richest Players
+                            </h4>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="table table-hover mb-0">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th class="px-4 py-3 text-center">Rank</th>
+                                            <th class="px-4 py-3">Player</th>
+                                            <th class="px-4 py-3 text-end">Money Earned</th>
+                                            <th class="px-4 py-3 text-center">Level</th>
+                                            <th class="px-4 py-3 text-center">Random Boxes</th>
+                                            <th class="px-4 py-3 text-center">Treasure Rarity</th>
+                                            <th class="px-4 py-3 text-center">Upgrades</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @forelse($topPlayers as $index => $player)
+                                            <tr class="{{ $player->id === $currentUser->id ? 'table-primary' : '' }}">
+                                                <!-- Rank -->
+                                                <td class="px-4 py-3 text-center">
+                                                    @if($index === 0)
+                                                        <span class="badge bg-warning text-dark fs-6 px-3 py-2">
+                                                            <i class="fas fa-crown me-1"></i>{{ $index + 1 }}
+                                                        </span>
+                                                    @elseif($index === 1)
+                                                        <span class="badge bg-secondary text-white fs-6 px-3 py-2">
+                                                            <i class="fas fa-medal me-1"></i>{{ $index + 1 }}
+                                                        </span>
+                                                    @elseif($index === 2)
+                                                        <span class="badge bg-info text-white fs-6 px-3 py-2">
+                                                            <i class="fas fa-medal me-1"></i>{{ $index + 1 }}
+                                                        </span>
+                                                    @else
+                                                        <span class="badge bg-light text-dark fs-6 px-3 py-2">{{ $index + 1 }}</span>
+                                                    @endif
+                                                </td>
+
+                                                <!-- Player Name -->
+                                                <td class="px-4 py-3">
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="avatar-circle me-3">
+                                                            {{ strtoupper(substr($player->name, 0, 2)) }}
+                                                        </div>
+                                                        <div>
+                                                            <h6 class="mb-1 fw-bold">
+                                                                {{ $player->name }}
+                                                                @if($player->id === $currentUser->id)
+                                                                    <span class="badge bg-primary ms-2">YOU</span>
+                                                                @endif
+                                                            </h6>
+                                                            <small class="text-muted">
+                                                                @if($player->shield_expires_at && $player->shield_expires_at > now())
+                                                                    <i class="fas fa-shield-alt text-success me-1"></i>Protected
+                                                                @else
+                                                                    <i class="fas fa-crosshairs text-warning me-1"></i>Vulnerable
+                                                                @endif
+                                                            </small>
+                                                        </div>
+                                                    </div>
+                                                </td>
+
+                                                <!-- Money Earned -->
+                                                <td class="px-4 py-3 text-end">
+                                                    <h6 class="mb-0 fw-bold text-success">
+                                                        IDR {{ number_format($player->money_earned, 0, ',', '.') }}
+                                                    </h6>
+                                                </td>
+
+                                                <!-- Level -->
+                                                <td class="px-4 py-3 text-center">
+                                                    <span class="badge bg-info text-white px-3 py-2">
+                                                        <i class="fas fa-star me-1"></i>{{ $player->level ?? 1 }}
+                                                    </span>
+                                                </td>
+
+                                                <!-- Random Boxes -->
+                                                <td class="px-4 py-3 text-center">
+                                                    @if(($player->randombox ?? 0) > 0)
+                                                        <span class="badge bg-purple text-white px-3 py-2">
+                                                            <i class="fas fa-gift me-1"></i>{{ $player->randombox }}
+                                                        </span>
+                                                    @else
+                                                        <span class="text-muted">-</span>
+                                                    @endif
+                                                </td>
+
+                                                <!-- Treasure Rarity -->
+                                                <td class="px-4 py-3 text-center">
+                                                    @if($player->treasure_rarity_level > 0)
+                                                        @php
+                                                            $rarityNames = \App\Models\User::getTreasureRarityNames();
+                                                            $rarityName = $rarityNames[$player->treasure_rarity_level] ?? 'Common';
+                                                            $rarityColors = [
+                                                                'Common' => 'secondary',
+                                                                'Uncommon' => 'success',
+                                                                'Rare' => 'primary',
+                                                                'Epic' => 'info',
+                                                                'Legendary' => 'warning',
+                                                                'Mythic' => 'danger',
+                                                                'Divine' => 'dark',
+                                                                'Celestial' => 'purple'
+                                                            ];
+                                                            $colorClass = $rarityColors[$rarityName] ?? 'secondary';
+                                                        @endphp
+                                                        <span class="badge bg-{{ $colorClass }} text-white px-2 py-1">
+                                                            {{ $rarityName }}
+                                                        </span>
+                                                        <br>
+                                                        <small class="text-muted">{{ $player->getRandomBoxChance() }}% chance</small>
+                                                    @else
+                                                        <span class="text-muted">None</span>
+                                                    @endif
+                                                </td>
+
+                                                <!-- Upgrades -->
+                                                <td class="px-4 py-3 text-center">
+                                                    <div class="d-flex flex-wrap justify-content-center">
+                                                        @if($player->steal_level > 0)
+                                                            <span class="badge bg-danger me-1 mb-1" title="Steal Level">
+                                                                <i class="fas fa-user-ninja"></i> {{ $player->steal_level }}
+                                                            </span>
+                                                        @endif
+                                                        @if($player->auto_earning_level > 0)
+                                                            <span class="badge bg-success me-1 mb-1" title="Auto Earning Level">
+                                                                <i class="fas fa-coins"></i> {{ $player->auto_earning_level }}
+                                                            </span>
+                                                        @endif
+                                                        @if($player->treasure_multiplier_level > 0)
+                                                            <span class="badge bg-warning text-dark me-1 mb-1" title="Treasure Multiplier">
+                                                                <i class="fas fa-gem"></i> {{ $player->treasure_multiplier_level }}
+                                                            </span>
+                                                        @endif
+                                                        @if($player->counter_attack_level > 0)
+                                                            <span class="badge bg-info me-1 mb-1" title="Counter Attack">
+                                                                <i class="fas fa-shield-alt"></i> {{ $player->counter_attack_level }}
+                                                            </span>
+                                                        @endif
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @empty
+                                            <tr>
+                                                <td colspan="7" class="text-center py-5">
+                                                    <i class="fas fa-users fa-3x text-muted mb-3"></i>
+                                                    <h5 class="text-muted">No players yet</h5>
+                                                    <p class="text-muted">Be the first to start playing!</p>
+                                                </td>
+                                            </tr>
+                                        @endforelse
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Game Features Section -->
+            <div class="row mt-5">
+                <div class="col-12">
+                    <div class="card border-0 shadow-lg bg-gradient-info">
+                        <div class="card-body text-white text-center py-5">
+                            <h3 class="fw-bold mb-4">🎮 Game Features</h3>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="mb-4">
+                                        <i class="fas fa-coins fa-3x mb-3"></i>
+                                        <h5 class="fw-bold">Treasure Hunt</h5>
+                                        <p class="mb-0">Open treasures to earn money and experience</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="mb-4">
+                                        <i class="fas fa-box fa-3x mb-3"></i>
+                                        <h5 class="fw-bold">Random Boxes</h5>
+                                        <p class="mb-0">Collect and open boxes for special rewards</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="mb-4">
+                                        <i class="fas fa-user-ninja fa-3x mb-3"></i>
+                                        <h5 class="fw-bold">Steal & Defend</h5>
+                                        <p class="mb-0">Steal from others or protect your wealth</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="mb-4">
+                                        <i class="fas fa-chart-line fa-3x mb-3"></i>
+                                        <h5 class="fw-bold">Level Up</h5>
+                                        <p class="mb-0">Gain experience and unlock new abilities</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -202,64 +541,168 @@
 </div>
 
 <style>
-    .bg-gradient {
-        position: relative;
-        overflow: hidden;
+    /* Enhanced Background Gradients */
+    .bg-gradient-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     }
     
-    .bg-gradient::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(255, 255, 255, 0.1);
-        opacity: 0;
-        transition: opacity 0.3s ease;
+    .bg-gradient-success {
+        background: linear-gradient(135deg, #56ab2f 0%, #a8e6cf 100%);
     }
     
-    .bg-gradient:hover::before {
-        opacity: 1;
+    .bg-gradient-info {
+        background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
     }
     
+    .bg-gradient-warning {
+        background: linear-gradient(135deg, #fdcb6e 0%, #e17055 100%);
+    }
+    
+    .bg-gradient-secondary {
+        background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%);
+    }
+    
+    .bg-gradient-dark {
+        background: linear-gradient(135deg, #2d3436 0%, #636e72 100%);
+    }
+
+    /* Purple color support */
+    .text-purple {
+        color: #6f42c1 !important;
+    }
+    
+    .bg-purple {
+        background-color: #6f42c1 !important;
+    }
+
+    /* Avatar Circle */
+    .avatar-circle {
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+        font-size: 0.9rem;
+    }
+
+    /* Enhanced Card Hover Effects */
+    .card {
+        transition: all 0.3s ease;
+    }
+    
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 1rem 3rem rgba(0,0,0,.175) !important;
+    }
+
+    /* Table Enhancements */
     .table-hover tbody tr:hover {
         background-color: rgba(0, 123, 255, 0.05);
+        transform: scale(1.01);
+        transition: all 0.2s ease;
     }
     
     .table tbody tr.table-primary {
         background-color: rgba(13, 110, 253, 0.1) !important;
         border-left: 4px solid #0d6efd;
     }
+
+    /* Badge Enhancements */
+    .badge {
+        font-weight: 600;
+        border-radius: 8px;
+        padding: 0.5em 0.8em;
+        font-size: 0.8rem;
+    }
     
+    .badge i {
+        opacity: 0.9;
+    }
+
+    /* Button Hover Effects */
+    .btn {
+        transition: all 0.3s ease;
+    }
+    
+    .btn:hover {
+        transform: translateY(-2px);
+    }
+
+    /* Responsive Design */
     @media (max-width: 768px) {
         .display-4 {
             font-size: 2rem;
         }
         
         .table-responsive {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
         
         .badge {
             font-size: 0.7rem;
             margin: 1px;
+            padding: 0.3em 0.6em;
         }
         
-        .d-flex.flex-wrap .badge {
-            white-space: nowrap;
+        .avatar-circle {
+            width: 32px;
+            height: 32px;
+            font-size: 0.8rem;
+        }
+        
+        .card-body {
+            padding: 1rem;
+        }
+        
+        .fa-3x {
+            font-size: 2rem !important;
         }
     }
-    
-    /* Enhanced badge styling */
-    .badge {
-        font-weight: 600;
-        border-radius: 6px;
-        padding: 0.4em 0.8em;
+
+    @media (max-width: 576px) {
+        .col-lg-3 {
+            margin-bottom: 1rem;
+        }
+        
+        .table td, .table th {
+            padding: 0.5rem;
+        }
+        
+        .px-4 {
+            padding-left: 0.5rem !important;
+            padding-right: 0.5rem !important;
+        }
     }
-    
-    .badge i {
-        opacity: 0.9;
+
+    /* Animation for loading */
+    .card {
+        animation: slideUp 0.6s ease-out;
+    }
+
+    @keyframes slideUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Text Enhancement */
+    .text-white-75 {
+        color: rgba(255, 255, 255, 0.8) !important;
+    }
+
+    /* Enhanced spacing */
+    .py-3 {
+        padding-top: 1rem !important;
+        padding-bottom: 1rem !important;
     }
 </style>
 @endsection

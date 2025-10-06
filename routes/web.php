@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\StoreController;
+use App\Http\Controllers\InventoryController;
+use App\Http\Controllers\StatusController;
 
 // Homepage route - redirect to login if not authenticated, otherwise to game dashboard
 Route::get('/', function () {
@@ -43,5 +45,17 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/store/purchase/counter-attack', [StoreController::class, 'purchaseCounterAttack'])->name('store.purchase.counter-attack');
     Route::post('/store/purchase/intimidation', [StoreController::class, 'purchaseIntimidation'])->name('store.purchase.intimidation');
     Route::post('/store/purchase/fast-recovery', [StoreController::class, 'purchaseFastRecovery'])->name('store.purchase.fast-recovery');
+    Route::post('/store/purchase/treasure-rarity', [StoreController::class, 'purchaseTreasureRarity'])->name('store.purchase.treasure-rarity');
     Route::post('/store/purchase/shield', [StoreController::class, 'purchaseShield'])->name('store.purchase.shield');
+    
+    // --- INVENTORY ROUTES ---
+    // Inventory page
+    Route::get('/game/inventory', [InventoryController::class, 'index'])->name('game.inventory');
+    
+    // Open random box
+    Route::post('/game/inventory/open-random-box', [InventoryController::class, 'openRandomBox'])->name('game.inventory.open-random-box');
+    
+    // --- STATUS ROUTES ---
+    // Player status page
+    Route::get('/game/status', [StatusController::class, 'index'])->name('game.status');
 });

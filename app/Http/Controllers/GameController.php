@@ -113,6 +113,17 @@ class GameController extends Controller
         if ($treasureConsumed) {
             $user->treasure -= 1;
         }
+        
+        // Check for random box based on treasure rarity level
+        $randomBoxMessage = "";
+        if ($user->treasure_rarity_level > 0) {
+            if ($user->rollForRandomBox()) {
+                // User gets a random box!
+                $user->randombox = ($user->randombox ?? 0) + 1;
+                $randomBoxMessage = " 🎁 BONUS: Received 1 Random Box!";
+            }
+        }
+        
         $user->save();
 
         // Update global prize pool (add 5% of earned amount)
@@ -124,7 +135,7 @@ class GameController extends Controller
 
         $successMessage = "Great work! You earned IDR " . number_format($playerReceives, 0, ',', '.') . 
                          " (IDR " . number_format($prizePoolContribution, 0, ',', '.') . " contributed to prize pool)" . 
-                         " [+" . $expGained . " EXP]" . $luckyStrikesBonus . $levelUpMessage;
+                         " [+" . $expGained . " EXP]" . $luckyStrikesBonus . $levelUpMessage . $randomBoxMessage;
 
         // Auto-attempt steal if user has steal ability
         $stealMessage = "";
@@ -153,7 +164,10 @@ class GameController extends Controller
                 'current_level' => $user->level,
                 'level_up' => $levelUpCheck['shouldLevelUp'],
                 'exp_to_next_level' => ExperienceService::getExpToNextLevel($user->experience, $user->level),
-                'exp_progress_percentage' => ExperienceService::getExpProgressPercentage($user->experience, $user->level)
+                'exp_progress_percentage' => ExperienceService::getExpProgressPercentage($user->experience, $user->level),
+                'random_box_gained' => !empty($randomBoxMessage),
+                'random_box_chance' => $user->getRandomBoxChance(),
+                'total_random_boxes' => $user->randombox ?? 0
             ]);
         }
 

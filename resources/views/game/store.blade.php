@@ -532,6 +532,82 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- 9. TREASURE RARITY -->
+                <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+                    <div class="card h-100 shadow border-0">
+                        <div class="card-header text-white text-center py-2" style="background: linear-gradient(45deg, #6f42c1, #e83e8c);">
+                            <h6 class="mb-0 fw-bold">
+                                <i class="fas fa-gem me-1"></i>Treasure Rarity
+                                <button class="btn btn-link text-white p-0 ms-1" type="button" data-bs-toggle="collapse" data-bs-target="#treasureRarityInfo" aria-expanded="false">
+                                    <i class="fas fa-info-circle"></i>
+                                </button>
+                            </h6>
+                            <small>Level {{ $user->treasure_rarity_level }} / {{ $maxTreasureRarityLevel }}</small>
+                        </div>
+                        <div class="card-body p-2">
+                            <div class="collapse" id="treasureRarityInfo">
+                                <div class="alert alert-info p-2 mb-2 small">
+                                    <strong>Treasure Rarity:</strong> Upgrade your treasure rarity to get a chance for Random Boxes when opening treasures! Higher rarity levels give better chances.
+                                    @if ($user->treasure_rarity_level < $maxTreasureRarityLevel)
+                                        <hr class="my-2">
+                                        @php
+                                            $rarityNames = \App\Models\User::getTreasureRarityNames();
+                                            $rarityChances = [0, 5, 7, 9, 11, 13, 15, 17];
+                                            $nextRarityName = $rarityNames[$user->treasure_rarity_level + 1] ?? 'Ultimate';
+                                            $nextChance = $rarityChances[$user->treasure_rarity_level + 1] ?? 19;
+                                        @endphp
+                                        <strong>Next Level ({{ $user->treasure_rarity_level + 1 }}):</strong>
+                                        <ul class="mb-0 mt-1 ps-3">
+                                            <li>Rarity: {{ $nextRarityName }}</li>
+                                            <li>Random Box Chance: {{ $nextChance }}%</li>
+                                            <li>Better treasure rewards</li>
+                                        </ul>
+                                    @endif
+                                </div>
+                            </div>
+                            
+                            @if ($user->treasure_rarity_level > 0)
+                                <div class="text-center mb-2">
+                                    <span class="badge bg-success small">OWNED</span>
+                                </div>
+                                <div class="small text-center">
+                                    @php
+                                        $rarityNames = \App\Models\User::getTreasureRarityNames();
+                                        $rarityChances = [0, 5, 7, 9, 11, 13, 15, 17];
+                                        $currentRarityName = $rarityNames[$user->treasure_rarity_level] ?? 'Ultimate';
+                                        $currentChance = $rarityChances[$user->treasure_rarity_level] ?? 0;
+                                    @endphp
+                                    <div><strong>Type:</strong> {{ $currentRarityName }}</div>
+                                    <div><strong>Random Box:</strong> {{ $currentChance }}% chance</div>
+                                </div>
+                            @endif
+                            
+                            <div class="mt-auto">
+                                @if ($user->treasure_rarity_level < $maxTreasureRarityLevel)
+                                    <div class="text-center">
+                                        <form method="POST" action="{{ route('store.purchase.treasure-rarity') }}">
+                                            @csrf
+                                            <button type="submit" 
+                                                    class="btn btn-sm w-100 fw-bold @if($user->money_earned < $treasureRarityUpgradeCost) disabled @endif"
+                                                    style="background: linear-gradient(45deg, #6f42c1, #e83e8c); color: white; border: none;"
+                                                    @if($user->money_earned < $treasureRarityUpgradeCost) disabled @endif>
+                                                <i class="fas fa-shopping-cart me-1"></i>
+                                                IDR {{ number_format($treasureRarityUpgradeCost, 0, ',', '.') }}
+                                            </button>
+                                        </form>
+                                    </div>
+                                @else
+                                    <div class="text-center">
+                                        <span class="badge small" style="background: linear-gradient(45deg, #6f42c1, #e83e8c); color: white;">
+                                            <i class="fas fa-crown me-1"></i>MAX LEVEL
+                                        </span>
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- Back to Game Button -->

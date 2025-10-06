@@ -46,6 +46,24 @@ class HomeController extends Controller
         // Calculate total money in circulation
         $totalMoneyInGame = User::sum('money_earned');
         
+        // Calculate total random boxes in circulation
+        $totalRandomBoxes = User::sum('randombox');
+        
+        // Calculate total treasures in circulation
+        $totalTreasures = User::sum('treasure');
+        
+        // Calculate average player level
+        $averageLevel = User::avg('level') ?: 1;
+        
+        // Get highest level player
+        $highestLevelPlayer = User::orderBy('level', 'desc')->first();
+        
+        // Get player with most random boxes
+        $topRandomBoxPlayer = User::orderBy('randombox', 'desc')->first();
+        
+        // Get player with highest treasure rarity
+        $topTreasureRarityPlayer = User::orderBy('treasure_rarity_level', 'desc')->first();
+        
         return view('home', [
             'currentUser' => $currentUser,
             'topPlayers' => $topPlayers,
@@ -53,6 +71,12 @@ class HomeController extends Controller
             'totalPlayers' => $totalPlayers,
             'globalPrizePool' => $globalPrizePool,
             'totalMoneyInGame' => $totalMoneyInGame,
+            'totalRandomBoxes' => $totalRandomBoxes,
+            'totalTreasures' => $totalTreasures,
+            'averageLevel' => $averageLevel,
+            'highestLevelPlayer' => $highestLevelPlayer,
+            'topRandomBoxPlayer' => $topRandomBoxPlayer,
+            'topTreasureRarityPlayer' => $topTreasureRarityPlayer,
         ]);
     }
 }
