@@ -47,11 +47,19 @@
                                 {{ $user->treasure }} / {{ 20 + ($user->treasure_multiplier_level * 5) }}
                             </h2>
                             <p class="text-muted small mb-0">
-                                +5 treasure every hour 
+                                @php
+                                    $fastRecoveryIntervals = [60, 55, 50, 45, 40, 30];
+                                    $currentInterval = $fastRecoveryIntervals[$user->fast_recovery_level ?? 0];
+                                @endphp
+                                +5 treasure every {{ $currentInterval }} min
+                                @if($user->fast_recovery_level > 0)
+                                    (Fast Recovery Lv{{ $user->fast_recovery_level }})
+                                @endif
+                                <br>
                                 @if($user->treasure_multiplier_level > 0)
-                                    (max {{ 20 + ($user->treasure_multiplier_level * 5) }} - Level {{ $user->treasure_multiplier_level }})
+                                    Max {{ 20 + ($user->treasure_multiplier_level * 5) }} - Multiplier Lv{{ $user->treasure_multiplier_level }}
                                 @else
-                                    (max 20)
+                                    Max 20
                                 @endif
                             </p>
                         </div>
@@ -83,13 +91,39 @@
                     </div>
                 </div>
 
-                <!-- Global Prize Pool Card -->
+                <!-- Player Level & Experience Card -->
                 <div class="col-12 col-md-3">
-                    <div class="card h-100 shadow-lg border-start border-5 border-info">
+                    <div class="card h-100 shadow-lg border-start border-5 border-primary">
                         <div class="card-body">
-                            <p class="card-text text-uppercase text-muted fw-semibold mb-1">Global Prize Pool</p>
-                            <h2 class="card-title h3 fw-bolder text-info" id="globalPrizePoolDisplay">
-                                IDR {{ $globalPrizePool }}
+                            <p class="card-text text-uppercase text-muted fw-semibold mb-1">Player Level</p>
+                            <h2 class="card-title h3 fw-bolder text-primary" id="playerLevelDisplay">
+                                Level {{ $user->level }}
+                            </h2>
+                            <div class="mb-2">
+                                @php
+                                    use App\Services\ExperienceService;
+                                    $expToNext = ExperienceService::getExpToNextLevel($user->experience, $user->level);
+                                    $expProgress = ExperienceService::getExpProgressPercentage($user->experience, $user->level);
+                                @endphp
+                                <div class="progress" style="height: 8px;">
+                                    <div class="progress-bar bg-primary" role="progressbar" 
+                                         style="width: {{ $expProgress }}%" 
+                                         aria-valuenow="{{ $expProgress }}" 
+                                         aria-valuemin="0" 
+                                         aria-valuemax="100">
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-muted small mb-0" id="playerExpDisplay">
+                                {{ number_format($user->experience) }} EXP<br>
+                                <small>{{ number_format($expToNext) }} EXP to next level</small>
+                                @if($user->level < 5)
+                                    <br><small class="text-warning">Auto-click unlocks at Level 5</small>
+                                @endif
+                            </p>
+                        </div>
+                    </div>
+                </div>
                             </h2>
                         </div>
                     </div>
@@ -106,14 +140,20 @@
                             <div class="d-flex justify-content-between align-items-center mb-3">
                                 <h2 class="h3 fw-bold text-primary mb-0">Daily Grind</h2>
                                 
-                                <!-- Auto Click Toggle -->
-                                <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" id="autoClickToggle" 
-                                           @if($user->treasure <= 0) disabled @endif>
-                                    <label class="form-check-label fw-bold text-primary" for="autoClickToggle">
-                                        <i class="fas fa-robot me-1"></i>Auto Click
-                                    </label>
-                                </div>
+                                <!-- Auto Click Toggle (Level 5+ Required) -->
+                                @if($user->level >= 5)
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="autoClickToggle" 
+                                               @if($user->treasure <= 0) disabled @endif>
+                                        <label class="form-check-label fw-bold text-primary" for="autoClickToggle">
+                                            <i class="fas fa-robot me-1"></i>Auto Click
+                                        </label>
+                                    </div>
+                                @else
+                                    <div class="text-muted">
+                                        <small><i class="fas fa-lock me-1"></i>Auto Click unlocks at Level 5</small>
+                                    </div>
+                                @endif
                             </div>
                             
                             <p class="text-muted mb-4">
@@ -228,18 +268,20 @@ document.addEventListener('DOMContentLoaded', function() {
     let clickCount = 0;
     let isProcessing = false;
     
-    // Auto click toggle event
-    autoClickToggle.addEventListener('change', function() {
-        if (this.checked) {
-            startAutoClick();
-        } else {
-            stopAutoClick();
-        }
-    });
+    // Auto click toggle event (only if element exists - Level 5+ requirement)
+    if (autoClickToggle) {
+        autoClickToggle.addEventListener('change', function() {
+            if (this.checked) {
+                startAutoClick();
+            } else {
+                stopAutoClick();
+            }
+        });
+    }
     
     function startAutoClick() {
-        if (currentTreasure <= 0) {
-            autoClickToggle.checked = false;
+        if (!autoClickToggle || currentTreasure <= 0) {
+            if (autoClickToggle) autoClickToggle.checked = false;
             return;
         }
         
@@ -255,7 +297,7 @@ document.addEventListener('DOMContentLoaded', function() {
             alert.style.display = 'none';
         });
         
-        autoClickStatus.style.display = 'block';
+        if (autoClickStatus) autoClickStatus.style.display = 'block';
         clickCount = 0;
         updateAutoClickStatus();
         
@@ -274,7 +316,7 @@ document.addEventListener('DOMContentLoaded', function() {
             clearInterval(autoClickInterval);
             autoClickInterval = null;
         }
-        autoClickStatus.style.display = 'none';
+        if (autoClickStatus) autoClickStatus.style.display = 'none';
     }
     
     function stopAutoClickWithMessage() {

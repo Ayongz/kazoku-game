@@ -84,7 +84,9 @@
                                     <div class="text-center">
                                         <form method="POST" action="{{ route('store.purchase.steal') }}">
                                             @csrf
-                                            <button type="submit" class="btn btn-danger btn-sm w-100 fw-bold">
+                                            <button type="submit" 
+                                                    class="btn btn-danger btn-sm w-100 fw-bold @if($user->money_earned < $stealUpgradeCost) disabled @endif"
+                                                    @if($user->money_earned < $stealUpgradeCost) disabled @endif>
                                                 <i class="fas fa-shopping-cart me-1"></i>
                                                 IDR {{ number_format($stealUpgradeCost, 0, ',', '.') }}
                                             </button>
@@ -141,7 +143,9 @@
                                     <div class="text-center">
                                         <form method="POST" action="{{ route('store.purchase.auto-earning') }}">
                                             @csrf
-                                            <button type="submit" class="btn btn-warning btn-sm w-100 fw-bold text-dark">
+                                            <button type="submit" 
+                                                    class="btn btn-warning btn-sm w-100 fw-bold text-dark @if($user->money_earned < $autoEarningUpgradeCost) disabled @endif"
+                                                    @if($user->money_earned < $autoEarningUpgradeCost) disabled @endif>
                                                 <i class="fas fa-shopping-cart me-1"></i>
                                                 IDR {{ number_format($autoEarningUpgradeCost, 0, ',', '.') }}
                                             </button>
@@ -205,7 +209,9 @@
                                     <div class="text-center">
                                         <form method="POST" action="{{ route('store.purchase.shield') }}">
                                             @csrf
-                                            <button type="submit" class="btn btn-info btn-sm w-100 fw-bold text-white">
+                                            <button type="submit" 
+                                                    class="btn btn-info btn-sm w-100 fw-bold text-white @if($user->money_earned < $shieldCost) disabled @endif"
+                                                    @if($user->money_earned < $shieldCost) disabled @endif>
                                                 <i class="fas fa-shopping-cart me-1"></i>
                                                 IDR {{ number_format($shieldCost, 0, ',', '.') }}
                                             </button>
@@ -262,7 +268,9 @@
                                     <div class="text-center">
                                         <form method="POST" action="{{ route('store.purchase.treasure-multiplier') }}">
                                             @csrf
-                                            <button type="submit" class="btn btn-warning btn-sm w-100 fw-bold text-dark">
+                                            <button type="submit" 
+                                                    class="btn btn-warning btn-sm w-100 fw-bold text-dark @if($user->money_earned < $treasureMultiplierUpgradeCost) disabled @endif"
+                                                    @if($user->money_earned < $treasureMultiplierUpgradeCost) disabled @endif>
                                                 <i class="fas fa-shopping-cart me-1"></i>
                                                 IDR {{ number_format($treasureMultiplierUpgradeCost, 0, ',', '.') }}
                                             </button>
@@ -319,7 +327,9 @@
                                     <div class="text-center">
                                         <form method="POST" action="{{ route('store.purchase.lucky-strikes') }}">
                                             @csrf
-                                            <button type="submit" class="btn btn-success btn-sm w-100 fw-bold">
+                                            <button type="submit" 
+                                                    class="btn btn-success btn-sm w-100 fw-bold @if($user->money_earned < $luckyStrikesUpgradeCost) disabled @endif"
+                                                    @if($user->money_earned < $luckyStrikesUpgradeCost) disabled @endif>
                                                 <i class="fas fa-shopping-cart me-1"></i>
                                                 IDR {{ number_format($luckyStrikesUpgradeCost, 0, ',', '.') }}
                                             </button>
@@ -376,7 +386,9 @@
                                     <div class="text-center">
                                         <form method="POST" action="{{ route('store.purchase.counter-attack') }}">
                                             @csrf
-                                            <button type="submit" class="btn btn-dark btn-sm w-100 fw-bold">
+                                            <button type="submit" 
+                                                    class="btn btn-dark btn-sm w-100 fw-bold @if($user->money_earned < $counterAttackUpgradeCost) disabled @endif"
+                                                    @if($user->money_earned < $counterAttackUpgradeCost) disabled @endif>
                                                 <i class="fas fa-shopping-cart me-1"></i>
                                                 IDR {{ number_format($counterAttackUpgradeCost, 0, ',', '.') }}
                                             </button>
@@ -433,7 +445,9 @@
                                     <div class="text-center">
                                         <form method="POST" action="{{ route('store.purchase.intimidation') }}">
                                             @csrf
-                                            <button type="submit" class="btn btn-warning btn-sm w-100 fw-bold">
+                                            <button type="submit" 
+                                                    class="btn btn-warning btn-sm w-100 fw-bold @if($user->money_earned < $intimidationUpgradeCost) disabled @endif"
+                                                    @if($user->money_earned < $intimidationUpgradeCost) disabled @endif>
                                                 <i class="fas fa-shopping-cart me-1"></i>
                                                 IDR {{ number_format($intimidationUpgradeCost, 0, ',', '.') }}
                                             </button>
@@ -442,6 +456,76 @@
                                 @else
                                     <div class="text-center">
                                         <span class="badge bg-warning text-dark small">MAX LEVEL</span>
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 8. FAST RECOVERY -->
+                <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+                    <div class="card h-100 shadow border-0">
+                        <div class="card-header bg-primary text-white text-center py-2">
+                            <h6 class="mb-0 fw-bold">
+                                <i class="fas fa-clock-rotate-left me-1"></i>Fast Recovery
+                                <button class="btn btn-link text-white p-0 ms-1" type="button" data-bs-toggle="collapse" data-bs-target="#fastRecoveryInfo" aria-expanded="false">
+                                    <i class="fas fa-info-circle"></i>
+                                </button>
+                            </h6>
+                            <small>Level {{ $user->fast_recovery_level }} / {{ $maxFastRecoveryLevel }}</small>
+                        </div>
+                        <div class="card-body p-2">
+                            <div class="collapse" id="fastRecoveryInfo">
+                                <div class="alert alert-info p-2 mb-2 small">
+                                    <strong>Fast Recovery:</strong> Speeds up treasure regeneration for faster resource gathering. Reduce waiting time between treasure spawns!
+                                    @if ($user->fast_recovery_level < $maxFastRecoveryLevel)
+                                        <hr class="my-2">
+                                        <strong>Next Level ({{ $user->fast_recovery_level + 1 }}):</strong>
+                                        <ul class="mb-0 mt-1 ps-3">
+                                            @php
+                                                $intervals = [60, 55, 50, 45, 40, 30];
+                                                $nextInterval = $intervals[$user->fast_recovery_level + 1];
+                                            @endphp
+                                            <li>Regeneration: Every {{ $nextInterval }} minutes</li>
+                                            <li>Faster treasure collection</li>
+                                        </ul>
+                                    @endif
+                                </div>
+                            </div>
+                            
+                            @if ($user->fast_recovery_level > 0)
+                                <div class="text-center mb-2">
+                                    <span class="badge bg-success small">OWNED</span>
+                                </div>
+                                <div class="small text-center">
+                                    @php
+                                        $intervals = [60, 55, 50, 45, 40, 30];
+                                        $currentInterval = $intervals[$user->fast_recovery_level];
+                                    @endphp
+                                    <div><strong>Speed:</strong> {{ $currentInterval }} min intervals</div>
+                                    <div><strong>Effect:</strong> Faster treasure regen</div>
+                                </div>
+                            @endif
+                            
+                            <div class="mt-auto">
+                                @if ($user->fast_recovery_level < $maxFastRecoveryLevel)
+                                    <div class="text-center">
+                                        <form method="POST" action="{{ route('store.purchase.fast-recovery') }}">
+                                            @csrf
+                                            <button type="submit" 
+                                                    class="btn btn-primary btn-sm w-100 fw-bold @if($user->money_earned < $fastRecoveryUpgradeCost) disabled @endif"
+                                                    @if($user->money_earned < $fastRecoveryUpgradeCost) disabled @endif>
+                                                <i class="fas fa-shopping-cart me-1"></i>
+                                                IDR {{ number_format($fastRecoveryUpgradeCost, 0, ',', '.') }}
+                                            </button>
+                                        </form>
+                                    </div>
+                                @else
+                                    <div class="text-center">
+                                        <span class="badge bg-primary small">
+                                            <i class="fas fa-crown me-1"></i>MAX LEVEL
+                                        </span>
                                     </div>
                                 @endif
                             </div>
@@ -515,6 +599,18 @@
     border-color: #b8daff;
     color: #055160;
     font-size: 0.8rem;
+}
+
+/* Disabled button styling */
+.btn:disabled, .btn.disabled {
+    opacity: 0.5 !important;
+    cursor: not-allowed !important;
+    pointer-events: none !important;
+}
+
+.btn:disabled:hover, .btn.disabled:hover {
+    transform: none !important;
+    box-shadow: none !important;
 }
 </style>
 @endsection

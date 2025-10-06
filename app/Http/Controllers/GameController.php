@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\GameSetting;
+use App\Services\ExperienceService;
 
 class GameController extends Controller
 {
@@ -81,6 +82,24 @@ class GameController extends Controller
         // Update user data (player receives 95% of earned amount)
         $user->money_earned += $playerReceives;
         
+        // Add experience for opening treasure
+        $expGained = ExperienceService::getExpFromTreasure($user->level);
+        $user->experience += $expGained;
+        
+        // Check for level up
+        $levelUpCheck = ExperienceService::checkLevelUp($user->experience, $user->level);
+        $levelUpMessage = "";
+        if ($levelUpCheck['shouldLevelUp']) {
+            $oldLevel = $user->level;
+            $user->level = $levelUpCheck['newLevel'];
+            $levelUpMessage = " 🎉 LEVEL UP! " . $oldLevel . " → " . $user->level;
+            
+            // Special message for reaching level 5 (auto-click unlock)
+            if ($user->level >= 5 && $oldLevel < 5) {
+                $levelUpMessage .= " (Auto-Click Unlocked!)";
+            }
+        }
+        
         // Apply Treasure Efficiency (chance to not consume treasure)
         $treasureConsumed = true;
         if ($user->treasure_multiplier_level > 0) {
@@ -104,7 +123,8 @@ class GameController extends Controller
         }
 
         $successMessage = "Great work! You earned IDR " . number_format($playerReceives, 0, ',', '.') . 
-                         " (IDR " . number_format($prizePoolContribution, 0, ',', '.') . " contributed to prize pool)!" . $luckyStrikesBonus;
+                         " (IDR " . number_format($prizePoolContribution, 0, ',', '.') . " contributed to prize pool)" . 
+                         " [+" . $expGained . " EXP]" . $luckyStrikesBonus . $levelUpMessage;
 
         // Auto-attempt steal if user has steal ability
         $stealMessage = "";
@@ -127,7 +147,13 @@ class GameController extends Controller
                 'total_money' => $user->money_earned,
                 'formatted_money' => number_format($user->money_earned, 0, ',', '.'),
                 'global_prize_pool' => $gameSettings ? $gameSettings->global_prize_pool : 0,
-                'formatted_global_prize_pool' => $gameSettings ? number_format($gameSettings->global_prize_pool, 0, ',', '.') : '0'
+                'formatted_global_prize_pool' => $gameSettings ? number_format($gameSettings->global_prize_pool, 0, ',', '.') : '0',
+                'experience_gained' => $expGained,
+                'total_experience' => $user->experience,
+                'current_level' => $user->level,
+                'level_up' => $levelUpCheck['shouldLevelUp'],
+                'exp_to_next_level' => ExperienceService::getExpToNextLevel($user->experience, $user->level),
+                'exp_progress_percentage' => ExperienceService::getExpProgressPercentage($user->experience, $user->level)
             ]);
         }
 

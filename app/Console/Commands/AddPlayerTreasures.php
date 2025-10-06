@@ -20,7 +20,7 @@ class AddPlayerTreasures extends Command
      *
      * @var string
      */
-    protected $description = 'Add 5 treasure to all players every hour (max 20 treasure)';
+    protected $description = 'Add 5 treasure to players based on their Fast Recovery level (60, 55, 50, 45, 40, or 30 minute intervals)';
 
     /**
      * Execute the console command.
@@ -31,12 +31,16 @@ class AddPlayerTreasures extends Command
         $treasureToAdd = 5;
         $baseMexTreasure = 20;
         
-        $this->info('Starting hourly treasure addition...');
+        // Fast Recovery intervals in minutes [level 0, 1, 2, 3, 4, 5]
+        $fastRecoveryIntervals = [60, 55, 50, 45, 40, 30];
+        
+        $this->info('Starting Fast Recovery treasure addition check...');
         
         // Get all users and their current treasure
         $users = User::all();
         $updatedCount = 0;
         $skippedCount = 0;
+        $notReadyCount = 0;
         
         foreach ($users as $user) {
             $currentTreasure = $user->treasure ?? 0;
@@ -51,29 +55,48 @@ class AddPlayerTreasures extends Command
                 continue;
             }
             
+            // Get user's Fast Recovery level (default 0 if null)
+            $fastRecoveryLevel = $user->fast_recovery_level ?? 0;
+            $intervalMinutes = $fastRecoveryIntervals[$fastRecoveryLevel];
+            
+            // Check if enough time has passed since last treasure addition
+            $lastAttempt = $user->last_attempt_at;
+            $now = now();
+            
+            if ($lastAttempt) {
+                $minutesSinceLastAttempt = $lastAttempt->diffInMinutes($now);
+                
+                if ($minutesSinceLastAttempt < $intervalMinutes) {
+                    // Not enough time has passed
+                    $notReadyCount++;
+                    continue;
+                }
+            }
+            
             // Calculate new treasure (add 5 but cap at user's max)
             $newTreasure = min($currentTreasure + $treasureToAdd, $maxTreasure);
             
-            // Update user treasure
+            // Update user treasure and last attempt time
             $user->update([
                 'treasure' => $newTreasure,
-                'last_attempt_at' => now(),
+                'last_attempt_at' => $now,
             ]);
             
             $updatedCount++;
             
-            $this->line("User {$user->name} (ID: {$user->id}): {$currentTreasure} → {$newTreasure} treasure (max: {$maxTreasure})");
+            $this->line("User {$user->name} (ID: {$user->id}): {$currentTreasure} → {$newTreasure} treasure (Fast Recovery: {$intervalMinutes}min, max: {$maxTreasure})");
         }
         
         // Summary report
-        $this->info("=== Hourly Treasure Addition Complete ===");
+        $this->info("=== Fast Recovery Treasure Addition Complete ===");
         $this->info("Players updated: {$updatedCount}");
         $this->info("Players skipped (already at max): {$skippedCount}");
-        $this->info("Total players processed: " . ($updatedCount + $skippedCount));
-        $this->info("Treasure added per player: {$treasureToAdd}");
-        $this->info("Maximum treasure cap: {$baseMexTreasure} + (multiplier level × 5)");
+        $this->info("Players not ready (interval not reached): {$notReadyCount}");
+        $this->info("Total players processed: " . ($updatedCount + $skippedCount + $notReadyCount));
+        $this->info("Treasure added per eligible player: {$treasureToAdd}");
+        $this->info("Fast Recovery intervals: " . implode(', ', $fastRecoveryIntervals) . " minutes");
         
         // Log to Laravel log for monitoring
-        logger("Hourly treasure added: {$updatedCount} players updated, {$skippedCount} players skipped");
+        logger("Fast Recovery treasure check: {$updatedCount} players updated, {$skippedCount} players skipped, {$notReadyCount} players not ready");
     }
 }

@@ -14,12 +14,14 @@ class StoreController extends Controller
     const MAX_LUCKY_STRIKES_LEVEL = 5; // Maximum lucky strikes level
     const MAX_COUNTER_ATTACK_LEVEL = 5; // Maximum counter attack level
     const MAX_INTIMIDATION_LEVEL = 5; // Maximum intimidation level
+    const MAX_FAST_RECOVERY_LEVEL = 5; // Maximum fast recovery level
     const BASE_STEAL_COST = 15000;      // Base cost for steal upgrade
     const BASE_AUTO_EARNING_COST = 15000; // Base cost for auto earning upgrade
     const BASE_TREASURE_MULTIPLIER_COST = 15000; // Base cost for treasure multiplier upgrade
     const BASE_LUCKY_STRIKES_COST = 15000; // Base cost for lucky strikes upgrade
     const BASE_COUNTER_ATTACK_COST = 40000; // Base cost for counter attack upgrade
     const BASE_INTIMIDATION_COST = 22000; // Base cost for intimidation upgrade
+    const BASE_FAST_RECOVERY_COST = 30000; // Base cost for fast recovery upgrade
     const SHIELD_COST = 10000;          // Cost for shield protection
     const SHIELD_DURATION_HOURS = 3;   // Shield duration in hours
 
@@ -37,6 +39,7 @@ class StoreController extends Controller
         $luckyStrikesUpgradeCost = self::BASE_LUCKY_STRIKES_COST * ($user->lucky_strikes_level + 1);
         $counterAttackUpgradeCost = self::BASE_COUNTER_ATTACK_COST * ($user->counter_attack_level + 1);
         $intimidationUpgradeCost = self::BASE_INTIMIDATION_COST * ($user->intimidation_level + 1);
+        $fastRecoveryUpgradeCost = self::BASE_FAST_RECOVERY_COST * ($user->fast_recovery_level + 1);
         
         // Check if shield is currently active
         $isShieldActive = $user->shield_expires_at && $user->shield_expires_at > now();
@@ -49,12 +52,14 @@ class StoreController extends Controller
             'maxLuckyStrikesLevel' => self::MAX_LUCKY_STRIKES_LEVEL,
             'maxCounterAttackLevel' => self::MAX_COUNTER_ATTACK_LEVEL,
             'maxIntimidationLevel' => self::MAX_INTIMIDATION_LEVEL,
+            'maxFastRecoveryLevel' => self::MAX_FAST_RECOVERY_LEVEL,
             'stealUpgradeCost' => $stealUpgradeCost,
             'autoEarningUpgradeCost' => $autoEarningUpgradeCost,
             'treasureMultiplierUpgradeCost' => $treasureMultiplierUpgradeCost,
             'luckyStrikesUpgradeCost' => $luckyStrikesUpgradeCost,
             'counterAttackUpgradeCost' => $counterAttackUpgradeCost,
             'intimidationUpgradeCost' => $intimidationUpgradeCost,
+            'fastRecoveryUpgradeCost' => $fastRecoveryUpgradeCost,
             'autoEarningUpgradeCost' => $autoEarningUpgradeCost,
             'shieldCost' => self::SHIELD_COST,
             'shieldDurationHours' => self::SHIELD_DURATION_HOURS,
@@ -277,5 +282,40 @@ class StoreController extends Controller
         return redirect()->route('store.index')
             ->with('success', "Successfully upgraded intimidation to level {$user->intimidation_level}! Attackers now have " . 
                    ($user->intimidation_level * 2) . "% lower steal success rate against you!");
+    }
+
+    /**
+     * Handle fast recovery ability purchase
+     */
+    public function purchaseFastRecovery(Request $request)
+    {
+        $user = Auth::user();
+
+        // Check if already at max level
+        if ($user->fast_recovery_level >= self::MAX_FAST_RECOVERY_LEVEL) {
+            return redirect()->route('store.index')
+                ->with('error', 'You are already at maximum fast recovery level!');
+        }
+
+        // Calculate upgrade cost
+        $upgradeCost = self::BASE_FAST_RECOVERY_COST * ($user->fast_recovery_level + 1);
+
+        // Check if user has enough money
+        if ($user->money_earned < $upgradeCost) {
+            return redirect()->route('store.index')
+                ->with('error', 'Not enough money for fast recovery upgrade! Need IDR ' . number_format($upgradeCost, 0, ',', '.'));
+        }
+
+        // Get treasure intervals (60, 55, 50, 45, 40, 30 minutes for levels 0-5)
+        $intervals = [60, 55, 50, 45, 40, 30];
+        $newInterval = $intervals[$user->fast_recovery_level + 1];
+
+        // Process upgrade
+        $user->money_earned -= $upgradeCost;
+        $user->fast_recovery_level += 1;
+        $user->save();
+
+        return redirect()->route('store.index')
+            ->with('success', "Successfully upgraded fast recovery to level {$user->fast_recovery_level}! Treasure now regenerates every {$newInterval} minutes!");
     }
 }
