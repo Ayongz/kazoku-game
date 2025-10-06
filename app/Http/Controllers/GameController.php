@@ -257,6 +257,13 @@ class GameController extends Controller
 
         // Calculate success chance based on steal level
         $successChance = $user->steal_level * 5; // 5%, 10%, 15%, 20%, 25%
+        
+        // Apply intimidation effect - target's intimidation reduces attacker's success chance
+        if ($target->intimidation_level > 0) {
+            $intimidationReduction = $target->intimidation_level * 2; // 2%, 4%, 6%, 8%, 10%
+            $successChance = max(0, $successChance - $intimidationReduction);
+        }
+        
         $randomRoll = rand(1, 100);
         $isSuccess = $randomRoll <= $successChance;
 

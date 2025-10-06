@@ -1,4 +1,4 @@
-@extends('layouts.app')
+﻿@extends('layouts.app')
 
 @section('content')
 <div class="container py-5">
@@ -41,417 +41,417 @@
             </div>
 
             <!-- Store Items -->
-            <div class="row g-5">
+            <div class="row g-3">
                 
-                <!-- 1. AUTO STEAL ABILITY UPGRADE -->
-                <div class="col-12 col-md-4">
-                    <div class="card h-100 shadow-lg border-0">
-                        <div class="card-header bg-danger text-white text-center py-3">
-                            <h5 class="mb-0">
-                                <i class="fas fa-mask me-2"></i>Auto Steal Ability
-                            </h5>
+                <!-- 1. AUTO STEAL -->
+                <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+                    <div class="card h-100 shadow border-0">
+                        <div class="card-header bg-danger text-white text-center py-2">
+                            <h6 class="mb-0 fw-bold">
+                                <i class="fas fa-mask me-1"></i>Auto Steal
+                                <button class="btn btn-link text-white p-0 ms-1" type="button" data-bs-toggle="collapse" data-bs-target="#autoStealInfo" aria-expanded="false">
+                                    <i class="fas fa-info-circle"></i>
+                                </button>
+                            </h6>
+                            <small>Level {{ $user->steal_level }} / {{ $maxStealLevel }}</small>
                         </div>
-                        <div class="card-body p-4">
-                            <div class="text-center mb-4">
-                                <div class="mb-3">
-                                    <span class="badge bg-danger fs-6 px-3 py-2">
-                                        Level {{ $user->steal_level }} / {{ $maxStealLevel }}
-                                    </span>
+                        <div class="card-body p-2">
+                            <div class="collapse" id="autoStealInfo">
+                                <div class="alert alert-info p-2 mb-2 small">
+                                    <strong>Auto Steal:</strong> Automatically attempts to steal from other players when you earn money. Higher levels increase success rate and steal amount.
+                                    @if ($user->steal_level < $maxStealLevel)
+                                        <hr class="my-2">
+                                        <strong>Next Level ({{ $user->steal_level + 1 }}):</strong>
+                                        <ul class="mb-0 mt-1 ps-3">
+                                            <li>Success Rate: {{ ($user->steal_level + 1) * 5 }}%</li>
+                                            <li>Steal Amount: {{ min(1 + (($user->steal_level + 1) * 0.8), 5) }}% max</li>
+                                        </ul>
+                                    @endif
                                 </div>
-                                
-                                @if ($user->steal_level > 0)
-                                    <p class="text-muted mb-2">
-                                        <strong>Current Benefits:</strong>
-                                    </p>
-                                    <ul class="list-unstyled text-start">
-                                        <li><i class="fas fa-check text-success me-2"></i>Auto Steal Success Rate: {{ $user->steal_level * 5 }}%</li>
-                                        <li><i class="fas fa-check text-success me-2"></i>Steal Amount: {{ min(1 + ($user->steal_level * 0.8), 5) }}% of target's money</li>
-                                        <li><i class="fas fa-check text-success me-2"></i>Triggers automatically when opening treasure</li>
-                                        <li><i class="fas fa-check text-success me-2"></i>Works with Lucky Strikes for bonus multipliers</li>
-                                    </ul>
-                                @else
-                                    <p class="text-muted">
-                                        Unlock automatic stealing! Every time you open treasure, you'll also attempt to steal from other players as a bonus.
-                                    </p>
-                                @endif
                             </div>
-
-                            @if ($user->steal_level < $maxStealLevel)
-                                <div class="text-center">
-                                    <p class="fw-bold text-danger mb-3">
-                                        Next Level Benefits:
-                                    </p>
-                                    <ul class="list-unstyled text-start mb-4">
-                                        <li><i class="fas fa-arrow-up text-primary me-2"></i>Auto Steal Success Rate: {{ ($user->steal_level + 1) * 5 }}%</li>
-                                        <li><i class="fas fa-arrow-up text-primary me-2"></i>Steal Amount: {{ min(1 + (($user->steal_level + 1) * 0.8), 5) }}% of target's money</li>
-                                        @if($user->steal_level === 0)
-                                            <li><i class="fas fa-arrow-up text-primary me-2"></i>Automatic stealing when opening treasure</li>
-                                        @endif
-                                    </ul>
-                                    
-                                    <form method="POST" action="{{ route('store.purchase.steal') }}">
-                                        @csrf
-                                        <button type="submit" 
-                                                class="btn btn-danger btn-lg w-100 fw-bold @if($user->money_earned < $stealUpgradeCost) disabled @endif"
-                                                @if($user->money_earned < $stealUpgradeCost) disabled @endif>
-                                            <i class="fas fa-shopping-cart me-2"></i>
-                                            UPGRADE - IDR {{ number_format($stealUpgradeCost, 0, ',', '.') }}
-                                        </button>
-                                    </form>
+                            
+                            @if ($user->steal_level > 0)
+                                <div class="text-center mb-2">
+                                    <span class="badge bg-success small">OWNED</span>
                                 </div>
-                            @else
-                                <div class="text-center">
-                                    <span class="badge bg-success fs-6 fs-md-5 py-2 py-md-3 px-3 px-md-4">
-                                        <i class="fas fa-crown me-2"></i>MAX LEVEL
-                                    </span>
+                                <div class="small text-center">
+                                    <div><strong>Success:</strong> {{ $user->steal_level * 5 }}%</div>
+                                    <div><strong>Amount:</strong> {{ min(1 + ($user->steal_level * 0.8), 5) }}% max</div>
                                 </div>
                             @endif
+                            <div class="mt-auto">
+                                @if ($user->steal_level < $maxStealLevel)
+                                    <div class="text-center">
+                                        <form method="POST" action="{{ route('store.purchase.steal') }}">
+                                            @csrf
+                                            <button type="submit" class="btn btn-danger btn-sm w-100 fw-bold">
+                                                <i class="fas fa-shopping-cart me-1"></i>
+                                                IDR {{ number_format($stealUpgradeCost, 0, ',', '.') }}
+                                            </button>
+                                        </form>
+                                    </div>
+                                @else
+                                    <div class="text-center">
+                                        <span class="badge bg-danger small">MAX LEVEL</span>
+                                    </div>
+                                @endif
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- 2. AUTO EARNING ABILITY UPGRADE -->
-                <div class="col-12 col-md-4">
-                    <div class="card h-100 shadow-lg border-0">
-                        <div class="card-header bg-warning text-dark text-center py-3">
-                            <h5 class="mb-0">
-                                <i class="fas fa-robot me-2"></i>Auto Earning
-                            </h5>
+                <!-- 2. AUTO EARNING -->
+                <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+                    <div class="card h-100 shadow border-0">
+                        <div class="card-header bg-warning text-dark text-center py-2">
+                            <h6 class="mb-0 fw-bold">
+                                <i class="fas fa-robot me-1"></i>Auto Earning
+                                <button class="btn btn-link text-dark p-0 ms-1" type="button" data-bs-toggle="collapse" data-bs-target="#autoEarningInfo" aria-expanded="false">
+                                    <i class="fas fa-info-circle"></i>
+                                </button>
+                            </h6>
+                            <small>Level {{ $user->auto_earning_level }} / {{ $maxAutoEarningLevel }}</small>
                         </div>
-                        <div class="card-body p-4">
-                            <div class="text-center mb-4">
-                                <div class="mb-3">
-                                    <span class="badge bg-warning text-dark fs-6 px-3 py-2">
-                                        Level {{ $user->auto_earning_level }} / {{ $maxAutoEarningLevel }}
-                                    </span>
+                        <div class="card-body p-2">
+                            <div class="collapse" id="autoEarningInfo">
+                                <div class="alert alert-info p-2 mb-2 small">
+                                    <strong>Auto Earning:</strong> Generates passive income every hour based on your total money. Works even when offline. No treasure required.
+                                    @if ($user->auto_earning_level < $maxAutoEarningLevel)
+                                        <hr class="my-2">
+                                        <strong>Next Level ({{ $user->auto_earning_level + 1 }}):</strong>
+                                        <ul class="mb-0 mt-1 ps-3">
+                                            <li>Rate: {{ ($user->auto_earning_level + 1) * 0.05 }}% per hour</li>
+                                            <li>Hourly Income: IDR {{ number_format($user->money_earned * (($user->auto_earning_level + 1) * 0.05 / 100), 0, ',', '.') }}</li>
+                                        </ul>
+                                    @endif
                                 </div>
-                                
-                                @if ($user->auto_earning_level > 0)
-                                    <p class="text-muted mb-2">
-                                        <strong>Current Benefits:</strong>
-                                    </p>
-                                    <ul class="list-unstyled text-start">
-                                        <li><i class="fas fa-check text-success me-2"></i>Auto Earning Rate: {{ $user->auto_earning_level * 0.05 }}% per hour</li>
-                                        <li><i class="fas fa-check text-success me-2"></i>Passive income while offline</li>
-                                        <li><i class="fas fa-check text-success me-2"></i>No treasure required</li>
-                                    </ul>
-                                    <div class="alert alert-info">
-                                        <small>
-                                            <strong>Hourly Income:</strong> 
-                                            IDR {{ number_format($user->money_earned * ($user->auto_earning_level * 0.05 / 100), 0, ',', '.') }}
-                                        </small>
-                                    </div>
-                                @else
-                                    <p class="text-muted">
-                                        Start earning money automatically! Your current money will generate passive income every hour, even when you're not playing.
-                                    </p>
-                                @endif
                             </div>
-
-                            @if ($user->auto_earning_level < $maxAutoEarningLevel)
-                                <div class="text-center">
-                                    <p class="fw-bold text-warning mb-3">
-                                        Next Level Benefits:
-                                    </p>
-                                    <ul class="list-unstyled text-start mb-4">
-                                        <li><i class="fas fa-arrow-up text-primary me-2"></i>Auto Earning Rate: {{ ($user->auto_earning_level + 1) * 0.05 }}% per hour</li>
-                                        <li><i class="fas fa-arrow-up text-primary me-2"></i>Higher passive income</li>
-                                    </ul>
-                                    
-                                    <form method="POST" action="{{ route('store.purchase.auto-earning') }}">
-                                        @csrf
-                                        <button type="submit" 
-                                                class="btn btn-warning btn-lg w-100 fw-bold text-dark @if($user->money_earned < $autoEarningUpgradeCost) disabled @endif"
-                                                @if($user->money_earned < $autoEarningUpgradeCost) disabled @endif>
-                                            <i class="fas fa-shopping-cart me-2"></i>
-                                            UPGRADE - IDR {{ number_format($autoEarningUpgradeCost, 0, ',', '.') }}
-                                        </button>
-                                    </form>
+                            
+                            @if ($user->auto_earning_level > 0)
+                                <div class="text-center mb-2">
+                                    <span class="badge bg-success small">OWNED</span>
                                 </div>
-                            @else
-                                <div class="text-center">
-                                    <span class="badge bg-success fs-6 fs-md-5 py-2 py-md-3 px-3 px-md-4">
-                                        <i class="fas fa-crown me-2"></i>MAX LEVEL
-                                    </span>
+                                <div class="small text-center">
+                                    <div><strong>Rate:</strong> {{ $user->auto_earning_level * 0.05 }}%/hour</div>
+                                    <div><strong>Hourly:</strong> IDR {{ number_format($user->money_earned * ($user->auto_earning_level * 0.05 / 100), 0, ',', '.') }}</div>
                                 </div>
                             @endif
+                            <div class="mt-auto">
+                                @if ($user->auto_earning_level < $maxAutoEarningLevel)
+                                    <div class="text-center">
+                                        <form method="POST" action="{{ route('store.purchase.auto-earning') }}">
+                                            @csrf
+                                            <button type="submit" class="btn btn-warning btn-sm w-100 fw-bold text-dark">
+                                                <i class="fas fa-shopping-cart me-1"></i>
+                                                IDR {{ number_format($autoEarningUpgradeCost, 0, ',', '.') }}
+                                            </button>
+                                        </form>
+                                    </div>
+                                @else
+                                    <div class="text-center">
+                                        <span class="badge bg-warning text-dark small">MAX LEVEL</span>
+                                    </div>
+                                @endif
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- 3. SHIELD PROTECTION -->
-                <div class="col-12 col-md-4">
-                    <div class="card h-100 shadow-lg border-0">
-                        <div class="card-header bg-info text-white text-center py-3">
-                            <h5 class="mb-0">
-                                <i class="fas fa-shield-alt me-2"></i>Shield Protection
-                            </h5>
-                        </div>
-                        <div class="card-body p-4">
-                            <div class="text-center mb-4">
+                <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+                    <div class="card h-100 shadow border-0">
+                        <div class="card-header bg-info text-white text-center py-2">
+                            <h6 class="mb-0 fw-bold">
+                                <i class="fas fa-shield-alt me-1"></i>Shield Protection
+                                <button class="btn btn-link text-white p-0 ms-1" type="button" data-bs-toggle="collapse" data-bs-target="#shieldInfo" aria-expanded="false">
+                                    <i class="fas fa-info-circle"></i>
+                                </button>
+                            </h6>
+                            <small>
                                 @if ($isShieldActive)
-                                    <div class="mb-3">
-                                        <span class="badge bg-success fs-6 px-3 py-2">
-                                            <i class="fas fa-shield-alt me-1"></i>ACTIVE
-                                        </span>
-                                    </div>
-                                    <p class="text-muted mb-2">
-                                        <strong>Current Protection:</strong>
-                                    </p>
-                                    <ul class="list-unstyled text-start">
-                                        <li><i class="fas fa-check text-success me-2"></i>Protected from theft</li>
-                                        <li><i class="fas fa-check text-success me-2"></i>Safe from heist attacks</li>
-                                        <li><i class="fas fa-check text-success me-2"></i>Money is secure</li>
-                                    </ul>
-                                    <div class="alert alert-success">
-                                        <small>
-                                            <strong>Shield Expires:</strong> 
-                                            <span id="shieldTimer">{{ $user->shield_expires_at ? $user->shield_expires_at->setTimezone('Asia/Jakarta')->format('Y-m-d H:i:s') . ' (GMT+7)' : 'N/A' }}</span>
-                                        </small>
-                                    </div>
+                                    <span class="text-warning">ACTIVE</span>
                                 @else
-                                    <div class="mb-3">
-                                        <span class="badge bg-secondary fs-6 px-3 py-2">
-                                            <i class="fas fa-shield-alt me-1"></i>INACTIVE
-                                        </span>
-                                    </div>
-                                    <p class="text-muted">
-                                        Protect yourself from theft! Activate a shield to prevent other players from stealing your money.
-                                    </p>
-                                    <ul class="list-unstyled text-start mb-4">
-                                        <li><i class="fas fa-arrow-up text-primary me-2"></i>{{ $shieldDurationHours }} hours of protection</li>
-                                        <li><i class="fas fa-arrow-up text-primary me-2"></i>Blocks all theft attempts</li>
-                                        <li><i class="fas fa-arrow-up text-primary me-2"></i>Peace of mind</li>
-                                    </ul>
+                                    <span class="text-light">INACTIVE</span>
                                 @endif
-                            </div>
-
-                            @if (!$isShieldActive)
-                                <div class="text-center">
-                                    <form method="POST" action="{{ route('store.purchase.shield') }}">
-                                        @csrf
-                                        <button type="submit" 
-                                                class="btn btn-info btn-lg w-100 fw-bold text-white @if($user->money_earned < $shieldCost) disabled @endif"
-                                                @if($user->money_earned < $shieldCost) disabled @endif>
-                                            <i class="fas fa-shopping-cart me-2"></i>
-                                            ACTIVATE SHIELD - IDR {{ number_format($shieldCost, 0, ',', '.') }}
-                                        </button>
-                                    </form>
+                            </small>
+                        </div>
+                        <div class="card-body p-2">
+                            <div class="collapse" id="shieldInfo">
+                                <div class="alert alert-info p-2 mb-2 small">
+                                    <strong>Shield Protection:</strong> Protects you from theft for {{ $shieldDurationHours }} hours. Blocks all steal attempts while active.
+                                    @if (!$isShieldActive)
+                                        <hr class="my-2">
+                                        <strong>Benefits:</strong>
+                                        <ul class="mb-0 mt-1 ps-3">
+                                            <li>{{ $shieldDurationHours }} hours protection</li>
+                                            <li>Blocks all theft attempts</li>
+                                            <li>Peace of mind</li>
+                                        </ul>
+                                    @endif
                                 </div>
-                            @else
-                                <div class="text-center">
-                                    <span class="badge bg-success fs-5 py-3 px-4">
-                                        <i class="fas fa-shield-check me-2"></i>PROTECTED
-                                    </span>
+                            </div>
+                            
+                            @if ($isShieldActive)
+                                <div class="text-center mb-2">
+                                    <span class="badge bg-success small">PROTECTED</span>
+                                </div>
+                                <div class="small text-center">
+                                    <div><strong>Expires:</strong></div>
+                                    <div id="shieldTimer">{{ $user->shield_expires_at ? $user->shield_expires_at->setTimezone('Asia/Jakarta')->format('M d, H:i') : 'N/A' }}</div>
                                 </div>
                             @endif
+                            <div class="mt-auto">
+                                @if (!$isShieldActive)
+                                    <div class="text-center">
+                                        <form method="POST" action="{{ route('store.purchase.shield') }}">
+                                            @csrf
+                                            <button type="submit" class="btn btn-info btn-sm w-100 fw-bold text-white">
+                                                <i class="fas fa-shopping-cart me-1"></i>
+                                                IDR {{ number_format($shieldCost, 0, ',', '.') }}
+                                            </button>
+                                        </form>
+                                    </div>
+                                @else
+                                    <div class="text-center">
+                                        <span class="badge bg-info small">ACTIVE</span>
+                                    </div>
+                                @endif
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- New Abilities Row -->
-            <div class="row g-5 mt-3">
-                
                 <!-- 4. TREASURE MULTIPLIER -->
-                <div class="col-12 col-md-6">
-                    <div class="card h-100 shadow-lg border-0">
-                        <div class="card-header bg-warning text-dark text-center py-3">
-                            <h5 class="mb-0">
-                                <i class="fas fa-gem me-2"></i>Treasure Multiplier
-                            </h5>
+                <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+                    <div class="card h-100 shadow border-0">
+                        <div class="card-header bg-warning text-dark text-center py-2">
+                            <h6 class="mb-0 fw-bold">
+                                <i class="fas fa-gem me-1"></i>Treasure Multiplier
+                                <button class="btn btn-link text-dark p-0 ms-1" type="button" data-bs-toggle="collapse" data-bs-target="#treasureMultiplierInfo" aria-expanded="false">
+                                    <i class="fas fa-info-circle"></i>
+                                </button>
+                            </h6>
+                            <small>Level {{ $user->treasure_multiplier_level }} / {{ $maxTreasureMultiplierLevel }}</small>
                         </div>
-                        <div class="card-body p-4">
-                            <div class="text-center mb-4">
-                                <div class="mb-3">
-                                    <span class="badge bg-warning text-dark fs-6 px-3 py-2">
-                                        Level {{ $user->treasure_multiplier_level }} / {{ $maxTreasureMultiplierLevel }}
-                                    </span>
+                        <div class="card-body p-2">
+                            <div class="collapse" id="treasureMultiplierInfo">
+                                <div class="alert alert-info p-2 mb-2 small">
+                                    <strong>Treasure Multiplier:</strong> Increases your treasure capacity and provides treasure efficiency bonus.
+                                    @if ($user->treasure_multiplier_level < $maxTreasureMultiplierLevel)
+                                        <hr class="my-2">
+                                        <strong>Next Level ({{ $user->treasure_multiplier_level + 1 }}):</strong>
+                                        <ul class="mb-0 mt-1 ps-3">
+                                            <li>Capacity: {{ 20 + (($user->treasure_multiplier_level + 1) * 5) }} treasure max</li>
+                                            <li>Efficiency: {{ ($user->treasure_multiplier_level + 1) * 2 }}% chance to save treasure</li>
+                                        </ul>
+                                    @endif
                                 </div>
-                                
-                                @if ($user->treasure_multiplier_level > 0)
-                                    <p class="text-muted mb-2">
-                                        <strong>Current Benefits:</strong>
-                                    </p>
-                                    <ul class="list-unstyled text-start">
-                                        <li><i class="fas fa-check text-success me-2"></i>Max Treasure: {{ 20 + ($user->treasure_multiplier_level * 5) }}</li>
-                                        <li><i class="fas fa-check text-success me-2"></i>Treasure Efficiency: {{ $user->treasure_multiplier_level * 2 }}% chance to save treasure</li>
-                                        <li><i class="fas fa-check text-success me-2"></i>Extended gameplay time</li>
-                                        <li><i class="fas fa-check text-success me-2"></i>More earning opportunities</li>
-                                    </ul>
-                                @else
-                                    <p class="text-muted">
-                                        Dual benefit upgrade! Increases your maximum treasure capacity AND adds efficiency to save treasure when earning money.
-                                    </p>
-                                @endif
                             </div>
-
-                            @if ($user->treasure_multiplier_level < $maxTreasureMultiplierLevel)
-                                <div class="text-center">
-                                    <p class="fw-bold text-warning mb-3">
-                                        Next Level Benefits:
-                                    </p>
-                                    <ul class="list-unstyled text-start mb-4">
-                                        <li><i class="fas fa-arrow-up text-primary me-2"></i>Max Treasure: {{ 20 + (($user->treasure_multiplier_level + 1) * 5) }}</li>
-                                        <li><i class="fas fa-arrow-up text-primary me-2"></i>Treasure Efficiency: {{ ($user->treasure_multiplier_level + 1) * 2 }}% chance to save treasure</li>
-                                        <li><i class="fas fa-arrow-up text-primary me-2"></i>Dual benefit upgrade</li>
-                                    </ul>
-                                    
-                                    <form method="POST" action="{{ route('store.purchase.treasure-multiplier') }}">
-                                        @csrf
-                                        <button type="submit" 
-                                                class="btn btn-warning btn-lg w-100 fw-bold text-dark @if($user->money_earned < $treasureMultiplierUpgradeCost) disabled @endif"
-                                                @if($user->money_earned < $treasureMultiplierUpgradeCost) disabled @endif>
-                                            <i class="fas fa-shopping-cart me-2"></i>
-                                            UPGRADE - IDR {{ number_format($treasureMultiplierUpgradeCost, 0, ',', '.') }}
-                                        </button>
-                                    </form>
+                            
+                            @if ($user->treasure_multiplier_level > 0)
+                                <div class="text-center mb-2">
+                                    <span class="badge bg-success small">OWNED</span>
                                 </div>
-                            @else
-                                <div class="text-center">
-                                    <span class="badge bg-success fs-6 fs-md-5 py-2 py-md-3 px-3 px-md-4">
-                                        <i class="fas fa-crown me-2"></i>MAX LEVEL
-                                    </span>
+                                <div class="small text-center">
+                                    <div><strong>Capacity:</strong> {{ 20 + ($user->treasure_multiplier_level * 5) }}</div>
+                                    <div><strong>Efficiency:</strong> {{ $user->treasure_multiplier_level * 2 }}%</div>
                                 </div>
                             @endif
+                            <div class="mt-auto">
+                                @if ($user->treasure_multiplier_level < $maxTreasureMultiplierLevel)
+                                    <div class="text-center">
+                                        <form method="POST" action="{{ route('store.purchase.treasure-multiplier') }}">
+                                            @csrf
+                                            <button type="submit" class="btn btn-warning btn-sm w-100 fw-bold text-dark">
+                                                <i class="fas fa-shopping-cart me-1"></i>
+                                                IDR {{ number_format($treasureMultiplierUpgradeCost, 0, ',', '.') }}
+                                            </button>
+                                        </form>
+                                    </div>
+                                @else
+                                    <div class="text-center">
+                                        <span class="badge bg-warning text-dark small">MAX LEVEL</span>
+                                    </div>
+                                @endif
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- 5. LUCKY STRIKES -->
-                <div class="col-12 col-md-6">
-                    <div class="card h-100 shadow-lg border-0">
-                        <div class="card-header bg-success text-white text-center py-3">
-                            <h5 class="mb-0">
-                                <i class="fas fa-star me-2"></i>Lucky Strikes
-                            </h5>
+                <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+                    <div class="card h-100 shadow border-0">
+                        <div class="card-header bg-success text-white text-center py-2">
+                            <h6 class="mb-0 fw-bold">
+                                <i class="fas fa-star me-1"></i>Lucky Strikes
+                                <button class="btn btn-link text-white p-0 ms-1" type="button" data-bs-toggle="collapse" data-bs-target="#luckyStrikesInfo" aria-expanded="false">
+                                    <i class="fas fa-info-circle"></i>
+                                </button>
+                            </h6>
+                            <small>Level {{ $user->lucky_strikes_level }} / {{ $maxLuckyStrikesLevel }}</small>
                         </div>
-                        <div class="card-body p-4">
-                            <div class="text-center mb-4">
-                                <div class="mb-3">
-                                    <span class="badge bg-success fs-6 px-3 py-2">
-                                        Level {{ $user->lucky_strikes_level }} / {{ $maxLuckyStrikesLevel }}
-                                    </span>
+                        <div class="card-body p-2">
+                            <div class="collapse" id="luckyStrikesInfo">
+                                <div class="alert alert-info p-2 mb-2 small">
+                                    <strong>Lucky Strikes:</strong> Chance to double ALL money earned from treasure opening AND auto-stealing. Pure profit multiplier!
+                                    @if ($user->lucky_strikes_level < $maxLuckyStrikesLevel)
+                                        <hr class="my-2">
+                                        <strong>Next Level ({{ $user->lucky_strikes_level + 1 }}):</strong>
+                                        <ul class="mb-0 mt-1 ps-3">
+                                            <li>Lucky Chance: {{ ($user->lucky_strikes_level + 1) * 2 }}%</li>
+                                            <li>2x money on earning AND stealing</li>
+                                        </ul>
+                                    @endif
                                 </div>
-                                
-                                @if ($user->lucky_strikes_level > 0)
-                                    <p class="text-muted mb-2">
-                                        <strong>Current Benefits:</strong>
-                                    </p>
-                                    <ul class="list-unstyled text-start">
-                                        <li><i class="fas fa-check text-success me-2"></i>Lucky Chance: {{ $user->lucky_strikes_level * 2 }}%</li>
-                                        <li><i class="fas fa-check text-success me-2"></i>2x money from treasure opening</li>
-                                        <li><i class="fas fa-check text-success me-2"></i>2x stolen money from auto-steal</li>
-                                        <li><i class="fas fa-check text-success me-2"></i>Works on ALL money-earning activities</li>
-                                    </ul>
-                                @else
-                                    <p class="text-muted">
-                                        Ultimate luck upgrade! Get a chance to double ALL money earned - from treasure opening AND auto-stealing. Pure profit multiplier!
-                                    </p>
-                                @endif
                             </div>
-
-                            @if ($user->lucky_strikes_level < $maxLuckyStrikesLevel)
-                                <div class="text-center">
-                                    <p class="fw-bold text-success mb-3">
-                                        Next Level Benefits:
-                                    </p>
-                                    <ul class="list-unstyled text-start mb-4">
-                                        <li><i class="fas fa-arrow-up text-primary me-2"></i>Lucky Chance: {{ ($user->lucky_strikes_level + 1) * 2 }}%</li>
-                                        <li><i class="fas fa-arrow-up text-primary me-2"></i>Higher chance for 2x money</li>
-                                        <li><i class="fas fa-arrow-up text-primary me-2"></i>Works on earning AND stealing</li>
-                                    </ul>
-                                    
-                                    <form method="POST" action="{{ route('store.purchase.lucky-strikes') }}">
-                                        @csrf
-                                        <button type="submit" 
-                                                class="btn btn-success btn-lg w-100 fw-bold @if($user->money_earned < $luckyStrikesUpgradeCost) disabled @endif"
-                                                @if($user->money_earned < $luckyStrikesUpgradeCost) disabled @endif>
-                                            <i class="fas fa-shopping-cart me-2"></i>
-                                            UPGRADE - IDR {{ number_format($luckyStrikesUpgradeCost, 0, ',', '.') }}
-                                        </button>
-                                    </form>
+                            
+                            @if ($user->lucky_strikes_level > 0)
+                                <div class="text-center mb-2">
+                                    <span class="badge bg-success small">OWNED</span>
                                 </div>
-                            @else
-                                <div class="text-center">
-                                    <span class="badge bg-success fs-6 fs-md-5 py-2 py-md-3 px-3 px-md-4">
-                                        <i class="fas fa-crown me-2"></i>MAX LEVEL
-                                    </span>
+                                <div class="small text-center">
+                                    <div><strong>Lucky Chance:</strong> {{ $user->lucky_strikes_level * 2 }}%</div>
+                                    <div><strong>Bonus:</strong> 2x Money</div>
                                 </div>
                             @endif
+                            <div class="mt-auto">
+                                @if ($user->lucky_strikes_level < $maxLuckyStrikesLevel)
+                                    <div class="text-center">
+                                        <form method="POST" action="{{ route('store.purchase.lucky-strikes') }}">
+                                            @csrf
+                                            <button type="submit" class="btn btn-success btn-sm w-100 fw-bold">
+                                                <i class="fas fa-shopping-cart me-1"></i>
+                                                IDR {{ number_format($luckyStrikesUpgradeCost, 0, ',', '.') }}
+                                            </button>
+                                        </form>
+                                    </div>
+                                @else
+                                    <div class="text-center">
+                                        <span class="badge bg-success small">MAX LEVEL</span>
+                                    </div>
+                                @endif
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- 6. COUNTER-ATTACK -->
-            <div class="col-12 col-lg-6 col-xl-4 mt-4">
-                <div class="card h-100 shadow-lg border-0 ability-card">
-                    <div class="card-header bg-gradient bg-dark text-white text-center">
-                        <h5 class="mb-0 fw-bold">
-                            <i class="fas fa-shield-alt me-2"></i>Counter-Attack
-                        </h5>
-                        <small class="text-white-75">
-                            @if ($user->counter_attack_level > 0)
-                                Level {{ $user->counter_attack_level }} / {{ $maxCounterAttackLevel }}
-                            @else
-                                <span class="text-warning">LOCKED</span>
-                            @endif
-                        </small>
-                    </div>
-                    <div class="card-body">
-                        @if ($user->counter_attack_level > 0)
-                            <h6 class="text-success mb-3"><i class="fas fa-check-circle me-1"></i>OWNED</h6>
-                            <div class="mb-3">
-                                <strong>Current Benefits:</strong>
-                                <ul class="list-unstyled mt-2 text-sm">
-                                    <li><i class="fas fa-check text-success me-2"></i>Counter Chance: {{ $user->counter_attack_level * 20 }}%</li>
-                                    <li><i class="fas fa-check text-success me-2"></i>Automatically retaliates when stolen from</li>
-                                    <li><i class="fas fa-check text-success me-2"></i>Steals back 0.5-{{ min(0.5 + ($user->counter_attack_level * 0.5), 3) }}% of attacker's money</li>
-                                </ul>
+                <!-- 6. COUNTER-ATTACK -->
+                <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+                    <div class="card h-100 shadow border-0">
+                        <div class="card-header bg-dark text-white text-center py-2">
+                            <h6 class="mb-0 fw-bold">
+                                <i class="fas fa-shield-alt me-1"></i>Counter-Attack
+                                <button class="btn btn-link text-white p-0 ms-1" type="button" data-bs-toggle="collapse" data-bs-target="#counterAttackInfo" aria-expanded="false">
+                                    <i class="fas fa-info-circle"></i>
+                                </button>
+                            </h6>
+                            <small>Level {{ $user->counter_attack_level }} / {{ $maxCounterAttackLevel }}</small>
+                        </div>
+                        <div class="card-body p-2">
+                            <div class="collapse" id="counterAttackInfo">
+                                <div class="alert alert-info p-2 mb-2 small">
+                                    <strong>Counter-Attack:</strong> Automatically retaliate when someone steals from you. Steal back from attackers!
+                                    @if ($user->counter_attack_level < $maxCounterAttackLevel)
+                                        <hr class="my-2">
+                                        <strong>Next Level ({{ $user->counter_attack_level + 1 }}):</strong>
+                                        <ul class="mb-0 mt-1 ps-3">
+                                            <li>Counter Chance: {{ ($user->counter_attack_level + 1) * 20 }}%</li>
+                                            <li>Steal back {{ min(0.5 + (($user->counter_attack_level + 1) * 0.5), 3) }}% of attacker's money</li>
+                                        </ul>
+                                    @endif
+                                </div>
                             </div>
-                        @else
-                            <p class="text-muted mb-3">
-                                <i class="fas fa-info-circle me-1"></i>
-                                Defend yourself! When someone steals from you, counter-attack and steal back from them automatically.
-                            </p>
-                        @endif
-
-                        <div class="mt-auto">
-                            @if ($user->counter_attack_level < $maxCounterAttackLevel)
-                                <div class="mb-3">
-                                    <strong>Next Level Benefits:</strong>
-                                    <ul class="list-unstyled mt-2 text-sm text-primary">
-                                        <li><i class="fas fa-arrow-up text-primary me-2"></i>Counter Chance: {{ ($user->counter_attack_level + 1) * 20 }}%</li>
-                                        <li><i class="fas fa-arrow-up text-primary me-2"></i>Better retaliation damage</li>
-                                        <li><i class="fas fa-arrow-up text-primary me-2"></i>Stronger defensive capabilities</li>
-                                    </ul>
+                            
+                            @if ($user->counter_attack_level > 0)
+                                <div class="text-center mb-2">
+                                    <span class="badge bg-success small">OWNED</span>
                                 </div>
-                                <div class="text-center">
-                                    <form method="POST" action="{{ route('store.purchase.counter-attack') }}">
-                                        @csrf
-                                        <button type="submit" 
-                                                class="btn btn-dark btn-lg w-100 fw-bold @if($user->money_earned < $counterAttackUpgradeCost) disabled @endif"
-                                                @if($user->money_earned < $counterAttackUpgradeCost) disabled @endif>
-                                            <i class="fas fa-shopping-cart me-2"></i>
-                                            UPGRADE - IDR {{ number_format($counterAttackUpgradeCost, 0, ',', '.') }}
-                                        </button>
-                                    </form>
-                                </div>
-                            @else
-                                <div class="text-center">
-                                    <span class="badge bg-dark fs-6 fs-md-5 py-2 py-md-3 px-3 px-md-4">
-                                        <i class="fas fa-crown me-2"></i>MAX LEVEL
-                                    </span>
+                                <div class="small text-center">
+                                    <div><strong>Counter Chance:</strong> {{ $user->counter_attack_level * 20 }}%</div>
+                                    <div><strong>Steal Back:</strong> {{ min(0.5 + ($user->counter_attack_level * 0.5), 3) }}% max</div>
                                 </div>
                             @endif
+                            <div class="mt-auto">
+                                @if ($user->counter_attack_level < $maxCounterAttackLevel)
+                                    <div class="text-center">
+                                        <form method="POST" action="{{ route('store.purchase.counter-attack') }}">
+                                            @csrf
+                                            <button type="submit" class="btn btn-dark btn-sm w-100 fw-bold">
+                                                <i class="fas fa-shopping-cart me-1"></i>
+                                                IDR {{ number_format($counterAttackUpgradeCost, 0, ',', '.') }}
+                                            </button>
+                                        </form>
+                                    </div>
+                                @else
+                                    <div class="text-center">
+                                        <span class="badge bg-dark small">MAX LEVEL</span>
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 7. INTIMIDATION -->
+                <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+                    <div class="card h-100 shadow border-0">
+                        <div class="card-header bg-warning text-dark text-center py-2">
+                            <h6 class="mb-0 fw-bold">
+                                <i class="fas fa-skull me-1"></i>Intimidation
+                                <button class="btn btn-link text-dark p-0 ms-1" type="button" data-bs-toggle="collapse" data-bs-target="#intimidationInfo" aria-expanded="false">
+                                    <i class="fas fa-info-circle"></i>
+                                </button>
+                            </h6>
+                            <small>Level {{ $user->intimidation_level }} / {{ $maxIntimidationLevel }}</small>
+                        </div>
+                        <div class="card-body p-2">
+                            <div class="collapse" id="intimidationInfo">
+                                <div class="alert alert-info p-2 mb-2 small">
+                                    <strong>Intimidation:</strong> Reduces others' steal success rate against you. Strike fear into attackers!
+                                    @if ($user->intimidation_level < $maxIntimidationLevel)
+                                        <hr class="my-2">
+                                        <strong>Next Level ({{ $user->intimidation_level + 1 }}):</strong>
+                                        <ul class="mb-0 mt-1 ps-3">
+                                            <li>Steal Reduction: {{ ($user->intimidation_level + 1) * 2 }}%</li>
+                                            <li>Greater defensive presence</li>
+                                        </ul>
+                                    @endif
+                                </div>
+                            </div>
+                            
+                            @if ($user->intimidation_level > 0)
+                                <div class="text-center mb-2">
+                                    <span class="badge bg-success small">OWNED</span>
+                                </div>
+                                <div class="small text-center">
+                                    <div><strong>Steal Reduction:</strong> {{ $user->intimidation_level * 2 }}%</div>
+                                    <div><strong>Effect:</strong> Intimidates attackers</div>
+                                </div>
+                            @endif
+                            <div class="mt-auto">
+                                @if ($user->intimidation_level < $maxIntimidationLevel)
+                                    <div class="text-center">
+                                        <form method="POST" action="{{ route('store.purchase.intimidation') }}">
+                                            @csrf
+                                            <button type="submit" class="btn btn-warning btn-sm w-100 fw-bold">
+                                                <i class="fas fa-shopping-cart me-1"></i>
+                                                IDR {{ number_format($intimidationUpgradeCost, 0, ',', '.') }}
+                                            </button>
+                                        </form>
+                                    </div>
+                                @else
+                                    <div class="text-center">
+                                        <span class="badge bg-warning text-dark small">MAX LEVEL</span>
+                                    </div>
+                                @endif
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- Back to Game Button -->
-            <div class="text-center mt-5">
+            <div class="text-center mt-4">
                 <a href="{{ route('game.dashboard') }}" class="btn btn-primary btn-lg">
                     <i class="fas fa-arrow-left me-2"></i>Back to Game
                 </a>
@@ -459,4 +459,62 @@
         </div>
     </div>
 </div>
+
+<style>
+/* Compact store design with mobile responsiveness */
+.card-header {
+    font-size: 0.9rem;
+}
+
+.card-body {
+    font-size: 0.85rem;
+}
+
+.card-header h6 {
+    font-size: 0.9rem;
+}
+
+.btn-sm {
+    font-size: 0.8rem;
+    padding: 0.4rem 0.8rem;
+}
+
+.small {
+    font-size: 0.8rem !important;
+}
+
+/* Ensure proper spacing on mobile */
+@media (max-width: 576px) {
+    .card-header {
+        padding: 0.5rem 1rem;
+    }
+    
+    .card-body {
+        padding: 0.75rem;
+    }
+    
+    .btn-sm {
+        font-size: 0.75rem;
+        padding: 0.375rem 0.75rem;
+    }
+}
+
+/* Info button styling */
+.btn-link {
+    border: none !important;
+    text-decoration: none !important;
+}
+
+.btn-link:hover {
+    color: rgba(255, 255, 255, 0.8) !important;
+}
+
+/* Alert styling for descriptions */
+.alert-info {
+    background-color: #e7f3ff;
+    border-color: #b8daff;
+    color: #055160;
+    font-size: 0.8rem;
+}
+</style>
 @endsection

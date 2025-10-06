@@ -162,26 +162,6 @@
                         </div>
                     </div>
                 </div>
-                
-                <!-- 2. QUICK ACTIONS -->
-                <div class="col-12">
-                    <div class="card shadow-lg border-0">
-                        <div class="card-body p-4 p-md-5">
-                            <h2 class="h3 fw-bold text-info mb-4">Quick Actions</h2>
-                            
-                            <div class="row g-3">
-                                <!-- Store Link -->
-                                <div class="col-12">
-                                    <a href="{{ route('store.index') }}" class="btn btn-outline-primary btn-lg w-100 h-100 d-flex flex-column justify-content-center align-items-center text-decoration-none py-4">
-                                        <i class="fas fa-store fa-3x mb-3"></i>
-                                        <span class="fw-bold fs-4">Visit Store</span>
-                                        <small class="text-muted">Upgrade your abilities and unlock new features</small>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>

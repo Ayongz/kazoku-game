@@ -13,11 +13,13 @@ class StoreController extends Controller
     const MAX_TREASURE_MULTIPLIER_LEVEL = 10; // Maximum treasure multiplier level
     const MAX_LUCKY_STRIKES_LEVEL = 5; // Maximum lucky strikes level
     const MAX_COUNTER_ATTACK_LEVEL = 5; // Maximum counter attack level
+    const MAX_INTIMIDATION_LEVEL = 5; // Maximum intimidation level
     const BASE_STEAL_COST = 15000;      // Base cost for steal upgrade
     const BASE_AUTO_EARNING_COST = 15000; // Base cost for auto earning upgrade
     const BASE_TREASURE_MULTIPLIER_COST = 15000; // Base cost for treasure multiplier upgrade
     const BASE_LUCKY_STRIKES_COST = 15000; // Base cost for lucky strikes upgrade
-    const BASE_COUNTER_ATTACK_COST = 15000; // Base cost for counter attack upgrade
+    const BASE_COUNTER_ATTACK_COST = 40000; // Base cost for counter attack upgrade
+    const BASE_INTIMIDATION_COST = 22000; // Base cost for intimidation upgrade
     const SHIELD_COST = 10000;          // Cost for shield protection
     const SHIELD_DURATION_HOURS = 3;   // Shield duration in hours
 
@@ -34,6 +36,7 @@ class StoreController extends Controller
         $treasureMultiplierUpgradeCost = self::BASE_TREASURE_MULTIPLIER_COST * ($user->treasure_multiplier_level + 1);
         $luckyStrikesUpgradeCost = self::BASE_LUCKY_STRIKES_COST * ($user->lucky_strikes_level + 1);
         $counterAttackUpgradeCost = self::BASE_COUNTER_ATTACK_COST * ($user->counter_attack_level + 1);
+        $intimidationUpgradeCost = self::BASE_INTIMIDATION_COST * ($user->intimidation_level + 1);
         
         // Check if shield is currently active
         $isShieldActive = $user->shield_expires_at && $user->shield_expires_at > now();
@@ -45,11 +48,13 @@ class StoreController extends Controller
             'maxTreasureMultiplierLevel' => self::MAX_TREASURE_MULTIPLIER_LEVEL,
             'maxLuckyStrikesLevel' => self::MAX_LUCKY_STRIKES_LEVEL,
             'maxCounterAttackLevel' => self::MAX_COUNTER_ATTACK_LEVEL,
+            'maxIntimidationLevel' => self::MAX_INTIMIDATION_LEVEL,
             'stealUpgradeCost' => $stealUpgradeCost,
             'autoEarningUpgradeCost' => $autoEarningUpgradeCost,
             'treasureMultiplierUpgradeCost' => $treasureMultiplierUpgradeCost,
             'luckyStrikesUpgradeCost' => $luckyStrikesUpgradeCost,
             'counterAttackUpgradeCost' => $counterAttackUpgradeCost,
+            'intimidationUpgradeCost' => $intimidationUpgradeCost,
             'autoEarningUpgradeCost' => $autoEarningUpgradeCost,
             'shieldCost' => self::SHIELD_COST,
             'shieldDurationHours' => self::SHIELD_DURATION_HOURS,
@@ -240,5 +245,37 @@ class StoreController extends Controller
         return redirect()->route('store.index')
             ->with('success', "Successfully upgraded counter attack to level {$user->counter_attack_level}! Now " . 
                    ($user->counter_attack_level * 20) . "% chance to counter-attack when stolen from!");
+    }
+
+    /**
+     * Handle intimidation purchase
+     */
+    public function purchaseIntimidation(Request $request)
+    {
+        $user = Auth::user();
+
+        // Check if already at max level
+        if ($user->intimidation_level >= self::MAX_INTIMIDATION_LEVEL) {
+            return redirect()->route('store.index')
+                ->with('error', 'You are already at maximum intimidation level!');
+        }
+
+        // Calculate upgrade cost
+        $upgradeCost = self::BASE_INTIMIDATION_COST * ($user->intimidation_level + 1);
+
+        // Check if user has enough money
+        if ($user->money_earned < $upgradeCost) {
+            return redirect()->route('store.index')
+                ->with('error', 'Not enough money for intimidation upgrade! Need IDR ' . number_format($upgradeCost, 0, ',', '.'));
+        }
+
+        // Process upgrade
+        $user->money_earned -= $upgradeCost;
+        $user->intimidation_level += 1;
+        $user->save();
+
+        return redirect()->route('store.index')
+            ->with('success', "Successfully upgraded intimidation to level {$user->intimidation_level}! Attackers now have " . 
+                   ($user->intimidation_level * 2) . "% lower steal success rate against you!");
     }
 }

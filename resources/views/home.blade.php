@@ -158,12 +158,17 @@
                                                                 <i class="fas fa-shield-alt me-1"></i>Counter Lv.{{ $player->counter_attack_level }}
                                                             </span>
                                                         @endif
+                                                        @if($player->intimidation_level > 0)
+                                                            <span class="badge bg-warning text-dark">
+                                                                <i class="fas fa-skull me-1"></i>Intimidate Lv.{{ $player->intimidation_level }}
+                                                            </span>
+                                                        @endif
                                                         @if($player->shield_expires_at && $player->shield_expires_at > now())
                                                             <span class="badge bg-secondary">
                                                                 <i class="fas fa-shield-alt me-1"></i>Shield
                                                             </span>
                                                         @endif
-                                                        @if($player->steal_level === 0 && $player->auto_earning_level === 0 && $player->treasure_multiplier_level === 0 && $player->lucky_strikes_level === 0 && $player->counter_attack_level === 0)
+                                                        @if($player->steal_level === 0 && $player->auto_earning_level === 0 && $player->treasure_multiplier_level === 0 && $player->lucky_strikes_level === 0 && $player->counter_attack_level === 0 && $player->intimidation_level === 0)
                                                             <small class="text-muted">No abilities</small>
                                                         @endif
                                                     </div>

@@ -41,5 +41,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/store/purchase/treasure-multiplier', [StoreController::class, 'purchaseTreasureMultiplier'])->name('store.purchase.treasure-multiplier');
     Route::post('/store/purchase/lucky-strikes', [StoreController::class, 'purchaseLuckyStrikes'])->name('store.purchase.lucky-strikes');
     Route::post('/store/purchase/counter-attack', [StoreController::class, 'purchaseCounterAttack'])->name('store.purchase.counter-attack');
+    Route::post('/store/purchase/intimidation', [StoreController::class, 'purchaseIntimidation'])->name('store.purchase.intimidation');
     Route::post('/store/purchase/shield', [StoreController::class, 'purchaseShield'])->name('store.purchase.shield');
 });
