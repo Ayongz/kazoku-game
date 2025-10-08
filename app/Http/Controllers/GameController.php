@@ -18,6 +18,11 @@ class GameController extends Controller
     const MAX_LUCKY_STRIKES_LEVEL = 5; // Maximum lucky strikes level
     const MAX_COUNTER_ATTACK_LEVEL = 5; // Maximum counter attack level
     const BASE_STEAL_COST = 10000;      // Base cost for first steal upgrade
+    
+    // Night-time risk constants (6 PM to 6 AM GMT+7)
+    const NIGHT_RISK_LOSS_CHANCE = 25;    // 25% chance to lose money
+    const NIGHT_RISK_BONUS_CHANCE = 25;   // 25% chance for 1.5x multiplier
+    const NIGHT_RISK_NORMAL_CHANCE = 50;  // 50% chance for normal earnings
 
     /**
      * Display the game dashboard
@@ -37,6 +42,7 @@ class GameController extends Controller
         return view('game.dashboard', [
             'user' => $user,
             'globalPrizePool' => number_format($gameSettings->global_prize_pool, 0, ',', '.'),
+            'isNightTime' => $this->isNightTime(),
         ]);
     }
 
@@ -63,24 +69,46 @@ class GameController extends Controller
         }
 
         // Generate random money amount between min and max
-        $earnedAmount = rand(self::MIN_EARN_AMOUNT, self::MAX_EARN_AMOUNT);
+        $baseEarnedAmount = rand(self::MIN_EARN_AMOUNT, self::MAX_EARN_AMOUNT);
 
         // Apply Lucky Strikes bonus if available
         $luckyStrikesBonus = "";
         if ($user->lucky_strikes_level > 0) {
             $luckyChance = $user->lucky_strikes_level * 2; // 2%, 4%, 6%, 8%, 10%
             if (rand(1, 100) <= $luckyChance) {
-                $earnedAmount *= 2; // Double the money
+                $baseEarnedAmount *= 2; // Double the money
                 $luckyStrikesBonus = " (LUCKY STRIKE 2X!)";
             }
         }
 
-        // Calculate prize pool contribution (10% of earned amount)
-        $prizePoolContribution = $earnedAmount * 0.10;
-        $playerReceives = $earnedAmount - $prizePoolContribution;
+        // Apply night-time risk system (6 PM to 6 AM GMT+7)
+        $nightRiskMessage = "";
+        $finalEarnedAmount = $baseEarnedAmount;
+        
+        if ($this->isNightTime()) {
+            $nightRisk = $this->applyNightTimeRisk($baseEarnedAmount);
+            $finalEarnedAmount = $nightRisk['amount'];
+            $nightRiskMessage = " " . $nightRisk['message'];
+        }
 
-        // Update user data (player receives 95% of earned amount)
+        // Calculate prize pool contribution and player receives amount
+        if ($finalEarnedAmount > 0) {
+            // Positive earnings - contribute to prize pool
+            $prizePoolContribution = $finalEarnedAmount * 0.10;
+            $playerReceives = $finalEarnedAmount - $prizePoolContribution;
+        } else {
+            // Loss scenario - no prize pool contribution, player loses money directly
+            $prizePoolContribution = 0;
+            $playerReceives = $finalEarnedAmount; // This will be negative
+        }
+
+        // Update user money (can be positive or negative)
         $user->money_earned += $playerReceives;
+        
+        // Ensure money doesn't go below 0
+        if ($user->money_earned < 0) {
+            $user->money_earned = 0;
+        }
         
         // Add experience for opening treasure
         $expGained = ExperienceService::getExpFromTreasure($user->level);
@@ -126,16 +154,22 @@ class GameController extends Controller
         
         $user->save();
 
-        // Update global prize pool (add 5% of earned amount)
+        // Update global prize pool (only add contribution if there's a positive contribution)
         $gameSettings = GameSetting::first();
-        if ($gameSettings) {
+        if ($gameSettings && $prizePoolContribution > 0) {
             $gameSettings->global_prize_pool += $prizePoolContribution;
             $gameSettings->save();
         }
 
-        $successMessage = "Great work! You earned IDR " . number_format($playerReceives, 0, ',', '.') . 
-                         " (IDR " . number_format($prizePoolContribution, 0, ',', '.') . " contributed to prize pool)" . 
-                         " [+" . $expGained . " EXP]" . $luckyStrikesBonus . $levelUpMessage . $randomBoxMessage;
+        // Create success message based on earnings result
+        if ($playerReceives >= 0) {
+            $successMessage = "Great work! You earned IDR " . number_format($playerReceives, 0, ',', '.') . 
+                             ($prizePoolContribution > 0 ? " (IDR " . number_format($prizePoolContribution, 0, ',', '.') . " contributed to prize pool)" : "") . 
+                             " [+" . $expGained . " EXP]" . $luckyStrikesBonus . $levelUpMessage . $randomBoxMessage . $nightRiskMessage;
+        } else {
+            $successMessage = "You lost IDR " . number_format(abs($playerReceives), 0, ',', '.') . 
+                             " [+" . $expGained . " EXP]" . $levelUpMessage . $randomBoxMessage . $nightRiskMessage;
+        }
 
         // Auto-attempt steal if user has steal ability
         $stealMessage = "";
@@ -153,8 +187,10 @@ class GameController extends Controller
                 'message' => $successMessage . $stealMessage,
                 'earned_amount' => $playerReceives,
                 'prize_pool_contribution' => $prizePoolContribution,
-                'total_earned_amount' => $earnedAmount,
+                'total_earned_amount' => $finalEarnedAmount,
                 'treasure_remaining' => $user->treasure,
+                'max_treasure_capacity' => 20 + ($user->treasure_multiplier_level * 5),
+                'treasure_multiplier_level' => $user->treasure_multiplier_level,
                 'total_money' => $user->money_earned,
                 'formatted_money' => number_format($user->money_earned, 0, ',', '.'),
                 'global_prize_pool' => $gameSettings ? $gameSettings->global_prize_pool : 0,
@@ -393,6 +429,52 @@ class GameController extends Controller
             ];
         } else {
             return ['success' => false, 'message' => 'Counter-attack failed'];
+        }
+    }
+    
+    /**
+     * Check if current time is during night hours (6 PM to 6 AM GMT+7)
+     */
+    private function isNightTime(): bool
+    {
+        // Get current time in GMT+7 timezone
+        $gmt7Time = now()->setTimezone('Asia/Bangkok'); // GMT+7
+        $currentHour = $gmt7Time->hour;
+        
+        // Night time is from 18:00 (6 PM) to 06:00 (6 AM)
+        return $currentHour >= 18 || $currentHour < 6;
+    }
+    
+    /**
+     * Apply night-time risk to earnings
+     */
+    private function applyNightTimeRisk(int $baseAmount): array
+    {
+        $roll = rand(1, 100);
+        
+        if ($roll <= self::NIGHT_RISK_LOSS_CHANCE) {
+            // 25% chance - Lose money instead of earning
+            $lossAmount = $baseAmount;
+            return [
+                'amount' => -$lossAmount,
+                'type' => 'loss',
+                'message' => '🌙 NIGHT RISK: Lost IDR ' . number_format($lossAmount, 0, ',', '.') . ' in the darkness!'
+            ];
+        } elseif ($roll <= (self::NIGHT_RISK_LOSS_CHANCE + self::NIGHT_RISK_BONUS_CHANCE)) {
+            // 25% chance - Get 1.5x multiplier
+            $bonusAmount = floor($baseAmount * 1.5);
+            return [
+                'amount' => $bonusAmount,
+                'type' => 'bonus',
+                'message' => '🌙 NIGHT BONUS: Earned 1.5x IDR ' . number_format($bonusAmount, 0, ',', '.') . ' under the moonlight!'
+            ];
+        } else {
+            // 50% chance - Normal earnings
+            return [
+                'amount' => $baseAmount,
+                'type' => 'normal',
+                'message' => '🌙 Night treasure opened normally.'
+            ];
         }
     }
 }

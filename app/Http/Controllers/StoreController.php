@@ -21,9 +21,9 @@ class StoreController extends Controller
     const BASE_TREASURE_MULTIPLIER_COST = 15000; // Base cost for treasure multiplier upgrade
     const BASE_LUCKY_STRIKES_COST = 15000; // Base cost for lucky strikes upgrade
     const BASE_COUNTER_ATTACK_COST = 40000; // Base cost for counter attack upgrade
-    const BASE_INTIMIDATION_COST = 22000; // Base cost for intimidation upgrade
-    const BASE_FAST_RECOVERY_COST = 30000; // Base cost for fast recovery upgrade
-    const BASE_TREASURE_RARITY_COST = 50000; // Base cost for treasure rarity upgrade
+    const BASE_INTIMIDATION_COST = 20000; // Base cost for intimidation upgrade
+    const BASE_FAST_RECOVERY_COST = 20000; // Base cost for fast recovery upgrade
+    const BASE_TREASURE_RARITY_COST = 20000; // Base cost for treasure rarity upgrade
     const SHIELD_COST = 10000;          // Cost for shield protection
     const SHIELD_DURATION_HOURS = 3;   // Shield duration in hours
 

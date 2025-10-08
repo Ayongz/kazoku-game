@@ -21,7 +21,7 @@
                     <!-- Random Box Opening Area -->
                     <div class="card shadow-lg border-0 mb-4">
                         <div class="card-header bg-gradient text-white text-center">
-                            <h4 class="mb-0">🎁 Random Box Opening</h4>
+                            <h4 class="mb-0" style="color: black;">🎁 Random Box Opening</h4>
                         </div>
                                 <div class="card-body text-center p-5">
                                     @if($randomBoxCount > 0)

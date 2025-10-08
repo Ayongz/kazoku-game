@@ -133,7 +133,7 @@ class InventoryController extends Controller
         $rewards = [];
         
         // Always give money
-        $money = rand(10000, 25000);
+        $money = rand(10000, 20000);
         $rewards[] = [
             'type' => 'money',
             'amount' => $money,
@@ -196,7 +196,7 @@ class InventoryController extends Controller
         $rewards = [];
         
         // Always give big money
-        $money = rand(50000, 100000);
+        $money = rand(40000, 80000);
         $rewards[] = [
             'type' => 'money',
             'amount' => $money,

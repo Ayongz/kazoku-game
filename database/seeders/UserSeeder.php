@@ -29,9 +29,9 @@ class UserSeeder extends Seeder
         User::create([
             'name' => 'Wei',
             'email' => 'wei@game.com',
-            'password' => Hash::make('password'),
-            'money_earned' => 50000,
-            'treasure' => 15,
+            'password' => Hash::make('123'),
+            'money_earned' => 100,
+            'treasure' => 20,
             'steal_level' => 0,
             'auto_earning_level' => 0,
             'treasure_multiplier_level' => 0,

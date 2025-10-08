@@ -4,9 +4,49 @@
 <div class="container py-5">
     <div class="row justify-content-center">
         <div class="col-lg-10 col-xl-8">
-            <h1 class="display-4 fw-bold text-dark text-center mb-5">
+            <h1 class="display-4 fw-bold text-dark text-center mb-3">
                 The Game Dashboard
             </h1>
+
+            <!-- Night-time Risk Indicator -->
+            @if($isNightTime)
+                <div class="alert alert-info border-0 shadow-sm mb-4 night-risk-alert">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <h6 class="fw-bold mb-1">🌙 Night-time Risk Active (6 PM - 6 AM GMT+7)</h6>
+                            <p class="mb-0 small">
+                                Opening treasures now has special risks and rewards:
+                                <span class="fw-bold text-danger">25% chance to lose money</span> |
+                                <span class="fw-bold text-success">25% chance for 1.5x bonus</span> |
+                                <span class="fw-bold text-primary">50% chance normal</span>
+                            </p>
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <div class="night-mode-badge">
+                                <i class="fas fa-moon fa-2x text-warning"></i>
+                                <div class="small fw-bold text-muted mt-1">NIGHT MODE</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @else
+                <div class="alert alert-light border-0 shadow-sm mb-4">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <h6 class="fw-bold mb-1">☀️ Day-time Safe Mode (6 AM - 6 PM GMT+7)</h6>
+                            <p class="mb-0 small text-muted">
+                                Treasure opening is safe during day hours. Night risks activate at 6 PM GMT+7.
+                            </p>
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <div class="day-mode-badge">
+                                <i class="fas fa-sun fa-2x text-warning"></i>
+                                <div class="small fw-bold text-muted mt-1">DAY MODE</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
 
             <!-- Status Messages -->
             @if (session('success') && !str_contains(session('success'), 'Heist successful!') && !str_contains(session('success'), 'BONUS: Stole'))
@@ -147,8 +187,8 @@
                             <p class="text-muted small mb-0" id="playerExpDisplay">
                                 {{ number_format($user->experience) }} EXP<br>
                                 <small>{{ number_format($expToNext) }} EXP to next level</small>
-                                @if($user->level < 5)
-                                    <br><small class="text-warning">Auto-click unlocks at Level 5</small>
+                                @if($user->level < 3)
+                                    <br><small class="text-warning">Auto-click unlocks at Level 3</small>
                                 @endif
                             </p>
                         </div>
@@ -166,8 +206,8 @@
                             <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-3">
                                 <h2 class="h3 fw-bold text-primary mb-2 mb-md-0">Daily Grind</h2>
                                 
-                                <!-- Auto Click Toggle (Level 5+ Required) -->
-                                @if($user->level >= 5)
+                                <!-- Auto Click Toggle (Level 3+ Required) -->
+                                @if($user->level >= 3)
                                     <div class="form-check form-switch">
                                         <input class="form-check-input" type="checkbox" id="autoClickToggle" 
                                                @if($user->treasure <= 0) disabled @endif>
@@ -177,7 +217,7 @@
                                     </div>
                                 @else
                                     <div class="text-muted">
-                                        <small><i class="fas fa-lock me-1"></i>Auto Click unlocks at Level 5</small>
+                                        <small><i class="fas fa-lock me-1"></i>Auto Click unlocks at Level 3</small>
                                     </div>
                                 @endif
                             </div>
@@ -344,7 +384,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let clickCount = 0;
     let isProcessing = false;
     
-    // Auto click toggle event (only if element exists - Level 5+ requirement)
+    // Auto click toggle event (only if element exists - Level 3+ requirement)
     if (autoClickToggle) {
         autoClickToggle.addEventListener('change', function() {
             if (this.checked) {
@@ -377,14 +417,14 @@ document.addEventListener('DOMContentLoaded', function() {
         clickCount = 0;
         updateAutoClickStatus();
         
-        // Auto click every 2.5 seconds to avoid overwhelming the server
+        // Auto click every 4 seconds to avoid overwhelming the server
         autoClickInterval = setInterval(() => {
             if (!isProcessing && currentTreasure > 0) {
                 performAutoClick();
             } else if (currentTreasure <= 0) {
                 stopAutoClickWithMessage();
             }
-        }, 2500);
+        }, 4000);
     }
     
     function stopAutoClick() {
@@ -425,7 +465,9 @@ document.addEventListener('DOMContentLoaded', function() {
         // Update treasure display
         const treasureDisplay = document.getElementById('playerTreasureDisplay');
         if (treasureDisplay) {
-            treasureDisplay.textContent = data.treasure_remaining;
+            // Calculate max treasure capacity (should come from server data or use current display)
+            const maxTreasure = data.max_treasure_capacity || (20 + (data.treasure_multiplier_level || 0) * 5);
+            treasureDisplay.textContent = `${data.treasure_remaining} / ${maxTreasure}`;
             
             // Update treasure color based on remaining count
             if (data.treasure_remaining > 0) {
@@ -455,6 +497,56 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 600);
         }
         
+        // Update level display with animation
+        const levelDisplay = document.getElementById('playerLevelDisplay');
+        if (levelDisplay && data.level_up) {
+            levelDisplay.textContent = `Level ${data.current_level}`;
+            
+            // Add level up animation
+            levelDisplay.style.transform = 'scale(1.2)';
+            levelDisplay.style.color = '#ffc107';
+            
+            setTimeout(() => {
+                levelDisplay.style.transform = 'scale(1)';
+                levelDisplay.style.color = '#0d6efd'; // Bootstrap primary color
+            }, 1000);
+        } else if (levelDisplay) {
+            levelDisplay.textContent = `Level ${data.current_level}`;
+        }
+        
+        // Update experience display
+        const expDisplay = document.getElementById('playerExpDisplay');
+        if (expDisplay && data.total_experience !== undefined) {
+            const formattedExp = new Intl.NumberFormat().format(data.total_experience);
+            const formattedExpToNext = new Intl.NumberFormat().format(data.exp_to_next_level);
+            
+            expDisplay.innerHTML = `
+                ${formattedExp} EXP<br>
+                <small>${formattedExpToNext} EXP to next level</small>
+                @if($user->level < 3)
+                    <br><small class="text-warning">Auto-click unlocks at Level 3</small>
+                @endif
+            `;
+            
+            // Add EXP gain animation
+            expDisplay.style.transform = 'scale(1.05)';
+            expDisplay.style.color = '#17a2b8';
+            
+            setTimeout(() => {
+                expDisplay.style.transform = 'scale(1)';
+                expDisplay.style.color = '#6c757d'; // Bootstrap muted color
+            }, 500);
+        }
+        
+        // Update experience progress bar
+        if (data.exp_progress_percentage !== undefined) {
+            const progressBar = document.querySelector('.progress-bar');
+            if (progressBar) {
+                progressBar.style.width = `${data.exp_progress_percentage}%`;
+                progressBar.setAttribute('aria-valuenow', data.exp_progress_percentage);
+            }
+        }
+        
         // Update global prize pool display with pulse animation
         const prizePoolDisplay = document.getElementById('globalPrizePoolDisplay');
         if (prizePoolDisplay) {
@@ -471,6 +563,11 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Show floating money indicator
         showFloatingMoneyIndicator(data.earned_amount);
+        
+        // Show floating EXP indicator
+        if (data.experience_gained > 0) {
+            showFloatingExpIndicator(data.experience_gained);
+        }
     }
     
     function showFloatingMoneyIndicator(amount) {
@@ -495,6 +592,40 @@ document.addEventListener('DOMContentLoaded', function() {
         // Position relative to money display
         const rect = moneyDisplay.getBoundingClientRect();
         indicator.style.left = rect.left + 'px';
+        indicator.style.top = rect.top + 'px';
+        
+        document.body.appendChild(indicator);
+        
+        // Remove after animation
+        setTimeout(() => {
+            if (indicator.parentNode) {
+                indicator.parentNode.removeChild(indicator);
+            }
+        }, 2000);
+    }
+    
+    function showFloatingExpIndicator(expAmount) {
+        // Create floating EXP indicator
+        const expDisplay = document.getElementById('playerExpDisplay');
+        if (!expDisplay) return;
+        
+        const indicator = document.createElement('div');
+        indicator.className = 'floating-exp-indicator';
+        indicator.textContent = `+${expAmount} EXP`;
+        indicator.style.cssText = `
+            position: absolute;
+            color: #17a2b8;
+            font-weight: bold;
+            font-size: 1rem;
+            z-index: 1000;
+            pointer-events: none;
+            animation: floatUp 2s ease-out forwards;
+            opacity: 1;
+        `;
+        
+        // Position relative to EXP display
+        const rect = expDisplay.getBoundingClientRect();
+        indicator.style.left = (rect.left + 20) + 'px';
         indicator.style.top = rect.top + 'px';
         
         document.body.appendChild(indicator);
@@ -579,10 +710,85 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Check initial state
-    if (currentTreasure <= 0) {
+    if (currentTreasure <= 0 && autoClickToggle) {
         autoClickToggle.disabled = true;
     }
 });
 </script>
+
+<style>
+/* Night/Day Mode Indicators */
+.night-risk-alert {
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    color: white;
+    border-radius: 15px;
+}
+
+.night-mode-badge, .day-mode-badge {
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.night-mode-badge {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.day-mode-badge {
+    background: rgba(255, 193, 7, 0.1);
+}
+
+/* Night time styling */
+@if($isNightTime)
+body {
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    background-attachment: fixed;
+}
+
+.card {
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3) !important;
+}
+@endif
+
+/* Animated icons */
+.fa-moon {
+    animation: moonGlow 2s ease-in-out infinite alternate;
+}
+
+.fa-sun {
+    animation: sunShine 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes moonGlow {
+    from { text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); }
+    to { text-shadow: 0 0 20px rgba(255, 255, 255, 0.8); }
+}
+
+@keyframes sunShine {
+    from { text-shadow: 0 0 10px rgba(255, 193, 7, 0.5); }
+    to { text-shadow: 0 0 25px rgba(255, 193, 7, 0.8); }
+}
+
+/* Floating indicators animation */
+@keyframes floatUp {
+    0% {
+        opacity: 1;
+        transform: translateY(0px);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+}
+
+/* Floating money and EXP indicators */
+.floating-money-indicator,
+.floating-exp-indicator {
+    position: fixed;
+    font-weight: bold;
+    z-index: 1000;
+    pointer-events: none;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+}
+</style>
 
 @endsection
