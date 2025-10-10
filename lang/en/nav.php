@@ -436,6 +436,15 @@ return [
     'fast_recovery_guide' => 'Fast Recovery: Faster treasure regeneration (60min → 30min at max level)',
     'treasure_rarity_guide' => 'Treasure Rarity: Unlocks better treasure types and random box chances',
     
+    // Prestige System
+    'prestige_system' => 'Prestige System',
+    'prestige_description' => 'Elite passive income system for veteran players. Earn significant hourly income based on your total wealth.',
+    'passive_income' => 'Passive Income',
+    'per_hour' => 'per hour',
+    'required_level' => 'Required Level',
+    'cost' => 'Cost',
+    'need_level' => 'Need level',
+    
     // Random Boxes
     'random_boxes_title' => 'Random Boxes System',
     'earning_boxes' => 'Earning Random Boxes',

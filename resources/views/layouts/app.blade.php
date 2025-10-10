@@ -121,13 +121,6 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <div class="dropdown-item-text">
-                                        <div class="d-flex align-items-center">
-                                            <i class="fas fa-coins text-warning me-2"></i>
-                                            <span>{{ number_format(Auth::user()->gold) }} {{ __('nav.gold') }}</span>
-                                        </div>
-                                    </div>
-                                    <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

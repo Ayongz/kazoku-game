@@ -26,6 +26,7 @@ class User extends Authenticatable
         'selected_class',
         'has_advanced_class',
         'class_selected_at',
+        'prestige_level',
     ];
 
     /**

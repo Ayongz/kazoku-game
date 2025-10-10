@@ -439,6 +439,15 @@ return [
     'fast_recovery_guide' => 'Pemulihan Cepat: Regenerasi harta karun lebih cepat (60mnt → 30mnt di level maksimal)',
     'treasure_rarity_guide' => 'Kelangkaan Harta Karun: Membuka jenis harta karun yang lebih baik dan peluang kotak acak',
     
+    // Prestige System
+    'prestige_system' => 'Sistem Prestise',
+    'prestige_description' => 'Sistem pendapatan pasif elit untuk pemain veteran. Dapatkan pendapatan per jam yang signifikan berdasarkan total kekayaan Anda.',
+    'passive_income' => 'Pendapatan Pasif',
+    'per_hour' => 'per jam',
+    'required_level' => 'Level yang Diperlukan',
+    'cost' => 'Biaya',
+    'need_level' => 'Perlu level',
+    
     // Random Boxes
     'random_boxes_title' => 'Sistem Kotak Acak',
     'earning_boxes' => 'Mendapatkan Kotak Acak',

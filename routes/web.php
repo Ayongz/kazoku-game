@@ -52,6 +52,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/store/purchase/fast-recovery', [StoreController::class, 'purchaseFastRecovery'])->name('store.purchase.fast-recovery');
     Route::post('/store/purchase/treasure-rarity', [StoreController::class, 'purchaseTreasureRarity'])->name('store.purchase.treasure-rarity');
     Route::post('/store/purchase/shield', [StoreController::class, 'purchaseShield'])->name('store.purchase.shield');
+    Route::post('/store/purchase/prestige', [StoreController::class, 'purchasePrestige'])->name('store.purchase.prestige');
     
     // --- INVENTORY ROUTES ---
     // Inventory page

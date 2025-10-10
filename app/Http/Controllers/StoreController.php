@@ -26,6 +26,23 @@ class StoreController extends Controller
     const BASE_TREASURE_RARITY_COST = 20000; // Base cost for treasure rarity upgrade
     const SHIELD_COST = 10000;          // Cost for shield protection
     const SHIELD_DURATION_HOURS = 3;   // Shield duration in hours
+    
+    // Prestige System Constants
+    const MAX_PRESTIGE_LEVEL = 5;       // Maximum prestige level
+    const PRESTIGE_COSTS = [            // Costs for each prestige level
+        1 => 100000,  // Level 1: 100k
+        2 => 120000,  // Level 2: 120k
+        3 => 140000,  // Level 3: 140k
+        4 => 160000,  // Level 4: 160k
+        5 => 180000,  // Level 5: 180k
+    ];
+    const PRESTIGE_LEVEL_REQUIREMENTS = [ // Minimum player level requirements
+        1 => 10,  // Level 1: Player level 10
+        2 => 20,  // Level 2: Player level 20
+        3 => 30,  // Level 3: Player level 30
+        4 => 40,  // Level 4: Player level 40
+        5 => 50,  // Level 5: Player level 50
+    ];
 
     /**
      * Display the store page
@@ -43,6 +60,16 @@ class StoreController extends Controller
         $intimidationUpgradeCost = self::BASE_INTIMIDATION_COST * ($user->intimidation_level + 1);
         $fastRecoveryUpgradeCost = self::BASE_FAST_RECOVERY_COST * ($user->fast_recovery_level + 1);
         $treasureRarityUpgradeCost = self::BASE_TREASURE_RARITY_COST * ($user->treasure_rarity_level + 1);
+        
+        // Calculate prestige upgrade cost
+        $prestigeUpgradeCost = null;
+        $canUpgradePrestige = false;
+        if ($user->prestige_level < self::MAX_PRESTIGE_LEVEL) {
+            $nextPrestigeLevel = $user->prestige_level + 1;
+            $prestigeUpgradeCost = self::PRESTIGE_COSTS[$nextPrestigeLevel];
+            $requiredLevel = self::PRESTIGE_LEVEL_REQUIREMENTS[$nextPrestigeLevel];
+            $canUpgradePrestige = $user->level >= $requiredLevel && $user->money_earned >= $prestigeUpgradeCost;
+        }
         
         // Check if shield is currently active
         $isShieldActive = $user->shield_expires_at && $user->shield_expires_at > now();
@@ -69,6 +96,13 @@ class StoreController extends Controller
             'shieldCost' => self::SHIELD_COST,
             'shieldDurationHours' => self::SHIELD_DURATION_HOURS,
             'isShieldActive' => $isShieldActive,
+            
+            // Prestige System
+            'maxPrestigeLevel' => self::MAX_PRESTIGE_LEVEL,
+            'prestigeUpgradeCost' => $prestigeUpgradeCost,
+            'canUpgradePrestige' => $canUpgradePrestige,
+            'prestigeCosts' => self::PRESTIGE_COSTS,
+            'prestigeLevelRequirements' => self::PRESTIGE_LEVEL_REQUIREMENTS,
         ]);
     }
 
@@ -357,5 +391,45 @@ class StoreController extends Controller
 
         return redirect()->route('store.index')
             ->with('success', "Successfully upgraded treasure rarity to level {$user->treasure_rarity_level}! Your treasure is now {$newRarityName}!");
+    }
+
+    /**
+     * Handle prestige upgrade purchase
+     */
+    public function purchasePrestige(Request $request)
+    {
+        $user = Auth::user();
+
+        // Check if already at max prestige level
+        if ($user->prestige_level >= self::MAX_PRESTIGE_LEVEL) {
+            return redirect()->route('store.index')
+                ->with('error', 'You are already at maximum prestige level!');
+        }
+
+        $nextPrestigeLevel = $user->prestige_level + 1;
+        $upgradeCost = self::PRESTIGE_COSTS[$nextPrestigeLevel];
+        $requiredLevel = self::PRESTIGE_LEVEL_REQUIREMENTS[$nextPrestigeLevel];
+
+        // Check level requirement
+        if ($user->level < $requiredLevel) {
+            return redirect()->route('store.index')
+                ->with('error', "You need to be level {$requiredLevel} to upgrade to Prestige Level {$nextPrestigeLevel}! Current level: {$user->level}");
+        }
+
+        // Check if user has enough money
+        if ($user->money_earned < $upgradeCost) {
+            return redirect()->route('store.index')
+                ->with('error', 'Not enough money for prestige upgrade! Need IDR ' . number_format($upgradeCost, 0, ',', '.'));
+        }
+
+        // Process upgrade
+        $user->money_earned -= $upgradeCost;
+        $user->prestige_level += 1;
+        $user->save();
+
+        $earningRate = $user->prestige_level; // 1% per prestige level
+
+        return redirect()->route('store.index')
+            ->with('success', "Successfully upgraded to Prestige Level {$user->prestige_level}! You now earn {$earningRate}% of your money every hour passively!");
     }
 }

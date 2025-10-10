@@ -608,6 +608,83 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- 10. PRESTIGE SYSTEM -->
+                <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+                    <div class="card h-100 shadow border-0">
+                        <div class="card-header text-white text-center py-2" style="background: linear-gradient(45deg, #FFD700, #FF8C00);">
+                            <h6 class="mb-0 fw-bold">
+                                <i class="fas fa-crown me-1"></i>{{ __('nav.prestige_system') }}
+                                <button class="btn btn-link text-white p-0 ms-1" type="button" data-bs-toggle="collapse" data-bs-target="#prestigeInfo" aria-expanded="false">
+                                    <i class="fas fa-info-circle"></i>
+                                </button>
+                            </h6>
+                            <small>{{ __('nav.level_max', ['current' => $user->prestige_level, 'max' => $maxPrestigeLevel]) }}</small>
+                        </div>
+                        <div class="card-body p-2">
+                            <div class="collapse" id="prestigeInfo">
+                                <div class="alert alert-info p-2 mb-2 small">
+                                    <strong>{{ __('nav.prestige_system') }}:</strong> {{ __('nav.prestige_description') }}
+                                    @if ($user->prestige_level < $maxPrestigeLevel)
+                                        <hr class="my-2">
+                                        @php
+                                            $nextLevel = $user->prestige_level + 1;
+                                            $requiredLevel = $prestigeLevelRequirements[$nextLevel];
+                                        @endphp
+                                        <strong>{{ __('nav.next_level', ['level' => $nextLevel]) }}:</strong>
+                                        <ul class="mb-0 mt-1 ps-3">
+                                            <li>{{ __('nav.passive_income') }}: {{ $nextLevel }}% {{ __('nav.per_hour') }}</li>
+                                            <li>{{ __('nav.required_level') }}: {{ $requiredLevel }}</li>
+                                            <li>{{ __('nav.cost') }}: IDR {{ number_format($prestigeCosts[$nextLevel], 0, ',', '.') }}</li>
+                                        </ul>
+                                    @endif
+                                </div>
+                            </div>
+                            
+                            @if ($user->prestige_level > 0)
+                                <div class="text-center mb-2">
+                                    <span class="badge bg-success small">{{ __('nav.owned') }}</span>
+                                </div>
+                                <div class="small text-center">
+                                    <div><strong>{{ __('nav.passive_income') }}:</strong> {{ $user->prestige_level }}%/hour</div>
+                                    <div><strong>{{ __('nav.hourly_income') }}:</strong> IDR {{ number_format($user->money_earned * ($user->prestige_level / 100), 0, ',', '.') }}</div>
+                                </div>
+                            @endif
+                            
+                            <div class="mt-auto">
+                                @if ($user->prestige_level < $maxPrestigeLevel)
+                                    @php
+                                        $nextLevel = $user->prestige_level + 1;
+                                        $requiredLevel = $prestigeLevelRequirements[$nextLevel];
+                                        $isLevelRequirementMet = $user->level >= $requiredLevel;
+                                        $hasEnoughMoney = $user->money_earned >= $prestigeUpgradeCost;
+                                        $canUpgrade = $isLevelRequirementMet && $hasEnoughMoney;
+                                    @endphp
+                                    <div class="text-center">
+                                        <form method="POST" action="{{ route('store.purchase.prestige') }}">
+                                            @csrf
+                                            <button type="submit" 
+                                                    class="btn btn-sm w-100 fw-bold @if($canUpgrade) btn-warning text-dark @else btn-secondary disabled @endif"
+                                                    @if(!$canUpgrade) disabled @endif>
+                                                <i class="fas fa-shopping-cart me-1"></i>
+                                                IDR {{ number_format($prestigeUpgradeCost, 0, ',', '.') }}
+                                            </button>
+                                        </form>
+                                        @if (!$isLevelRequirementMet)
+                                            <small class="text-muted">{{ __('nav.need_level') }} {{ $requiredLevel }}</small>
+                                        @endif
+                                    </div>
+                                @else
+                                    <div class="text-center">
+                                        <span class="badge bg-warning text-dark small">
+                                            <i class="fas fa-star me-1"></i>{{ __('nav.max_level') }}
+                                        </span>
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- Back to Game Button -->
