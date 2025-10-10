@@ -65,6 +65,11 @@
                                     <i class="fas fa-tree me-1"></i>{{ __('nav.class_path') }}
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('game.guide') }}">
+                                    <i class="fas fa-book me-1"></i>{{ __('nav.guide') }}
+                                </a>
+                            </li>
                         @endauth
                     </ul>
 

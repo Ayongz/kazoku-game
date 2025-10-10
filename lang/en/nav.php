@@ -7,6 +7,7 @@ return [
     'inventory' => 'Inventory',
     'status' => 'Status',
     'class_path' => 'Class Path',
+    'guide' => 'Guide',
     'login' => 'Login',
     'logout' => 'Logout',
     'toggle_navigation' => 'Toggle navigation',
@@ -369,7 +370,133 @@ return [
     'click_to_earn_money' => 'Click below to try and earn money. Uses one treasure.',
     'steal_bonus' => 'Also attempts to steal from other players (:percent% chance)!',
     'earn_money_now' => 'EARN MONEY NOW',
-    'open_treasure' => 'OPEN TREASURE',
+        'open_treasure' => 'OPEN TREASURE',
+
+    // Guide translations
+    'game_guide' => 'Game Guide',
+    'complete_walkthrough' => 'Complete Walkthrough for Treasure Hunters',
+    'guide_intro' => 'Welcome to the ultimate treasure hunting experience! This comprehensive guide will help you master every aspect of the game.',
+    
+    // Table of Contents
+    'table_of_contents' => 'Table of Contents',
+    'basic_gameplay' => 'Basic Gameplay',
+    'treasure_mechanics' => 'Treasure Mechanics',
+    'class_system' => 'Class System',
+    'upgrade_system' => 'Upgrade System',
+    'random_boxes' => 'Random Boxes',
+    'day_night_cycle' => 'Day/Night Cycle',
+    'pvp_system' => 'PvP System',
+    'tips_strategies' => 'Tips & Strategies',
+    
+    // Basic Gameplay Section
+    'how_to_play' => 'How to Play',
+    'getting_started' => 'Getting Started',
+    'getting_started_desc' => 'When you first join the game, you\'ll start with basic stats and no class. Your main goal is to collect treasure, earn money, and upgrade your abilities to become the ultimate treasure hunter.',
+    'earning_money' => 'Earning Money',
+    'earning_money_desc' => 'Click the "OPEN TREASURE" button on the dashboard to use one treasure and earn money. The amount you earn depends on your level, class abilities, and luck.',
+    'treasure_regeneration' => 'Treasure Regeneration',
+    'treasure_regeneration_desc' => 'You gain +5 treasure every 60 minutes by default. This can be improved with the Fast Recovery upgrade.',
+    
+    // Treasure Mechanics
+    'treasure_mechanics_title' => 'Treasure Mechanics',
+    'treasure_capacity' => 'Treasure Capacity',
+    'treasure_capacity_desc' => 'You start with a maximum of 20 treasure. This can be increased with the Treasure Multiplier upgrade.',
+    'treasure_multiplier_effect' => 'Treasure Multiplier Effect',
+    'treasure_multiplier_effect_desc' => 'Higher levels give you more treasure capacity and a chance to save treasure when opening (efficiency bonus).',
+    'treasure_rarity_system' => 'Treasure Rarity System',
+    'treasure_rarity_system_desc' => 'Upgrade your treasure rarity to unlock better treasure types: Common → Uncommon → Rare → Epic → Legendary → Mythical → Divine. Higher rarity gives better random box chances.',
+    
+    // Class System
+    'class_system_title' => 'Class System',
+    'choosing_class' => 'Choosing Your Class',
+    'choosing_class_desc' => 'At level 4, you can select from 7 unique classes, each with special abilities and playstyles.',
+    'available_classes' => 'Available Classes',
+    'treasure_hunter_guide' => 'Treasure Hunter: 15% chance for free treasure attempts',
+    'proud_merchant_guide' => 'Proud Merchant: 20% bonus money earnings',
+    'fortune_gambler_guide' => 'Fortune Gambler: 15% chance to double earnings, 8% chance to lose everything',
+    'moon_guardian_guide' => 'Moon Guardian: 20% chance for random box during nighttime (6 PM - 6 AM)',
+    'day_breaker_guide' => 'Day Breaker: 20% chance for random box during daytime (6 AM - 6 PM)',
+    'box_collector_guide' => 'Box Collector: 10% chance to receive 2 random boxes',
+    'divine_scholar_guide' => 'Divine Scholar: 10% bonus experience from treasure',
+    'class_advancement' => 'Class Advancement',
+    'class_advancement_desc' => 'At level 8, you can advance your class to its elite version with enhanced abilities and new powers.',
+    
+    // Upgrade System
+    'upgrade_system_title' => 'Upgrade System',
+    'visiting_store' => 'Visiting the Store',
+    'visiting_store_desc' => 'Access the store from the navigation to purchase various upgrades using your earned money.',
+    'available_upgrades' => 'Available Upgrades',
+    'auto_steal_guide' => 'Auto Steal: Automatically attempts to steal from other players when you earn money',
+    'auto_earning_guide' => 'Auto Earning: Passively earn money over time based on your current wealth',
+    'shield_protection_guide' => 'Shield Protection: Protects you from theft for 24 hours',
+    'treasure_multiplier_guide' => 'Treasure Multiplier: Increases maximum treasure capacity and efficiency',
+    'lucky_strikes_guide' => 'Lucky Strikes: Chance to double your money earnings',
+    'counter_attack_guide' => 'Counter-Attack: Chance to steal back when someone steals from you',
+    'intimidation_guide' => 'Intimidation: Reduces the amount others can steal from you',
+    'fast_recovery_guide' => 'Fast Recovery: Faster treasure regeneration (60min → 30min at max level)',
+    'treasure_rarity_guide' => 'Treasure Rarity: Unlocks better treasure types and random box chances',
+    
+    // Random Boxes
+    'random_boxes_title' => 'Random Boxes System',
+    'earning_boxes' => 'Earning Random Boxes',
+    'earning_boxes_desc' => 'Random boxes are earned when opening treasures. The chance depends on your treasure rarity level.',
+    'opening_boxes' => 'Opening Random Boxes',
+    'opening_boxes_desc' => 'Visit the Inventory page to open your random boxes and receive various rewards including money, experience, and special bonuses.',
+    'box_rewards' => 'Box Rewards',
+    'box_rewards_desc' => 'Rewards include money (100-1000 IDR), experience points (10-50 XP), and rare bonuses. Higher rarity treasures give better box rewards.',
+    
+    // Day/Night Cycle
+    'day_night_cycle_title' => 'Day/Night Cycle',
+    'day_mode' => 'Day Mode (6 AM - 6 PM GMT+7)',
+    'day_mode_desc' => 'During day hours, treasure opening is completely safe with normal rewards.',
+    'night_mode' => 'Night Mode (6 PM - 6 AM GMT+7)',
+    'night_mode_desc' => 'Night mode introduces risk and reward: 25% chance to lose money, 25% chance for 1.5x bonus, 50% chance for normal rewards.',
+    'time_strategy' => 'Time Strategy',
+    'time_strategy_desc' => 'Conservative players should play during day hours, while risk-takers can try night mode for bonus chances.',
+    
+    // PvP System
+    'pvp_system_title' => 'Player vs Player (PvP)',
+    'steal_mechanics' => 'Steal Mechanics',
+    'steal_mechanics_desc' => 'Players with Auto Steal can automatically attempt to steal from you when they earn money. Success depends on their steal level.',
+    'defense_options' => 'Defense Options',
+    'defense_options_desc' => 'Protect yourself with Shield Protection, Counter-Attack to steal back, or Intimidation to reduce theft amounts.',
+    'steal_amounts' => 'Steal Amounts',
+    'steal_amounts_desc' => 'Thieves can steal 1-5% of your money maximum, depending on their Auto Steal level and your defenses.',
+    
+    // Tips & Strategies
+    'tips_strategies_title' => 'Tips & Strategies',
+    'beginner_tips' => 'Beginner Tips',
+    'beginner_tip_1' => 'Choose your class carefully at level 4 - it\'s permanent until level 8',
+    'beginner_tip_2' => 'Focus on treasure capacity and regeneration upgrades first',
+    'beginner_tip_3' => 'Use Shield Protection when you have large amounts of money',
+    'intermediate_tips' => 'Intermediate Tips',
+    'intermediate_tip_1' => 'Balance offensive and defensive upgrades based on your playstyle',
+    'intermediate_tip_2' => 'Plan your class advancement at level 8 for maximum benefit',
+    'intermediate_tip_3' => 'Upgrade treasure rarity to increase random box income',
+    'advanced_tips' => 'Advanced Tips',
+    'advanced_tip_1' => 'Time your play sessions around day/night cycles for optimal strategy',
+    'advanced_tip_2' => 'Monitor the leaderboard to track your progress against other players',
+    'advanced_tip_3' => 'Combine Auto Earning with high treasure rarity for passive income',
+    
+    // Additional sections
+    'experience_levels' => 'Experience & Levels',
+    'experience_levels_desc' => 'Gain experience by opening treasures and random boxes. Higher levels unlock class selection, advancement, and better abilities.',
+    'leaderboard_competition' => 'Leaderboard Competition',
+    'leaderboard_competition_desc' => 'Compete with other players for the top positions in money earned, treasure collected, and random boxes opened.',
+    
+    // Additional guide keys
+    'register_and_login' => 'Register and login',
+    'open_treasures' => 'Open treasures to earn money',
+    'choose_class_level_4' => 'Choose your class at level 4',
+    'upgrade_abilities' => 'Upgrade abilities in store',
+    'compete_leaderboards' => 'Compete on leaderboards',
+    'common' => 'Common',
+    'uncommon' => 'Uncommon',
+    'rare' => 'Rare',
+    'epic' => 'Epic',
+    'legendary' => 'Legendary',
+    'mythical' => 'Mythical',
+    'divine' => 'Divine',
     
     // Inventory translations
     'player_inventory' => 'Player Inventory',

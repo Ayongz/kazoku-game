@@ -7,6 +7,7 @@ return [
     'inventory' => 'Persediaan',
     'status' => 'Status',
     'class_path' => 'Jalur Kelas',
+    'guide' => 'Panduan',
     'login' => 'Masuk',
     'logout' => 'Keluar',
     'toggle_navigation' => 'Alihkan navigasi',
@@ -372,7 +373,133 @@ return [
     'click_to_earn_money' => 'Klik di bawah untuk mencoba mendapatkan uang. Menggunakan satu harta karun.',
     'steal_bonus' => 'Juga mencoba mencuri dari pemain lain (:percent% kemungkinan)!',
     'earn_money_now' => 'DAPATKAN UANG SEKARANG',
-    'open_treasure' => 'BUKA HARTA KARUN',
+        'open_treasure' => 'BUKA HARTA KARUN',
+
+    // Guide translations
+    'game_guide' => 'Panduan Permainan',
+    'complete_walkthrough' => 'Panduan Lengkap untuk Pemburu Harta',
+    'guide_intro' => 'Selamat datang di pengalaman perburuan harta yang ultimate! Panduan komprehensif ini akan membantu Anda menguasai setiap aspek permainan.',
+    
+    // Table of Contents
+    'table_of_contents' => 'Daftar Isi',
+    'basic_gameplay' => 'Permainan Dasar',
+    'treasure_mechanics' => 'Mekanik Harta Karun',
+    'class_system' => 'Sistem Kelas',
+    'upgrade_system' => 'Sistem Upgrade',
+    'random_boxes' => 'Kotak Acak',
+    'day_night_cycle' => 'Siklus Siang/Malam',
+    'pvp_system' => 'Sistem PvP',
+    'tips_strategies' => 'Tips & Strategi',
+    
+    // Basic Gameplay Section
+    'how_to_play' => 'Cara Bermain',
+    'getting_started' => 'Memulai Permainan',
+    'getting_started_desc' => 'Ketika pertama kali bergabung, Anda akan memulai dengan statistik dasar dan tanpa kelas. Tujuan utama Anda adalah mengumpulkan harta karun, mendapatkan uang, dan meningkatkan kemampuan untuk menjadi pemburu harta ultimate.',
+    'earning_money' => 'Mendapatkan Uang',
+    'earning_money_desc' => 'Klik tombol "BUKA HARTA KARUN" di dashboard untuk menggunakan satu harta karun dan mendapatkan uang. Jumlah yang Anda dapatkan tergantung pada level, kemampuan kelas, dan keberuntungan.',
+    'treasure_regeneration' => 'Regenerasi Harta Karun',
+    'treasure_regeneration_desc' => 'Anda mendapatkan +5 harta karun setiap 60 menit secara default. Ini dapat diperbaiki dengan upgrade Pemulihan Cepat.',
+    
+    // Treasure Mechanics
+    'treasure_mechanics_title' => 'Mekanik Harta Karun',
+    'treasure_capacity' => 'Kapasitas Harta Karun',
+    'treasure_capacity_desc' => 'Anda memulai dengan maksimal 20 harta karun. Ini dapat ditingkatkan dengan upgrade Pengganda Harta Karun.',
+    'treasure_multiplier_effect' => 'Efek Pengganda Harta Karun',
+    'treasure_multiplier_effect_desc' => 'Level yang lebih tinggi memberi Anda kapasitas harta karun lebih banyak dan kesempatan untuk menghemat harta karun saat membuka (bonus efisiensi).',
+    'treasure_rarity_system' => 'Sistem Kelangkaan Harta Karun',
+    'treasure_rarity_system_desc' => 'Tingkatkan kelangkaan harta karun Anda untuk membuka jenis harta karun yang lebih baik: Umum → Tidak Umum → Langka → Epik → Legendaris → Mitos → Ilahi. Kelangkaan yang lebih tinggi memberikan peluang kotak acak yang lebih baik.',
+    
+    // Class System
+    'class_system_title' => 'Sistem Kelas',
+    'choosing_class' => 'Memilih Kelas Anda',
+    'choosing_class_desc' => 'Di level 4, Anda dapat memilih dari 7 kelas unik, masing-masing dengan kemampuan khusus dan gaya bermain.',
+    'available_classes' => 'Kelas yang Tersedia',
+    'treasure_hunter_guide' => 'Pemburu Harta: 15% kesempatan untuk percobaan harta karun gratis',
+    'proud_merchant_guide' => 'Pedagang Bangga: 20% bonus penghasilan uang',
+    'fortune_gambler_guide' => 'Penjudi Keberuntungan: 15% kesempatan menggandakan penghasilan, 8% kesempatan kehilangan semua',
+    'moon_guardian_guide' => 'Penjaga Bulan: 20% kesempatan kotak acak saat malam hari (18:00 - 06:00)',
+    'day_breaker_guide' => 'Pemecah Siang: 20% kesempatan kotak acak saat siang hari (06:00 - 18:00)',
+    'box_collector_guide' => 'Kolektor Kotak: 10% kesempatan menerima 2 kotak acak',
+    'divine_scholar_guide' => 'Cendekiawan Ilahi: 10% bonus pengalaman dari harta karun',
+    'class_advancement' => 'Kemajuan Kelas',
+    'class_advancement_desc' => 'Di level 8, Anda dapat memajukan kelas Anda ke versi elit dengan kemampuan yang ditingkatkan dan kekuatan baru.',
+    
+    // Upgrade System
+    'upgrade_system_title' => 'Sistem Upgrade',
+    'visiting_store' => 'Mengunjungi Toko',
+    'visiting_store_desc' => 'Akses toko dari navigasi untuk membeli berbagai upgrade menggunakan uang yang Anda dapatkan.',
+    'available_upgrades' => 'Upgrade yang Tersedia',
+    'auto_steal_guide' => 'Auto Steal: Secara otomatis mencoba mencuri dari pemain lain saat Anda mendapatkan uang',
+    'auto_earning_guide' => 'Auto Earning: Pasif mendapatkan uang dari waktu ke waktu berdasarkan kekayaan Anda saat ini',
+    'shield_protection_guide' => 'Perlindungan Perisai: Melindungi Anda dari pencurian selama 24 jam',
+    'treasure_multiplier_guide' => 'Pengganda Harta Karun: Meningkatkan kapasitas harta karun maksimal dan efisiensi',
+    'lucky_strikes_guide' => 'Lucky Strikes: Kesempatan untuk menggandakan penghasilan uang Anda',
+    'counter_attack_guide' => 'Serangan Balik: Kesempatan untuk mencuri kembali ketika seseorang mencuri dari Anda',
+    'intimidation_guide' => 'Intimidasi: Mengurangi jumlah yang dapat dicuri orang lain dari Anda',
+    'fast_recovery_guide' => 'Pemulihan Cepat: Regenerasi harta karun lebih cepat (60mnt → 30mnt di level maksimal)',
+    'treasure_rarity_guide' => 'Kelangkaan Harta Karun: Membuka jenis harta karun yang lebih baik dan peluang kotak acak',
+    
+    // Random Boxes
+    'random_boxes_title' => 'Sistem Kotak Acak',
+    'earning_boxes' => 'Mendapatkan Kotak Acak',
+    'earning_boxes_desc' => 'Kotak acak diperoleh saat membuka harta karun. Peluangnya tergantung pada level kelangkaan harta karun Anda.',
+    'opening_boxes' => 'Membuka Kotak Acak',
+    'opening_boxes_desc' => 'Kunjungi halaman Inventaris untuk membuka kotak acak Anda dan menerima berbagai hadiah termasuk uang, pengalaman, dan bonus khusus.',
+    'box_rewards' => 'Hadiah Kotak',
+    'box_rewards_desc' => 'Hadiah meliputi uang (100-1000 IDR), poin pengalaman (10-50 XP), dan bonus langka. Harta karun kelangkaan yang lebih tinggi memberikan hadiah kotak yang lebih baik.',
+    
+    // Day/Night Cycle
+    'day_night_cycle_title' => 'Siklus Siang/Malam',
+    'day_mode' => 'Mode Siang (06:00 - 18:00 WIB)',
+    'day_mode_desc' => 'Selama jam siang, membuka harta karun benar-benar aman dengan hadiah normal.',
+    'night_mode' => 'Mode Malam (18:00 - 06:00 WIB)',
+    'night_mode_desc' => 'Mode malam memperkenalkan risiko dan hadiah: 25% kemungkinan kehilangan uang, 25% kemungkinan untuk bonus 1.5x, 50% kemungkinan untuk hadiah normal.',
+    'time_strategy' => 'Strategi Waktu',
+    'time_strategy_desc' => 'Pemain konservatif sebaiknya bermain selama jam siang, sementara pengambil risiko dapat mencoba mode malam untuk peluang bonus.',
+    
+    // PvP System
+    'pvp_system_title' => 'Pemain vs Pemain (PvP)',
+    'steal_mechanics' => 'Mekanik Mencuri',
+    'steal_mechanics_desc' => 'Pemain dengan Auto Steal dapat secara otomatis mencoba mencuri dari Anda saat mereka mendapatkan uang. Keberhasilan tergantung pada level mencuri mereka.',
+    'defense_options' => 'Opsi Pertahanan',
+    'defense_options_desc' => 'Lindungi diri Anda dengan Perlindungan Perisai, Serangan Balik untuk mencuri kembali, atau Intimidasi untuk mengurangi jumlah pencurian.',
+    'steal_amounts' => 'Jumlah Pencurian',
+    'steal_amounts_desc' => 'Pencuri dapat mencuri maksimal 1-5% dari uang Anda, tergantung pada level Auto Steal mereka dan pertahanan Anda.',
+    
+    // Tips & Strategies
+    'tips_strategies_title' => 'Tips & Strategi',
+    'beginner_tips' => 'Tips Pemula',
+    'beginner_tip_1' => 'Pilih kelas Anda dengan hati-hati di level 4 - itu permanen sampai level 8',
+    'beginner_tip_2' => 'Fokus pada upgrade kapasitas harta karun dan regenerasi terlebih dahulu',
+    'beginner_tip_3' => 'Gunakan Perlindungan Perisai ketika Anda memiliki jumlah uang yang besar',
+    'intermediate_tips' => 'Tips Menengah',
+    'intermediate_tip_1' => 'Seimbangkan upgrade ofensif dan defensif berdasarkan gaya bermain Anda',
+    'intermediate_tip_2' => 'Rencanakan kemajuan kelas Anda di level 8 untuk manfaat maksimal',
+    'intermediate_tip_3' => 'Tingkatkan kelangkaan harta karun untuk meningkatkan pendapatan kotak acak',
+    'advanced_tips' => 'Tips Lanjutan',
+    'advanced_tip_1' => 'Waktu sesi bermain Anda di sekitar siklus siang/malam untuk strategi optimal',
+    'advanced_tip_2' => 'Pantau papan peringkat untuk melacak kemajuan Anda terhadap pemain lain',
+    'advanced_tip_3' => 'Kombinasikan Auto Earning dengan kelangkaan harta karun tinggi untuk pendapatan pasif',
+    
+    // Additional sections
+    'experience_levels' => 'Pengalaman & Level',
+    'experience_levels_desc' => 'Dapatkan pengalaman dengan membuka harta karun dan kotak acak. Level yang lebih tinggi membuka pemilihan kelas, kemajuan, dan kemampuan yang lebih baik.',
+    'leaderboard_competition' => 'Kompetisi Papan Peringkat',
+    'leaderboard_competition_desc' => 'Bersaing dengan pemain lain untuk posisi teratas dalam uang yang diperoleh, harta karun yang dikumpulkan, dan kotak acak yang dibuka.',
+    
+    // Additional guide keys
+    'register_and_login' => 'Daftar dan masuk',
+    'open_treasures' => 'Buka harta karun untuk mendapatkan uang',
+    'choose_class_level_4' => 'Pilih kelas Anda di level 4',
+    'upgrade_abilities' => 'Tingkatkan kemampuan di toko',
+    'compete_leaderboards' => 'Bersaing di papan peringkat',
+    'common' => 'Umum',
+    'uncommon' => 'Tidak Umum',
+    'rare' => 'Langka',
+    'epic' => 'Epik',
+    'legendary' => 'Legendaris',
+    'mythical' => 'Mitos',
+    'divine' => 'Ilahi',
     
     // Inventory translations
     'player_inventory' => 'Persediaan Pemain',

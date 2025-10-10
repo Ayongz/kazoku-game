@@ -6,6 +6,7 @@ use App\Http\Controllers\StoreController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\StatusController;
 use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\GuideController;
 
 // Language switching route
 Route::get('/language/{language}', [LanguageController::class, 'switchLanguage'])->name('language.switch');
@@ -75,4 +76,8 @@ Route::middleware(['auth'])->group(function () {
     // --- STATUS ROUTES ---
     // Player status page
     Route::get('/game/status', [StatusController::class, 'index'])->name('game.status');
+    
+    // --- GUIDE ROUTES ---
+    // Game guide page
+    Route::get('/game/guide', [GuideController::class, 'index'])->name('game.guide');
 });
