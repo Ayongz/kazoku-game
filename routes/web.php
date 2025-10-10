@@ -55,6 +55,19 @@ Route::middleware(['auth'])->group(function () {
     // Open random box
     Route::post('/game/inventory/open-random-box', [InventoryController::class, 'openRandomBox'])->name('game.inventory.open-random-box');
     
+    // --- CLASS SYSTEM ROUTES ---
+    // Class selection page
+    Route::get('/game/class-selection', [GameController::class, 'showClassSelection'])->name('game.class-selection');
+    
+    // Class path (full tree view)
+    Route::get('/game/class-path', [GameController::class, 'showClassPath'])->name('game.class-path');
+    
+    // Select class
+    Route::post('/game/select-class', [GameController::class, 'selectClass'])->name('game.select-class');
+    
+    // Advance class
+    Route::post('/game/advance-class', [GameController::class, 'advanceClass'])->name('game.advance-class');
+    
     // --- STATUS ROUTES ---
     // Player status page
     Route::get('/game/status', [StatusController::class, 'index'])->name('game.status');

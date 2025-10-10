@@ -6,7 +6,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\GameSetting;
+use App\Models\Inventory;
 use App\Services\ExperienceService;
+use DateTime;
+use DateTimeZone;
 
 class GameController extends Controller
 {
@@ -23,6 +26,30 @@ class GameController extends Controller
     const NIGHT_RISK_LOSS_CHANCE = 25;    // 25% chance to lose money
     const NIGHT_RISK_BONUS_CHANCE = 25;   // 25% chance for 1.5x multiplier
     const NIGHT_RISK_NORMAL_CHANCE = 50;  // 50% chance for normal earnings
+    
+    // Class system constants
+    const CLASS_UNLOCK_LEVEL = 4;         // Level required for first class selection
+    const ADVANCED_CLASS_LEVEL = 8;       // Level required for advanced class
+    
+    // Basic class constants (Level 4)
+    const TREASURE_HUNTER_FREE_TREASURE_CHANCE = 15;  // 15% chance for free treasure
+    const PROUD_MERCHANT_BONUS_EARNING = 20;          // 20% additional earnings
+    const FORTUNE_GAMBLER_DOUBLE_CHANCE = 15;         // 15% chance to double rewards
+    const FORTUNE_GAMBLER_LOSE_CHANCE = 8;            // 8% chance to lose all rewards
+    const MOON_GUARDIAN_RANDOM_BOX_CHANCE = 20;       // 20% chance for random box at night
+    const DAY_BREAKER_RANDOM_BOX_CHANCE = 20;         // 20% chance for random box at day
+    const BOX_COLLECTOR_DOUBLE_BOX_CHANCE = 10;       // 10% chance for 2 random boxes
+    const DIVINE_SCHOLAR_BONUS_EXP = 10;              // 10% bonus experience from treasure
+    
+    // Advanced class constants (Level 8)
+    const ADV_TREASURE_HUNTER_FREE_TREASURE_CHANCE = 25;  // 25% chance for free treasure
+    const ADV_PROUD_MERCHANT_BONUS_EARNING = 30;          // 30% additional earnings
+    const ADV_FORTUNE_GAMBLER_DOUBLE_CHANCE = 25;         // 25% chance to double rewards
+    const ADV_FORTUNE_GAMBLER_LOSE_CHANCE = 12;           // 12% chance to lose all rewards
+    const ADV_MOON_GUARDIAN_RANDOM_BOX_CHANCE = 30;       // 30% chance for random box at night
+    const ADV_DAY_BREAKER_RANDOM_BOX_CHANCE = 30;         // 30% chance for random box at day
+    const ADV_BOX_COLLECTOR_DOUBLE_BOX_CHANCE = 15;       // 15% chance for 2 random boxes
+    const ADV_DIVINE_SCHOLAR_BONUS_EXP = 20;              // 20% bonus experience from treasure
 
     /**
      * Display the game dashboard
@@ -91,6 +118,29 @@ class GameController extends Controller
             $nightRiskMessage = " " . $nightRisk['message'];
         }
 
+        // Apply class abilities that affect earnings
+        $classMessages = [];
+        
+        // Proud Merchant class ability - bonus earnings
+        if ($user->selected_class === 'proud_merchant' && $finalEarnedAmount > 0) {
+            $bonusPercentage = $user->has_advanced_class ? 
+                self::ADV_PROUD_MERCHANT_BONUS_EARNING : 
+                self::PROUD_MERCHANT_BONUS_EARNING;
+            
+            $bonusAmount = floor($finalEarnedAmount * ($bonusPercentage / 100));
+            $finalEarnedAmount += $bonusAmount;
+            $classMessages[] = "💼 Merchant Bonus: +IDR " . number_format($bonusAmount, 0, ',', '.');
+        }
+        
+        // Fortune Gambler class ability - risk/reward
+        if ($user->selected_class === 'fortune_gambler' && $finalEarnedAmount > 0) {
+            $gamblerResult = $this->applyFortuneGamblerAbility($user, $finalEarnedAmount);
+            $finalEarnedAmount = $gamblerResult['amount'];
+            if ($gamblerResult['message']) {
+                $classMessages[] = $gamblerResult['message'];
+            }
+        }
+
         // Calculate prize pool contribution and player receives amount
         if ($finalEarnedAmount > 0) {
             // Positive earnings - contribute to prize pool
@@ -112,6 +162,18 @@ class GameController extends Controller
         
         // Add experience for opening treasure
         $expGained = ExperienceService::getExpFromTreasure($user->level);
+        
+        // Apply Divine Scholar bonus experience
+        if ($user->selected_class === 'divine_scholar') {
+            $bonusPercentage = $user->has_advanced_class ? 
+                self::ADV_DIVINE_SCHOLAR_BONUS_EXP : 
+                self::DIVINE_SCHOLAR_BONUS_EXP;
+            
+            $bonusExp = floor($expGained * ($bonusPercentage / 100));
+            $expGained += $bonusExp;
+            $classMessages[] = "📜 Scholar's Wisdom: +{$bonusExp} bonus EXP!";
+        }
+        
         $user->experience += $expGained;
         
         // Check for level up
@@ -130,7 +192,18 @@ class GameController extends Controller
         
         // Apply Treasure Efficiency (chance to not consume treasure)
         $treasureConsumed = true;
-        if ($user->treasure_multiplier_level > 0) {
+        
+        // Treasure Hunter free attempt ability
+        if ($user->selected_class === 'treasure_hunter') {
+            $treasureHunterResult = $this->applyTreasureHunterFreeAttempt($user);
+            if ($treasureHunterResult['success']) {
+                $treasureConsumed = false;
+                $classMessages[] = $treasureHunterResult['message'];
+            }
+        }
+        
+        // Regular treasure efficiency bonus
+        if ($treasureConsumed && $user->treasure_multiplier_level > 0) {
             $efficiencyChance = $user->treasure_multiplier_level * 2; // 2%, 4%, 6%, etc.
             if (rand(1, 100) <= $efficiencyChance) {
                 $treasureConsumed = false;
@@ -152,6 +225,30 @@ class GameController extends Controller
             }
         }
         
+        // Moon Guardian night-time random box ability
+        if ($user->selected_class === 'moon_guardian' && $this->isNightTime()) {
+            $moonGuardianResult = $this->applyMoonGuardianAbility($user);
+            if ($moonGuardianResult['success']) {
+                $classMessages[] = $moonGuardianResult['message'];
+            }
+        }
+        
+        // Day Breaker day-time random box ability  
+        if ($user->selected_class === 'day_breaker' && !$this->isNightTime()) {
+            $dayBreakerResult = $this->applyDayBreakerAbility($user);
+            if ($dayBreakerResult['success']) {
+                $classMessages[] = $dayBreakerResult['message'];
+            }
+        }
+        
+        // Box Collector double random box ability
+        if ($user->selected_class === 'box_collector') {
+            $boxCollectorResult = $this->applyBoxCollectorAbility($user);
+            if ($boxCollectorResult['success']) {
+                $classMessages[] = $boxCollectorResult['message'];
+            }
+        }
+        
         $user->save();
 
         // Update global prize pool (only add contribution if there's a positive contribution)
@@ -162,13 +259,15 @@ class GameController extends Controller
         }
 
         // Create success message based on earnings result
+        $classMessageString = !empty($classMessages) ? " " . implode(" ", $classMessages) : "";
+        
         if ($playerReceives >= 0) {
             $successMessage = "Great work! You earned IDR " . number_format($playerReceives, 0, ',', '.') . 
                              ($prizePoolContribution > 0 ? " (IDR " . number_format($prizePoolContribution, 0, ',', '.') . " contributed to prize pool)" : "") . 
-                             " [+" . $expGained . " EXP]" . $luckyStrikesBonus . $levelUpMessage . $randomBoxMessage . $nightRiskMessage;
+                             " [+" . $expGained . " EXP]" . $luckyStrikesBonus . $levelUpMessage . $randomBoxMessage . $nightRiskMessage . $classMessageString;
         } else {
             $successMessage = "You lost IDR " . number_format(abs($playerReceives), 0, ',', '.') . 
-                             " [+" . $expGained . " EXP]" . $levelUpMessage . $randomBoxMessage . $nightRiskMessage;
+                             " [+" . $expGained . " EXP]" . $levelUpMessage . $randomBoxMessage . $nightRiskMessage . $classMessageString;
         }
 
         // Auto-attempt steal if user has steal ability
@@ -277,6 +376,7 @@ class GameController extends Controller
 
         // Calculate success chance based on steal level 
         $successChance = $user->steal_level * 5;
+        
         $randomRoll = rand(1, 100);
         $isSuccess = $randomRoll <= $successChance;
 
@@ -399,6 +499,7 @@ class GameController extends Controller
     {
         // Calculate counter-attack success chance (20% per level)
         $counterChance = $defender->counter_attack_level * 20; // 20%, 40%, 60%, 80%, 100%
+        
         $randomRoll = rand(1, 100);
         $isCounterSuccess = $randomRoll <= $counterChance;
 
@@ -476,5 +577,288 @@ class GameController extends Controller
                 'message' => '🌙 Night treasure opened normally.'
             ];
         }
+    }
+
+    /**
+     * Apply Fortune Gambler class ability
+     */
+    private function applyFortuneGamblerAbility($user, $amount): array
+    {
+        $doubleChance = $user->has_advanced_class ?
+            self::ADV_FORTUNE_GAMBLER_DOUBLE_CHANCE :
+            self::FORTUNE_GAMBLER_DOUBLE_CHANCE;
+            
+        $loseChance = $user->has_advanced_class ?
+            self::ADV_FORTUNE_GAMBLER_LOSE_CHANCE :
+            self::FORTUNE_GAMBLER_LOSE_CHANCE;
+
+        $rand = mt_rand(1, 100);
+        
+        if ($rand <= $doubleChance) {
+            return [
+                'amount' => $amount * 2,
+                'message' => "🎰 Gambler's Luck: Double earnings!"
+            ];
+        } elseif ($rand <= ($doubleChance + $loseChance)) {
+            return [
+                'amount' => 0,
+                'message' => "🎰 Gambler's Risk: Lost everything!"
+            ];
+        }
+        
+        return [
+            'amount' => $amount,
+            'message' => ""
+        ];
+    }
+
+    /**
+     * Apply Treasure Hunter free attempt ability
+     */
+    private function applyTreasureHunterFreeAttempt($user): array
+    {
+        $freeChance = $user->has_advanced_class ?
+            self::ADV_TREASURE_HUNTER_FREE_TREASURE_CHANCE :
+            self::TREASURE_HUNTER_FREE_TREASURE_CHANCE;
+            
+        $rand = mt_rand(1, 100);
+        
+        if ($rand <= $freeChance) {
+            return [
+                'success' => true,
+                'message' => "🗝️ Treasure Hunter: Free treasure attempt!"
+            ];
+        }
+        
+        return [
+            'success' => false,
+            'message' => ""
+        ];
+    }
+
+    /**
+     * Apply Moon Guardian night-time random box ability
+     */
+    private function applyMoonGuardianAbility($user): array
+    {
+        $randomBoxChance = $user->has_advanced_class ?
+            self::ADV_MOON_GUARDIAN_RANDOM_BOX_CHANCE :
+            self::MOON_GUARDIAN_RANDOM_BOX_CHANCE;
+            
+        $rand = mt_rand(1, 100);
+        
+        if ($rand <= $randomBoxChance) {
+            // Add a random box to inventory
+            $this->addRandomBoxToInventory($user->id);
+            return [
+                'success' => true,
+                'message' => "🌙 Moon Guardian: Night blessing grants a random box!"
+            ];
+        }
+        
+        return [
+            'success' => false,
+            'message' => ""
+        ];
+    }
+
+    /**
+     * Apply Day Breaker day-time random box ability
+     */
+    private function applyDayBreakerAbility($user): array
+    {
+        $randomBoxChance = $user->has_advanced_class ?
+            self::ADV_DAY_BREAKER_RANDOM_BOX_CHANCE :
+            self::DAY_BREAKER_RANDOM_BOX_CHANCE;
+            
+        $rand = mt_rand(1, 100);
+        
+        if ($rand <= $randomBoxChance) {
+            // Add a random box to inventory
+            $this->addRandomBoxToInventory($user->id);
+            return [
+                'success' => true,
+                'message' => "☀️ Day Breaker: Solar power grants a random box!"
+            ];
+        }
+        
+        return [
+            'success' => false,
+            'message' => ""
+        ];
+    }
+
+    /**
+     * Apply Box Collector double random box ability
+     */
+    private function applyBoxCollectorAbility($user): array
+    {
+        $doubleBoxChance = $user->has_advanced_class ?
+            self::ADV_BOX_COLLECTOR_DOUBLE_BOX_CHANCE :
+            self::BOX_COLLECTOR_DOUBLE_BOX_CHANCE;
+            
+        $rand = mt_rand(1, 100);
+        
+        if ($rand <= $doubleBoxChance) {
+            // Add 2 random boxes to inventory
+            $this->addRandomBoxToInventory($user->id);
+            $this->addRandomBoxToInventory($user->id);
+            return [
+                'success' => true,
+                'message' => "📦 Box Collector: Found 2 bonus random boxes!"
+            ];
+        }
+        
+        return [
+            'success' => false,
+            'message' => ""
+        ];
+    }
+
+    /**
+     * Add random box to user inventory
+     */
+    private function addRandomBoxToInventory($userId): void
+    {
+        $inventory = Inventory::firstOrCreate(
+            ['user_id' => $userId, 'item_type' => 'random_box'],
+            ['quantity' => 0]
+        );
+        
+        $inventory->increment('quantity');
+    }
+
+    /**
+     * Show class selection page
+     */
+    public function showClassSelection()
+    {
+        $user = Auth::user();
+        
+        if (!$user->canSelectClass()) {
+            return redirect()->route('game.dashboard')
+                ->with('error', 'You cannot select a class at this time.');
+        }
+        
+        $availableClasses = $user->getAvailableClasses();
+        
+        return view('game.class-selection', compact('user', 'availableClasses'));
+    }
+
+    /**
+     * Handle class selection
+     */
+    public function selectClass(Request $request)
+    {
+        $user = Auth::user();
+        
+        if (!$user->canSelectClass()) {
+            return redirect()->route('game.dashboard')
+                ->with('error', 'You cannot select a class at this time.');
+        }
+        
+        $request->validate([
+            'class' => 'required|string|in:treasure_hunter,proud_merchant,fortune_gambler,moon_guardian,day_breaker,box_collector,divine_scholar'
+        ]);
+        
+        $className = $request->input('class');
+        $availableClasses = $user->getAvailableClasses();
+        
+        if (!in_array($className, array_keys($availableClasses))) {
+            return redirect()->back()
+                ->with('error', 'Invalid class selection.');
+        }
+        
+        // Assign the class
+        $user->selected_class = $className;
+        $user->class_selected_at = now();
+        $user->save();
+        
+        $classDisplayName = $user->getClassDisplayName();
+        
+        return redirect()->route('game.dashboard')
+            ->with('success', "You have become a {$classDisplayName}! Your class abilities are now active.");
+    }
+
+    /**
+     * Handle class advancement
+     */
+    public function advanceClass(Request $request)
+    {
+        $user = Auth::user();
+        
+        if (!$user->canAdvanceClass()) {
+            return redirect()->route('game.dashboard')
+                ->with('error', 'You cannot advance your class at this time.');
+        }
+        
+        // Advance to the corresponding advanced class
+        $user->has_advanced_class = true;
+        $user->save();
+        
+        $classDisplayName = $user->getClassDisplayName();
+        
+        return redirect()->route('game.dashboard')
+            ->with('success', "Your class has been advanced to {$classDisplayName}! Enhanced abilities are now active.");
+    }
+
+    /**
+     * Show class path tree with all classes and their benefits
+     */
+    public function showClassPath()
+    {
+        $user = Auth::user();
+        
+        // Get all available classes
+        $availableClasses = $user->getAvailableClasses();
+        
+        // Build class data with backend constants
+        $classData = [];
+        
+        foreach ($availableClasses as $classKey => $classInfo) {
+            $classData[$classKey] = $classInfo;
+            
+            // Add dynamic backend constants for each class
+            switch ($classKey) {
+                case 'treasure_hunter':
+                    $classData[$classKey]['basic_percentage'] = self::TREASURE_HUNTER_FREE_TREASURE_CHANCE;
+                    $classData[$classKey]['advanced_percentage'] = self::ADV_TREASURE_HUNTER_FREE_TREASURE_CHANCE;
+                    break;
+                    
+                case 'proud_merchant':
+                    $classData[$classKey]['basic_percentage'] = self::PROUD_MERCHANT_BONUS_EARNING;
+                    $classData[$classKey]['advanced_percentage'] = self::ADV_PROUD_MERCHANT_BONUS_EARNING;
+                    break;
+                    
+                case 'fortune_gambler':
+                    $classData[$classKey]['basic_double_chance'] = self::FORTUNE_GAMBLER_DOUBLE_CHANCE;
+                    $classData[$classKey]['basic_lose_chance'] = self::FORTUNE_GAMBLER_LOSE_CHANCE;
+                    $classData[$classKey]['advanced_double_chance'] = self::ADV_FORTUNE_GAMBLER_DOUBLE_CHANCE;
+                    $classData[$classKey]['advanced_lose_chance'] = self::ADV_FORTUNE_GAMBLER_LOSE_CHANCE;
+                    break;
+                    
+                case 'moon_guardian':
+                    $classData[$classKey]['basic_percentage'] = self::MOON_GUARDIAN_RANDOM_BOX_CHANCE;
+                    $classData[$classKey]['advanced_percentage'] = self::ADV_MOON_GUARDIAN_RANDOM_BOX_CHANCE;
+                    break;
+                    
+                case 'day_breaker':
+                    $classData[$classKey]['basic_percentage'] = self::DAY_BREAKER_RANDOM_BOX_CHANCE;
+                    $classData[$classKey]['advanced_percentage'] = self::ADV_DAY_BREAKER_RANDOM_BOX_CHANCE;
+                    break;
+                    
+                case 'box_collector':
+                    $classData[$classKey]['basic_percentage'] = self::BOX_COLLECTOR_DOUBLE_BOX_CHANCE;
+                    $classData[$classKey]['advanced_percentage'] = self::ADV_BOX_COLLECTOR_DOUBLE_BOX_CHANCE;
+                    break;
+                    
+                case 'divine_scholar':
+                    $classData[$classKey]['basic_percentage'] = self::DIVINE_SCHOLAR_BONUS_EXP;
+                    $classData[$classKey]['advanced_percentage'] = self::ADV_DIVINE_SCHOLAR_BONUS_EXP;
+                    break;
+            }
+        }
+        
+        return view('game.class-path', compact('user', 'classData'));
     }
 }

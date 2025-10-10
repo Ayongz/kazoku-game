@@ -60,6 +60,11 @@
                                     <i class="fas fa-chart-line me-1"></i>{{ __('Status') }}
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('game.class-path') }}">
+                                    <i class="fas fa-tree me-1"></i>{{ __('Class Path') }}
+                                </a>
+                            </li>
                         @endauth
                     </ul>
 

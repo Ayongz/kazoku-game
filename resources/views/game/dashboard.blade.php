@@ -196,6 +196,39 @@
                 </div>
             </div>
 
+            <!-- Quick Navigation Section -->
+            <div class="row justify-content-center mb-4">
+                <div class="col-12">
+                    <div class="card shadow-sm border-0 bg-light">
+                        <div class="card-body py-3">
+                            <div class="row align-items-center">
+                                <div class="col-md-3">
+                                    <h6 class="mb-0 text-muted">
+                                        <i class="fas fa-compass me-2"></i>Quick Navigation
+                                    </h6>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="d-flex flex-wrap gap-2 justify-content-md-end justify-content-center">
+                                        <a href="{{ route('store.index') }}" class="btn btn-outline-primary btn-sm">
+                                            <i class="fas fa-store me-1"></i>Store
+                                        </a>
+                                        <a href="{{ route('game.inventory') }}" class="btn btn-outline-info btn-sm">
+                                            <i class="fas fa-box me-1"></i>Inventory
+                                        </a>
+                                        <a href="{{ route('game.status') }}" class="btn btn-outline-secondary btn-sm">
+                                            <i class="fas fa-chart-bar me-1"></i>Status
+                                        </a>
+                                        <a href="{{ route('game.class-path') }}" class="btn btn-outline-warning btn-sm">
+                                            <i class="fas fa-tree me-1"></i>Class Path
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Game Actions Section -->
             <div class="row justify-content-center">
                 <!-- EARN MONEY ACTION -->
@@ -311,6 +344,65 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Class System Section -->
+            @if($user->canSelectClass() || $user->canAdvanceClass() || $user->selected_class)
+            <div class="row justify-content-center mt-4" >
+                <div class="col-12 col-lg-8">
+                    <div class="card shadow-lg border-0 bg-gradient-primary text-white">
+                        <div class="card-body p-4">
+                            @if($user->selected_class)
+                                <!-- Current Class Display -->
+                                <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center" style="color: black;">
+                                    <div>
+                                        <h4 class="mb-2">
+                                            <i class="fas fa-shield-alt me-2"></i>{{ $user->getClassDisplayName() }}
+                                        </h4>
+                                        <p class="mb-0 opacity-75">{{ $user->getClassDescription() }}</p>
+                                        @if($user->class_selected_at)
+                                            <small class="opacity-50">Class selected on {{ $user->class_selected_at->format('M d, Y') }}</small>
+                                        @endif
+                                    </div>
+                                    
+                                    @if($user->canAdvanceClass())
+                                        <div class="text-center mt-3 mt-md-0">
+                                            <form action="{{ route('game.advance-class') }}" method="POST" class="d-inline">
+                                                @csrf
+                                                <button type="submit" class="btn btn-warning btn-lg px-4">
+                                                    ⭐ Advance Class
+                                                </button>
+                                            </form>
+                                            <div class="small mt-2 opacity-75">
+                                                Unlock enhanced abilities!
+                                            </div>
+                                        </div>
+                                    @elseif($user->has_advanced_class)
+                                        <div class="text-center mt-3 mt-md-0">
+                                            <div class="badge bg-warning text-dark fs-6 px-3 py-2">
+                                                ⭐ ADVANCED CLASS ⭐
+                                            </div>
+                                        </div>
+                                    @endif
+                                </div>
+                            @elseif($user->canSelectClass())
+                                <!-- Class Selection Available -->
+                                <div class="text-center" style="color:black;">
+                                    <h4 class="mb-3">
+                                        <i class="fas fa-star me-2"></i>Class Selection Available!
+                                    </h4>
+                                    <p class="mb-4 opacity-75">
+                                        You've reached level {{ $user->level }}! Choose a class to unlock special abilities and enhance your treasure hunting experience.
+                                    </p>
+                                    <a href="{{ route('game.class-selection') }}" class="btn btn-light btn-lg px-5">
+                                        🎯 Choose Your Class
+                                    </a>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @endif
         </div>
     </div>
 </div>
@@ -675,7 +767,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     isProcessing = false;
                     
                     if (currentTreasure > 0) {
-                        earnMoneyBtn.innerHTML = '<i class="fas fa-coins me-2"></i> OPEN TREASURE NOW';
+                        earnMoneyBtn.innerHTML = '<i class="fas fa-coins me-2"></i> OPEN TREASURE';
                         earnMoneyBtn.className = 'btn btn-lg w-100 w-sm-auto fw-bold text-uppercase btn-primary';
                         earnMoneyBtn.disabled = false;
                     } else {
