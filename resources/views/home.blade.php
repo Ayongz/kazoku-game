@@ -7,15 +7,15 @@
             <!-- Header -->
             <div class="text-center mb-5">
                 <h1 class="display-4 fw-bold text-dark">
-                    <i class="fas fa-trophy me-3 text-warning"></i>Kazoku Game Leaderboard
+                    <i class="fas fa-trophy me-3 text-warning"></i>{{ __('nav.leaderboard_title') }}
                 </h1>
-                <p class="lead text-muted">Master the treasure hunt, collect random boxes, and dominate the rankings!</p>
+                <p class="lead text-muted">{{ __('nav.leaderboard_subtitle') }}</p>
                 <div class="mt-4">
                     <a href="{{ route('game.dashboard') }}" class="btn btn-primary btn-lg me-3">
-                        <i class="fas fa-gamepad me-2"></i>Play Now
+                        <i class="fas fa-gamepad me-2"></i>{{ __('nav.play_now') }}
                     </a>
                     <a href="{{ route('game.status') }}" class="btn btn-outline-info btn-lg">
-                        <i class="fas fa-chart-line me-2"></i>View Your Stats
+                        <i class="fas fa-chart-line me-2"></i>{{ __('nav.view_stats') }}
                     </a>
                 </div>
             </div>
@@ -27,9 +27,9 @@
                     <div class="card border-0 shadow-lg bg-gradient-primary h-100">
                         <div class="card-body text-white text-center">
                             <i class="fas fa-gift fa-3x mb-3 text-white"></i>
-                            <h6 class="text-uppercase text-white-50 fw-bold">Global Prize Pool</h6>
+                            <h6 class="text-uppercase text-white-50 fw-bold">{{ __('nav.global_prize_pool') }}</h6>
                             <h3 class="fw-bold mb-2 text-white">IDR {{ number_format($globalPrizePool, 0, ',', '.') }}</h3>
-                            <small class="text-white-75">Master the treasure hunt!</small>
+                            <small class="text-white-75">{{ __('nav.master_treasure_hunt') }}</small>
                         </div>
                     </div>
                 </div>
@@ -39,9 +39,9 @@
                     <div class="card border-0 shadow-lg bg-gradient-success h-100">
                         <div class="card-body text-white text-center">
                             <i class="fas fa-coins fa-3x mb-3 text-white"></i>
-                            <h6 class="text-uppercase text-white-50 fw-bold">Total Wealth</h6>
+                            <h6 class="text-uppercase text-white-50 fw-bold">{{ __('nav.total_wealth') }}</h6>
                             <h3 class="fw-bold mb-2 text-white">IDR {{ number_format($totalMoneyInGame, 0, ',', '.') }}</h3>
-                            <small class="text-white-75">Earned by all players</small>
+                            <small class="text-white-75">{{ __('nav.earned_by_players') }}</small>
                         </div>
                     </div>
                 </div>
@@ -51,9 +51,9 @@
                     <div class="card border-0 shadow-lg bg-gradient-info h-100">
                         <div class="card-body text-white text-center">
                             <i class="fas fa-box fa-3x mb-3 text-white"></i>
-                            <h6 class="text-uppercase text-white-50 fw-bold">Random Boxes</h6>
+                            <h6 class="text-uppercase text-white-50 fw-bold">{{ __('nav.random_boxes') }}</h6>
                             <h3 class="fw-bold mb-2 text-white">{{ number_format($totalRandomBoxes, 0, ',', '.') }}</h3>
-                            <small class="text-white-75">Ready to be opened</small>
+                            <small class="text-white-75">{{ __('nav.ready_to_open') }}</small>
                         </div>
                     </div>
                 </div>
@@ -63,9 +63,9 @@
                     <div class="card border-0 shadow-lg bg-gradient-warning h-100">
                         <div class="card-body text-white text-center">
                             <i class="fas fa-users fa-3x mb-3 text-white"></i>
-                            <h6 class="text-uppercase text-white-50 fw-bold">Active Players</h6>
+                            <h6 class="text-uppercase text-white-50 fw-bold">{{ __('nav.active_players') }}</h6>
                             <h3 class="fw-bold mb-2 text-white">{{ number_format($totalPlayers, 0, ',', '.') }}</h3>
-                            <small class="text-white-75">Competing for glory</small>
+                            <small class="text-white-75">{{ __('nav.competing_glory') }}</small>
                         </div>
                     </div>
                 </div>
@@ -74,7 +74,7 @@
             <!-- Game Champions Section -->
             <div class="row g-4 mb-5">
                 <div class="col-12">
-                    <h3 class="fw-bold text-center mb-4">🏆 Game Champions</h3>
+                    <h3 class="fw-bold text-center mb-4">🏆 {{ __('nav.game_champions') }}</h3>
                 </div>
                 
                 <!-- Richest Player -->
@@ -82,12 +82,12 @@
                     <div class="card border-0 shadow-sm text-center h-100">
                         <div class="card-body">
                             <i class="fas fa-crown fa-2x text-warning mb-3"></i>
-                            <h6 class="text-uppercase text-muted fw-bold">Richest Player</h6>
+                            <h6 class="text-uppercase text-muted fw-bold">{{ __('nav.richest_player') }}</h6>
                             @if($topPlayers->count() > 0)
                                 <h5 class="fw-bold text-dark">{{ $topPlayers->first()->name }}</h5>
                                 <p class="text-success mb-0">IDR {{ number_format($topPlayers->first()->money_earned, 0, ',', '.') }}</p>
                             @else
-                                <p class="text-muted">No players yet</p>
+                                <p class="text-muted">{{ __('nav.no_players_yet') }}</p>
                             @endif
                         </div>
                     </div>
@@ -98,12 +98,12 @@
                     <div class="card border-0 shadow-sm text-center h-100">
                         <div class="card-body">
                             <i class="fas fa-star fa-2x text-info mb-3"></i>
-                            <h6 class="text-uppercase text-muted fw-bold">Highest Level</h6>
+                            <h6 class="text-uppercase text-muted fw-bold">{{ __('nav.highest_level') }}</h6>
                             @if($highestLevelPlayer)
                                 <h5 class="fw-bold text-dark">{{ $highestLevelPlayer->name }}</h5>
-                                <p class="text-info mb-0">Level {{ $highestLevelPlayer->level ?? 1 }}</p>
+                                <p class="text-info mb-0">{{ __('nav.level_number', ['level' => $highestLevelPlayer->level ?? 1]) }}</p>
                             @else
-                                <p class="text-muted">No players yet</p>
+                                <p class="text-muted">{{ __('nav.no_players_yet') }}</p>
                             @endif
                         </div>
                     </div>
@@ -114,12 +114,12 @@
                     <div class="card border-0 shadow-sm text-center h-100">
                         <div class="card-body">
                             <i class="fas fa-gift fa-2x text-purple mb-3"></i>
-                            <h6 class="text-uppercase text-muted fw-bold">Box Collector</h6>
+                            <h6 class="text-uppercase text-muted fw-bold">{{ __('nav.box_collector') }}</h6>
                             @if($topRandomBoxPlayer && $topRandomBoxPlayer->randombox > 0)
                                 <h5 class="fw-bold text-dark">{{ $topRandomBoxPlayer->name }}</h5>
-                                <p class="text-purple mb-0">{{ $topRandomBoxPlayer->randombox }} Boxes</p>
+                                <p class="text-purple mb-0">{{ __('nav.boxes_count', ['count' => $topRandomBoxPlayer->randombox]) }}</p>
                             @else
-                                <p class="text-muted">No collectors yet</p>
+                                <p class="text-muted">{{ __('nav.no_collectors_yet') }}</p>
                             @endif
                         </div>
                     </div>
@@ -130,16 +130,16 @@
                     <div class="card border-0 shadow-sm text-center h-100">
                         <div class="card-body">
                             <i class="fas fa-gem fa-2x text-danger mb-3"></i>
-                            <h6 class="text-uppercase text-muted fw-bold">Rarity Master</h6>
+                            <h6 class="text-uppercase text-muted fw-bold">{{ __('nav.rarity_master') }}</h6>
                             @if($topTreasureRarityPlayer && $topTreasureRarityPlayer->treasure_rarity_level > 0)
                                 <h5 class="fw-bold text-dark">{{ $topTreasureRarityPlayer->name }}</h5>
                                 @php
                                     $rarityNames = \App\Models\User::getTreasureRarityNames();
                                     $rarityName = $rarityNames[$topTreasureRarityPlayer->treasure_rarity_level] ?? 'Common';
                                 @endphp
-                                <p class="text-danger mb-0">{{ $rarityName }} Treasure</p>
+                                <p class="text-danger mb-0">{{ __('nav.rarity_treasure', ['rarity' => $rarityName]) }}</p>
                             @else
-                                <p class="text-muted">No masters yet</p>
+                                <p class="text-muted">{{ __('nav.no_masters_yet') }}</p>
                             @endif
                         </div>
                     </div>
@@ -151,30 +151,30 @@
                 <div class="col-12">
                     <div class="card border-0 shadow-lg bg-gradient-secondary">
                         <div class="card-body text-white text-center py-4">
-                            <h4 class="fw-bold mb-3">Your Current Standing</h4>
+                            <h4 class="fw-bold mb-3">{{ __('nav.your_current_standing') }}</h4>
                             <div class="row">
                                 <div class="col-md-3">
                                     <div class="mb-3 mb-md-0">
                                         <h2 class="fw-bold text-warning">#{{ $userRank }}</h2>
-                                        <small class="text-white-75">Rank out of {{ $totalPlayers }}</small>
+                                        <small class="text-white-75">{{ __('nav.rank_out_of', ['total' => $totalPlayers]) }}</small>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="mb-3 mb-md-0">
                                         <h2 class="fw-bold text-success">{{ $currentUser->level ?? 1 }}</h2>
-                                        <small class="text-white-75">Your Level</small>
+                                        <small class="text-white-75">{{ __('nav.your_level') }}</small>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="mb-3 mb-md-0">
                                         <h2 class="fw-bold text-info">{{ $currentUser->randombox ?? 0 }}</h2>
-                                        <small class="text-white-75">Random Boxes</small>
+                                        <small class="text-white-75">{{ __('nav.random_boxes') }}</small>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="mb-3 mb-md-0">
                                         <h2 class="fw-bold text-primary">{{ $currentUser->getRandomBoxChance() }}%</h2>
-                                        <small class="text-white-75">Box Drop Chance</small>
+                                        <small class="text-white-75">{{ __('nav.box_drop_chance') }}</small>
                                     </div>
                                 </div>
                             </div>
@@ -191,9 +191,9 @@
                     <div class="card border-0 shadow-lg">
                         <div class="card-header bg-white border-0 py-4">
                             <h3 class="mb-0 fw-bold text-dark">
-                                <i class="fas fa-crown me-2 text-warning"></i>Top Players
+                                <i class="fas fa-crown me-2 text-warning"></i>{{ __('nav.top_players') }}
                             </h3>
-                            <p class="text-muted mb-0">The richest players in the game</p>
+                            <p class="text-muted mb-0">{{ __('nav.richest_players_description') }}</p>
                         </div>
                         <div class="card-body p-0">
                             <div class="table-responsive">
@@ -201,16 +201,16 @@
                                     <thead class="bg-light">
                                         <tr>
                                             <th class="border-0 py-3 px-4">
-                                                <i class="fas fa-hashtag me-1"></i>Rank
+                                                <i class="fas fa-hashtag me-1"></i>{{ __('nav.rank') }}
                                             </th>
                                             <th class="border-0 py-3">
-                                                <i class="fas fa-user me-1"></i>Player
+                                                <i class="fas fa-user me-1"></i>{{ __('nav.player') }}
                                             </th>
                                             <th class="border-0 py-3">
-                                                <i class="fas fa-wallet me-1"></i>Money Earned
+                                                <i class="fas fa-wallet me-1"></i>{{ __('nav.money_earned') }}
                                             </th>
                             <th class="border-0 py-3 text-center">
-                                                <i class="fas fa-magic me-1"></i>Abilities & Status
+                                                <i class="fas fa-magic me-1"></i>{{ __('nav.abilities_status') }}
                                             </th>
                                         </tr>
                                     </thead>
@@ -247,10 +247,10 @@
                                                             <h6 class="mb-0 fw-bold">{{ $player->name }}</h6>
                                                             @if($player->id === $currentUser->id)
                                                                 <small class="text-primary fw-bold">
-                                                                    <i class="fas fa-user-check me-1"></i>You
+                                                                    <i class="fas fa-user-check me-1"></i>{{ __('nav.you') }}
                                                                 </small>
                                                             @else
-                                                                <small class="text-muted">Player ID: {{ $player->id }}</small>
+                                                                <small class="text-muted">{{ __('nav.player_id', ['id' => $player->id]) }}</small>
                                                             @endif
                                                         </div>
                                                     </div>
@@ -261,7 +261,7 @@
                                                     </h5>
                                                     @if($index === 0 && $player->money_earned > 0)
                                                         <small class="text-warning">
-                                                            <i class="fas fa-star me-1"></i>Richest Player
+                                                            <i class="fas fa-star me-1"></i>{{ __('nav.richest_player') }}
                                                         </small>
                                                     @endif
                                                 </td>
@@ -269,41 +269,41 @@
                                                     <div class="d-flex flex-wrap justify-content-center gap-1">
                                                         @if($player->steal_level > 0)
                                                             <span class="badge bg-danger">
-                                                                <i class="fas fa-mask me-1"></i>Auto Steal Lv.{{ $player->steal_level }}
+                                                                <i class="fas fa-mask me-1"></i>{{ __('nav.auto_steal_level', ['level' => $player->steal_level]) }}
                                                             </span>
                                                         @endif
                                                         @if($player->auto_earning_level > 0)
                                                             <span class="badge bg-warning text-dark">
-                                                                <i class="fas fa-robot me-1"></i>Auto Click Lv.{{ $player->auto_earning_level }}
+                                                                <i class="fas fa-robot me-1"></i>{{ __('nav.auto_click_level', ['level' => $player->auto_earning_level]) }}
                                                             </span>
                                                         @endif
                                                         @if($player->treasure_multiplier_level > 0)
                                                             <span class="badge bg-info">
-                                                                <i class="fas fa-gem me-1"></i>Treasure Lv.{{ $player->treasure_multiplier_level }}
+                                                                <i class="fas fa-gem me-1"></i>{{ __('nav.treasure_level', ['level' => $player->treasure_multiplier_level]) }}
                                                             </span>
                                                         @endif
                                                         @if($player->lucky_strikes_level > 0)
                                                             <span class="badge bg-success">
-                                                                <i class="fas fa-star me-1"></i>Lucky Lv.{{ $player->lucky_strikes_level }}
+                                                                <i class="fas fa-star me-1"></i>{{ __('nav.lucky_level', ['level' => $player->lucky_strikes_level]) }}
                                                             </span>
                                                         @endif
                                                         @if($player->counter_attack_level > 0)
                                                             <span class="badge bg-dark">
-                                                                <i class="fas fa-shield-alt me-1"></i>Counter Lv.{{ $player->counter_attack_level }}
+                                                                <i class="fas fa-shield-alt me-1"></i>{{ __('nav.counter_level', ['level' => $player->counter_attack_level]) }}
                                                             </span>
                                                         @endif
                                                         @if($player->intimidation_level > 0)
                                                             <span class="badge bg-warning text-dark">
-                                                                <i class="fas fa-skull me-1"></i>Intimidate Lv.{{ $player->intimidation_level }}
+                                                                <i class="fas fa-skull me-1"></i>{{ __('nav.intimidate_level', ['level' => $player->intimidation_level]) }}
                                                             </span>
                                                         @endif
                                                         @if($player->shield_expires_at && $player->shield_expires_at > now())
                                                             <span class="badge bg-secondary">
-                                                                <i class="fas fa-shield-alt me-1"></i>Shield
+                                                                <i class="fas fa-shield-alt me-1"></i>{{ __('nav.shield') }}
                                                             </span>
                                                         @endif
                                                         @if($player->steal_level === 0 && $player->auto_earning_level === 0 && $player->treasure_multiplier_level === 0 && $player->lucky_strikes_level === 0 && $player->counter_attack_level === 0 && $player->intimidation_level === 0)
-                                                            <small class="text-muted">No abilities</small>
+                                                            <small class="text-muted">{{ __('nav.no_abilities') }}</small>
                                                         @endif
                                                     </div>
                                                 </td>
@@ -320,13 +320,13 @@
             <!-- Quick Actions -->
             <div class="row mt-5">
                 <div class="col-12 text-center">
-                    <h4 class="mb-4">Ready to hunt for treasures and climb the ranks?</h4>
+                    <h4 class="mb-4">{{ __('nav.ready_to_hunt') }}</h4>
                     <div class="d-flex flex-column flex-md-row gap-3 justify-content-center">
                         <a href="{{ route('game.dashboard') }}" class="btn btn-primary btn-lg">
-                            <i class="fas fa-gamepad me-2"></i>Play Game
+                            <i class="fas fa-gamepad me-2"></i>{{ __('nav.play_game') }}
                         </a>
                         <a href="{{ route('store.index') }}" class="btn btn-outline-primary btn-lg">
-                            <i class="fas fa-store me-2"></i>Visit Store
+                            <i class="fas fa-store me-2"></i>{{ __('nav.visit_store') }}
                         </a>
                     </div>
             <!-- Enhanced Leaderboard Table -->
@@ -337,7 +337,7 @@
                         <div class="card-header bg-gradient-dark text-white py-3">
                             <h4 class="mb-0 fw-bold">
                                 <i class="fas fa-medal me-2"></i>
-                                Top 10 Richest Players
+                                {{ __('nav.top_10_richest') }}
                             </h4>
                         </div>
                         <div class="card-body p-0">
@@ -345,13 +345,13 @@
                                 <table class="table table-hover mb-0">
                                     <thead class="table-light">
                                         <tr>
-                                            <th class="px-4 py-3 text-center">Rank</th>
-                                            <th class="px-4 py-3">Player</th>
-                                            <th class="px-4 py-3 text-end">Money Earned</th>
-                                            <th class="px-4 py-3 text-center">Level</th>
-                                            <th class="px-4 py-3 text-center">Random Boxes</th>
-                                            <th class="px-4 py-3 text-center">Treasure Rarity</th>
-                                            <th class="px-4 py-3 text-center">Upgrades</th>
+                                            <th class="px-4 py-3 text-center">{{ __('nav.rank') }}</th>
+                                            <th class="px-4 py-3">{{ __('nav.player') }}</th>
+                                            <th class="px-4 py-3 text-end">{{ __('nav.money_earned') }}</th>
+                                            <th class="px-4 py-3 text-center">{{ __('nav.level') }}</th>
+                                            <th class="px-4 py-3 text-center">{{ __('nav.random_boxes') }}</th>
+                                            <th class="px-4 py-3 text-center">{{ __('nav.treasure_rarity') }}</th>
+                                            <th class="px-4 py-3 text-center">{{ __('nav.upgrades') }}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -386,14 +386,14 @@
                                                             <h6 class="mb-1 fw-bold">
                                                                 {{ $player->name }}
                                                                 @if($player->id === $currentUser->id)
-                                                                    <span class="badge bg-primary ms-2">YOU</span>
+                                                                    <span class="badge bg-primary ms-2">{{ __('nav.you') }}</span>
                                                                 @endif
                                                             </h6>
                                                             <small class="text-muted">
                                                                 @if($player->shield_expires_at && $player->shield_expires_at > now())
-                                                                    <i class="fas fa-shield-alt text-success me-1"></i>Protected
+                                                                    <i class="fas fa-shield-alt text-success me-1"></i>{{ __('nav.protected') }}
                                                                 @else
-                                                                    <i class="fas fa-crosshairs text-warning me-1"></i>Vulnerable
+                                                                    <i class="fas fa-crosshairs text-warning me-1"></i>{{ __('nav.vulnerable') }}
                                                                 @endif
                                                             </small>
                                                         </div>
@@ -447,9 +447,9 @@
                                                             {{ $rarityName }}
                                                         </span>
                                                         <br>
-                                                        <small class="text-muted">{{ $player->getRandomBoxChance() }}% chance</small>
+                                                        <small class="text-muted">{{ __('nav.chance', ['percent' => $player->getRandomBoxChance()]) }}</small>
                                                     @else
-                                                        <span class="text-muted">None</span>
+                                                        <span class="text-muted">{{ __('nav.none') }}</span>
                                                     @endif
                                                 </td>
 
@@ -483,8 +483,8 @@
                                             <tr>
                                                 <td colspan="7" class="text-center py-5">
                                                     <i class="fas fa-users fa-3x text-muted mb-3"></i>
-                                                    <h5 class="text-muted">No players yet</h5>
-                                                    <p class="text-muted">Be the first to start playing!</p>
+                                                    <h5 class="text-muted">{{ __('nav.no_players_message') }}</h5>
+                                                    <p class="text-muted">{{ __('nav.be_first_to_play') }}</p>
                                                 </td>
                                             </tr>
                                         @endforelse

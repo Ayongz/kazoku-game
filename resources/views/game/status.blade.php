@@ -7,13 +7,13 @@
             <!-- Header -->
             <div class="text-center mb-5">
                 <h1 class="display-4 fw-bold text-dark mb-3">
-                    📊 Player Status
+                    📊 {{ __('nav.player_status') }}
                 </h1>
-                <p class="text-muted fs-5">View your character progression and statistics</p>
+                <p class="text-muted fs-5">{{ __('nav.character_progression') }}</p>
                 <div class="row text-center mt-4">
                     <div class="col-md-4">
                         <div class="badge bg-primary fs-6 px-3 py-2 mb-2">
-                            Level {{ $user->level ?? 1 }}
+                            {{ __('nav.level') }} {{ $user->level ?? 1 }}
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -23,7 +23,7 @@
                     </div>
                     <div class="col-md-4">
                         <div class="badge bg-warning text-dark fs-6 px-3 py-2 mb-2">
-                            {{ $user->treasure }} Treasures
+                            {{ $user->treasure }} {{ __('nav.treasures') }}
                         </div>
                     </div>
                 </div>
@@ -35,20 +35,20 @@
                 <div class="col-md-6">
                     <div class="card shadow-lg border-0">
                         <div class="card-header bg-gradient-primary text-white">
-                            <h5 class="mb-0">💰 Wealth Statistics</h5>
+                            <h5 class="mb-0">💰 {{ __('nav.wealth_statistics') }}</h5>
                         </div>
                         <div class="card-body">
                             <div class="row text-center">
                                 <div class="col-6 border-end">
                                     <div class="p-3">
                                         <h3 class="text-primary mb-1">{{ number_format($user->money_earned, 0, ',', '.') }}</h3>
-                                        <small class="text-muted">Money Earned</small>
+                                        <small class="text-muted">{{ __('nav.money_earned') }}</small>
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="p-3">
                                         <h3 class="text-warning mb-1">{{ $user->treasure }}</h3>
-                                        <small class="text-muted">Current Treasure</small>
+                                        <small class="text-muted">{{ __('nav.treasure_found') }}</small>
                                         <br>
                                         <small class="text-info">Max: {{ 20 + ($user->treasure_multiplier_level * 5) }}</small>
                                     </div>
@@ -59,17 +59,17 @@
                                 <div class="col-6 border-end">
                                     <div class="p-3">
                                         <h5 class="text-info mb-1">{{ $user->randombox ?? 0 }}</h5>
-                                        <small class="text-muted">Random Boxes</small>
+                                        <small class="text-muted">{{ __('nav.random_boxes') }}</small>
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="p-3">
                                         @if($user->shield_expires_at && $user->shield_expires_at > now())
-                                            <h5 class="text-success mb-1">🛡️ Active</h5>
-                                            <small class="text-muted">Shield Protection</small>
+                                            <h5 class="text-success mb-1">🛡️ {{ __('nav.active') }}</h5>
+                                            <small class="text-muted">{{ __('nav.shield_protection') }}</small>
                                         @else
-                                            <h5 class="text-muted mb-1">🛡️ None</h5>
-                                            <small class="text-muted">Shield Protection</small>
+                                            <h5 class="text-muted mb-1">🛡️ {{ __('nav.none') }}</h5>
+                                            <small class="text-muted">{{ __('nav.shield_protection') }}</small>
                                         @endif
                                     </div>
                                 </div>
@@ -82,20 +82,20 @@
                 <div class="col-md-6">
                     <div class="card shadow-lg border-0">
                         <div class="card-header bg-gradient-success text-white">
-                            <h5 class="mb-0">⭐ Level & Experience</h5>
+                            <h5 class="mb-0">⭐ {{ __('nav.level_statistics') }}</h5>
                         </div>
                         <div class="card-body">
                             <div class="row text-center mb-3">
                                 <div class="col-6 border-end">
                                     <div class="p-3">
                                         <h3 class="text-success mb-1">{{ $user->level ?? 1 }}</h3>
-                                        <small class="text-muted">Current Level</small>
+                                        <small class="text-muted">{{ __('nav.current_level') }}</small>
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="p-3">
                                         <h3 class="text-info mb-1">{{ $user->experience ?? 0 }}</h3>
-                                        <small class="text-muted">Total Experience</small>
+                                        <small class="text-muted">{{ __('nav.current_experience') }}</small>
                                     </div>
                                 </div>
                             </div>
@@ -110,8 +110,8 @@
                             
                             <div class="mb-3">
                                 <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <small class="text-muted">Progress to Level {{ $currentLevel + 1 }}</small>
-                                    <small class="text-muted">{{ $expToNext }} EXP needed</small>
+                                    <small class="text-muted">{{ __('nav.next_level_at', ['exp' => $currentLevel + 1]) }}</small>
+                                    <small class="text-muted">{{ $expToNext }} {{ __('nav.experience_needed') }}</small>
                                 </div>
                                 <div class="progress" style="height: 10px;">
                                     <div class="progress-bar bg-info" role="progressbar" style="width: {{ $progressPercent }}%"></div>
@@ -130,7 +130,7 @@
                 <div class="col-12">
                     <div class="card shadow-lg border-0">
                         <div class="card-header bg-gradient-info text-white">
-                            <h5 class="mb-0">🔧 Upgrade Levels</h5>
+                            <h5 class="mb-0">🔧 {{ __('nav.upgrade_levels') }}</h5>
                         </div>
                         <div class="card-body">
                             <div class="row g-4">
@@ -139,7 +139,7 @@
                                     <div class="text-center p-3 border rounded">
                                         <div class="display-6 text-danger mb-2">🗡️</div>
                                         <h4 class="mb-1">{{ $user->steal_level }}</h4>
-                                        <small class="text-muted">Steal Level</small>
+                                        <small class="text-muted">{{ __('nav.steal_level') }}</small>
                                         <div class="mt-2">
                                             <div class="progress" style="height: 4px;">
                                                 <div class="progress-bar bg-danger" style="width: {{ ($user->steal_level / 5) * 100 }}%"></div>
@@ -154,7 +154,7 @@
                                     <div class="text-center p-3 border rounded">
                                         <div class="display-6 text-success mb-2">💸</div>
                                         <h4 class="mb-1">{{ $user->auto_earning_level }}</h4>
-                                        <small class="text-muted">Auto Earning</small>
+                                        <small class="text-muted">{{ __('nav.auto_earning') }}</small>
                                         <div class="mt-2">
                                             <div class="progress" style="height: 4px;">
                                                 <div class="progress-bar bg-success" style="width: {{ ($user->auto_earning_level / 20) * 100 }}%"></div>
@@ -169,7 +169,7 @@
                                     <div class="text-center p-3 border rounded">
                                         <div class="display-6 text-warning mb-2">💎</div>
                                         <h4 class="mb-1">{{ $user->treasure_multiplier_level }}</h4>
-                                        <small class="text-muted">Treasure Multi</small>
+                                        <small class="text-muted">{{ __('nav.treasure_multi') }}</small>
                                         <div class="mt-2">
                                             <div class="progress" style="height: 4px;">
                                                 <div class="progress-bar bg-warning" style="width: {{ ($user->treasure_multiplier_level / 10) * 100 }}%"></div>
@@ -184,7 +184,7 @@
                                     <div class="text-center p-3 border rounded">
                                         <div class="display-6 text-purple mb-2">🎁</div>
                                         <h4 class="mb-1">{{ $user->treasure_rarity_level }}</h4>
-                                        <small class="text-muted">Treasure Rarity</small>
+                                        <small class="text-muted">{{ __('nav.treasure_rarity') }}</small>
                                         <div class="mt-2">
                                             <div class="progress" style="height: 4px;">
                                                 <div class="progress-bar bg-purple" style="width: {{ ($user->treasure_rarity_level / 7) * 100 }}%"></div>
@@ -202,7 +202,7 @@
                                     <div class="text-center p-3 border rounded">
                                         <div class="display-6 text-primary mb-2">⚡</div>
                                         <h4 class="mb-1">{{ $user->lucky_strikes_level }}</h4>
-                                        <small class="text-muted">Lucky Strikes</small>
+                                        <small class="text-muted">{{ __('nav.lucky_strikes') }}</small>
                                         <div class="mt-2">
                                             <div class="progress" style="height: 4px;">
                                                 <div class="progress-bar bg-primary" style="width: {{ ($user->lucky_strikes_level / 5) * 100 }}%"></div>
@@ -217,7 +217,7 @@
                                     <div class="text-center p-3 border rounded">
                                         <div class="display-6 text-dark mb-2">🛡️</div>
                                         <h4 class="mb-1">{{ $user->counter_attack_level }}</h4>
-                                        <small class="text-muted">Counter Attack</small>
+                                        <small class="text-muted">{{ __('nav.counter_attack') }}</small>
                                         <div class="mt-2">
                                             <div class="progress" style="height: 4px;">
                                                 <div class="progress-bar bg-dark" style="width: {{ ($user->counter_attack_level / 5) * 100 }}%"></div>
@@ -232,7 +232,7 @@
                                     <div class="text-center p-3 border rounded">
                                         <div class="display-6 text-secondary mb-2">😱</div>
                                         <h4 class="mb-1">{{ $user->intimidation_level }}</h4>
-                                        <small class="text-muted">Intimidation</small>
+                                        <small class="text-muted">{{ __('nav.intimidation') }}</small>
                                         <div class="mt-2">
                                             <div class="progress" style="height: 4px;">
                                                 <div class="progress-bar bg-secondary" style="width: {{ ($user->intimidation_level / 5) * 100 }}%"></div>
@@ -247,7 +247,7 @@
                                     <div class="text-center p-3 border rounded">
                                         <div class="display-6 text-info mb-2">💨</div>
                                         <h4 class="mb-1">{{ $user->fast_recovery_level }}</h4>
-                                        <small class="text-muted">Fast Recovery</small>
+                                        <small class="text-muted">{{ __('nav.fast_recovery') }}</small>
                                         <div class="mt-2">
                                             <div class="progress" style="height: 4px;">
                                                 <div class="progress-bar bg-info" style="width: {{ ($user->fast_recovery_level / 5) * 100 }}%"></div>
@@ -267,24 +267,24 @@
                 <div class="col-md-6">
                     <div class="card shadow-sm border-0">
                         <div class="card-header bg-gradient-warning text-dark">
-                            <h5 class="mb-0">🎯 Random Box Chances</h5>
+                            <h5 class="mb-0">🎯 {{ __('nav.random_box_chance') }}</h5>
                         </div>
                         <div class="card-body">
                             @if($user->treasure_rarity_level > 0)
                                 <div class="text-center mb-3">
                                     <h3 class="text-warning">{{ $user->getRandomBoxChance() }}%</h3>
-                                    <p class="text-muted mb-0">Chance per treasure opened</p>
+                                    <p class="text-muted mb-0">{{ __('nav.chance') }} per treasure opened</p>
                                     @php
                                         $rarityNames = \App\Models\User::getTreasureRarityNames();
                                         $currentRarity = $rarityNames[$user->treasure_rarity_level] ?? 'Unknown';
                                     @endphp
-                                    <small class="text-info">Current: {{ $currentRarity }} Treasure</small>
+                                    <small class="text-info">{{ __('nav.current_treasure') }}: {{ $currentRarity }} Treasure</small>
                                 </div>
                             @else
                                 <div class="text-center">
                                     <h4 class="text-muted">0%</h4>
-                                    <p class="text-muted">No random box chance</p>
-                                    <small class="text-warning">Upgrade treasure rarity to get random boxes!</small>
+                                    <p class="text-muted">{{ __('nav.no_random_box_chance') }}</p>
+                                    <small class="text-warning">{{ __('nav.upgrade_for_boxes') }}</small>
                                 </div>
                             @endif
                         </div>
@@ -294,7 +294,7 @@
                 <div class="col-md-6">
                     <div class="card shadow-sm border-0">
                         <div class="card-header bg-gradient-secondary text-white">
-                            <h5 class="mb-0">🕐 Shield Status</h5>
+                            <h5 class="mb-0">🕐 {{ __('nav.shield_status') }}</h5>
                         </div>
                         <div class="card-body">
                             @if($user->shield_expires_at && $user->shield_expires_at > now())
@@ -304,15 +304,15 @@
                                     $minutes = $timeLeft % 60;
                                 @endphp
                                 <div class="text-center">
-                                    <h3 class="text-success">🛡️ ACTIVE</h3>
-                                    <p class="text-muted mb-0">Protected from theft</p>
-                                    <small class="text-success">{{ $hours }}h {{ $minutes }}m remaining</small>
+                                    <h3 class="text-success">🛡️ {{ __('nav.active') }}</h3>
+                                    <p class="text-muted mb-0">{{ __('nav.protected_from_theft') }}</p>
+                                    <small class="text-success">{{ $hours }}h {{ $minutes }}m {{ __('nav.remaining_time') }}</small>
                                 </div>
                             @else
                                 <div class="text-center">
-                                    <h4 class="text-muted">🛡️ INACTIVE</h4>
-                                    <p class="text-muted mb-0">Vulnerable to theft</p>
-                                    <small class="text-warning">Purchase shield protection from store</small>
+                                    <h4 class="text-muted">🛡️ {{ __('nav.inactive') }}</h4>
+                                    <p class="text-muted mb-0">{{ __('nav.vulnerable_to_theft') }}</p>
+                                    <small class="text-warning">{{ __('nav.purchase_shield_store') }}</small>
                                 </div>
                             @endif
                         </div>
@@ -325,25 +325,25 @@
                 <div class="col-md-3 col-6">
                     <a href="{{ route('game.dashboard') }}" class="btn btn-primary w-100">
                         <i class="fas fa-gamepad me-2"></i>
-                        Dashboard
+                        {{ __('nav.dashboard') }}
                     </a>
                 </div>
                 <div class="col-md-3 col-6">
                     <a href="{{ route('store.index') }}" class="btn btn-success w-100">
                         <i class="fas fa-store me-2"></i>
-                        Store
+                        {{ __('nav.store') }}
                     </a>
                 </div>
                 <div class="col-md-3 col-6">
                     <a href="{{ route('game.inventory') }}" class="btn btn-info w-100">
                         <i class="fas fa-box me-2"></i>
-                        Inventory
+                        {{ __('nav.inventory') }}
                     </a>
                 </div>
                 <div class="col-md-3 col-6">
                     <button onclick="location.reload()" class="btn btn-outline-secondary w-100">
                         <i class="fas fa-sync-alt me-2"></i>
-                        Refresh
+                        {{ __('nav.refresh') }}
                     </button>
                 </div>
             </div>

@@ -6,13 +6,41 @@
         <div class="row justify-content-center">
             <div class="col-xl-4 col-lg-5 col-md-6 col-sm-8">
                 <div class="login-card">
+                    <!-- Language Switcher -->
+                    <div class="language-switcher mb-3">
+                        <div class="dropdown">
+                            <button class="btn btn-light btn-sm dropdown-toggle shadow-sm" type="button" id="languageDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-globe me-2"></i>
+                                @if(app()->getLocale() == 'id')
+                                    {{ __('auth.indonesian') }}
+                                @else
+                                    {{ __('auth.english') }}
+                                @endif
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="languageDropdown">
+                                <li>
+                                    <a class="dropdown-item @if(app()->getLocale() == 'en') active @endif" 
+                                       href="{{ route('language.switch', 'en') }}">
+                                        <i class="fas fa-flag-usa me-2"></i>{{ __('auth.english') }}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item @if(app()->getLocale() == 'id') active @endif" 
+                                       href="{{ route('language.switch', 'id') }}">
+                                        <i class="fas fa-flag me-2"></i>{{ __('auth.indonesian') }}
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
                     <!-- Game Logo/Header -->
                     <div class="text-center mb-4">
                         <div class="login-logo">
                             <i class="fas fa-gamepad"></i>
                         </div>
                         <h2 class="login-title">Kazoku Game</h2>
-                        <p class="login-subtitle">Enter the ultimate money-earning adventure</p>
+                        <p class="login-subtitle">{{ __('auth.login_subtitle') }}</p>
                     </div>
 
                     <!-- Login Form -->
@@ -24,10 +52,10 @@
                             <input id="email" type="email" 
                                    class="form-control custom-input @error('email') is-invalid @enderror" 
                                    name="email" value="{{ old('email') }}" 
-                                   placeholder="Enter your email"
+                                   placeholder="{{ __('auth.email_address') }}"
                                    required autocomplete="email" autofocus>
                             <label for="email">
-                                <i class="fas fa-envelope me-2"></i>Email Address
+                                <i class="fas fa-envelope me-2"></i>{{ __('auth.email_address') }}
                             </label>
                             @error('email')
                                 <div class="invalid-feedback">
@@ -41,10 +69,10 @@
                             <input id="password" type="password" 
                                    class="form-control custom-input @error('password') is-invalid @enderror" 
                                    name="password" 
-                                   placeholder="Enter your password"
+                                   placeholder="{{ __('auth.password_label') }}"
                                    required autocomplete="current-password">
                             <label for="password">
-                                <i class="fas fa-lock me-2"></i>Password
+                                <i class="fas fa-lock me-2"></i>{{ __('auth.password_label') }}
                             </label>
                             <div class="password-toggle" onclick="togglePassword()">
                                 <i class="fas fa-eye" id="passwordIcon"></i>
@@ -60,7 +88,7 @@
                         <div class="d-grid mb-4">
                             <button type="submit" class="btn btn-login btn-lg">
                                 <i class="fas fa-sign-in-alt me-2"></i>
-                                Start Playing
+                                {{ __('auth.login') }}
                             </button>
                         </div>
                     </form>
@@ -277,6 +305,63 @@
     
     .features-preview {
         grid-template-columns: 1fr;
+    }
+}
+
+/* Language Switcher Styles */
+.language-switcher {
+    text-align: right;
+}
+
+.language-switcher .dropdown-toggle {
+    background: white;
+    border: 1px solid #dee2e6;
+    color: #495057;
+    font-size: 0.85rem;
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    transition: all 0.3s ease;
+}
+
+.language-switcher .dropdown-toggle:hover {
+    background: #f8f9fa;
+    border-color: #adb5bd;
+    transform: translateY(-1px);
+}
+
+.language-switcher .dropdown-toggle:focus {
+    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+}
+
+.language-switcher .dropdown-menu {
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    padding: 0.5rem 0;
+}
+
+.language-switcher .dropdown-item {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    transition: background-color 0.2s ease;
+}
+
+.language-switcher .dropdown-item:hover {
+    background-color: #f8f9fa;
+}
+
+.language-switcher .dropdown-item.active {
+    background-color: #667eea;
+    color: white;
+}
+
+.language-switcher .dropdown-item.active:hover {
+    background-color: #5a6fd8;
+}
+
+@media (max-width: 576px) {
+    .language-switcher {
+        text-align: center;
     }
 }
 </style>

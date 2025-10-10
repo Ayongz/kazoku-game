@@ -5,6 +5,10 @@ use App\Http\Controllers\GameController;
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\StatusController;
+use App\Http\Controllers\LanguageController;
+
+// Language switching route
+Route::get('/language/{language}', [LanguageController::class, 'switchLanguage'])->name('language.switch');
 
 // Homepage route - redirect to login if not authenticated, otherwise to game dashboard
 Route::get('/', function () {

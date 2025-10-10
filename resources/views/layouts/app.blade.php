@@ -27,7 +27,7 @@
                 <a class="navbar-brand" href="{{ route('home') }}">
                     {{ config('app.name', 'Kazoku Game') }}
                 </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('nav.toggle_navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
@@ -37,17 +37,17 @@
                         @auth
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('game.dashboard') }}">
-                                    <i class="fas fa-gamepad me-1"></i>{{ __('Game') }}
+                                    <i class="fas fa-gamepad me-1"></i>{{ __('nav.game') }}
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('store.index') }}">
-                                    <i class="fas fa-store me-1"></i>{{ __('Store') }}
+                                    <i class="fas fa-store me-1"></i>{{ __('nav.store') }}
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('game.inventory') }}">
-                                    <i class="fas fa-box me-1"></i>{{ __('Inventory') }}
+                                    <i class="fas fa-box me-1"></i>{{ __('nav.inventory') }}
                                     @auth
                                         @if((auth()->user()->randombox ?? 0) > 0)
                                             <span class="badge bg-info ms-1">{{ auth()->user()->randombox }}</span>
@@ -57,12 +57,12 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('game.status') }}">
-                                    <i class="fas fa-chart-line me-1"></i>{{ __('Status') }}
+                                    <i class="fas fa-chart-line me-1"></i>{{ __('nav.status') }}
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('game.class-path') }}">
-                                    <i class="fas fa-tree me-1"></i>{{ __('Class Path') }}
+                                    <i class="fas fa-tree me-1"></i>{{ __('nav.class_path') }}
                                 </a>
                             </li>
                         @endauth
@@ -70,11 +70,37 @@
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
+                        <!-- Language Switcher -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="languageNavDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-globe me-1"></i>
+                                @if(app()->getLocale() == 'id')
+                                    {{ __('auth.indonesian') }}
+                                @else
+                                    {{ __('auth.english') }}
+                                @endif
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="languageNavDropdown">
+                                <li>
+                                    <a class="dropdown-item @if(app()->getLocale() == 'en') active @endif" 
+                                       href="{{ route('language.switch', 'en') }}">
+                                        <i class="fas fa-flag-usa me-2"></i>{{ __('auth.english') }}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item @if(app()->getLocale() == 'id') active @endif" 
+                                       href="{{ route('language.switch', 'id') }}">
+                                        <i class="fas fa-flag me-2"></i>{{ __('auth.indonesian') }}
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        
                         <!-- Authentication Links -->
                         @guest
                             @if (Route::has('login'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                    <a class="nav-link" href="{{ route('login') }}">{{ __('nav.login') }}</a>
                                 </li>
                             @endif
 
@@ -86,14 +112,21 @@
                         @else
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }}
+                                    <i class="fas fa-user-circle me-1"></i>{{ Auth::user()->name }}
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    <div class="dropdown-item-text">
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-coins text-warning me-2"></i>
+                                            <span>{{ number_format(Auth::user()->gold) }} {{ __('nav.gold') }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
+                                        <i class="fas fa-sign-out-alt me-2"></i>{{ __('nav.logout') }}
                                     </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">

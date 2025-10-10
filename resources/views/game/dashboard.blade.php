@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-lg-10 col-xl-8">
             <h1 class="display-4 fw-bold text-dark text-center mb-3">
-                The Game Dashboard
+                {{ __('nav.the_game_dashboard') }}
             </h1>
 
             <!-- Night-time Risk Indicator -->
@@ -13,18 +13,18 @@
                 <div class="alert alert-info border-0 shadow-sm mb-4 night-risk-alert">
                     <div class="row align-items-center">
                         <div class="col-md-8">
-                            <h6 class="fw-bold mb-1">🌙 Night-time Risk Active (6 PM - 6 AM GMT+7)</h6>
+                            <h6 class="fw-bold mb-1">{{ __('nav.night_time_risk_active') }}</h6>
                             <p class="mb-0 small">
-                                Opening treasures now has special risks and rewards:
-                                <span class="fw-bold text-danger">25% chance to lose money</span> |
-                                <span class="fw-bold text-success">25% chance for 1.5x bonus</span> |
-                                <span class="fw-bold text-primary">50% chance normal</span>
+                                {{ __('nav.opening_treasures_risk') }}
+                                <span class="fw-bold text-danger">{{ __('nav.chance_to_lose_money') }}</span> |
+                                <span class="fw-bold text-success">{{ __('nav.chance_for_bonus') }}</span> |
+                                <span class="fw-bold text-primary">{{ __('nav.chance_normal') }}</span>
                             </p>
                         </div>
                         <div class="col-md-4 text-center">
                             <div class="night-mode-badge">
                                 <i class="fas fa-moon fa-2x text-warning"></i>
-                                <div class="small fw-bold text-muted mt-1">NIGHT MODE</div>
+                                <div class="small fw-bold text-muted mt-1">{{ __('nav.night_mode') }}</div>
                             </div>
                         </div>
                     </div>
@@ -33,15 +33,15 @@
                 <div class="alert alert-light border-0 shadow-sm mb-4">
                     <div class="row align-items-center">
                         <div class="col-md-8">
-                            <h6 class="fw-bold mb-1">☀️ Day-time Safe Mode (6 AM - 6 PM GMT+7)</h6>
+                            <h6 class="fw-bold mb-1">{{ __('nav.day_time_safe_mode') }}</h6>
                             <p class="mb-0 small text-muted">
-                                Treasure opening is safe during day hours. Night risks activate at 6 PM GMT+7.
+                                {{ __('nav.treasure_opening_safe') }}
                             </p>
                         </div>
                         <div class="col-md-4 text-center">
                             <div class="day-mode-badge">
                                 <i class="fas fa-sun fa-2x text-warning"></i>
-                                <div class="small fw-bold text-muted mt-1">DAY MODE</div>
+                                <div class="small fw-bold text-muted mt-1">{{ __('nav.day_mode') }}</div>
                             </div>
                         </div>
                     </div>
@@ -51,14 +51,14 @@
             <!-- Status Messages -->
             @if (session('success') && !str_contains(session('success'), 'Heist successful!') && !str_contains(session('success'), 'BONUS: Stole'))
                 <div class="alert alert-success alert-dismissible fade show mb-4 shadow-sm" role="alert">
-                    <p class="mb-0 fw-bold">Success!</p>
+                    <p class="mb-0 fw-bold">{{ __('nav.success') }}!</p>
                     <p class="mb-0">{{ session('success') }}</p>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             @endif
             @if (session('error'))
                 <div class="alert alert-danger alert-dismissible fade show mb-4 shadow-sm" role="alert">
-                    <p class="mb-0 fw-bold">Error!</p>
+                    <p class="mb-0 fw-bold">{{ __('nav.error') }}!</p>
                     <p class="mb-0">{{ session('error') }}</p>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
@@ -70,7 +70,7 @@
                 <div class="col-12 col-md-6 col-lg-2-4">
                     <div class="card h-100 shadow-lg border-start border-5 border-primary">
                         <div class="card-body">
-                            <p class="card-text text-uppercase text-muted fw-semibold mb-1">Money Earned</p>
+                            <p class="card-text text-uppercase text-muted fw-semibold mb-1">{{ __('nav.money_earned') }}</p>
                             <h2 class="card-title h3 fw-bolder text-dark" id="playerMoneyDisplay">
                                 IDR {{ number_format($user->money_earned, 0, ',', '.') }}
                             </h2>
@@ -82,7 +82,7 @@
                 <div class="col-12 col-md-6 col-lg-2-4">
                     <div class="card h-100 shadow-lg border-start border-5 border-warning">
                         <div class="card-body">
-                            <p class="card-text text-uppercase text-muted fw-semibold mb-1">Current Treasure</p>
+                            <p class="card-text text-uppercase text-muted fw-semibold mb-1">{{ __('nav.current_treasure') }}</p>
                             <h2 class="card-title h3 fw-bolder @if($user->treasure > 0) text-warning @else text-danger @endif" id="playerTreasureDisplay">
                                 {{ $user->treasure }} / {{ 20 + ($user->treasure_multiplier_level * 5) }}
                             </h2>
@@ -91,15 +91,15 @@
                                     $fastRecoveryIntervals = [60, 55, 50, 45, 40, 30];
                                     $currentInterval = $fastRecoveryIntervals[$user->fast_recovery_level ?? 0];
                                 @endphp
-                                +5 treasure every {{ $currentInterval }} min
+                                {{ __('nav.treasure_every_minutes', ['minutes' => $currentInterval]) }}
                                 @if($user->fast_recovery_level > 0)
-                                    (Fast Recovery Lv{{ $user->fast_recovery_level }})
+                                    {{ __('nav.fast_recovery_level', ['level' => $user->fast_recovery_level]) }}
                                 @endif
                                 <br>
                                 @if($user->treasure_multiplier_level > 0)
-                                    Max {{ 20 + ($user->treasure_multiplier_level * 5) }} - Multiplier Lv{{ $user->treasure_multiplier_level }}
+                                    {{ __('nav.max_treasure_multiplier', ['max' => 20 + ($user->treasure_multiplier_level * 5), 'level' => $user->treasure_multiplier_level]) }}
                                 @else
-                                    Max 20
+                                    {{ __('nav.max_treasure_default') }}
                                 @endif
                             </p>
                         </div>
@@ -110,26 +110,26 @@
                 <div class="col-12 col-md-6 col-lg-2-4">
                     <div class="card h-100 shadow-lg border-start border-5 border-info">
                         <div class="card-body">
-                            <p class="card-text text-uppercase text-muted fw-semibold mb-1">Random Boxes</p>
+                            <p class="card-text text-uppercase text-muted fw-semibold mb-1">{{ __('nav.random_boxes') }}</p>
                             <h2 class="card-title h3 fw-bolder text-info" id="playerRandomBoxDisplay">
                                 {{ $user->randombox ?? 0 }}
                             </h2>
                             <p class="text-muted small mb-3">
                                 @if($user->treasure_rarity_level > 0)
-                                    {{ $user->getRandomBoxChance() }}% chance per treasure
-                                    <br><small class="text-info">From {{ $rarityConfig[$user->treasure_rarity_level]['name'] ?? 'Common' }} treasure</small>
+                                    {{ __('nav.chance_per_treasure', ['percent' => $user->getRandomBoxChance()]) }}
+                                    <br><small class="text-info">{{ __('nav.from_treasure_type', ['type' => $rarityConfig[$user->treasure_rarity_level]['name'] ?? 'Common']) }}</small>
                                 @else
-                                    Upgrade treasure rarity
-                                    <br><small class="text-muted">to get random boxes</small>
+                                    {{ __('nav.upgrade_treasure_rarity') }}
+                                    <br><small class="text-muted">{{ __('nav.to_get_random_boxes') }}</small>
                                 @endif
                             </p>
                             @if(($user->randombox ?? 0) > 0)
                                 <a href="{{ route('game.inventory') }}" class="btn btn-info btn-sm w-100">
-                                    <i class="fas fa-gift me-1"></i>Open Boxes
+                                    <i class="fas fa-gift me-1"></i>{{ __('nav.open_boxes') }}
                                 </a>
                             @else
                                 <a href="{{ route('game.inventory') }}" class="btn btn-outline-info btn-sm w-100">
-                                    <i class="fas fa-box me-1"></i>View Inventory
+                                    <i class="fas fa-box me-1"></i>{{ __('nav.view_inventory') }}
                                 </a>
                             @endif
                         </div>
@@ -140,21 +140,21 @@
                 <div class="col-12 col-md-6 col-lg-2-4">
                     <div class="card h-100 shadow-lg border-start border-5 @if($user->shield_expires_at && $user->shield_expires_at > now()) border-success @else border-secondary @endif">
                         <div class="card-body">
-                            <p class="card-text text-uppercase text-muted fw-semibold mb-1">Shield Status</p>
+                            <p class="card-text text-uppercase text-muted fw-semibold mb-1">{{ __('nav.shield_status') }}</p>
                             @if($user->shield_expires_at && $user->shield_expires_at > now())
                                 <h2 class="card-title h4 fw-bolder text-success mb-2">
-                                    <i class="fas fa-shield-alt me-1"></i>ACTIVE
+                                    <i class="fas fa-shield-alt me-1"></i>{{ __('nav.active') }}
                                 </h2>
                                 <p class="text-muted small mb-0">
-                                    Protected until<br>
+                                    {{ __('nav.protected_until') }}<br>
                                     <strong>{{ $user->shield_expires_at->setTimezone('Asia/Jakarta')->format('M d, H:i:s') }}</strong>
                                 </p>
                             @else
                                 <h2 class="card-title h4 fw-bolder text-secondary mb-2">
-                                    <i class="fas fa-shield-alt me-1"></i>INACTIVE
+                                    <i class="fas fa-shield-alt me-1"></i>{{ __('nav.inactive') }}
                                 </h2>
                                 <p class="text-muted small mb-0">
-                                    <a href="{{ route('store.index') }}" class="text-decoration-none">Visit Store</a> to activate
+                                    <a href="{{ route('store.index') }}" class="text-decoration-none">{{ __('nav.visit_store') }}</a> {{ __('nav.to_activate') }}
                                 </p>
                             @endif
                         </div>
@@ -165,9 +165,9 @@
                 <div class="col-12 col-md-6 col-lg-2-4">
                     <div class="card h-100 shadow-lg border-start border-5 border-primary">
                         <div class="card-body">
-                            <p class="card-text text-uppercase text-muted fw-semibold mb-1">Player Level</p>
+                            <p class="card-text text-uppercase text-muted fw-semibold mb-1">{{ __('nav.player_level') }}</p>
                             <h2 class="card-title h3 fw-bolder text-primary" id="playerLevelDisplay">
-                                Level {{ $user->level }}
+                                {{ __('nav.level') }} {{ $user->level }}
                             </h2>
                             <div class="mb-2">
                                 @php
@@ -259,9 +259,9 @@
                             <div class="row justify-content-center mb-4">
                                 <div class="col-12 col-md-10">
                                     <p class="text-muted text-center mb-0">
-                                        Click below to try and earn money. Uses one treasure.
+                                        {{ __('nav.click_to_earn_money') }}
                                         @if($user->steal_level > 0)
-                                            <br><small class="text-info"><i class="fas fa-mask me-1"></i><strong>Bonus:</strong> Also attempts to steal from other players ({{ $user->steal_level * 5 }}% chance)!</small>
+                                            <br><small class="text-info"><i class="fas fa-mask me-1"></i><strong>{{ __('nav.bonus') }}:</strong> {{ __('nav.steal_bonus', ['percent' => $user->steal_level * 5]) }}</small>
                                         @endif
                                     </p>
                                 </div>
@@ -767,7 +767,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     isProcessing = false;
                     
                     if (currentTreasure > 0) {
-                        earnMoneyBtn.innerHTML = '<i class="fas fa-coins me-2"></i> OPEN TREASURE';
+                        earnMoneyBtn.innerHTML = '<i class="fas fa-coins me-2"></i> {{ __('nav.open_treasure') }}';
                         earnMoneyBtn.className = 'btn btn-lg w-100 w-sm-auto fw-bold text-uppercase btn-primary';
                         earnMoneyBtn.disabled = false;
                     } else {
@@ -788,7 +788,7 @@ document.addEventListener('DOMContentLoaded', function() {
             autoClickToggle.checked = false;
             
             // Reset button
-            earnMoneyBtn.innerHTML = '<i class="fas fa-coins me-2"></i> EARN MONEY NOW';
+            earnMoneyBtn.innerHTML = '<i class="fas fa-coins me-2"></i> {{ __('nav.earn_money_now') }}';
             earnMoneyBtn.disabled = false;
         });
     }

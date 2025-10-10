@@ -7,11 +7,11 @@
             <!-- Header -->
             <div class="text-center mb-5">
                 <h1 class="display-4 fw-bold text-dark mb-3">
-                    🎒 Player Inventory
+                    🎒 {{ __('nav.player_inventory') }}
                 </h1>
-                <p class="text-muted fs-5">Open your random boxes and view stats</p>
+                <p class="text-muted fs-5">{{ __('nav.open_random_boxes_and_view_stats') }}</p>
                 <div class="badge bg-info fs-6 px-3 py-2">
-                    🎁 {{ $randomBoxCount }} Random Box{{ $randomBoxCount !== 1 ? 'es' : '' }}
+                    🎁 {{ $randomBoxCount }} {{ __('nav.random_box') }}
                 </div>
             </div>
 
@@ -21,7 +21,7 @@
                     <!-- Random Box Opening Area -->
                     <div class="card shadow-lg border-0 mb-4">
                         <div class="card-header bg-gradient text-white text-center">
-                            <h4 class="mb-0" style="color: black;">🎁 Random Box Opening</h4>
+                            <h4 class="mb-0" style="color: black;">🎁 {{ __('nav.random_box_opening') }}</h4>
                         </div>
                                 <div class="card-body text-center p-5">
                                     @if($randomBoxCount > 0)
@@ -42,12 +42,12 @@
                                         <!-- Action Button -->
                                         <button class="btn btn-lg btn-primary px-5 py-3" id="openBoxBtn" onclick="openRandomBox()">
                                             <i class="fas fa-gift me-2"></i>
-                                            Open Random Box!
+                                            {{ __('nav.open_random_box') }}
                                         </button>
                                         
                                         <!-- Remaining Boxes -->
                                         <p class="text-muted mt-3 mb-0">
-                                            You have <span class="fw-bold text-primary" id="remainingBoxes">{{ $randomBoxCount }}</span> random boxes
+                                            {!! __('nav.you_have_boxes', ['count' => $randomBoxCount]) !!}
                                         </p>
                                     @else
                                         <!-- No Boxes State -->
@@ -55,18 +55,18 @@
                                             <div class="mb-4">
                                                 <i class="fas fa-box-open fa-5x text-muted"></i>
                                             </div>
-                                            <h4 class="text-muted mb-3">No Random Boxes</h4>
+                                            <h4 class="text-muted mb-3">{{ __('nav.no_random_boxes') }}</h4>
                                             <p class="text-muted mb-4">
-                                                You don't have any random boxes yet.<br>
-                                                Upgrade your treasure rarity and open treasures to get random boxes!
+                                                {{ __('nav.no_boxes_message') }}<br>
+                                                {{ __('nav.get_boxes_tip') }}
                                             </p>
                                             <a href="{{ route('game.dashboard') }}" class="btn btn-primary">
                                                 <i class="fas fa-arrow-left me-2"></i>
-                                                Back to Dashboard
+                                                {{ __('nav.back_to_dashboard') }}
                                             </a>
                                             <a href="{{ route('store.index') }}" class="btn btn-outline-primary ms-2">
                                                 <i class="fas fa-store me-2"></i>
-                                                Visit Store
+                                                {{ __('nav.visit_store') }}
                                             </a>
                                         </div>
                                     @endif
@@ -78,11 +78,11 @@
                             <!-- Reward History -->
                             <div class="card shadow-sm border-0">
                                 <div class="card-header bg-light">
-                                    <h5 class="mb-0">🏆 Recent Rewards</h5>
+                                    <h5 class="mb-0">🏆 {{ __('nav.recent_rewards') }}</h5>
                                 </div>
                                 <div class="card-body" id="rewardHistory">
                                     <p class="text-muted text-center py-3">
-                                        Open random boxes to see your rewards here!
+                                        {{ __('nav.open_boxes_to_see_rewards') }}
                                     </p>
                                 </div>
                             </div>
