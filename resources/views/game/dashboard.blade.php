@@ -202,13 +202,26 @@
                     </div>
                 </div>
 
-                <!-- Player Level & Experience Card -->
+                <!-- Player Level & Experience and Class System Row -->
                 <div class="row mb-4">
-                    <div class="col-12">
+                    <!-- Player Level & Experience Card -->
+                    <div class="col-12 col-lg-7">
                         <div class="rpg-panel panel-main">
                             <div class="panel-content p-4">
                                 <div class="row align-items-center">
-                                    <div class="col-md-12">
+                                    <div class="col-md-3 col-sm-3 text-center mb-3 mb-md-0">
+                                        <!-- Profile Picture -->
+                                        <div class="rpg-profile-picture">
+                                            <img src="{{ \App\Http\Controllers\ProfileController::getProfilePictureUrl($user) }}" 
+                                                 alt="{{ $user->name }}'s Profile Picture" 
+                                                 class="rpg-avatar">
+                                            <div class="rpg-avatar-border"></div>
+                                        </div>
+                                        <div class="rpg-player-name mt-2">
+                                            <small class="text-light">{{ $user->name }}</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-9 col-sm-9">
                                         <h3 class="rpg-title mb-3" style="color:white;">
                                             <i class="fas fa-star me-2 text-warning"></i>{{ __('nav.player_level') }}
                                         </h3>
@@ -239,6 +252,130 @@
                             </div>
                         </div>
                     </div>
+                    
+                    <!-- Class System Section -->
+                    @if($user->canSelectClass() || $user->canAdvanceClass() || $user->selected_class || $user->level < 4)
+                    <div class="col-12 col-lg-5">
+                        <div class="rpg-panel panel-class position-relative overflow-hidden h-100">
+                            <!-- Magical Background Effect -->
+                            <div class="position-absolute w-100 h-100" style="top: 0; left: 0; opacity: 0.05; background: radial-gradient(circle at 20% 30%, #6f42c1 0%, transparent 50%), radial-gradient(circle at 80% 70%, #e83e8c 0%, transparent 50%), radial-gradient(circle at 40% 80%, #fd7e14 0%, transparent 50%);"></div>
+                            
+                            <div class="panel-content p-4">
+                                @if($user->selected_class)
+                                    <!-- Current Class Display -->
+                                    <div class="rpg-class-display">
+                                        <div class="d-flex flex-column">
+                                            <div class="rpg-class-info flex-grow-1 mb-3">
+                                                <div class="rpg-class-header mb-3">
+                                                    <h3 class="rpg-class-title text-white mb-2">
+                                                        <i class="fas fa-shield-alt me-2 text-warning" style="text-shadow: 0 0 10px rgba(255,193,7,0.7);"></i>
+                                                        {{ $user->getClassDisplayName() }}
+                                                    </h3>
+                                                    <p class="rpg-class-description text-light mb-2 opacity-90">
+                                                        {{ $user->getClassDescription() }}
+                                                    </p>
+                                                    @if($user->class_selected_at)
+                                                        <small class="text-light opacity-60">
+                                                            <i class="fas fa-calendar me-1"></i>
+                                                            Class selected on {{ $user->class_selected_at->format('M d, Y') }}
+                                                        </small>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="rpg-class-actions text-center">
+                                                @if($user->canAdvanceClass())
+                                                    <form action="{{ route('game.advance-class') }}" method="POST">
+                                                        @csrf
+                                                        <button type="submit" class="rpg-button rpg-button-legendary rpg-button-large">
+                                                            <div class="rpg-button-content">
+                                                                <i class="fas fa-star me-2"></i>
+                                                                Advance Class
+                                                            </div>
+                                                            <div class="rpg-button-glow"></div>
+                                                        </button>
+                                                    </form>
+                                                    <div class="mt-2">
+                                                        <small class="text-light opacity-75">
+                                                            <i class="fas fa-magic me-1"></i>
+                                                            Unlock enhanced abilities!
+                                                        </small>
+                                                    </div>
+                                                @elseif($user->has_advanced_class)
+                                                    <div class="rpg-advanced-badge">
+                                                        <div class="badge bg-warning bg-gradient text-dark px-3 py-2" style="font-size: 1rem; box-shadow: 0 0 15px rgba(255,193,7,0.5);">
+                                                            <i class="fas fa-crown me-1"></i>
+                                                            ADVANCED CLASS
+                                                            <i class="fas fa-crown ms-1"></i>
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                @elseif($user->canSelectClass())
+                                    <!-- Class Selection Available -->
+                                    <div class="rpg-class-selection text-center">
+                                        <div class="rpg-section-header mb-4">
+                                            <h3 class="rpg-title text-white mb-3">
+                                                <i class="fas fa-star me-2 text-warning" style="text-shadow: 0 0 15px rgba(255,193,7,0.8); animation: pulse 2s infinite;"></i>
+                                                Class Selection Available!
+                                            </h3>
+                                            <p class="rpg-subtitle text-light opacity-90 mb-4">
+                                                You've reached level {{ $user->level }}! Choose a class to unlock special abilities.
+                                            </p>
+                                        </div>
+                                        
+                                        <div class="rpg-action-area">
+                                            <a href="{{ route('game.class-selection') }}" class="rpg-button rpg-button-epic rpg-button-large">
+                                                <div class="rpg-button-content">
+                                                    <i class="fas fa-magic me-2"></i>
+                                                    Choose Your Destiny
+                                                </div>
+                                                <div class="rpg-button-glow"></div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                @else
+                                    <!-- Class Requirement Not Met -->
+                                    <div class="rpg-class-locked text-center">
+                                        <div class="rpg-section-header mb-4">
+                                            <h3 class="rpg-title text-white mb-3">
+                                                <i class="fas fa-lock me-2 text-secondary" style="text-shadow: 0 0 10px rgba(108,117,125,0.7);"></i>
+                                                Class System
+                                            </h3>
+                                            <p class="rpg-subtitle text-light opacity-90 mb-3">
+                                                Unlock powerful class abilities and enhance your treasure hunting journey!
+                                            </p>
+                                        </div>
+                                        
+                                        <div class="rpg-requirement-info mb-4">
+                                            <div class="rpg-requirement-badge">
+                                                <i class="fas fa-star text-warning me-2"></i>
+                                                <strong class="text-white">Level 4 Required</strong>
+                                            </div>
+                                            <div class="mt-3">
+                                                <p class="text-light opacity-75 small mb-2">
+                                                    Current Level: <strong class="text-warning">{{ $user->level }}</strong>
+                                                </p>
+                                                <p class="text-light opacity-75 small">
+                                                    Levels to go: <strong class="text-info">{{ 4 - $user->level }}</strong>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="rpg-class-preview">
+                                            <small class="text-light opacity-60">
+                                                <i class="fas fa-info-circle me-1"></i>
+                                                Classes provide unique abilities like enhanced treasure finding, combat skills, and special bonuses!
+                                            </small>
+                                        </div>
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                    @endif
                 </div>
 
             <!-- Game Actions Section -->
@@ -402,101 +539,6 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Class System Section -->
-            @if($user->canSelectClass() || $user->canAdvanceClass() || $user->selected_class)
-            <div class="row justify-content-center mt-4">
-                <div class="col-12 col-lg-8">
-                    <div class="rpg-panel panel-class position-relative overflow-hidden">
-                        <!-- Magical Background Effect -->
-                        <div class="position-absolute w-100 h-100" style="top: 0; left: 0; opacity: 0.05; background: radial-gradient(circle at 20% 30%, #6f42c1 0%, transparent 50%), radial-gradient(circle at 80% 70%, #e83e8c 0%, transparent 50%), radial-gradient(circle at 40% 80%, #fd7e14 0%, transparent 50%);"></div>
-                        
-                        <div class="panel-content p-4">
-                            @if($user->selected_class)
-                                <!-- Current Class Display -->
-                                <div class="rpg-class-display">
-                                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
-                                        <div class="rpg-class-info flex-grow-1">
-                                            <div class="rpg-class-header mb-3">
-                                                <h3 class="rpg-class-title text-white mb-2">
-                                                    <i class="fas fa-shield-alt me-2 text-warning" style="text-shadow: 0 0 10px rgba(255,193,7,0.7);"></i>
-                                                    {{ $user->getClassDisplayName() }}
-                                                </h3>
-                                                <p class="rpg-class-description text-light mb-2 opacity-90">
-                                                    {{ $user->getClassDescription() }}
-                                                </p>
-                                                @if($user->class_selected_at)
-                                                    <small class="text-light opacity-60">
-                                                        <i class="fas fa-calendar me-1"></i>
-                                                        Class selected on {{ $user->class_selected_at->format('M d, Y') }}
-                                                    </small>
-                                                @endif
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="rpg-class-actions mt-3 mt-md-0 ms-md-4">
-                                            @if($user->canAdvanceClass())
-                                                <div class="text-center">
-                                                    <form action="{{ route('game.advance-class') }}" method="POST">
-                                                        @csrf
-                                                        <button type="submit" class="rpg-button rpg-button-legendary rpg-button-large">
-                                                            <div class="rpg-button-content">
-                                                                <i class="fas fa-star me-2"></i>
-                                                                Advance Class
-                                                            </div>
-                                                            <div class="rpg-button-glow"></div>
-                                                        </button>
-                                                    </form>
-                                                    <div class="mt-2">
-                                                        <small class="text-light opacity-75">
-                                                            <i class="fas fa-magic me-1"></i>
-                                                            Unlock enhanced abilities!
-                                                        </small>
-                                                    </div>
-                                                </div>
-                                            @elseif($user->has_advanced_class)
-                                                <div class="text-center">
-                                                    <div class="rpg-advanced-badge">
-                                                        <div class="badge bg-warning bg-gradient text-dark px-3 py-2" style="font-size: 1rem; box-shadow: 0 0 15px rgba(255,193,7,0.5);">
-                                                            <i class="fas fa-crown me-1"></i>
-                                                            ADVANCED CLASS
-                                                            <i class="fas fa-crown ms-1"></i>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            @endif
-                                        </div>
-                                    </div>
-                                </div>
-                            @elseif($user->canSelectClass())
-                                <!-- Class Selection Available -->
-                                <div class="rpg-class-selection text-center">
-                                    <div class="rpg-section-header mb-4">
-                                        <h3 class="rpg-title text-white mb-3">
-                                            <i class="fas fa-star me-2 text-warning" style="text-shadow: 0 0 15px rgba(255,193,7,0.8); animation: pulse 2s infinite;"></i>
-                                            Class Selection Available!
-                                        </h3>
-                                        <p class="rpg-subtitle text-light opacity-90 mb-4">
-                                            You've reached level {{ $user->level }}! Choose a class to unlock special abilities and enhance your treasure hunting experience.
-                                        </p>
-                                    </div>
-                                    
-                                    <div class="rpg-action-area">
-                                        <a href="{{ route('game.class-selection') }}" class="rpg-button rpg-button-epic rpg-button-large">
-                                            <div class="rpg-button-content">
-                                                <i class="fas fa-magic me-2"></i>
-                                                Choose Your Destiny
-                                            </div>
-                                            <div class="rpg-button-glow"></div>
-                                        </a>
-                                    </div>
-                                </div>
-                            @endif
-                        </div>
-                    </div>
-                </div>
-            </div>
-            @endif
         </div>
     </div>
 </div>
@@ -951,6 +993,74 @@
         transform: scale(1.1);
     }
     
+    /* RPG Profile Picture Styles */
+    .rpg-profile-picture {
+        position: relative;
+        display: inline-block;
+        margin-bottom: 0.5rem;
+    }
+    
+    .rpg-avatar {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid #ffd700;
+        box-shadow: 
+            0 0 15px rgba(255,215,0,0.4),
+            0 4px 15px rgba(0,0,0,0.3);
+        transition: all 0.3s ease;
+        position: relative;
+        z-index: 2;
+    }
+    
+    .rpg-avatar:hover {
+        transform: scale(1.05);
+        box-shadow: 
+            0 0 20px rgba(255,215,0,0.6),
+            0 6px 20px rgba(0,0,0,0.4);
+    }
+    
+    .rpg-avatar-border {
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        border-radius: 50%;
+        background: linear-gradient(45deg, #ffd700, #ffed4e, #ffd700);
+        z-index: 1;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    
+    .rpg-profile-picture:hover .rpg-avatar-border {
+        opacity: 1;
+        animation: rotate 3s linear infinite;
+    }
+    
+    @keyframes rotate {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+    }
+    
+    .rpg-player-name {
+        font-weight: 600;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    }
+    
+    /* Responsive adjustments for profile picture */
+    @media (max-width: 768px) {
+        .rpg-avatar {
+            width: 60px;
+            height: 60px;
+        }
+        
+        .rpg-player-name {
+            font-size: 0.85rem;
+        }
+    }
+    
     /* Class System Styles */
     .rpg-class-display {
         color: white;
@@ -980,6 +1090,26 @@
     
     .rpg-class-selection {
         padding: 2rem 1rem;
+    }
+    
+    .rpg-class-locked {
+        padding: 2rem 1rem;
+    }
+    
+    .rpg-requirement-badge {
+        background: linear-gradient(135deg, rgba(108,117,125,0.3) 0%, rgba(73,80,87,0.3) 100%);
+        border: 2px solid #6c757d;
+        border-radius: 8px;
+        padding: 0.75rem 1rem;
+        display: inline-block;
+        margin-bottom: 1rem;
+    }
+    
+    .rpg-class-preview {
+        background: rgba(255,255,255,0.05);
+        border-radius: 8px;
+        padding: 1rem;
+        border: 1px solid rgba(255,255,255,0.1);
     }
     
     .rpg-advanced-badge {
@@ -1422,27 +1552,28 @@ document.addEventListener('DOMContentLoaded', function() {
     
     function showFloatingExpIndicator(expAmount) {
         // Create floating EXP indicator
-        const expDisplay = document.getElementById('playerExpDisplay');
-        if (!expDisplay) return;
+        const levelDisplay = document.getElementById('playerLevelDisplay');
+        if (!levelDisplay) return;
         
         const indicator = document.createElement('div');
         indicator.className = 'floating-exp-indicator';
         indicator.textContent = `+${expAmount} EXP`;
         indicator.style.cssText = `
-            position: absolute;
-            color: #17a2b8;
+            position: fixed;
+            color: #ffd700;
             font-weight: bold;
-            font-size: 1rem;
-            z-index: 1000;
+            font-size: 1.1rem;
+            z-index: 9999;
             pointer-events: none;
             animation: floatUp 2s ease-out forwards;
             opacity: 1;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
         `;
         
-        // Position relative to EXP display
-        const rect = expDisplay.getBoundingClientRect();
-        indicator.style.left = (rect.left + 20) + 'px';
-        indicator.style.top = rect.top + 'px';
+        // Position relative to Level display (above the level text)
+        const rect = levelDisplay.getBoundingClientRect();
+        indicator.style.left = rect.left + 'px';
+        indicator.style.top = (rect.top - 30) + 'px';
         
         document.body.appendChild(indicator);
         
