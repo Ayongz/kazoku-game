@@ -7,6 +7,7 @@ return [
     'remaining_today' => 'remaining today',
     'your_money' => 'Your Money',
     'bet_amount' => 'Bet Amount',
+    'bet_range' => 'Bet Range',
     'play_now' => 'Play Now',
     'insufficient_money' => 'Insufficient Money',
     'no_attempts_left' => 'No attempts left today',

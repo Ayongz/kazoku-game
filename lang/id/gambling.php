@@ -7,6 +7,7 @@ return [
     'remaining_today' => 'tersisa hari ini',
     'your_money' => 'Uang Anda',
     'bet_amount' => 'Jumlah Taruhan',
+    'bet_range' => 'Rentang Taruhan',
     'play_now' => 'Main Sekarang',
     'insufficient_money' => 'Uang Tidak Cukup',
     'no_attempts_left' => 'Tidak ada percobaan tersisa hari ini',

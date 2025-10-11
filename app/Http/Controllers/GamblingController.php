@@ -41,9 +41,6 @@ class GamblingController extends Controller
             $user->save();
         }
         
-        // Reset daily attempts if needed
-        $this->resetDailyAttemptsIfNeeded($user);
-        
         $gamblingLevel = $user->gambling_level;
         $maxBetAmount = self::BASE_BET_AMOUNT + (($gamblingLevel - 1) * 1000);
         $maxDailyAttempts = self::BASE_DAILY_ATTEMPTS + (($gamblingLevel - 1) * 2);
@@ -68,6 +65,12 @@ class GamblingController extends Controller
     public function diceDuel(Request $request)
     {
         $user = Auth::user();
+        
+        // Check if user has gambling attempts left
+        if ($user->gambling_attempts_today >= $this->getMaxDailyAttempts($user)) {
+            return redirect()->back()->with('error', __('gambling.no_attempts_left'));
+        }
+        
         $betAmount = $request->input('bet_amount', self::BASE_BET_AMOUNT);
         
         // Validate bet
@@ -116,6 +119,11 @@ class GamblingController extends Controller
     {
         $user = Auth::user();
         
+        // Check attempts first before any processing
+        if ($user->gambling_attempts_today >= $this->getMaxDailyAttempts($user)) {
+            return redirect()->back()->with('error', __('gambling.no_attempts_left'));
+        }
+        
         // Check if user has at least 3 treasures and fusion cost
         if ($user->treasure < 3) {
             return redirect()->back()->with('error', __('gambling.need_treasures'));
@@ -123,12 +131,6 @@ class GamblingController extends Controller
         
         if ($user->money_earned < self::FUSION_COST) {
             return redirect()->back()->with('error', __('gambling.need_money'));
-        }
-        
-        // Check gambling attempts
-        $this->resetDailyAttemptsIfNeeded($user);
-        if ($user->gambling_attempts_today >= $this->getMaxDailyAttempts($user)) {
-            return redirect()->back()->with('error', __('gambling.no_attempts_left'));
         }
 
         // Process fusion
@@ -141,27 +143,23 @@ class GamblingController extends Controller
         if ($success) {
             $user->rare_treasures += 1;
             $message = __('gambling.fusion_success') . ' +1 ' . __('gambling.rare_treasure');
+            $messageType = 'success';
         } else {
-            $message = __('gambling.fusion_failed') . ' -3 ' . __('nav.treasure') . ', -IDR ' . number_format(self::FUSION_COST);
+            $message = __('gambling.fusion_failed');
+            $messageType = 'error';
         }
         
-        // Add gambling exp and update attempts
-        $result = $this->addGamblingExp($user);
+        // Add gambling exp and increment attempts
+        $expResult = $this->addGamblingExp($user);
         $user->gambling_attempts_today += 1;
-        
-        // Add experience message
-        if (isset($result['exp_gained'])) {
-            $message .= ' | ' . __('gambling.experience_gained', ['exp' => $result['exp_gained']]);
-        }
-        
-        // Add level up message
-        if (isset($result['level_up'])) {
-            $message .= ' | ' . __('gambling.level_up', ['level' => $result['level_up']]);
-        }
-        
         $user->save();
         
-        return redirect()->back()->with($success ? 'success' : 'lose', $message);
+        $message .= ' ' . __('gambling.exp_gained', ['exp' => self::EXP_PER_GAME]);
+        if (isset($expResult['level_up'])) {
+            $message .= ' ' . __('gambling.level_up', ['level' => $expResult['level_up']]);
+        }
+        
+        return redirect()->back()->with($messageType, $message);
     }
 
     /**
@@ -170,6 +168,15 @@ class GamblingController extends Controller
     public function cardFlip(Request $request)
     {
         $user = Auth::user();
+        
+        // Check if user has gambling attempts left
+        $maxDailyAttempts = self::BASE_DAILY_ATTEMPTS + (($user->gambling_level - 1) * 2);
+        $remainingAttempts = $maxDailyAttempts - $user->gambling_attempts_today;
+        
+        if ($remainingAttempts <= 0) {
+            return redirect()->back()->with('error', __('gambling.no_attempts_left'));
+        }
+        
         $betAmount = $request->input('bet_amount', self::BASE_BET_AMOUNT);
         
         // Validate bet
@@ -219,8 +226,6 @@ class GamblingController extends Controller
      */
     private function validateBet($user, $betAmount)
     {
-        $this->resetDailyAttemptsIfNeeded($user);
-        
         if ($betAmount < self::BASE_BET_AMOUNT) {
             return ['success' => false, 'message' => 'Minimum bet is IDR ' . number_format(self::BASE_BET_AMOUNT)];
         }
@@ -295,22 +300,6 @@ class GamblingController extends Controller
     }
 
     /**
-     * Reset daily gambling attempts if needed (at 00:00 GMT+7)
-     */
-    private function resetDailyAttemptsIfNeeded($user)
-    {
-        $timezone = 'Asia/Jakarta'; // GMT+7
-        $now = Carbon::now($timezone);
-        $lastReset = $user->last_gambling_reset ? Carbon::parse($user->last_gambling_reset)->setTimezone($timezone) : null;
-        
-        if (!$lastReset || $lastReset->format('Y-m-d') !== $now->format('Y-m-d')) {
-            $user->gambling_attempts_today = 0;
-            $user->last_gambling_reset = $now;
-            $user->save();
-        }
-    }
-
-    /**
      * Get maximum bet amount for user's gambling level
      */
     private function getMaxBetAmount($user)
@@ -319,7 +308,7 @@ class GamblingController extends Controller
     }
 
     /**
-     * Get maximum daily gambling attempts for user's level
+     * Get maximum daily attempts for user's gambling level
      */
     private function getMaxDailyAttempts($user)
     {
@@ -331,7 +320,8 @@ class GamblingController extends Controller
      */
     private function getRemainingAttempts($user)
     {
-        return $this->getMaxDailyAttempts($user) - $user->gambling_attempts_today;
+        $maxAttempts = $this->getMaxDailyAttempts($user);
+        return $maxAttempts - $user->gambling_attempts_today;
     }
 
     /**

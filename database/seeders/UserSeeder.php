@@ -20,10 +20,7 @@ class UserSeeder extends Seeder
             'password' => Hash::make('123'), // You can use 'password' for easy testing
             'money_earned' => 0, // Starts with a lot of money for testing
             'treasure' => 300,
-            'steal_level' => 0,
-            'auto_earning_level' => 0,
-            'treasure_multiplier_level' => 0,
-            'lucky_strikes_level' => 0,
+            'gambling_attempts_today' => 0, // Start with 0 attempts used (20 available)
         ]);
 
         User::create([
@@ -32,10 +29,7 @@ class UserSeeder extends Seeder
             'password' => Hash::make('123'),
             'money_earned' => 0,
             'treasure' => 300,
-            'steal_level' => 0,
-            'auto_earning_level' => 0,
-            'treasure_multiplier_level' => 0,
-            'lucky_strikes_level' => 0,
+            'gambling_attempts_today' => 0,
         ]);
 
         User::create([
@@ -44,10 +38,7 @@ class UserSeeder extends Seeder
             'password' => Hash::make('123'),
             'money_earned' => 25000, 
             'treasure' => 20,
-            'steal_level' => 0,
-            'auto_earning_level' => 0,
-            'treasure_multiplier_level' => 0,
-            'lucky_strikes_level' => 0,
+            'gambling_attempts_today' => 0,
         ]);
 
         User::create([
@@ -56,10 +47,7 @@ class UserSeeder extends Seeder
             'password' => Hash::make('123'),
             'money_earned' => 15000, 
             'treasure' => 20,
-            'steal_level' => 0,
-            'auto_earning_level' => 0,
-            'treasure_multiplier_level' => 0,
-            'lucky_strikes_level' => 0,
+            'gambling_attempts_today' => 0,
         ]);
 
     }

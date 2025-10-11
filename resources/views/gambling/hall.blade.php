@@ -367,6 +367,26 @@
 .rpg-locked-feature {
     opacity: 0.7;
 }
+
+/* Betting amount quick buttons */
+.btn-outline-light {
+    border-color: rgba(255, 255, 255, 0.5);
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+}
+
+.btn-outline-light:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.8);
+    color: white;
+}
+
+.input-group-text {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.3);
+    color: white;
+}
 </style>
 
 <div class="rpg-dashboard-container">
@@ -460,6 +480,9 @@
                                         </h3>
                                         <h2 class="rpg-stat-value text-info">{{ $remainingAttempts }}/{{ $maxDailyAttempts }}</h2>
                                         <small class="gambling-small-text">{{ __('gambling.remaining_today') }}</small>
+                                        <small class="text-warning d-block mt-1" style="font-size: 0.7rem;">
+                                            Used {{ $user->gambling_attempts_today }} | Max {{ $maxDailyAttempts }}
+                                        </small>
                                     </div>
                                     <div class="col-md-3 text-center">
                                         <h3 class="rpg-title mb-2" style="color: white;">
@@ -494,8 +517,20 @@
                                             @csrf
                                             <div class="mb-3">
                                                 <label class="form-label gambling-text-enhanced">{{ __('gambling.bet_amount') }}</label>
-                                                <input type="number" name="bet_amount" class="form-control" 
-                                                       min="3000" max="{{ $maxBetAmount }}" value="3000" step="1000">
+                                                <div class="input-group">
+                                                    <span class="input-group-text">IDR</span>
+                                                    <input type="number" name="bet_amount" class="form-control" 
+                                                           min="3000" max="{{ $maxBetAmount }}" value="3000" step="1000"
+                                                           id="diceBetAmount">
+                                                </div>
+                                                <small class="text-white mt-1 d-block">
+                                                    {{ __('gambling.bet_range') }}: IDR 3,000 - IDR {{ number_format($maxBetAmount) }}
+                                                </small>
+                                                <div class="mt-2">
+                                                    <button type="button" class="btn btn-sm btn-outline-light me-1" onclick="setBetAmount('diceBetAmount', 3000)">Min</button>
+                                                    <button type="button" class="btn btn-sm btn-outline-light me-1" onclick="setBetAmount('diceBetAmount', {{ $maxBetAmount }})">Max</button>
+                                                    <button type="button" class="btn btn-sm btn-outline-light" onclick="setBetAmount('diceBetAmount', {{ intval($maxBetAmount / 2) }})">Mid</button>
+                                                </div>
                                             </div>
                                             <button type="submit" class="rpg-button rpg-button-primary rpg-button-large">
                                                 <div class="rpg-button-content">
@@ -591,8 +626,20 @@
                                             @csrf
                                             <div class="mb-3">
                                                 <label class="form-label gambling-text-enhanced">{{ __('gambling.bet_amount') }}</label>
-                                                <input type="number" name="bet_amount" class="form-control" 
-                                                       min="3000" max="{{ $maxBetAmount }}" value="3000" step="1000">
+                                                <div class="input-group">
+                                                    <span class="input-group-text">IDR</span>
+                                                    <input type="number" name="bet_amount" class="form-control" 
+                                                           min="3000" max="{{ $maxBetAmount }}" value="3000" step="1000"
+                                                           id="cardBetAmount">
+                                                </div>
+                                                <small class="text-white mt-1 d-block">
+                                                    {{ __('gambling.bet_range') }}: IDR 3,000 - IDR {{ number_format($maxBetAmount) }}
+                                                </small>
+                                                <div class="mt-2">
+                                                    <button type="button" class="btn btn-sm btn-outline-light me-1" onclick="setBetAmount('cardBetAmount', 3000)">Min</button>
+                                                    <button type="button" class="btn btn-sm btn-outline-light me-1" onclick="setBetAmount('cardBetAmount', {{ $maxBetAmount }})">Max</button>
+                                                    <button type="button" class="btn btn-sm btn-outline-light" onclick="setBetAmount('cardBetAmount', {{ intval($maxBetAmount / 2) }})">Mid</button>
+                                                </div>
                                             </div>
                                             <button type="submit" class="rpg-button rpg-button-epic rpg-button-large">
                                                 <div class="rpg-button-content">
@@ -651,4 +698,13 @@
         </div>
     </div>
 </div>
+
+<script>
+function setBetAmount(inputId, amount) {
+    const input = document.getElementById(inputId);
+    if (input) {
+        input.value = amount;
+    }
+}
+</script>
 @endsection
