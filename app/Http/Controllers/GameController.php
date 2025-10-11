@@ -68,7 +68,7 @@ class GameController extends Controller
 
         return view('game.dashboard', [
             'user' => $user,
-            'globalPrizePool' => number_format($gameSettings->global_prize_pool, 0, ',', '.'),
+            'globalPrizePool' => $gameSettings->global_prize_pool,
             'isNightTime' => $this->isNightTime(),
         ]);
     }

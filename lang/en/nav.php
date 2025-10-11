@@ -20,6 +20,7 @@ return [
     
     // Statistics
     'global_prize_pool' => 'Global Prize Pool',
+    'distributed_daily' => 'Distributed Daily',
     'master_treasure_hunt' => 'Master the treasure hunt!',
     'total_wealth' => 'Total Wealth',
     'earned_by_all_players' => 'Earned by all players',
@@ -102,6 +103,8 @@ return [
     // Enhanced leaderboard
     'top_10_richest' => 'Top 10 Richest Players',
     'treasure_rarity' => 'Treasure Rarity',
+    'treasure_rarity_level' => 'Treasure Rarity Level :level',
+    'common_treasure_only' => 'Common treasure only',
     'upgrades' => 'Upgrades',
     'protected' => 'Protected',
     'vulnerable' => 'Vulnerable',
@@ -148,6 +151,7 @@ return [
     'protected' => 'PROTECTED',
     'remaining_time' => 'Remaining',
     'purchase_shield' => 'Purchase Shield',
+    'buy_shield' => 'Buy Shield',
     'hours_protection' => ':hours hours protection',
     'blocks_theft' => 'Blocks all theft attempts',
     'peace_of_mind' => 'Peace of mind',

@@ -20,6 +20,7 @@ return [
     
     // Statistics
     'global_prize_pool' => 'Kumpulan Hadiah Global',
+    'distributed_daily' => 'Dibagikan Harian',
     'master_treasure_hunt' => 'Kuasai perburuan harta!',
     'total_wealth' => 'Total Kekayaan',
     'earned_by_all_players' => 'Diperoleh oleh semua pemain',
@@ -105,6 +106,8 @@ return [
     // Enhanced leaderboard
     'top_10_richest' => 'Top 10 Pemain Terkaya',
     'treasure_rarity' => 'Kelangkaan Harta',
+    'treasure_rarity_level' => 'Level Kelangkaan Harta :level',
+    'common_treasure_only' => 'Hanya harta biasa',
     'upgrades' => 'Upgrade',
     'protected' => 'Dilindungi',
     'vulnerable' => 'Rentan',
@@ -151,6 +154,7 @@ return [
     'protected' => 'DILINDUNGI',
     'remaining_time' => 'Tersisa',
     'purchase_shield' => 'Beli Perisai',
+    'buy_shield' => 'Beli Perisai',
     'hours_protection' => 'Perlindungan :hours jam',
     'blocks_theft' => 'Blokir semua upaya pencurian',
     'peace_of_mind' => 'Ketenangan pikiran',

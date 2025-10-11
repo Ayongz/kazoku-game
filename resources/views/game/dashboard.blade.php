@@ -1,243 +1,321 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container py-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-10 col-xl-8">
-            <h1 class="display-4 fw-bold text-dark text-center mb-3">
-                {{ __('nav.the_game_dashboard') }}
-            </h1>
+<div class="rpg-dashboard-container">
+    <!-- RPG Background Elements -->
+    <div class="rpg-background">
+        <div class="floating-particles"></div>
+        <div class="magic-orbs"></div>
+        <div class="energy-waves"></div>
+    </div>
 
-            <!-- Night-time Risk Indicator -->
-            @if($isNightTime)
-                <div class="alert alert-info border-0 shadow-sm mb-4 night-risk-alert">
-                    <div class="row align-items-center">
-                        <div class="col-md-8">
-                            <h6 class="fw-bold mb-1">{{ __('nav.night_time_risk_active') }}</h6>
-                            <p class="mb-0 small">
-                                {{ __('nav.opening_treasures_risk') }}
-                                <span class="fw-bold text-danger">{{ __('nav.chance_to_lose_money') }}</span> |
-                                <span class="fw-bold text-success">{{ __('nav.chance_for_bonus') }}</span> |
-                                <span class="fw-bold text-primary">{{ __('nav.chance_normal') }}</span>
-                            </p>
-                        </div>
-                        <div class="col-md-4 text-center">
-                            <div class="night-mode-badge">
-                                <i class="fas fa-moon fa-2x text-warning"></i>
-                                <div class="small fw-bold text-muted mt-1">{{ __('nav.night_mode') }}</div>
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-10 col-xl-8">
+                
+                <!-- RPG Header -->
+                <div class="rpg-header text-center mb-5">
+                    <div class="store-title-container">
+                        <h1 class="rpg-title">
+                            <i class="fas fa-crown me-3"></i>{{ __('nav.the_game_dashboard') }}
+                        </h1>
+                        <div class="title-decoration"></div>
+                    </div>
+                </div>
+
+                <!-- RPG Time Mode Indicator -->
+                @if($isNightTime)
+                    <div class="rpg-time-indicator rpg-night-mode mb-4">
+                        <div class="time-indicator-content">
+                            <div class="time-icon">
+                                <i class="fas fa-moon"></i>
+                            </div>
+                            <div class="time-info">
+                                <h6 class="time-title">{{ __('nav.night_time_risk_active') }}</h6>
+                                <p class="time-description">
+                                    {{ __('nav.opening_treasures_risk') }}
+                                    <span class="risk-danger">{{ __('nav.chance_to_lose_money') }}</span> |
+                                    <span class="risk-success">{{ __('nav.chance_for_bonus') }}</span> |
+                                    <span class="risk-normal">{{ __('nav.chance_normal') }}</span>
+                                </p>
+                            </div>
+                            <div class="time-badge">
+                                <span class="mode-label">{{ __('nav.night_mode') }}</span>
                             </div>
                         </div>
                     </div>
-                </div>
-            @else
-                <div class="alert alert-light border-0 shadow-sm mb-4">
-                    <div class="row align-items-center">
-                        <div class="col-md-8">
-                            <h6 class="fw-bold mb-1">{{ __('nav.day_time_safe_mode') }}</h6>
-                            <p class="mb-0 small text-muted">
-                                {{ __('nav.treasure_opening_safe') }}
-                            </p>
-                        </div>
-                        <div class="col-md-4 text-center">
-                            <div class="day-mode-badge">
-                                <i class="fas fa-sun fa-2x text-warning"></i>
-                                <div class="small fw-bold text-muted mt-1">{{ __('nav.day_mode') }}</div>
+                @else
+                    <div class="rpg-time-indicator rpg-day-mode mb-4">
+                        <div class="time-indicator-content">
+                            <div class="time-icon">
+                                <i class="fas fa-sun"></i>
+                            </div>
+                            <div class="time-info">
+                                <h6 class="time-title">{{ __('nav.day_time_safe_mode') }}</h6>
+                                <p class="time-description">
+                                    {{ __('nav.treasure_opening_safe') }}
+                                </p>
+                            </div>
+                            <div class="time-badge">
+                                <span class="mode-label">{{ __('nav.day_mode') }}</span>
                             </div>
                         </div>
                     </div>
-                </div>
-            @endif
+                @endif
 
-            <!-- Status Messages -->
-            @if (session('success') && !str_contains(session('success'), 'Heist successful!') && !str_contains(session('success'), 'BONUS: Stole'))
-                <div class="alert alert-success alert-dismissible fade show mb-4 shadow-sm" role="alert">
-                    <p class="mb-0 fw-bold">{{ __('nav.success') }}!</p>
-                    <p class="mb-0">{{ session('success') }}</p>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            @endif
-            @if (session('error'))
-                <div class="alert alert-danger alert-dismissible fade show mb-4 shadow-sm" role="alert">
-                    <p class="mb-0 fw-bold">{{ __('nav.error') }}!</p>
-                    <p class="mb-0">{{ session('error') }}</p>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            @endif
+                <!-- RPG Status Messages -->
+                @if (session('success') && !str_contains(session('success'), 'Heist successful!') && !str_contains(session('success'), 'BONUS: Stole'))
+                    <div class="rpg-notification rpg-notification-success mb-4 alert alert-dismissible" role="alert">
+                        <div class="rpg-notification-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="rpg-notification-content">
+                            <div class="rpg-notification-title">{{ __('nav.success') }}!</div>
+                            <div class="rpg-notification-message">{{ session('success') }}</div>
+                        </div>
+                        <button type="button" class="rpg-notification-close" data-bs-dismiss="alert" aria-label="Close">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                @endif
+                @if (session('error'))
+                    <div class="rpg-notification rpg-notification-error mb-4 alert alert-dismissible" role="alert">
+                        <div class="rpg-notification-icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="rpg-notification-content">
+                            <div class="rpg-notification-title">{{ __('nav.error') }}!</div>
+                            <div class="rpg-notification-message">{{ session('error') }}</div>
+                        </div>
+                        <button type="button" class="rpg-notification-close" data-bs-dismiss="alert" aria-label="Close">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                @endif
 
-            <!-- Player & Global Stats - Responsive Grid -->
-            <div class="row g-4 mb-5">
-                <!-- Player Money Card -->
-                <div class="col-12 col-md-6 col-lg-2-4">
-                    <div class="card h-100 shadow-lg border-start border-5 border-primary">
-                        <div class="card-body">
-                            <p class="card-text text-uppercase text-muted fw-semibold mb-1">{{ __('nav.money_earned') }}</p>
-                            <h2 class="card-title h3 fw-bolder text-dark" id="playerMoneyDisplay">
+                <!-- RPG Player Stats Grid -->
+                <div class="row mb-5">
+                    <!-- Player Money Card -->
+                    <div class="col-12 col-md-6 col-lg-2-4 mb-4">
+                        <div class="rpg-stat-card stat-money">
+                            <div class="rpg-stat-icon">
+                                <i class="fas fa-coins"></i>
+                            </div>
+                            <h3 class="rpg-stat-label">{{ __('nav.money_earned') }}</h3>
+                            <h2 class="rpg-stat-value" id="playerMoneyDisplay">
                                 IDR {{ number_format($user->money_earned, 0, ',', '.') }}
                             </h2>
                         </div>
                     </div>
-                </div>
 
-                <!-- Treasure Card -->
-                <div class="col-12 col-md-6 col-lg-2-4">
-                    <div class="card h-100 shadow-lg border-start border-5 border-warning">
-                        <div class="card-body">
-                            <p class="card-text text-uppercase text-muted fw-semibold mb-1">{{ __('nav.current_treasure') }}</p>
-                            <h2 class="card-title h3 fw-bolder @if($user->treasure > 0) text-warning @else text-danger @endif" id="playerTreasureDisplay">
+                    <!-- Treasure Card -->
+                    <div class="col-12 col-md-6 col-lg-2-4 mb-4">
+                        <div class="rpg-stat-card stat-treasure">
+                            <div class="rpg-stat-icon">
+                                <i class="fas fa-gem"></i>
+                            </div>
+                            <h3 class="rpg-stat-label">{{ __('nav.current_treasure') }}</h3>
+                            <h2 class="rpg-stat-value @if($user->treasure > 0) text-warning @else text-danger @endif" id="playerTreasureDisplay">
                                 {{ $user->treasure }} / {{ 20 + ($user->treasure_multiplier_level * 5) }}
                             </h2>
-                            <p class="text-muted small mb-0">
+                            <div class="rpg-stat-details">
                                 @php
                                     $fastRecoveryIntervals = [60, 55, 50, 45, 40, 30];
                                     $currentInterval = $fastRecoveryIntervals[$user->fast_recovery_level ?? 0];
                                 @endphp
-                                {{ __('nav.treasure_every_minutes', ['minutes' => $currentInterval]) }}
+                                <small>{{ __('nav.treasure_every_minutes', ['minutes' => $currentInterval]) }}</small>
                                 @if($user->fast_recovery_level > 0)
-                                    {{ __('nav.fast_recovery_level', ['level' => $user->fast_recovery_level]) }}
+                                    <br><small>{{ __('nav.fast_recovery_level', ['level' => $user->fast_recovery_level]) }}</small>
                                 @endif
-                                <br>
-                                @if($user->treasure_multiplier_level > 0)
-                                    {{ __('nav.max_treasure_multiplier', ['max' => 20 + ($user->treasure_multiplier_level * 5), 'level' => $user->treasure_multiplier_level]) }}
-                                @else
-                                    {{ __('nav.max_treasure_default') }}
-                                @endif
-                            </p>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Random Box Card -->
-                <div class="col-12 col-md-6 col-lg-2-4">
-                    <div class="card h-100 shadow-lg border-start border-5 border-info">
-                        <div class="card-body">
-                            <p class="card-text text-uppercase text-muted fw-semibold mb-1">{{ __('nav.random_boxes') }}</p>
-                            <h2 class="card-title h3 fw-bolder text-info" id="playerRandomBoxDisplay">
+                    <!-- Random Box Card -->
+                    <div class="col-12 col-md-6 col-lg-2-4 mb-4">
+                        <div class="rpg-stat-card stat-boxes">
+                            <div class="rpg-stat-icon">
+                                <i class="fas fa-gift"></i>
+                            </div>
+                            <h3 class="rpg-stat-label">{{ __('nav.random_boxes') }}</h3>
+                            <h2 class="rpg-stat-value" id="playerRandomBoxDisplay">
                                 {{ $user->randombox ?? 0 }}
                             </h2>
-                            <p class="text-muted small mb-3">
+                            <div class="rpg-stat-details">
                                 @if($user->treasure_rarity_level > 0)
-                                    {{ __('nav.chance_per_treasure', ['percent' => $user->getRandomBoxChance()]) }}
-                                    <br><small class="text-info">{{ __('nav.from_treasure_type', ['type' => $rarityConfig[$user->treasure_rarity_level]['name'] ?? 'Common']) }}</small>
+                                    <small>{{ __('nav.treasure_rarity_level', ['level' => $user->treasure_rarity_level]) }}</small>
                                 @else
-                                    {{ __('nav.upgrade_treasure_rarity') }}
-                                    <br><small class="text-muted">{{ __('nav.to_get_random_boxes') }}</small>
+                                    <small>{{ __('nav.common_treasure_only') }}</small>
                                 @endif
-                            </p>
+                            </div>
                             @if(($user->randombox ?? 0) > 0)
-                                <a href="{{ route('game.inventory') }}" class="btn btn-info btn-sm w-100">
-                                    <i class="fas fa-gift me-1"></i>{{ __('nav.open_boxes') }}
-                                </a>
-                            @else
-                                <a href="{{ route('game.inventory') }}" class="btn btn-outline-info btn-sm w-100">
-                                    <i class="fas fa-box me-1"></i>{{ __('nav.view_inventory') }}
-                                </a>
+                                <div class="rpg-stat-action">
+                                    <a href="{{ route('game.inventory') }}" class="btn btn-sm btn-outline-light">
+                                        <i class="fas fa-gift me-1"></i>{{ __('nav.open_boxes') }}
+                                    </a>
+                                </div>
                             @endif
                         </div>
                     </div>
-                </div>
 
-                <!-- Shield Protection Card -->
-                <div class="col-12 col-md-6 col-lg-2-4">
-                    <div class="card h-100 shadow-lg border-start border-5 @if($user->shield_expires_at && $user->shield_expires_at > now()) border-success @else border-secondary @endif">
-                        <div class="card-body">
-                            <p class="card-text text-uppercase text-muted fw-semibold mb-1">{{ __('nav.shield_status') }}</p>
+                    <!-- Shield Card -->
+                    <div class="col-12 col-md-6 col-lg-2-4 mb-4">
+                        <div class="rpg-stat-card stat-shield">
+                            <div class="rpg-stat-icon">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <h3 class="rpg-stat-label">{{ __('nav.shield_protection') }}</h3>
                             @if($user->shield_expires_at && $user->shield_expires_at > now())
-                                <h2 class="card-title h4 fw-bolder text-success mb-2">
-                                    <i class="fas fa-shield-alt me-1"></i>{{ __('nav.active') }}
+                                <h2 class="rpg-stat-value text-success">
+                                    <i class="fas fa-check-circle me-1"></i>{{ __('nav.active') }}
                                 </h2>
-                                <p class="text-muted small mb-0">
-                                    {{ __('nav.protected_until') }}<br>
-                                    <strong>{{ $user->shield_expires_at->setTimezone('Asia/Jakarta')->format('M d, H:i:s') }}</strong>
-                                </p>
+                                <div class="rpg-stat-details">
+                                    <small>{{ __('nav.protected_until') }}<br>{{ $user->shield_expires_at->setTimezone('Asia/Jakarta')->format('M d, H:i') }}</small>
+                                </div>
                             @else
-                                <h2 class="card-title h4 fw-bolder text-secondary mb-2">
-                                    <i class="fas fa-shield-alt me-1"></i>{{ __('nav.inactive') }}
+                                <h2 class="rpg-stat-value text-secondary">
+                                    <i class="fas fa-times-circle me-1"></i>{{ __('nav.inactive') }}
                                 </h2>
-                                <p class="text-muted small mb-0">
-                                    <a href="{{ route('store.index') }}" class="text-decoration-none">{{ __('nav.visit_store') }}</a> {{ __('nav.to_activate') }}
-                                </p>
+                                <div class="rpg-stat-action">
+                                    <a href="{{ route('store.index') }}" class="btn btn-sm btn-outline-light">
+                                        <i class="fas fa-shopping-cart me-1"></i>{{ __('nav.buy_shield') }}
+                                    </a>
+                                </div>
                             @endif
+                        </div>
+                    </div>
+
+                    <!-- Global Prize Pool Card -->
+                    <div class="col-12 col-md-6 col-lg-2-4 mb-4">
+                        <div class="rpg-stat-card stat-prize">
+                            <div class="rpg-stat-icon">
+                                <i class="fas fa-trophy"></i>
+                            </div>
+                            <h3 class="rpg-stat-label">{{ __('nav.global_prize_pool') }}</h3>
+                            <h2 class="rpg-stat-value" id="globalPrizePoolDisplay">
+                                IDR {{ number_format($globalPrizePool, 0, ',', '.') }}
+                            </h2>
+                            <div class="rpg-stat-details">
+                                <small>{{ __('nav.distributed_daily') }}</small>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Player Level & Experience Card -->
-                <div class="col-12 col-md-6 col-lg-2-4">
-                    <div class="card h-100 shadow-lg border-start border-5 border-primary">
-                        <div class="card-body">
-                            <p class="card-text text-uppercase text-muted fw-semibold mb-1">{{ __('nav.player_level') }}</p>
-                            <h2 class="card-title h3 fw-bolder text-primary" id="playerLevelDisplay">
-                                {{ __('nav.level') }} {{ $user->level }}
-                            </h2>
-                            <div class="mb-2">
-                                @php
-                                    use App\Services\ExperienceService;
-                                    $expToNext = ExperienceService::getExpToNextLevel($user->experience, $user->level);
-                                    $expProgress = ExperienceService::getExpProgressPercentage($user->experience, $user->level);
-                                @endphp
-                                <div class="progress" style="height: 8px;">
-                                    <div class="progress-bar bg-primary" role="progressbar" 
-                                         style="width: {{ $expProgress }}%" 
-                                         aria-valuenow="{{ $expProgress }}" 
-                                         aria-valuemin="0" 
-                                         aria-valuemax="100">
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="rpg-panel panel-main">
+                            <div class="panel-content p-4">
+                                <div class="row align-items-center">
+                                    <div class="col-md-12">
+                                        <h3 class="rpg-title mb-3" style="color:white;">
+                                            <i class="fas fa-star me-2 text-warning"></i>{{ __('nav.player_level') }}
+                                        </h3>
+                                        <h2 class="rpg-stat-value text-warning mb-3" id="playerLevelDisplay">
+                                            {{ __('nav.level') }} {{ $user->level }}
+                                        </h2>
+                                        <div class="mb-3">
+                                            @php
+                                                use App\Services\ExperienceService;
+                                                $expToNext = ExperienceService::getExpToNextLevel($user->experience, $user->level);
+                                                $expProgress = ExperienceService::getExpProgressPercentage($user->experience, $user->level);
+                                            @endphp
+                                            <div class="progress mb-2" style="height: 10px; border-radius: 8px; background: rgba(255,255,255,0.1);">
+                                                <div class="progress-bar" role="progressbar" 
+                                                     style="width: {{ $expProgress }}%; background: linear-gradient(90deg, #ffd700, #ffed4e);" 
+                                                     aria-valuenow="{{ $expProgress }}" 
+                                                     aria-valuemin="0" 
+                                                     aria-valuemax="100">
+                                                </div>
+                                            </div>
+                                            <p class="text-light mb-0" id="playerExpDisplay">
+                                                {{ number_format($user->experience) }} EXP
+                                                <small class="text-white ms-2">{{ number_format($expToNext) }} EXP to next level</small>
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <p class="text-muted small mb-0" id="playerExpDisplay">
-                                {{ number_format($user->experience) }} EXP<br>
-                                <small>{{ number_format($expToNext) }} EXP to next level</small>
-                                @if($user->level < 3)
-                                    <br><small class="text-warning">Auto-click unlocks at Level 3</small>
-                                @endif
-                            </p>
                         </div>
                     </div>
                 </div>
-            </div>
 
             <!-- Game Actions Section -->
             <div class="row justify-content-center">
                 <!-- EARN MONEY ACTION -->
                 <div class="col-12 col-lg-8">
-                    <div class="card shadow-lg border-0">
-                        <div class="card-body p-3 p-md-4">
+                    <div class="rpg-panel panel-main position-relative overflow-hidden" style="min-height: 300px;">
+                        <!-- Background Pattern -->
+                        <div class="position-absolute w-100 h-100" style="top: 0; left: 0; opacity: 0.03; background-image: url('data:image/svg+xml,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100 100\"><defs><pattern id=\"treasure-pattern\" x=\"0\" y=\"0\" width=\"20\" height=\"20\" patternUnits=\"userSpaceOnUse\"><circle cx=\"10\" cy=\"10\" r=\"2\" fill=\"%23ffd700\"/></pattern></defs><rect width=\"100\" height=\"100\" fill=\"url(%23treasure-pattern)\"/></svg>'); background-repeat: repeat;"></div>
+                        
+                        <div class="panel-content p-4">
                             <!-- Header Section -->
-                            <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-3">
-                                <h2 class="h3 fw-bold text-primary mb-2 mb-md-0">Daily Grind</h2>
+                            <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4">
+                                <div class="rpg-section-header mb-3 mb-md-0">
+                                    <h2 class="rpg-title text-primary">
+                                        <i class="fas fa-treasure-chest me-2 text-warning" style="text-shadow: 0 0 10px rgba(255,193,7,0.5);"></i>
+                                        Treasure Chamber
+                                    </h2>
+                                    <p class="rpg-subtitle mb-0">Delve into mystical treasures</p>
+                                </div>
                                 
                                 <!-- Auto Click Toggle (Level 3+ Required) -->
                                 @if($user->level >= 3)
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="autoClickToggle" 
-                                               @if($user->treasure <= 0) disabled @endif>
-                                        <label class="form-check-label fw-bold text-primary" for="autoClickToggle">
-                                            <i class="fas fa-robot me-1"></i><span class="d-none d-sm-inline">Auto Click</span>
-                                        </label>
+                                    <div class="rpg-toggle-container">
+                                        <div class="form-check form-switch rpg-switch">
+                                            <input class="form-check-input rpg-switch-input" type="checkbox" id="autoClickToggle" 
+                                                   @if($user->treasure <= 0) disabled @endif>
+                                            <label class="form-check-label rpg-switch-label fw-bold" for="autoClickToggle">
+                                                <i class="fas fa-magic me-2"></i>
+                                                <span class="d-none d-sm-inline">Auto Click</span>
+                                                <span class="d-sm-none">Auto</span>
+                                            </label>
+                                        </div>
                                     </div>
                                 @else
-                                    <div class="text-muted">
-                                        <small><i class="fas fa-lock me-1"></i>Auto Click unlocks at Level 3</small>
+                                    <div class="rpg-locked-feature">
+                                        <span class="badge bg-secondary">
+                                            <i class="fas fa-lock me-1"></i>
+                                            Level 3 Required
+                                        </span>
                                     </div>
                                 @endif
                             </div>
                             
                             <!-- Description -->
-                            <div class="row justify-content-center mb-4">
-                                <div class="col-12 col-md-10">
-                                    <p class="text-muted text-center mb-0">
-                                        {{ __('nav.click_to_earn_money') }}
-                                        @if($user->steal_level > 0)
-                                            <br><small class="text-info"><i class="fas fa-mask me-1"></i><strong>{{ __('nav.bonus') }}:</strong> {{ __('nav.steal_bonus', ['percent' => $user->steal_level * 5]) }}</small>
-                                        @endif
-                                    </p>
+                            <div class="rpg-description-panel mb-4">
+                                <div class="row justify-content-center">
+                                    <div class="col-12 col-md-10">
+                                        <div class="text-center">
+                                            <p class="rpg-flavor-text mb-2">
+                                                {{ __('nav.click_to_earn_money') }}
+                                            </p>
+                                            @if($user->steal_level > 0)
+                                                <div class="rpg-bonus-indicator">
+                                                    <span class="badge bg-info bg-gradient">
+                                                        <i class="fas fa-mask me-1"></i>
+                                                        <strong>{{ __('nav.bonus') }}:</strong> {{ __('nav.steal_bonus', ['percent' => $user->steal_level * 5]) }}
+                                                    </span>
+                                                </div>
+                                            @endif
+                                            @if($user->level < 3)
+                                                <div class="rpg-bonus-indicator mt-2">
+                                                    <span class="badge bg-warning text-dark">
+                                                        <i class="fas fa-lock me-1"></i>
+                                                        <strong>Auto-click unlocks at Level 3</strong>
+                                                    </span>
+                                                </div>
+                                            @endif
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             
                             <!-- Treasure Section -->
                             <div class="row justify-content-center">
-                                <div class="col-12 col-sm-8 col-md-6">
-                                    <div class="text-center">
+                                <div class="col-12 col-sm-10 col-md-8">
+                                    <div class="rpg-treasure-display text-center">
                                         @php
                                             // Treasure rarity configuration with random box chances
                                             $rarityConfig = [
@@ -254,42 +332,53 @@
                                         @endphp
                                         
                                         <!-- Treasure Type Display -->
-                                        <div class="mb-3">
-                                            <span class="badge fs-6 px-3 py-2" style="background-color: {{ $currentRarity['color'] }}; box-shadow: {{ $currentRarity['glow'] }}; color: white; max-width: 100%; word-wrap: break-word;">
-                                                <i class="{{ $currentRarity['icon'] }} me-1"></i>{{ $currentRarity['name'] }} Treasure
-                                            </span>
+                                        <div class="rpg-rarity-display mb-4">
+                                            <div class="rpg-rarity-badge" style="background: linear-gradient(135deg, {{ $currentRarity['color'] }}, {{ $currentRarity['color'] }}cc); box-shadow: {{ $currentRarity['glow'] }}, 0 4px 15px rgba(0,0,0,0.2);">
+                                                <i class="{{ $currentRarity['icon'] }} me-2" style="font-size: 1.2rem;"></i>
+                                                <span class="fw-bold">{{ $currentRarity['name'] }} Treasure</span>
+                                            </div>
                                             @if($currentRarity['chance'] > 0)
-                                                <br>
-                                                <small class="text-muted mt-1 d-block">
-                                                    <i class="fas fa-gift me-1"></i>{{ $currentRarity['chance'] }}% chance for Random Box
-                                                </small>
+                                                <div class="rpg-bonus-chance mt-2">
+                                                    <small class="text-muted">
+                                                        <i class="fas fa-gift me-1 text-warning"></i>
+                                                        {{ $currentRarity['chance'] }}% chance for Random Box
+                                                    </small>
+                                                </div>
                                             @endif
                                         </div>
                                         
                                         <!-- Open Treasure Button -->
-                                        <form method="POST" action="{{ route('game.earn') }}" id="earnMoneyForm" class="d-inline-block">
-                                            @csrf
-                                            <button type="submit" id="earnMoneyBtn"
-                                                    class="btn btn-md fw-bold text-uppercase @if($user->treasure > 0) btn-primary @else btn-secondary disabled @endif"
-                                                    style="border-radius: 12px; padding: 10px 20px; min-width: 160px;"
-                                                    @if($user->treasure <= 0) disabled @endif>
-                                                @if($user->treasure > 0)
-                                                    <i class="fas fa-coins me-2"></i><span class="d-none d-sm-inline">OPEN </span>TREASURE
-                                                @else
-                                                    <span class="d-none d-sm-inline">OUT OF </span>TREASURE
-                                                @endif
-                                            </button>
-                                        </form>
+                                        <div class="rpg-action-area">
+                                            <form method="POST" action="{{ route('game.earn') }}" id="earnMoneyForm">
+                                                @csrf
+                                                <button type="submit" id="earnMoneyBtn"
+                                                        class="rpg-button rpg-button-primary rpg-button-large @if($user->treasure <= 0) rpg-button-disabled @endif"
+                                                        @if($user->treasure <= 0) disabled @endif>
+                                                    <div class="rpg-button-content">
+                                                        @if($user->treasure > 0)
+                                                            <i class="fas fa-hand-sparkles me-2"></i>
+                                                            <span class="d-none d-sm-inline">OPEN </span>TREASURE
+                                                        @else
+                                                            <i class="fas fa-times-circle me-2"></i>
+                                                            <span class="d-none d-sm-inline">OUT OF </span>TREASURE
+                                                        @endif
+                                                    </div>
+                                                    <div class="rpg-button-glow"></div>
+                                                </button>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             
-                            <!-- Steal Success Message (shows below earn money button) -->
+                            <!-- Steal Success Message -->
                             @if (session('success') && (str_contains(session('success'), 'Heist successful!') || str_contains(session('success'), 'BONUS: Stole')))
-                                <div id="stealSuccessMessage" class="mt-3">
-                                    <div class="alert alert-success d-flex align-items-center">
-                                        <i class="fas fa-mask me-2"></i>
-                                        <div>
+                                <div id="stealSuccessMessage" class="mt-4">
+                                    <div class="rpg-alert rpg-alert-success">
+                                        <div class="rpg-alert-icon">
+                                            <i class="fas fa-mask"></i>
+                                        </div>
+                                        <div class="rpg-alert-content">
                                             <strong>{{ session('success') }}</strong>
                                         </div>
                                     </div>
@@ -297,14 +386,16 @@
                             @endif
                             
                             <!-- Auto Click Status -->
-                            <div id="autoClickStatus" class="mt-3" style="display: none;">
-                                <div class="alert alert-info d-flex align-items-center">
-                                    <div class="spinner-border spinner-border-sm me-2" role="status">
-                                        <span class="visually-hidden">Loading...</span>
+                            <div id="autoClickStatus" class="mt-4" style="display: none;">
+                                <div class="rpg-alert rpg-alert-info">
+                                    <div class="rpg-alert-icon">
+                                        <div class="spinner-border spinner-border-sm" role="status">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
                                     </div>
-                                    <small class="mb-0">
-                                        <strong>Auto Click Active:</strong> <span id="autoClickCounter">0</span> clicks completed
-                                    </small>
+                                    <div class="rpg-alert-content">
+                                        <strong>Auto Click Active:</strong> <span id="autoClickCounter">0</span> treasures opened
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -314,55 +405,91 @@
 
             <!-- Class System Section -->
             @if($user->canSelectClass() || $user->canAdvanceClass() || $user->selected_class)
-            <div class="row justify-content-center mt-4" >
+            <div class="row justify-content-center mt-4">
                 <div class="col-12 col-lg-8">
-                    <div class="card shadow-lg border-0 bg-gradient-primary text-white">
-                        <div class="card-body p-4">
+                    <div class="rpg-panel panel-class position-relative overflow-hidden">
+                        <!-- Magical Background Effect -->
+                        <div class="position-absolute w-100 h-100" style="top: 0; left: 0; opacity: 0.05; background: radial-gradient(circle at 20% 30%, #6f42c1 0%, transparent 50%), radial-gradient(circle at 80% 70%, #e83e8c 0%, transparent 50%), radial-gradient(circle at 40% 80%, #fd7e14 0%, transparent 50%);"></div>
+                        
+                        <div class="panel-content p-4">
                             @if($user->selected_class)
                                 <!-- Current Class Display -->
-                                <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center" style="color: black;">
-                                    <div>
-                                        <h4 class="mb-2">
-                                            <i class="fas fa-shield-alt me-2"></i>{{ $user->getClassDisplayName() }}
-                                        </h4>
-                                        <p class="mb-0 opacity-75">{{ $user->getClassDescription() }}</p>
-                                        @if($user->class_selected_at)
-                                            <small class="opacity-50">Class selected on {{ $user->class_selected_at->format('M d, Y') }}</small>
-                                        @endif
+                                <div class="rpg-class-display">
+                                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
+                                        <div class="rpg-class-info flex-grow-1">
+                                            <div class="rpg-class-header mb-3">
+                                                <h3 class="rpg-class-title text-white mb-2">
+                                                    <i class="fas fa-shield-alt me-2 text-warning" style="text-shadow: 0 0 10px rgba(255,193,7,0.7);"></i>
+                                                    {{ $user->getClassDisplayName() }}
+                                                </h3>
+                                                <p class="rpg-class-description text-light mb-2 opacity-90">
+                                                    {{ $user->getClassDescription() }}
+                                                </p>
+                                                @if($user->class_selected_at)
+                                                    <small class="text-light opacity-60">
+                                                        <i class="fas fa-calendar me-1"></i>
+                                                        Class selected on {{ $user->class_selected_at->format('M d, Y') }}
+                                                    </small>
+                                                @endif
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="rpg-class-actions mt-3 mt-md-0 ms-md-4">
+                                            @if($user->canAdvanceClass())
+                                                <div class="text-center">
+                                                    <form action="{{ route('game.advance-class') }}" method="POST">
+                                                        @csrf
+                                                        <button type="submit" class="rpg-button rpg-button-legendary rpg-button-large">
+                                                            <div class="rpg-button-content">
+                                                                <i class="fas fa-star me-2"></i>
+                                                                Advance Class
+                                                            </div>
+                                                            <div class="rpg-button-glow"></div>
+                                                        </button>
+                                                    </form>
+                                                    <div class="mt-2">
+                                                        <small class="text-light opacity-75">
+                                                            <i class="fas fa-magic me-1"></i>
+                                                            Unlock enhanced abilities!
+                                                        </small>
+                                                    </div>
+                                                </div>
+                                            @elseif($user->has_advanced_class)
+                                                <div class="text-center">
+                                                    <div class="rpg-advanced-badge">
+                                                        <div class="badge bg-warning bg-gradient text-dark px-3 py-2" style="font-size: 1rem; box-shadow: 0 0 15px rgba(255,193,7,0.5);">
+                                                            <i class="fas fa-crown me-1"></i>
+                                                            ADVANCED CLASS
+                                                            <i class="fas fa-crown ms-1"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endif
+                                        </div>
                                     </div>
-                                    
-                                    @if($user->canAdvanceClass())
-                                        <div class="text-center mt-3 mt-md-0">
-                                            <form action="{{ route('game.advance-class') }}" method="POST" class="d-inline">
-                                                @csrf
-                                                <button type="submit" class="btn btn-warning btn-lg px-4">
-                                                    ⭐ Advance Class
-                                                </button>
-                                            </form>
-                                            <div class="small mt-2 opacity-75">
-                                                Unlock enhanced abilities!
-                                            </div>
-                                        </div>
-                                    @elseif($user->has_advanced_class)
-                                        <div class="text-center mt-3 mt-md-0">
-                                            <div class="badge bg-warning text-dark fs-6 px-3 py-2">
-                                                ⭐ ADVANCED CLASS ⭐
-                                            </div>
-                                        </div>
-                                    @endif
                                 </div>
                             @elseif($user->canSelectClass())
                                 <!-- Class Selection Available -->
-                                <div class="text-center" style="color:black;">
-                                    <h4 class="mb-3">
-                                        <i class="fas fa-star me-2"></i>Class Selection Available!
-                                    </h4>
-                                    <p class="mb-4 opacity-75">
-                                        You've reached level {{ $user->level }}! Choose a class to unlock special abilities and enhance your treasure hunting experience.
-                                    </p>
-                                    <a href="{{ route('game.class-selection') }}" class="btn btn-light btn-lg px-5">
-                                        🎯 Choose Your Class
-                                    </a>
+                                <div class="rpg-class-selection text-center">
+                                    <div class="rpg-section-header mb-4">
+                                        <h3 class="rpg-title text-white mb-3">
+                                            <i class="fas fa-star me-2 text-warning" style="text-shadow: 0 0 15px rgba(255,193,7,0.8); animation: pulse 2s infinite;"></i>
+                                            Class Selection Available!
+                                        </h3>
+                                        <p class="rpg-subtitle text-light opacity-90 mb-4">
+                                            You've reached level {{ $user->level }}! Choose a class to unlock special abilities and enhance your treasure hunting experience.
+                                        </p>
+                                    </div>
+                                    
+                                    <div class="rpg-action-area">
+                                        <a href="{{ route('game.class-selection') }}" class="rpg-button rpg-button-epic rpg-button-large">
+                                            <div class="rpg-button-content">
+                                                <i class="fas fa-magic me-2"></i>
+                                                Choose Your Destiny
+                                            </div>
+                                            <div class="rpg-button-glow"></div>
+                                        </a>
+                                    </div>
                                 </div>
                             @endif
                         </div>
@@ -376,6 +503,634 @@
 
 <!-- Auto Click JavaScript -->
 <style>
+    /* === RPG THEME STYLING === */
+    
+    /* Main Container Background */
+    .container-fluid {
+        position: relative;
+        min-height: 100vh;
+    }
+    
+    .container-fluid::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: 
+            radial-gradient(circle at 20% 30%, rgba(59,130,246,0.1) 0%, transparent 50%),
+            radial-gradient(circle at 80% 70%, rgba(139,92,246,0.1) 0%, transparent 50%),
+            radial-gradient(circle at 40% 80%, rgba(245,158,11,0.1) 0%, transparent 50%);
+        pointer-events: none;
+        z-index: 0;
+        animation: backgroundShift 20s ease-in-out infinite;
+    }
+    
+    @keyframes backgroundShift {
+        0%, 100% { opacity: 0.5; }
+        50% { opacity: 0.8; }
+    }
+    
+    .container-fluid > .container {
+        position: relative;
+        z-index: 1;
+    }
+    
+    /* Floating Mystical Elements */
+    .container-fluid::after {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: 
+            radial-gradient(2px 2px at 20px 30px, rgba(255,193,7,0.4), transparent),
+            radial-gradient(2px 2px at 40px 70px, rgba(59,130,246,0.3), transparent),
+            radial-gradient(1px 1px at 90px 40px, rgba(139,92,246,0.4), transparent),
+            radial-gradient(1px 1px at 130px 80px, rgba(245,158,11,0.3), transparent),
+            radial-gradient(2px 2px at 160px 30px, rgba(34,197,94,0.3), transparent);
+        background-repeat: repeat;
+        background-size: 200px 100px;
+        animation: mysticFloat 15s linear infinite;
+        pointer-events: none;
+        z-index: 0;
+    }
+    
+    @keyframes mysticFloat {
+        0% { transform: translateY(0px) translateX(0px); }
+        25% { transform: translateY(-10px) translateX(5px); }
+        50% { transform: translateY(-20px) translateX(0px); }
+        75% { transform: translateY(-10px) translateX(-5px); }
+        100% { transform: translateY(0px) translateX(0px); }
+    }
+    
+    /* RPG Panels */
+    .rpg-panel {
+        background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+        border: 2px solid #4a5568;
+        border-radius: 15px;
+        box-shadow: 
+            0 10px 30px rgba(0,0,0,0.3),
+            inset 0 1px 0 rgba(255,255,255,0.1),
+            0 0 0 1px rgba(255,255,255,0.05);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .rpg-panel::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%, rgba(255,255,255,0.05) 100%);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        pointer-events: none;
+    }
+    
+    .rpg-panel:hover::before {
+        opacity: 1;
+    }
+    
+    .panel-main {
+        border-color: #4299e1;
+        box-shadow: 
+            0 10px 30px rgba(0,0,0,0.3),
+            0 0 20px rgba(66,153,225,0.3),
+            inset 0 1px 0 rgba(255,255,255,0.1);
+    }
+    
+    .panel-class {
+        background: linear-gradient(135deg, #553c9a 0%, #6b46c1 50%, #7c3aed 100%);
+        border-color: #8b5cf6;
+        box-shadow: 
+            0 10px 30px rgba(0,0,0,0.4),
+            0 0 25px rgba(139,92,246,0.4),
+            inset 0 1px 0 rgba(255,255,255,0.15);
+    }
+    
+    .panel-content {
+        position: relative;
+        z-index: 1;
+    }
+    
+    /* RPG Typography */
+    .rpg-title {
+        font-family: 'Segoe UI', system-ui, sans-serif;
+        font-weight: 700;
+        font-size: 1.5rem;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        margin: 0;
+        color: #000000;
+    }
+    
+    .rpg-subtitle {
+        font-size: 0.9rem;
+        color: #a0aec0;
+        font-style: italic;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+    }
+    
+    .rpg-flavor-text {
+        color: #cbd5e0;
+        font-size: 0.95rem;
+        line-height: 1.4;
+    }
+    
+    /* Section Headers */
+    .rpg-section-header {
+        margin-bottom: 1rem;
+    }
+    
+    /* RPG Buttons */
+    .rpg-button {
+        position: relative;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        transition: all 0.3s ease;
+        overflow: hidden;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+        outline: none;
+    }
+    
+    .rpg-button-content {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .rpg-button-glow {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+        transform: translateX(-100%);
+        transition: transform 0.6s ease;
+    }
+    
+    .rpg-button:hover .rpg-button-glow {
+        transform: translateX(100%);
+    }
+    
+    .rpg-button-large {
+        padding: 12px 30px;
+        font-size: 1rem;
+    }
+    
+    .rpg-button-primary {
+        background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
+        color: white;
+        box-shadow: 0 4px 15px rgba(66,153,225,0.4);
+    }
+    
+    .rpg-button-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(66,153,225,0.6);
+        color: white;
+        text-decoration: none;
+    }
+    
+    .rpg-button-epic {
+        background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+        color: white;
+        box-shadow: 0 4px 15px rgba(139,92,246,0.4);
+    }
+    
+    .rpg-button-epic:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(139,92,246,0.6);
+        color: white;
+        text-decoration: none;
+    }
+    
+    .rpg-button-legendary {
+        background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        color: white;
+        box-shadow: 0 4px 15px rgba(245,158,11,0.4);
+    }
+    
+    .rpg-button-legendary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(245,158,11,0.6);
+        color: white;
+        text-decoration: none;
+    }
+    
+    .rpg-button-disabled {
+        background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+        color: #9ca3af;
+        cursor: not-allowed;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+    
+    .rpg-button-disabled:hover {
+        transform: none;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+    
+    /* Toggle Switch */
+    .rpg-toggle-container {
+        padding: 8px;
+        background: rgba(255,255,255,0.1);
+        border-radius: 8px;
+        backdrop-filter: blur(10px);
+    }
+    
+    .rpg-switch-input {
+        background-color: #4b5563;
+        border-color: #6b7280;
+    }
+    
+    .rpg-switch-input:checked {
+        background-color: #4299e1;
+        border-color: #3182ce;
+    }
+    
+    .rpg-switch-label {
+        color: #e2e8f0;
+        margin-left: 0.5rem;
+    }
+    
+    /* Locked Features */
+    .rpg-locked-feature .badge {
+        background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+        padding: 6px 12px;
+        border-radius: 6px;
+    }
+    
+    /* Description Panel */
+    .rpg-description-panel {
+        background: rgba(255,255,255,0.05);
+        border-radius: 10px;
+        padding: 1rem;
+        border: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .rpg-bonus-indicator .badge {
+        background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+        padding: 6px 12px;
+        border-radius: 6px;
+        box-shadow: 0 2px 8px rgba(6,182,212,0.3);
+    }
+    
+    /* Treasure Display */
+    .rpg-treasure-display {
+        padding: 1rem;
+    }
+    
+    .rpg-rarity-display {
+        margin-bottom: 1.5rem;
+    }
+    
+    .rpg-rarity-badge {
+        display: inline-block;
+        padding: 12px 20px;
+        border-radius: 25px;
+        color: white;
+        font-weight: 600;
+        font-size: 1rem;
+        border: 2px solid rgba(255,255,255,0.3);
+        backdrop-filter: blur(5px);
+    }
+    
+    .rpg-bonus-chance {
+        margin-top: 0.5rem;
+    }
+    
+    .rpg-action-area {
+        margin-top: 1.5rem;
+    }
+    
+    /* Alerts */
+    .rpg-alert {
+        background: rgba(255,255,255,0.1);
+        border: 1px solid rgba(255,255,255,0.2);
+        border-radius: 10px;
+        padding: 1rem;
+        display: flex;
+        align-items: center;
+        backdrop-filter: blur(10px);
+    }
+    
+    .rpg-alert-success {
+        background: rgba(34,197,94,0.2);
+        border-color: rgba(34,197,94,0.3);
+        color: #bbf7d0;
+    }
+    
+    .rpg-alert-info {
+        background: rgba(59,130,246,0.2);
+        border-color: rgba(59,130,246,0.3);
+        color: #bfdbfe;
+    }
+    
+    .rpg-alert-icon {
+        margin-right: 0.75rem;
+        font-size: 1.1rem;
+    }
+    
+    .rpg-alert-content {
+        flex: 1;
+    }
+    
+    /* Enhanced RPG Notifications */
+    .rpg-notification {
+        background: linear-gradient(135deg, rgba(45,55,72,0.95) 0%, rgba(26,32,44,0.95) 100%);
+        border: 2px solid #4a5568;
+        border-radius: 12px;
+        padding: 1.25rem;
+        display: flex;
+        align-items: center;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        backdrop-filter: blur(15px);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .rpg-notification::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.05) 50%, transparent 70%);
+        pointer-events: none;
+    }
+    
+    .rpg-notification-success {
+        border-color: #22c55e;
+        background: linear-gradient(135deg, rgba(34,197,94,0.2) 0%, rgba(22,163,74,0.2) 100%);
+    }
+    
+    .rpg-notification-success::before {
+        background: linear-gradient(45deg, transparent 30%, rgba(34,197,94,0.1) 50%, transparent 70%);
+    }
+    
+    .rpg-notification-error {
+        border-color: #ef4444;
+        background: linear-gradient(135deg, rgba(239,68,68,0.2) 0%, rgba(220,38,38,0.2) 100%);
+    }
+    
+    .rpg-notification-error::before {
+        background: linear-gradient(45deg, transparent 30%, rgba(239,68,68,0.1) 50%, transparent 70%);
+    }
+    
+    .rpg-notification-icon {
+        margin-right: 1rem;
+        font-size: 1.5rem;
+        position: relative;
+        z-index: 1;
+    }
+    
+    .rpg-notification-success .rpg-notification-icon {
+        color: #22c55e;
+        text-shadow: 0 0 10px rgba(34,197,94,0.5);
+    }
+    
+    .rpg-notification-error .rpg-notification-icon {
+        color: #ef4444;
+        text-shadow: 0 0 10px rgba(239,68,68,0.5);
+    }
+    
+    .rpg-notification-content {
+        flex: 1;
+        position: relative;
+        z-index: 1;
+    }
+    
+    .rpg-notification-title {
+        font-size: 1.1rem;
+        font-weight: 700;
+        margin-bottom: 0.25rem;
+        color: #000000;
+        text-shadow: 1px 1px 2px rgba(255,255,255,0.5);
+    }
+    
+    .rpg-notification-message {
+        font-size: 0.95rem;
+        color: #000000;
+        line-height: 1.4;
+        text-shadow: 1px 1px 2px rgba(255,255,255,0.3);
+    }
+    
+    .rpg-notification-close {
+        background: none;
+        border: none;
+        color: #9ca3af;
+        font-size: 1.2rem;
+        padding: 0.5rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+        z-index: 1;
+        border-radius: 50%;
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .rpg-notification-close:hover {
+        color: #ffffff;
+        background: rgba(255,255,255,0.1);
+        transform: scale(1.1);
+    }
+    
+    /* Class System Styles */
+    .rpg-class-display {
+        color: white;
+    }
+    
+    .rpg-class-info {
+        min-width: 0;
+    }
+    
+    .rpg-class-header {
+        margin-bottom: 1rem;
+    }
+    
+    .rpg-class-title {
+        font-size: 1.4rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .rpg-class-description {
+        font-size: 1rem;
+        line-height: 1.4;
+    }
+    
+    .rpg-class-actions {
+        flex-shrink: 0;
+    }
+    
+    .rpg-class-selection {
+        padding: 2rem 1rem;
+    }
+    
+    .rpg-advanced-badge {
+        animation: glow 2s ease-in-out infinite alternate;
+    }
+    
+    @keyframes glow {
+        from { filter: drop-shadow(0 0 5px rgba(255,193,7,0.3)); }
+        to { filter: drop-shadow(0 0 15px rgba(255,193,7,0.7)); }
+    }
+    
+    /* Stat Cards (Updated styles) */
+    .rpg-stat-card {
+        background: linear-gradient(135deg, #374151 0%, #1f2937 100%);
+        border: 2px solid #4b5563;
+        border-radius: 12px;
+        padding: 1.5rem;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        color: white;
+        height: 100%;
+    }
+    
+    .rpg-stat-card:hover {
+        transform: translateY(-5px);
+        border-color: #6b7280;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    }
+    
+    .rpg-stat-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    
+    .rpg-stat-card:hover::before {
+        opacity: 1;
+    }
+    
+    .rpg-stat-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1rem auto;
+        font-size: 1.5rem;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .rpg-stat-icon::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: 50%;
+        background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+        transform: translateX(-100%);
+        transition: transform 0.6s ease;
+    }
+    
+    .rpg-stat-card:hover .rpg-stat-icon::before {
+        transform: translateX(100%);
+    }
+    
+    .rpg-stat-value {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+    }
+    
+    .rpg-stat-label {
+        font-size: 0.875rem;
+        color: #d1d5db;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 1rem;
+    }
+    
+    .rpg-stat-details {
+        font-size: 0.8rem;
+        color: #9ca3af;
+        margin-bottom: 1rem;
+    }
+    
+    .rpg-stat-action {
+        margin-top: auto;
+    }
+    
+    .rpg-stat-action .btn {
+        font-size: 0.8rem;
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+    
+    /* Specific stat card colors */
+    .stat-money .rpg-stat-icon { background: linear-gradient(135deg, #059669 0%, #047857 100%); }
+    .stat-treasure .rpg-stat-icon { background: linear-gradient(135deg, #d97706 0%, #b45309 100%); }
+    .stat-boxes .rpg-stat-icon { background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%); }
+    .stat-shield .rpg-stat-icon { background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%); }
+    .stat-prize .rpg-stat-icon { background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .rpg-title {
+            font-size: 1.3rem;
+        }
+        
+        .rpg-button-large {
+            padding: 10px 20px;
+            font-size: 0.9rem;
+        }
+        
+        .rpg-stat-card {
+            margin-bottom: 1rem;
+        }
+        
+        .rpg-class-display .d-flex {
+            flex-direction: column;
+        }
+        
+        .rpg-class-actions {
+            margin-top: 1rem;
+            margin-left: 0 !important;
+        }
+    }
+    
+    /* Animation Classes */
+    @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.7; }
+    }
+    
+    @keyframes bounce {
+        0%, 20%, 53%, 80%, 100% { transform: translate3d(0,0,0); }
+        40%, 43% { transform: translate3d(0,-10px,0); }
+        70% { transform: translate3d(0,-5px,0); }
+        90% { transform: translate3d(0,-2px,0); }
+    }
+    
     /* 5-column responsive layout */
     @media (min-width: 992px) {
         .col-lg-2-4 {
@@ -552,7 +1307,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             setTimeout(() => {
                 moneyDisplay.style.transform = 'scale(1)';
-                moneyDisplay.style.color = '#212529'; // Bootstrap dark color
+                moneyDisplay.style.color = '#ffffff'; // White color for better visibility
             }, 600);
         }
         
@@ -609,7 +1364,9 @@ document.addEventListener('DOMContentLoaded', function() {
         // Update global prize pool display with pulse animation
         const prizePoolDisplay = document.getElementById('globalPrizePoolDisplay');
         if (prizePoolDisplay) {
-            prizePoolDisplay.textContent = `IDR ${data.formatted_global_prize_pool}`;
+            // Format the number consistently with PHP number_format
+            const formattedAmount = new Intl.NumberFormat('id-ID').format(data.global_prize_pool || data.formatted_global_prize_pool?.replace(/[^\d]/g, '') || 0);
+            prizePoolDisplay.textContent = `IDR ${formattedAmount}`;
             
             // Add pulse animation
             prizePoolDisplay.classList.add('prize-pool-pulse');
