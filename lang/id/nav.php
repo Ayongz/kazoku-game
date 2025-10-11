@@ -524,4 +524,15 @@ return [
     'recent_rewards' => 'Hadiah Terbaru',
     'back_to_dashboard' => 'Kembali ke Dashboard',
 
+    // Profile translations
+    'profile_settings' => 'Pengaturan Profil',
+    'customize_your_avatar' => 'Kustomisasi avatar dan profil Anda',
+    'success' => 'Berhasil',
+    'error' => 'Kesalahan',
+    'current_avatar' => 'Avatar Saat Ini',
+    'choose_your_avatar' => 'Pilih Avatar Anda',
+    'default' => 'Bawaan',
+    'avatar_number' => 'Avatar :number',
+    'save_changes' => 'Simpan Perubahan',
+
 ];

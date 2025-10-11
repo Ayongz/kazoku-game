@@ -521,4 +521,15 @@ return [
     'recent_rewards' => 'Recent Rewards',
     'back_to_dashboard' => 'Back to Dashboard',
 
+    // Profile translations
+    'profile_settings' => 'Profile Settings',
+    'customize_your_avatar' => 'Customize your avatar and profile',
+    'success' => 'Success',
+    'error' => 'Error',
+    'current_avatar' => 'Current Avatar',
+    'choose_your_avatar' => 'Choose Your Avatar',
+    'default' => 'Default',
+    'avatar_number' => 'Avatar :number',
+    'save_changes' => 'Save Changes',
+
 ];

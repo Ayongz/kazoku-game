@@ -6,10 +6,19 @@
         <div class="col-lg-10 col-xl-8">
             <!-- Header -->
             <div class="text-center mb-5">
-                <h1 class="display-4 fw-bold text-dark mb-3">
-                    📊 {{ __('nav.player_status') }}
-                </h1>
-                <p class="text-muted fs-5">{{ __('nav.character_progression') }}</p>
+                <!-- Player Profile Section -->
+                <div class="player-profile-card mb-4">
+                    <div class="player-avatar-container">
+                        <img src="{{ \App\Http\Controllers\ProfileController::getProfilePictureUrl($user) }}" 
+                             alt="{{ $user->name }}" class="player-profile-avatar">
+                    </div>
+                    <h1 class="display-4 fw-bold text-dark mb-2">{{ $user->name }}</h1>
+                    <p class="text-muted fs-5">{{ __('nav.character_progression') }}</p>
+                    <a href="{{ route('profile.index') }}" class="btn btn-outline-primary btn-sm">
+                        <i class="fas fa-edit me-1"></i>Change Avatar
+                    </a>
+                </div>
+                
                 <div class="row text-center mt-4">
                     <div class="col-md-4">
                         <div class="badge bg-primary fs-6 px-3 py-2 mb-2">
@@ -394,6 +403,46 @@
 
 .progress-bar {
     border-radius: 10px;
+}
+
+/* Player Profile Section */
+.player-profile-card {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border: 1px solid #dee2e6;
+}
+
+.player-avatar-container {
+    display: inline-block;
+    position: relative;
+    margin-bottom: 1rem;
+}
+
+.player-profile-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #ffffff;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease;
+}
+
+.player-profile-avatar:hover {
+    transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+    .player-profile-card {
+        padding: 1.5rem;
+    }
+    
+    .player-profile-avatar {
+        width: 80px;
+        height: 80px;
+    }
 }
 </style>
 @endsection

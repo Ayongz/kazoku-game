@@ -7,6 +7,7 @@ use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\StatusController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\GuideController;
+use App\Http\Controllers\ProfileController;
 
 // Language switching route
 Route::get('/language/{language}', [LanguageController::class, 'switchLanguage'])->name('language.switch');
@@ -81,4 +82,9 @@ Route::middleware(['auth'])->group(function () {
     // --- GUIDE ROUTES ---
     // Game guide page
     Route::get('/game/guide', [GuideController::class, 'index'])->name('game.guide');
+    
+    // --- PROFILE ROUTES ---
+    // Profile management
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+    Route::post('/profile/picture', [ProfileController::class, 'updateProfilePicture'])->name('profile.update-picture');
 });

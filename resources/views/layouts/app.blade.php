@@ -75,34 +75,34 @@
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
-                        <!-- Language Switcher -->
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="languageNavDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fas fa-globe me-1"></i>
-                                @if(app()->getLocale() == 'id')
-                                    {{ __('auth.indonesian') }}
-                                @else
-                                    {{ __('auth.english') }}
-                                @endif
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="languageNavDropdown">
-                                <li>
-                                    <a class="dropdown-item @if(app()->getLocale() == 'en') active @endif" 
-                                       href="{{ route('language.switch', 'en') }}">
-                                        <i class="fas fa-flag-usa me-2"></i>{{ __('auth.english') }}
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item @if(app()->getLocale() == 'id') active @endif" 
-                                       href="{{ route('language.switch', 'id') }}">
-                                        <i class="fas fa-flag me-2"></i>{{ __('auth.indonesian') }}
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        
                         <!-- Authentication Links -->
                         @guest
+                            <!-- Language Switcher for Guests -->
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="languageNavDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-globe me-1"></i>
+                                    @if(app()->getLocale() == 'id')
+                                        {{ __('auth.indonesian') }}
+                                    @else
+                                        {{ __('auth.english') }}
+                                    @endif
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="languageNavDropdown">
+                                    <li>
+                                        <a class="dropdown-item @if(app()->getLocale() == 'en') active @endif" 
+                                           href="{{ route('language.switch', 'en') }}">
+                                            <i class="fas fa-flag-usa me-2"></i>{{ __('auth.english') }}
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item @if(app()->getLocale() == 'id') active @endif" 
+                                           href="{{ route('language.switch', 'id') }}">
+                                            <i class="fas fa-flag me-2"></i>{{ __('auth.indonesian') }}
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            
                             @if (Route::has('login'))
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('login') }}">{{ __('nav.login') }}</a>
@@ -121,6 +121,25 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('profile.index') }}">
+                                        <i class="fas fa-user-circle me-2"></i>Profile
+                                    </a>
+                                    
+                                    <!-- Language Switcher in User Menu -->
+                                    <div class="dropdown-divider"></div>
+                                    <h6 class="dropdown-header">
+                                        <i class="fas fa-globe me-2"></i>Language
+                                    </h6>
+                                    <a class="dropdown-item @if(app()->getLocale() == 'en') active @endif" 
+                                       href="{{ route('language.switch', 'en') }}">
+                                        <i class="fas fa-flag-usa me-2"></i>{{ __('auth.english') }}
+                                    </a>
+                                    <a class="dropdown-item @if(app()->getLocale() == 'id') active @endif" 
+                                       href="{{ route('language.switch', 'id') }}">
+                                        <i class="fas fa-flag me-2"></i>{{ __('auth.indonesian') }}
+                                    </a>
+                                    
+                                    <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

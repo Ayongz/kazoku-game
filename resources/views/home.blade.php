@@ -380,7 +380,8 @@
                                                 <td class="px-4 py-3">
                                                     <div class="d-flex align-items-center">
                                                         <div class="avatar-circle me-3">
-                                                            {{ strtoupper(substr($player->name, 0, 2)) }}
+                                                            <img src="{{ \App\Http\Controllers\ProfileController::getProfilePictureUrl($player) }}" 
+                                                                 alt="{{ $player->name }}" class="player-avatar">
                                                         </div>
                                                         <div>
                                                             <h6 class="mb-1 fw-bold">
@@ -579,7 +580,6 @@
     .avatar-circle {
         width: 40px;
         height: 40px;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         border-radius: 50%;
         display: flex;
         align-items: center;
@@ -587,6 +587,18 @@
         color: white;
         font-weight: bold;
         font-size: 0.9rem;
+        flex-shrink: 0;
+        overflow: hidden;
+        border: 2px solid #dee2e6;
+        position: relative;
+    }
+    
+    .player-avatar {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+    }
     }
 
     /* Enhanced Card Hover Effects */

@@ -22,6 +22,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'profile_picture',
         'randombox',
         'selected_class',
         'has_advanced_class',
@@ -270,5 +271,17 @@ class User extends Authenticatable
         }
         
         return $this->has_advanced_class ? $class['advanced_description'] : $class['description'];
+    }
+
+    /**
+     * Get the user's profile picture URL
+     */
+    public function getProfilePictureUrlAttribute()
+    {
+        if ($this->profile_picture) {
+            return '/images/profile/' . $this->profile_picture;
+        }
+        
+        return '/images/profile/default.png';
     }
 }
