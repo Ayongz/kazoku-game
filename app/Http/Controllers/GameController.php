@@ -312,6 +312,56 @@ class GameController extends Controller
     }
 
     /**
+     * Open a rare treasure
+     */
+    public function openRareTreasure(Request $request)
+    {
+        $user = Auth::user();
+
+        // Check if user has rare treasures
+        if (($user->rare_treasures ?? 0) <= 0) {
+            return redirect()->route('game.dashboard')
+                ->with('error', __('nav.no_rare_treasures'));
+        }
+
+        // Rare treasures give 5-6x normal treasure rewards
+        $baseReward = rand(self::MIN_EARN_AMOUNT, self::MAX_EARN_AMOUNT);
+        $rareMultiplier = rand(5, 6); // 5-6x multiplier
+        $moneyEarned = $baseReward * $rareMultiplier;
+
+        // Apply class bonuses if applicable
+        if ($user->selected_class === 'proud_merchant') {
+            $bonus = $user->has_advanced_class ? self::ADV_PROUD_MERCHANT_BONUS_EARNING : self::PROUD_MERCHANT_BONUS_EARNING;
+            $moneyEarned = intval($moneyEarned * (1 + $bonus / 100));
+        }
+
+        // Consume rare treasure
+        $user->rare_treasures -= 1;
+        $user->money_earned += $moneyEarned;
+
+        // Give experience (double exp for rare treasures)
+        $expGained = rand(5, 15) * 2;
+        $user->experience += $expGained;
+
+        // Check for level up
+        $levelUpCheck = ExperienceService::checkLevelUp($user->experience, $user->level);
+        $levelUpMessage = "";
+        if ($levelUpCheck['shouldLevelUp']) {
+            $oldLevel = $user->level;
+            $user->level = $levelUpCheck['newLevel'];
+            $levelUpMessage = " 🎉 LEVEL UP! " . $oldLevel . " → " . $user->level;
+        }
+
+        $user->save();
+
+        $successMessage = "🌟 Rare Treasure Opened! You received IDR " . number_format($moneyEarned) . 
+                         " (+" . $expGained . " EXP)" . $levelUpMessage;
+
+        return redirect()->route('game.dashboard')
+            ->with('success', $successMessage);
+    }
+
+    /**
      * Handle steal ability purchase
      */
     public function purchaseSteal(Request $request)

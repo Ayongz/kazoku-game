@@ -117,6 +117,11 @@
                             <h3 class="rpg-stat-label">{{ __('nav.current_treasure') }}</h3>
                             <h2 class="rpg-stat-value @if($user->treasure > 0) text-warning @else text-danger @endif" id="playerTreasureDisplay">
                                 {{ $user->treasure }} / {{ 20 + ($user->treasure_multiplier_level * 5) }}
+                                @if(($user->rare_treasures ?? 0) > 0)
+                                    <span class="rare-treasure-indicator ms-2">
+                                        <i class="fas fa-star text-warning"></i>{{ $user->rare_treasures }}
+                                    </span>
+                                @endif
                             </h2>
                             <div class="rpg-stat-details">
                                 @php
@@ -126,6 +131,9 @@
                                 <small>{{ __('nav.treasure_every_minutes', ['minutes' => $currentInterval]) }}</small>
                                 @if($user->fast_recovery_level > 0)
                                     <br><small>{{ __('nav.fast_recovery_level', ['level' => $user->fast_recovery_level]) }}</small>
+                                @endif
+                                @if(($user->rare_treasures ?? 0) > 0)
+                                    <br><small class="text-warning">{{ __('nav.rare_treasures') }}: {{ $user->rare_treasures }}</small>
                                 @endif
                             </div>
                         </div>
@@ -167,14 +175,14 @@
                             <h3 class="rpg-stat-label">{{ __('nav.shield_protection') }}</h3>
                             @if($user->shield_expires_at && $user->shield_expires_at > now())
                                 <h2 class="rpg-stat-value text-success">
-                                    <i class="fas fa-check-circle me-1"></i>{{ __('nav.active') }}
+                                    {{ __('nav.active') }}
                                 </h2>
                                 <div class="rpg-stat-details">
                                     <small>{{ __('nav.protected_until') }}<br>{{ $user->shield_expires_at->setTimezone('Asia/Jakarta')->format('M d, H:i') }}</small>
                                 </div>
                             @else
                                 <h2 class="rpg-stat-value text-secondary">
-                                    <i class="fas fa-times-circle me-1"></i>{{ __('nav.inactive') }}
+                                    {{ __('nav.inactive') }}
                                 </h2>
                                 <div class="rpg-stat-action">
                                     <a href="{{ route('store.index') }}" class="btn btn-sm btn-outline-light">
@@ -349,27 +357,27 @@
                                             </p>
                                         </div>
                                         
-                                        <div class="rpg-requirement-info mb-4">
+                                        <div class="rpg-requirement-info">
                                             <div class="rpg-requirement-badge">
                                                 <i class="fas fa-star text-warning me-2"></i>
                                                 <strong class="text-white">Level 4 Required</strong>
                                             </div>
-                                            <div class="mt-3">
+                                            <!-- <div class="mt-3">
                                                 <p class="text-light opacity-75 small mb-2">
                                                     Current Level: <strong class="text-warning">{{ $user->level }}</strong>
                                                 </p>
                                                 <p class="text-light opacity-75 small">
                                                     Levels to go: <strong class="text-info">{{ 4 - $user->level }}</strong>
                                                 </p>
-                                            </div>
+                                            </div> -->
                                         </div>
                                         
-                                        <div class="rpg-class-preview">
+                                        <!-- <div class="rpg-class-preview">
                                             <small class="text-light opacity-60">
                                                 <i class="fas fa-info-circle me-1"></i>
                                                 Classes provide unique abilities like enhanced treasure finding, combat skills, and special bonuses!
                                             </small>
-                                        </div>
+                                        </div> -->
                                     </div>
                                 @endif
                             </div>
@@ -484,8 +492,9 @@
                                             @endif
                                         </div>
                                         
-                                        <!-- Open Treasure Button -->
+                                        <!-- Open Treasure Buttons -->
                                         <div class="rpg-action-area">
+                                            <!-- Regular Treasure Button -->
                                             <form method="POST" action="{{ route('game.earn') }}" id="earnMoneyForm">
                                                 @csrf
                                                 <button type="submit" id="earnMoneyBtn"
@@ -503,6 +512,20 @@
                                                     <div class="rpg-button-glow"></div>
                                                 </button>
                                             </form>
+                                            
+                                            <!-- Rare Treasure Button -->
+                                            @if(($user->rare_treasures ?? 0) > 0)
+                                                <form method="POST" action="{{ route('game.open-rare-treasure') }}" class="mt-3">
+                                                    @csrf
+                                                    <button type="submit" class="rpg-button rpg-button-legendary rpg-button-large">
+                                                        <div class="rpg-button-content">
+                                                            <i class="fas fa-star me-2"></i>
+                                                            <span class="d-none d-sm-inline">OPEN RARE TREASURE </span>
+                                                        </div>
+                                                        <div class="rpg-button-glow"></div>
+                                                    </button>
+                                                </form>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -572,6 +595,51 @@
     @keyframes backgroundShift {
         0%, 100% { opacity: 0.5; }
         50% { opacity: 0.8; }
+    }
+    
+    /* Rare Treasure Indicator Styling */
+    .rare-treasure-indicator {
+        font-size: 0.8em;
+        padding: 2px 6px;
+        background: linear-gradient(45deg, #ffd700, #ffed4e);
+        border-radius: 12px;
+        color: #333;
+        box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3);
+        animation: rareTreasureGlow 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes rareTreasureGlow {
+        from { box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3); }
+        to { box-shadow: 0 4px 16px rgba(255, 215, 0, 0.6); }
+    }
+    
+    /* Time Indicator Content Visibility Fix */
+    .time-indicator-content {
+        color: #ffffff !important;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8) !important;
+    }
+    
+    .time-indicator-content .time-title {
+        color: #ffffff !important;
+        font-weight: 600 !important;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8) !important;
+    }
+    
+    .time-indicator-content .time-description {
+        color: #f1f5f9 !important;
+        font-weight: 500 !important;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7) !important;
+    }
+    
+    .time-indicator-content .mode-label {
+        color: #ffffff !important;
+        font-weight: 600 !important;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8) !important;
+    }
+    
+    .risk-danger, .risk-success, .risk-normal {
+        font-weight: 600 !important;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8) !important;
     }
     
     .container-fluid > .container {

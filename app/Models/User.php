@@ -28,6 +28,28 @@ class User extends Authenticatable
         'has_advanced_class',
         'class_selected_at',
         'prestige_level',
+        // Game fields
+        'money_earned',
+        'treasure',
+        'level',
+        'experience',
+        'steal_level',
+        'auto_earning_level',
+        'treasure_multiplier_level',
+        'lucky_strikes_level',
+        'counter_attack_level',
+        'intimidation_level',
+        'fast_recovery_level',
+        'treasure_rarity_level',
+        'shield',
+        'shield_expires_at',
+        'last_shield_use',
+        // Gambling fields
+        'gambling_level',
+        'gambling_exp',
+        'gambling_attempts_today',
+        'last_gambling_reset',
+        'rare_treasures',
     ];
 
     /**
@@ -52,6 +74,7 @@ class User extends Authenticatable
             'password' => 'hashed',
             'shield_expires_at' => 'datetime',
             'class_selected_at' => 'datetime',
+            'last_gambling_reset' => 'datetime',
         ];
     }
 

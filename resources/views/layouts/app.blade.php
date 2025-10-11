@@ -66,6 +66,11 @@
                                 </a>
                             </li>
                             <li class="nav-item">
+                                <a class="nav-link" href="{{ route('gambling.hall') }}">
+                                    <i class="fas fa-dice me-1"></i>{{ __('nav.gambling_hall') }}
+                                </a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link" href="{{ route('game.guide') }}">
                                     <i class="fas fa-book me-1"></i>{{ __('nav.guide') }}
                                 </a>
@@ -78,7 +83,7 @@
                         <!-- Authentication Links -->
                         @guest
                             <!-- Language Switcher for Guests -->
-                            <li class="nav-item dropdown">
+                            <!-- <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="languageNavDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     <i class="fas fa-globe me-1"></i>
                                     @if(app()->getLocale() == 'id')
@@ -101,13 +106,13 @@
                                         </a>
                                     </li>
                                 </ul>
-                            </li>
+                            </li> -->
                             
-                            @if (Route::has('login'))
+                            <!-- @if (Route::has('login'))
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('login') }}">{{ __('nav.login') }}</a>
                                 </li>
-                            @endif
+                            @endif -->
 
                             <!-- @if (Route::has('register'))
                                 <li class="nav-item">

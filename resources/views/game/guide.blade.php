@@ -28,14 +28,16 @@
                                 <li><a href="#treasure-mechanics" class="text-decoration-none">2. {{ __('nav.treasure_mechanics') }}</a></li>
                                 <li><a href="#class-system" class="text-decoration-none">3. {{ __('nav.class_system') }}</a></li>
                                 <li><a href="#upgrade-system" class="text-decoration-none">4. {{ __('nav.upgrade_system') }}</a></li>
+                                <li><a href="#gambling-hall" class="text-decoration-none">5. {{ __('nav.gambling_hall') }}</a></li>
                             </ul>
                         </div>
                         <div class="col-md-6">
                             <ul class="list-unstyled">
-                                <li><a href="#random-boxes" class="text-decoration-none">5. {{ __('nav.random_boxes') }}</a></li>
-                                <li><a href="#day-night-cycle" class="text-decoration-none">6. {{ __('nav.day_night_cycle') }}</a></li>
-                                <li><a href="#pvp-system" class="text-decoration-none">7. {{ __('nav.pvp_system') }}</a></li>
-                                <li><a href="#tips-strategies" class="text-decoration-none">8. {{ __('nav.tips_strategies') }}</a></li>
+                                <li><a href="#random-boxes" class="text-decoration-none">6. {{ __('nav.random_boxes') }}</a></li>
+                                <li><a href="#day-night-cycle" class="text-decoration-none">7. {{ __('nav.day_night_cycle') }}</a></li>
+                                <li><a href="#pvp-system" class="text-decoration-none">8. {{ __('nav.pvp_system') }}</a></li>
+                                <li><a href="#auto-systems" class="text-decoration-none">9. {{ __('nav.auto_systems') }}</a></li>
+                                <li><a href="#tips-strategies" class="text-decoration-none">10. {{ __('nav.tips_strategies') }}</a></li>
                             </ul>
                         </div>
                     </div>
@@ -85,26 +87,47 @@
                         <div class="col-md-6">
                             <h5 class="text-warning">{{ __('nav.treasure_capacity') }}</h5>
                             <p>{{ __('nav.treasure_capacity_desc') }}</p>
+                            <ul class="small">
+                                <li>{{ __('nav.base_capacity') }}: 20 {{ __('nav.treasure') }}</li>
+                                <li>{{ __('nav.treasure_multiplier') }}: +5 {{ __('nav.capacity') }}/{{ __('nav.level') }}</li>
+                                <li>{{ __('nav.efficiency_bonus') }}: {{ __('nav.chance_to_save_treasure') }}</li>
+                            </ul>
                             
-                            <h5 class="text-warning mt-4">{{ __('nav.treasure_multiplier_effect') }}</h5>
-                            <p>{{ __('nav.treasure_multiplier_effect_desc') }}</p>
+                            <h5 class="text-warning mt-4">{{ __('nav.treasure_regeneration') }}</h5>
+                            <p>{{ __('nav.treasure_regeneration_desc') }}</p>
+                            <ul class="small">
+                                <li>{{ __('nav.base_interval') }}: 60 {{ __('nav.minutes') }}</li>
+                                <li>{{ __('nav.regeneration_amount') }}: +5 {{ __('nav.treasure') }}</li>
+                                <li>{{ __('nav.fast_recovery_upgrade') }}: -5 {{ __('nav.minutes') }}/{{ __('nav.level') }}</li>
+                            </ul>
                         </div>
                         <div class="col-md-6">
-                            <h5 class="text-warning">{{ __('nav.treasure_rarity_system') }}</h5>
-                            <p>{{ __('nav.treasure_rarity_system_desc') }}</p>
-                            
-                            <div class="mt-3">
+                            <h5 class="text-warning">{{ __('nav.treasure_types') }}</h5>
+                            <div class="mb-3">
+                                <h6>{{ __('nav.regular_treasures') }}</h6>
+                                <p class="small">{{ __('nav.regular_treasures_desc') }}</p>
                                 <div class="d-flex align-items-center mb-2">
                                     <span class="badge bg-secondary me-2">{{ __('nav.common') }}</span>
                                     <span class="badge bg-success me-2">{{ __('nav.uncommon') }}</span>
                                     <span class="badge bg-primary me-2">{{ __('nav.rare') }}</span>
                                 </div>
-                                <div class="d-flex align-items-center">
+                                <div class="d-flex align-items-center mb-3">
                                     <span class="badge bg-purple me-2">{{ __('nav.epic') }}</span>
                                     <span class="badge bg-warning me-2">{{ __('nav.legendary') }}</span>
                                     <span class="badge bg-info me-2">{{ __('nav.mythical') }}</span>
                                     <span class="badge bg-danger">{{ __('nav.divine') }}</span>
                                 </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <h6 class="text-warning">{{ __('gambling.rare_treasure') }} {{ __('nav.system') }}</h6>
+                                <p class="small">{{ __('nav.rare_treasure_desc') }}</p>
+                                <ul class="small">
+                                    <li>{{ __('nav.value') }}: 5-6x {{ __('nav.normal_treasure') }}</li>
+                                    <li>{{ __('nav.source') }}: {{ __('gambling.treasure_fusion') }}</li>
+                                    <li>{{ __('nav.fusion_cost') }}: 3 {{ __('nav.treasure') }} + IDR 1,000</li>
+                                    <li>{{ __('gambling.success_rate') }}: 50%</li>
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -201,10 +224,82 @@
                 </div>
             </div>
 
-            <!-- 5. Random Boxes -->
+            <!-- 5. Gambling Hall -->
+            <div class="card shadow-lg border-0 mb-5" id="gambling-hall">
+                <div class="card-header bg-danger text-white">
+                    <h3 class="mb-0"><i class="fas fa-dice me-2"></i>5. {{ __('nav.gambling_hall') }}</h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12 mb-4">
+                            <h5 class="text-danger">{{ __('nav.gambling_overview') }}</h5>
+                            <p>{{ __('nav.gambling_overview_desc') }}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-lg-4 mb-4">
+                            <div class="border border-danger rounded p-3 h-100">
+                                <h6 class="text-danger"><i class="fas fa-dice me-2"></i>{{ __('gambling.dice_duel') }}</h6>
+                                <p class="small">{{ __('gambling.dice_duel_desc') }}</p>
+                                <ul class="small">
+                                    <li>{{ __('nav.bet_range') }}: IDR 3,000 - {{ __('nav.level_based') }}</li>
+                                    <li>{{ __('nav.win_rate') }}: ~45%</li>
+                                    <li>{{ __('nav.payout') }}: 2x {{ __('nav.bet_amount') }}</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 mb-4">
+                            <div class="border border-warning rounded p-3 h-100">
+                                <h6 class="text-warning"><i class="fas fa-magic me-2"></i>{{ __('gambling.treasure_fusion') }}</h6>
+                                <p class="small">{{ __('gambling.treasure_fusion_desc') }}</p>
+                                <ul class="small">
+                                    <li>{{ __('gambling.cost') }}: 3 {{ __('nav.treasure') }} + IDR 1,000</li>
+                                    <li>{{ __('gambling.success_rate') }}: 50%</li>
+                                    <li>{{ __('gambling.reward') }}: 1 {{ __('gambling.rare_treasure') }}</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 mb-4">
+                            <div class="border border-purple rounded p-3 h-100">
+                                <h6 class="text-purple"><i class="fas fa-play me-2"></i>{{ __('gambling.card_flip') }}</h6>
+                                <p class="small">{{ __('gambling.card_flip_desc') }}</p>
+                                <ul class="small">
+                                    <li>{{ __('nav.bet_range') }}: IDR 3,000 - {{ __('nav.level_based') }}</li>
+                                    <li>{{ __('nav.win_rate') }}: ~45%</li>
+                                    <li>{{ __('nav.payout') }}: 2x {{ __('nav.bet_amount') }}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <h6 class="text-danger">{{ __('nav.gambling_progression') }}</h6>
+                            <ul class="small">
+                                <li>{{ __('nav.base_attempts') }}: 20/{{ __('nav.day') }}</li>
+                                <li>{{ __('nav.level_bonus') }}: +2 {{ __('nav.attempts') }}/{{ __('nav.level') }}</li>
+                                <li>{{ __('nav.bet_increase') }}: +IDR 1,000/{{ __('nav.level') }}</li>
+                                <li>{{ __('nav.exp_per_game') }}: 10 EXP</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="text-warning">{{ __('gambling.rare_treasure') }} {{ __('nav.system') }}</h6>
+                            <ul class="small">
+                                <li>{{ __('nav.value') }}: 5-6x {{ __('nav.normal_treasure') }}</li>
+                                <li>{{ __('nav.source') }}: {{ __('gambling.treasure_fusion') }}</li>
+                                <li>{{ __('nav.exp_bonus') }}: 2x {{ __('nav.experience') }}</li>
+                                <li>{{ __('nav.class_bonuses') }}: {{ __('nav.apply') }}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6. Random Boxes -->
             <div class="card shadow-lg border-0 mb-5" id="random-boxes">
                 <div class="card-header bg-secondary text-white">
-                    <h3 class="mb-0"><i class="fas fa-gift me-2"></i>5. {{ __('nav.random_boxes_title') }}</h3>
+                    <h3 class="mb-0"><i class="fas fa-gift me-2"></i>6. {{ __('nav.random_boxes_title') }}</h3>
                 </div>
                 <div class="card-body">
                     <div class="row">
@@ -224,10 +319,10 @@
                 </div>
             </div>
 
-            <!-- 6. Day/Night Cycle -->
+            <!-- 7. Day/Night Cycle -->
             <div class="card shadow-lg border-0 mb-5" id="day-night-cycle">
                 <div class="card-header bg-warning text-dark">
-                    <h3 class="mb-0"><i class="fas fa-clock me-2"></i>6. {{ __('nav.day_night_cycle_title') }}</h3>
+                    <h3 class="mb-0"><i class="fas fa-clock me-2"></i>7. {{ __('nav.day_night_cycle_title') }}</h3>
                 </div>
                 <div class="card-body">
                     <div class="row">
@@ -251,10 +346,10 @@
                 </div>
             </div>
 
-            <!-- 7. PvP System -->
+            <!-- 8. PvP System -->
             <div class="card shadow-lg border-0 mb-5" id="pvp-system">
                 <div class="card-header bg-danger text-white">
-                    <h3 class="mb-0"><i class="fas fa-sword me-2"></i>7. {{ __('nav.pvp_system_title') }}</h3>
+                    <h3 class="mb-0"><i class="fas fa-sword me-2"></i>8. {{ __('nav.pvp_system_title') }}</h3>
                 </div>
                 <div class="card-body">
                     <div class="row">
@@ -274,10 +369,79 @@
                 </div>
             </div>
 
-            <!-- 8. Tips & Strategies -->
+            <!-- 9. Auto Systems -->
+            <div class="card shadow-lg border-0 mb-5" id="auto-systems">
+                <div class="card-header bg-info text-white">
+                    <h3 class="mb-0"><i class="fas fa-robot me-2"></i>9. {{ __('nav.auto_systems') }}</h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12 mb-4">
+                            <h5 class="text-info">{{ __('nav.automation_overview') }}</h5>
+                            <p>{{ __('nav.automation_overview_desc') }}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-lg-6 mb-4">
+                            <div class="border border-warning rounded p-3 h-100">
+                                <h6 class="text-warning"><i class="fas fa-magic me-2"></i>{{ __('nav.auto_click_system') }}</h6>
+                                <p class="small">{{ __('nav.auto_click_desc') }}</p>
+                                <ul class="small">
+                                    <li>{{ __('nav.unlock_level') }}: {{ __('nav.level') }} 3</li>
+                                    <li>{{ __('nav.auto_treasure_opening') }}</li>
+                                    <li>{{ __('nav.stops_when_no_treasure') }}</li>
+                                    <li>{{ __('nav.progress_tracking') }}</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 mb-4">
+                            <div class="border border-success rounded p-3 h-100">
+                                <h6 class="text-success"><i class="fas fa-coins me-2"></i>{{ __('nav.auto_earning') }}</h6>
+                                <p class="small">{{ __('nav.auto_earning_detailed') }}</p>
+                                <ul class="small">
+                                    <li>{{ __('nav.base_rate') }}: 0.05%/{{ __('nav.hour') }}/{{ __('nav.level') }}</li>
+                                    <li>{{ __('nav.max_level') }}: 20 (1.0%/{{ __('nav.hour') }})</li>
+                                    <li>{{ __('nav.works_offline') }}</li>
+                                    <li>{{ __('nav.no_treasure_required') }}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-lg-6 mb-4">
+                            <div class="border border-danger rounded p-3 h-100">
+                                <h6 class="text-danger"><i class="fas fa-mask me-2"></i>{{ __('nav.auto_steal') }}</h6>
+                                <p class="small">{{ __('nav.auto_steal_detailed') }}</p>
+                                <ul class="small">
+                                    <li>{{ __('nav.triggers_on_earning') }}</li>
+                                    <li>{{ __('nav.success_rate') }}: 20%/{{ __('nav.level') }}</li>
+                                    <li>{{ __('nav.max_level') }}: 5 (100% {{ __('nav.chance') }})</li>
+                                    <li>{{ __('nav.steal_amount') }}: 1-5% {{ __('nav.target_money') }}</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 mb-4">
+                            <div class="border border-primary rounded p-3 h-100">
+                                <h6 class="text-primary"><i class="fas fa-clock me-2"></i>{{ __('nav.treasure_regeneration') }}</h6>
+                                <p class="small">{{ __('nav.treasure_regen_detailed') }}</p>
+                                <ul class="small">
+                                    <li>{{ __('nav.base_interval') }}: 60 {{ __('nav.minutes') }}</li>
+                                    <li>{{ __('nav.fast_recovery') }}: -5 {{ __('nav.minutes') }}/{{ __('nav.level') }}</li>
+                                    <li>{{ __('nav.min_interval') }}: 30 {{ __('nav.minutes') }}</li>
+                                    <li>{{ __('nav.adds_5_treasure') }}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 10. Tips & Strategies -->
             <div class="card shadow-lg border-0 mb-5" id="tips-strategies">
                 <div class="card-header bg-success text-white">
-                    <h3 class="mb-0"><i class="fas fa-lightbulb me-2"></i>8. {{ __('nav.tips_strategies_title') }}</h3>
+                    <h3 class="mb-0"><i class="fas fa-lightbulb me-2"></i>10. {{ __('nav.tips_strategies_title') }}</h3>
                 </div>
                 <div class="card-body">
                     <div class="row">

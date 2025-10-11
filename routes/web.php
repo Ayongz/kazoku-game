@@ -8,6 +8,7 @@ use App\Http\Controllers\StatusController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\GuideController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\GamblingController;
 
 // Language switching route
 Route::get('/language/{language}', [LanguageController::class, 'switchLanguage'])->name('language.switch');
@@ -35,6 +36,9 @@ Route::middleware(['auth'])->group(function () {
 
     // Core Action: Earn Money
     Route::post('/game/earn', [GameController::class, 'earnMoney'])->name('game.earn');
+    
+    // Core Action: Open Rare Treasure
+    Route::post('/game/open-rare-treasure', [GameController::class, 'openRareTreasure'])->name('game.open-rare-treasure');
 
     // Action: Execute Steal
     Route::post('/game/steal', [GameController::class, 'executeSteal'])->name('game.steal');
@@ -87,4 +91,13 @@ Route::middleware(['auth'])->group(function () {
     // Profile management
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
     Route::post('/profile/picture', [ProfileController::class, 'updateProfilePicture'])->name('profile.update-picture');
+    
+    // --- GAMBLING HALL ROUTES ---
+    // Gambling hall main page
+    Route::get('/gambling-hall', [GamblingController::class, 'index'])->name('gambling.hall');
+    
+    // Gambling games
+    Route::post('/gambling/dice-duel', [GamblingController::class, 'diceDuel'])->name('gambling.dice-duel');
+    Route::post('/gambling/treasure-fusion', [GamblingController::class, 'treasureFusion'])->name('gambling.treasure-fusion');
+    Route::post('/gambling/card-flip', [GamblingController::class, 'cardFlip'])->name('gambling.card-flip');
 });
