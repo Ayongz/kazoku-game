@@ -196,39 +196,6 @@
                 </div>
             </div>
 
-            <!-- Quick Navigation Section -->
-            <div class="row justify-content-center mb-4">
-                <div class="col-12">
-                    <div class="card shadow-sm border-0 bg-light">
-                        <div class="card-body py-3">
-                            <div class="row align-items-center">
-                                <div class="col-md-3">
-                                    <h6 class="mb-0 text-muted">
-                                        <i class="fas fa-compass me-2"></i>Quick Navigation
-                                    </h6>
-                                </div>
-                                <div class="col-md-9">
-                                    <div class="d-flex flex-wrap gap-2 justify-content-md-end justify-content-center">
-                                        <a href="{{ route('store.index') }}" class="btn btn-outline-primary btn-sm">
-                                            <i class="fas fa-store me-1"></i>Store
-                                        </a>
-                                        <a href="{{ route('game.inventory') }}" class="btn btn-outline-info btn-sm">
-                                            <i class="fas fa-box me-1"></i>Inventory
-                                        </a>
-                                        <a href="{{ route('game.status') }}" class="btn btn-outline-secondary btn-sm">
-                                            <i class="fas fa-chart-bar me-1"></i>Status
-                                        </a>
-                                        <a href="{{ route('game.class-path') }}" class="btn btn-outline-warning btn-sm">
-                                            <i class="fas fa-tree me-1"></i>Class Path
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             <!-- Game Actions Section -->
             <div class="row justify-content-center">
                 <!-- EARN MONEY ACTION -->
