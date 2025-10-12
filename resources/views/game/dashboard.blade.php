@@ -46,6 +46,11 @@
                                     </div>
                                     <div class="time-badge">
                                         <span class="mode-label">{{ __('nav.night_mode') }}</span>
+                                        <div class="mt-2">
+                                            <a href="{{ route('game.logs') }}" class="btn btn-sm btn-outline-light px-3" style="font-size: 0.75rem;">
+                                                <i class="fas fa-scroll me-1"></i>{{ __('nav.view_logs') }}
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -63,6 +68,11 @@
                                     </div>
                                     <div class="time-badge">
                                         <span class="mode-label">{{ __('nav.day_mode') }}</span>
+                                        <div class="mt-2">
+                                            <a href="{{ route('game.logs') }}" class="btn btn-sm btn-outline-light px-3" style="font-size: 0.75rem;">
+                                                <i class="fas fa-scroll me-1"></i>{{ __('nav.view_logs') }}
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -180,10 +190,10 @@
                                                         <div class="rpg-button-content">
                                                             @if($user->treasure > 0)
                                                                 <i class="fas fa-hand-sparkles me-2"></i>
-                                                                <span class="d-none d-sm-inline">OPEN </span>TREASURE
+                                                                <span class="d-none d-sm-inline">OPEN TREASURE</span>
                                                             @else
                                                                 <i class="fas fa-times-circle me-2"></i>
-                                                                <span class="d-none d-sm-inline">OUT OF </span>TREASURE
+                                                                <span class="d-none d-sm-inline">OUT OF TREASURE</span>
                                                             @endif
                                                         </div>
                                                         <div class="rpg-button-glow"></div>

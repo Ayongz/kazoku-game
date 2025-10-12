@@ -28,7 +28,7 @@ return [
     
     // Game descriptions
     'dice_duel_desc' => 'Roll the dice and get the highest number to win double your bet!',
-    'treasure_fusion_desc' => 'Combine 3 treasures to create 1 rare treasure with 50% success rate.',
+    'treasure_fusion_desc' => 'Combine 3 treasures to create 1 rare treasure with 35% success rate.',
     'card_flip_desc' => 'Draw a card and beat the house to win double your bet!',
     
     // Rules

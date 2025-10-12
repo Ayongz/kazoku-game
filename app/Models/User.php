@@ -87,6 +87,14 @@ class User extends Authenticatable
     }
 
     /**
+     * Get the user's player logs.
+     */
+    public function playerLogs()
+    {
+        return $this->hasMany(PlayerLog::class);
+    }
+
+    /**
      * Get random box chance based on treasure rarity level
      */
     public function getRandomBoxChance(): int

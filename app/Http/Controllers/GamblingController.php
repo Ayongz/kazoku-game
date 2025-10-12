@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\GameSetting;
+use App\Models\PlayerLog;
 use Carbon\Carbon;
 
 class GamblingController extends Controller
@@ -16,7 +17,7 @@ class GamblingController extends Controller
     const EXP_PER_GAME = 10;
     const EXP_TO_NEXT_LEVEL = 100;
     const FUSION_COST = 1000;
-    const FUSION_SUCCESS_RATE = 50;
+    const FUSION_SUCCESS_RATE = 35;
     const WINNER_CONTRIBUTION_RATE = 20; // 20% to global prize pool
 
     public function __construct()
@@ -85,7 +86,7 @@ class GamblingController extends Controller
         $playerWins = $playerRoll > $aiRoll;
         
         // Process game result
-        $result = $this->processGameResult($user, $betAmount, $playerWins);
+        $result = $this->processGameResult($user, $betAmount, $playerWins, 'gambling_dice');
         
         // Create result message
         $diceResult = __('gambling.dice_result', [
@@ -146,15 +147,38 @@ class GamblingController extends Controller
             $messageType = 'success';
         } else {
             $message = __('gambling.fusion_failed');
-            $messageType = 'error';
+            $messageType = 'lose';
         }
         
         // Add gambling exp and increment attempts
         $expResult = $this->addGamblingExp($user);
         $user->gambling_attempts_today += 1;
         $user->save();
+
+        // Create log entry for treasure fusion
+        $description = $success 
+            ? "Treasure fusion successful: Gained 1 rare treasure (Cost: IDR " . number_format(self::FUSION_COST) . ", 3 treasures)"
+            : "Treasure fusion failed: Lost IDR " . number_format(self::FUSION_COST) . " and 3 treasures";
+
+        PlayerLog::createLog(
+            userId: $user->id,
+            actionType: 'treasure_fusion',
+            description: $description,
+            moneyChange: -self::FUSION_COST,
+            treasureChange: -3,
+            rareTreasureChange: $success ? 1 : 0,
+            experienceGained: $expResult['exp_gained'],
+            additionalData: [
+                'fusion_success' => $success,
+                'fusion_cost' => self::FUSION_COST,
+                'treasures_used' => 3,
+                'gambling_level' => $user->gambling_level,
+                'level_up' => $expResult['level_up'] ?? null
+            ],
+            isSuccess: $success
+        );
         
-        $message .= ' ' . __('gambling.exp_gained', ['exp' => self::EXP_PER_GAME]);
+        $message .= ' ' . __('gambling.experience_gained', ['exp' => self::EXP_PER_GAME]);
         if (isset($expResult['level_up'])) {
             $message .= ' ' . __('gambling.level_up', ['level' => $expResult['level_up']]);
         }
@@ -191,7 +215,7 @@ class GamblingController extends Controller
         $playerWins = $playerCard > $aiCard;
         
         // Process game result
-        $result = $this->processGameResult($user, $betAmount, $playerWins);
+        $result = $this->processGameResult($user, $betAmount, $playerWins, 'gambling_card');
         
         $playerCardName = $this->getCardName($playerCard);
         $aiCardName = $this->getCardName($aiCard);
@@ -248,14 +272,17 @@ class GamblingController extends Controller
     /**
      * Process game result (win/loss)
      */
-    private function processGameResult($user, $betAmount, $playerWins)
+    private function processGameResult($user, $betAmount, $playerWins, $gameType = 'gambling_dice')
     {
+        $moneyChange = 0;
+        
         if ($playerWins) {
             // Player wins - add money and contribute to prize pool
             $winnings = $betAmount;
             $contribution = intval($winnings * (self::WINNER_CONTRIBUTION_RATE / 100));
             
             $user->money_earned += $winnings - $contribution;
+            $moneyChange = $winnings - $contribution;
             
             // Add to global prize pool
             $gameSettings = GameSetting::first();
@@ -266,12 +293,33 @@ class GamblingController extends Controller
         } else {
             // Player loses
             $user->money_earned -= $betAmount;
+            $moneyChange = -$betAmount;
         }
         
         // Add gambling exp and update attempts
         $expResult = $this->addGamblingExp($user);
         $user->gambling_attempts_today += 1;
         $user->save();
+
+        // Create log entry for gambling
+        $description = $playerWins 
+            ? "Won gambling game: +IDR " . number_format($moneyChange) . " (Bet: IDR " . number_format($betAmount) . ")"
+            : "Lost gambling game: -IDR " . number_format($betAmount) . " (Bet amount)";
+
+        PlayerLog::createLog(
+            userId: $user->id,
+            actionType: $gameType,
+            description: $description,
+            moneyChange: $moneyChange,
+            experienceGained: $expResult['exp_gained'],
+            additionalData: [
+                'bet_amount' => $betAmount,
+                'player_wins' => $playerWins,
+                'gambling_level' => $user->gambling_level,
+                'level_up' => $expResult['level_up'] ?? null
+            ],
+            isSuccess: $playerWins
+        );
         
         return array_merge(['player_wins' => $playerWins], $expResult);
     }

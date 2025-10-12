@@ -28,7 +28,7 @@ return [
     
     // Game descriptions
     'dice_duel_desc' => 'Lempar dadu dan dapatkan angka tertinggi untuk menang dua kali lipat taruhan!',
-    'treasure_fusion_desc' => 'Gabungkan 3 harta untuk membuat 1 harta langka dengan tingkat keberhasilan 50%.',
+    'treasure_fusion_desc' => 'Gabungkan 3 harta untuk membuat 1 harta langka dengan tingkat keberhasilan 35%.',
     'card_flip_desc' => 'Ambil kartu dan kalahkan bandar untuk menang dua kali lipat taruhan!',
     
     // Rules

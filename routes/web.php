@@ -9,6 +9,7 @@ use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\GuideController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\GamblingController;
+use App\Http\Controllers\PlayerLogController;
 
 // Language switching route
 Route::get('/language/{language}', [LanguageController::class, 'switchLanguage'])->name('language.switch');
@@ -86,6 +87,11 @@ Route::middleware(['auth'])->group(function () {
     // --- GUIDE ROUTES ---
     // Game guide page
     Route::get('/game/guide', [GuideController::class, 'index'])->name('game.guide');
+    
+    // --- PLAYER LOGS ROUTES ---
+    // Player activity logs
+    Route::get('/game/logs', [PlayerLogController::class, 'index'])->name('game.logs');
+    Route::post('/game/logs/clear-old', [PlayerLogController::class, 'clearOldLogs'])->name('game.logs.clear-old');
     
     // --- PROFILE ROUTES ---
     // Profile management

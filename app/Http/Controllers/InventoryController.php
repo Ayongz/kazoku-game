@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\PlayerLog;
 use App\Services\ExperienceService;
 
 class InventoryController extends Controller
@@ -46,6 +47,35 @@ class InventoryController extends Controller
         // Decrease random box count
         $user->randombox = ($user->randombox ?? 1) - 1;
         $user->save();
+
+        // Create log entry for random box opening
+        $description = "Random box opened: " . $this->getRewardDescription($reward);
+        $moneyChange = 0;
+        $treasureChange = 0;
+        $expGained = 0;
+        
+        // Calculate changes from rewards
+        foreach ($reward as $rewardItem) {
+            if ($rewardItem['type'] === 'money') {
+                $moneyChange += $rewardItem['amount'];
+            } elseif ($rewardItem['type'] === 'treasures') {
+                $treasureChange += $rewardItem['amount'];
+            } elseif ($rewardItem['type'] === 'experience') {
+                $expGained += $rewardItem['amount'];
+            }
+        }
+
+        PlayerLog::createLog(
+            userId: $user->id,
+            actionType: 'random_box_open',
+            description: $description,
+            moneyChange: $moneyChange,
+            treasureChange: $treasureChange,
+            experienceGained: $expGained,
+            randomBoxChange: -1,
+            additionalData: ['rewards' => $reward],
+            isSuccess: true
+        );
 
         return response()->json([
             'success' => true,
@@ -304,5 +334,19 @@ class InventoryController extends Controller
         }
         
         $user->save();
+    }
+
+    /**
+     * Get a readable description of rewards
+     */
+    private function getRewardDescription(array $rewards): string
+    {
+        $descriptions = [];
+        
+        foreach ($rewards as $reward) {
+            $descriptions[] = $reward['display'];
+        }
+        
+        return implode(', ', $descriptions);
     }
 }

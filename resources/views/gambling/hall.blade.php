@@ -41,6 +41,15 @@
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8) !important;
 }
 
+/* Fix for bet amount buttons to ensure they are clickable */
+.btn-outline-light {
+    position: relative !important;
+    z-index: 10 !important;
+    pointer-events: auto !important;
+    cursor: pointer !important;
+    user-select: none !important;
+}
+
 /* === RPG THEME STYLING === */
 
 /* Main Container Background */
@@ -520,7 +529,7 @@
                                                 <div class="input-group">
                                                     <span class="input-group-text">IDR</span>
                                                     <input type="number" name="bet_amount" class="form-control" 
-                                                           min="3000" max="{{ $maxBetAmount }}" value="3000" step="1000"
+                                                           min="3000" max="{{ $maxBetAmount }}" value="3000" step="500"
                                                            id="diceBetAmount">
                                                 </div>
                                                 <small class="text-white mt-1 d-block">
@@ -529,7 +538,7 @@
                                                 <div class="mt-2">
                                                     <button type="button" class="btn btn-sm btn-outline-light me-1" onclick="setBetAmount('diceBetAmount', 3000)">Min</button>
                                                     <button type="button" class="btn btn-sm btn-outline-light me-1" onclick="setBetAmount('diceBetAmount', {{ $maxBetAmount }})">Max</button>
-                                                    <button type="button" class="btn btn-sm btn-outline-light" onclick="setBetAmount('diceBetAmount', {{ intval($maxBetAmount / 2) }})">Mid</button>
+                                                    <button type="button" class="btn btn-sm btn-outline-light" onclick="setBetAmount('diceBetAmount', {{ intval((3000 + $maxBetAmount) / 2) }})">Mid</button>
                                                 </div>
                                             </div>
                                             <button type="submit" class="rpg-button rpg-button-primary rpg-button-large">
@@ -573,7 +582,7 @@
                                     <div class="mb-3">
                                         <p class="gambling-description">
                                             <strong>{{ __('gambling.cost') }}:</strong> 3 {{ __('nav.treasure') }} + IDR 1,000<br>
-                                            <strong>{{ __('gambling.success_rate') }}:</strong> 50%<br>
+                                            <strong>{{ __('gambling.success_rate') }}:</strong> 35%<br>
                                             <strong>{{ __('gambling.reward') }}:</strong> 1 {{ __('gambling.rare_treasure') }}
                                         </p>
                                     </div>
@@ -629,7 +638,7 @@
                                                 <div class="input-group">
                                                     <span class="input-group-text">IDR</span>
                                                     <input type="number" name="bet_amount" class="form-control" 
-                                                           min="3000" max="{{ $maxBetAmount }}" value="3000" step="1000"
+                                                           min="3000" max="{{ $maxBetAmount }}" value="3000" step="500"
                                                            id="cardBetAmount">
                                                 </div>
                                                 <small class="text-white mt-1 d-block">
@@ -638,7 +647,7 @@
                                                 <div class="mt-2">
                                                     <button type="button" class="btn btn-sm btn-outline-light me-1" onclick="setBetAmount('cardBetAmount', 3000)">Min</button>
                                                     <button type="button" class="btn btn-sm btn-outline-light me-1" onclick="setBetAmount('cardBetAmount', {{ $maxBetAmount }})">Max</button>
-                                                    <button type="button" class="btn btn-sm btn-outline-light" onclick="setBetAmount('cardBetAmount', {{ intval($maxBetAmount / 2) }})">Mid</button>
+                                                    <button type="button" class="btn btn-sm btn-outline-light" onclick="setBetAmount('cardBetAmount', {{ intval((3000 + $maxBetAmount) / 2) }})">Mid</button>
                                                 </div>
                                             </div>
                                             <button type="submit" class="rpg-button rpg-button-epic rpg-button-large">
@@ -701,10 +710,51 @@
 
 <script>
 function setBetAmount(inputId, amount) {
+    console.log('setBetAmount called with:', inputId, amount); // Debug log
     const input = document.getElementById(inputId);
     if (input) {
         input.value = amount;
+        console.log('Set value to:', amount); // Debug log
+        
+        // Trigger input event to ensure any listeners are notified
+        input.dispatchEvent(new Event('input', { bubbles: true }));
+        input.dispatchEvent(new Event('change', { bubbles: true }));
+    } else {
+        console.error('Input element not found:', inputId); // Debug log
     }
 }
+
+// Test function on page load and add backup event listeners
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Page loaded, testing setBetAmount function...');
+    const diceInput = document.getElementById('diceBetAmount');
+    const cardInput = document.getElementById('cardBetAmount');
+    console.log('Dice input found:', !!diceInput);
+    console.log('Card input found:', !!cardInput);
+    
+    // Add backup event listeners for dice betting buttons
+    const diceBtns = document.querySelectorAll('[onclick*="diceBetAmount"]');
+    diceBtns.forEach((btn, index) => {
+        const amounts = [3000, {{ $maxBetAmount }}, {{ intval((3000 + $maxBetAmount) / 2) }}];
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('Button clicked via event listener:', amounts[index]);
+            setBetAmount('diceBetAmount', amounts[index]);
+        });
+    });
+    
+    // Add backup event listeners for card betting buttons  
+    const cardBtns = document.querySelectorAll('[onclick*="cardBetAmount"]');
+    cardBtns.forEach((btn, index) => {
+        const amounts = [3000, {{ $maxBetAmount }}, {{ intval((3000 + $maxBetAmount) / 2) }}];
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('Button clicked via event listener:', amounts[index]);
+            setBetAmount('cardBetAmount', amounts[index]);
+        });
+    });
+});
 </script>
 @endsection

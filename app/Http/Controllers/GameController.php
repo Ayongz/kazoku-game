@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Cache;
 use App\Models\User;
 use App\Models\GameSetting;
 use App\Models\Inventory;
+use App\Models\PlayerLog;
 use App\Services\ExperienceService;
 use DateTime;
 use DateTimeZone;
@@ -26,7 +27,8 @@ class GameController extends Controller
     // Night-time risk constants (6 PM to 6 AM GMT+7)
     const NIGHT_RISK_LOSS_CHANCE = 25;    // 25% chance to lose money
     const NIGHT_RISK_BONUS_CHANCE = 25;   // 25% chance for 1.5x multiplier
-    const NIGHT_RISK_NORMAL_CHANCE = 50;  // 50% chance for normal earnings
+    const NIGHT_RISK_NORMAL_CHANCE = 45;  // 45% chance for normal earnings (reduced to accommodate rare treasure)
+    const NIGHT_RARE_TREASURE_CHANCE = 5; // 5% chance to get rare treasure at night
     
     // Class system constants
     const CLASS_UNLOCK_LEVEL = 4;         // Level required for first class selection
@@ -143,11 +145,18 @@ class GameController extends Controller
         // Apply night-time risk system (6 PM to 6 AM GMT+7)
         $nightRiskMessage = "";
         $finalEarnedAmount = $baseEarnedAmount;
+        $nightRareTreasureGained = false;
         
         if ($this->isNightTime()) {
             $nightRisk = $this->applyNightTimeRisk($baseEarnedAmount);
             $finalEarnedAmount = $nightRisk['amount'];
             $nightRiskMessage = " " . $nightRisk['message'];
+            
+            // Check if rare treasure was gained from night bonus
+            if (isset($nightRisk['rare_treasure_gained']) && $nightRisk['rare_treasure_gained']) {
+                $user->rare_treasures = ($user->rare_treasures ?? 0) + 1;
+                $nightRareTreasureGained = true;
+            }
         }
 
         // Apply class abilities that affect earnings
@@ -302,6 +311,31 @@ class GameController extends Controller
                              " [+" . $expGained . " EXP]" . $levelUpMessage . $randomBoxMessage . $nightRiskMessage . $classMessageString;
         }
 
+        // Create log entry for treasure opening
+        $additionalData = [
+            'base_earned' => $baseEarnedAmount,
+            'final_earned' => $finalEarnedAmount,
+            'night_mode' => $this->isNightTime(),
+            'night_rare_treasure_gained' => $nightRareTreasureGained,
+            'class_bonuses' => $classMessages,
+            'treasure_consumed' => $treasureConsumed,
+            'random_box_gained' => !empty($randomBoxMessage),
+            'level_up' => $levelUpCheck['shouldLevelUp']
+        ];
+
+        PlayerLog::createLog(
+            userId: $user->id,
+            actionType: 'treasure_open',
+            description: strip_tags($successMessage),
+            moneyChange: $playerReceives,
+            treasureChange: $treasureConsumed ? -1 : 0,
+            rareTreasureChange: $nightRareTreasureGained ? 1 : 0,
+            randomBoxChange: !empty($randomBoxMessage) ? 1 : 0,
+            experienceGained: $expGained,
+            additionalData: $additionalData,
+            isSuccess: $playerReceives >= 0
+        );
+
         // Auto-attempt steal if user has steal ability
         $stealMessage = "";
         if ($user->steal_level > 0) {
@@ -415,8 +449,30 @@ class GameController extends Controller
 
         $user->save();
 
+        // Create success message
         $successMessage = "🌟 Rare Treasure Opened! You received IDR " . number_format($moneyEarned) . 
                          " (+" . $expGained . " EXP)" . $levelUpMessage;
+
+        // Create log entry for rare treasure opening
+        $additionalData = [
+            'base_reward' => $baseReward,
+            'rare_multiplier' => $rareMultiplier,
+            'money_earned' => $moneyEarned,
+            'level_up' => $levelUpCheck['shouldLevelUp'],
+            'class_bonus_applied' => $user->selected_class === 'proud_merchant'
+        ];
+
+        PlayerLog::createLog(
+            userId: $user->id,
+            actionType: 'rare_treasure_open',
+            description: strip_tags($successMessage),
+            moneyChange: $moneyEarned,
+            treasureChange: 0,
+            rareTreasureChange: -1,
+            experienceGained: $expGained,
+            additionalData: $additionalData,
+            isSuccess: true
+        );
 
         return redirect()->route('game.dashboard')
             ->with('success', $successMessage);
@@ -664,7 +720,15 @@ class GameController extends Controller
     {
         $roll = rand(1, 100);
         
-        if ($roll <= self::NIGHT_RISK_LOSS_CHANCE) {
+        // 5% chance - Get rare treasure (highest priority)
+        if ($roll <= self::NIGHT_RARE_TREASURE_CHANCE) {
+            return [
+                'amount' => $baseAmount,
+                'type' => 'rare_treasure',
+                'message' => '🌟 NIGHT TREASURE: Found a rare treasure in the darkness!',
+                'rare_treasure_gained' => true
+            ];
+        } elseif ($roll <= (self::NIGHT_RARE_TREASURE_CHANCE + self::NIGHT_RISK_LOSS_CHANCE)) {
             // 25% chance - Lose money instead of earning
             $lossAmount = $baseAmount;
             return [
@@ -672,7 +736,7 @@ class GameController extends Controller
                 'type' => 'loss',
                 'message' => '🌙 NIGHT RISK: Lost IDR ' . number_format($lossAmount, 0, ',', '.') . ' in the darkness!'
             ];
-        } elseif ($roll <= (self::NIGHT_RISK_LOSS_CHANCE + self::NIGHT_RISK_BONUS_CHANCE)) {
+        } elseif ($roll <= (self::NIGHT_RARE_TREASURE_CHANCE + self::NIGHT_RISK_LOSS_CHANCE + self::NIGHT_RISK_BONUS_CHANCE)) {
             // 25% chance - Get 1.5x multiplier
             $bonusAmount = floor($baseAmount * 1.5);
             return [
@@ -681,7 +745,7 @@ class GameController extends Controller
                 'message' => '🌙 NIGHT BONUS: Earned 1.5x IDR ' . number_format($bonusAmount, 0, ',', '.') . ' under the moonlight!'
             ];
         } else {
-            // 50% chance - Normal earnings
+            // 45% chance - Normal earnings (reduced from 50% to accommodate rare treasure)
             return [
                 'amount' => $baseAmount,
                 'type' => 'normal',
