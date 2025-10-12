@@ -23,45 +23,223 @@
                     </div>
                 </div>
 
-                <!-- RPG Time Mode Indicator -->
-                @if($isNightTime)
-                    <div class="rpg-time-indicator rpg-night-mode mb-4">
-                        <div class="time-indicator-content">
-                            <div class="time-icon">
-                                <i class="fas fa-moon"></i>
+                <!-- RPG Time Mode & Game Actions Row -->
+                <div class="row mb-4">
+                    <!-- RPG Time Mode Indicator -->
+                    <div class="col-12 col-lg-4 mb-4 mb-lg-0">
+                        @if($isNightTime)
+                            <div class="rpg-time-indicator rpg-night-mode h-100">
+                                <div class="time-indicator-content">
+                                    <div class="time-icon">
+                                        <i class="fas fa-moon"></i>
+                                    </div>
+                                    <div class="time-info">
+                                        <h6 class="time-title">{{ __('nav.night_time_risk_active') }}</h6>
+                                        <p class="time-description mb-2">
+                                            {{ __('nav.opening_treasures_risk') }}
+                                        </p>
+                                        <div class="risk-indicators">
+                                            <span class="risk-danger d-block">{{ __('nav.chance_to_lose_money') }}</span>
+                                            <span class="risk-success d-block">{{ __('nav.chance_for_bonus') }}</span>
+                                            <span class="risk-normal d-block">{{ __('nav.chance_normal') }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="time-badge">
+                                        <span class="mode-label">{{ __('nav.night_mode') }}</span>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="time-info">
-                                <h6 class="time-title">{{ __('nav.night_time_risk_active') }}</h6>
-                                <p class="time-description">
-                                    {{ __('nav.opening_treasures_risk') }}
-                                    <span class="risk-danger">{{ __('nav.chance_to_lose_money') }}</span> |
-                                    <span class="risk-success">{{ __('nav.chance_for_bonus') }}</span> |
-                                    <span class="risk-normal">{{ __('nav.chance_normal') }}</span>
-                                </p>
+                        @else
+                            <div class="rpg-time-indicator rpg-day-mode h-100">
+                                <div class="time-indicator-content">
+                                    <div class="time-icon">
+                                        <i class="fas fa-sun"></i>
+                                    </div>
+                                    <div class="time-info">
+                                        <h6 class="time-title">{{ __('nav.day_time_safe_mode') }}</h6>
+                                        <p class="time-description mb-0">
+                                            {{ __('nav.treasure_opening_safe') }}
+                                        </p>
+                                    </div>
+                                    <div class="time-badge">
+                                        <span class="mode-label">{{ __('nav.day_mode') }}</span>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="time-badge">
-                                <span class="mode-label">{{ __('nav.night_mode') }}</span>
+                        @endif
+                    </div>
+
+                    <!-- Game Actions Section (Treasure Chamber) -->
+                    <div class="col-12 col-lg-8">
+                        <div class="rpg-panel panel-main position-relative overflow-hidden h-100">
+                            <!-- Background Pattern -->
+                            <div class="position-absolute w-100 h-100" style="top: 0; left: 0; opacity: 0.03; background-image: url('data:image/svg+xml,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100 100\"><defs><pattern id=\"treasure-pattern\" x=\"0\" y=\"0\" width=\"20\" height=\"20\" patternUnits=\"userSpaceOnUse\"><circle cx=\"10\" cy=\"10\" r=\"2\" fill=\"%23ffd700\"/></pattern></defs><rect width=\"100\" height=\"100\" fill=\"url(%23treasure-pattern)\"/></svg>'); background-repeat: repeat;"></div>
+                            
+                            <div class="panel-content p-3">
+                                <!-- Header Section -->
+                                <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-3">
+                                    <div class="rpg-section-header mb-2 mb-md-0">
+                                        <h4 class="rpg-title text-primary mb-1">
+                                            <i class="fas fa-treasure-chest me-2 text-warning" style="text-shadow: 0 0 10px rgba(255,193,7,0.5);"></i>
+                                            Treasure Chamber
+                                        </h4>
+                                        <p class="rpg-subtitle mb-0 small">Delve into mystical treasures</p>
+                                    </div>
+                                    
+                                    <!-- Auto Click Toggle (Level 3+ Required) -->
+                                    @if($user->level >= 3)
+                                        <div class="rpg-toggle-container">
+                                            <div class="form-check form-switch rpg-switch">
+                                                <input class="form-check-input rpg-switch-input" type="checkbox" id="autoClickToggle" 
+                                                       @if($user->treasure <= 0) disabled @endif>
+                                                <label class="form-check-label rpg-switch-label fw-bold" for="autoClickToggle">
+                                                    <i class="fas fa-magic me-1"></i>
+                                                    <span class="d-none d-md-inline">Auto Click</span>
+                                                    <span class="d-md-none">Auto</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    @else
+                                        <div class="rpg-locked-feature">
+                                            <span class="badge bg-secondary small">
+                                                <i class="fas fa-lock me-1"></i>
+                                                Level 3 Required
+                                            </span>
+                                        </div>
+                                    @endif
+                                </div>
+                                
+                                <!-- Description -->
+                                <div class="rpg-description-panel mb-3">
+                                    <div class="text-center">
+                                        <p class="rpg-flavor-text mb-2 small">
+                                            {{ __('nav.click_to_earn_money') }}
+                                        </p>
+                                        @if($user->steal_level > 0)
+                                            <div class="rpg-bonus-indicator">
+                                                <span class="badge bg-info bg-gradient small">
+                                                    <i class="fas fa-mask me-1"></i>
+                                                    <strong>{{ __('nav.bonus') }}:</strong> {{ __('nav.steal_bonus', ['percent' => $user->steal_level * 5]) }}
+                                                </span>
+                                            </div>
+                                        @endif
+                                        @if($user->level < 3)
+                                            <div class="rpg-bonus-indicator mt-2">
+                                                <span class="badge bg-warning text-dark small">
+                                                    <i class="fas fa-lock me-1"></i>
+                                                    <strong>Auto-click unlocks at Level 3</strong>
+                                                </span>
+                                            </div>
+                                        @endif
+                                    </div>
+                                </div>
+                                
+                                <!-- Treasure Section -->
+                                <div class="row justify-content-center">
+                                    <div class="col-12">
+                                        <div class="rpg-treasure-display text-center">
+                                            @php
+                                                // Treasure rarity configuration with random box chances
+                                                $rarityConfig = [
+                                                    0 => ['name' => 'Common', 'color' => '#6c757d', 'glow' => 'none', 'icon' => 'fas fa-box', 'chance' => 0],
+                                                    1 => ['name' => 'Uncommon', 'color' => '#28a745', 'glow' => '0 0 10px rgba(40, 167, 69, 0.5)', 'icon' => 'fas fa-treasure-chest', 'chance' => 5],
+                                                    2 => ['name' => 'Rare', 'color' => '#007bff', 'glow' => '0 0 15px rgba(0, 123, 255, 0.6)', 'icon' => 'fas fa-gem', 'chance' => 7],
+                                                    3 => ['name' => 'Epic', 'color' => '#6f42c1', 'glow' => '0 0 20px rgba(111, 66, 193, 0.7)', 'icon' => 'fas fa-crown', 'chance' => 9],
+                                                    4 => ['name' => 'Legendary', 'color' => '#fd7e14', 'glow' => '0 0 25px rgba(253, 126, 20, 0.8)', 'icon' => 'fas fa-fire', 'chance' => 11],
+                                                    5 => ['name' => 'Mythic', 'color' => '#e83e8c', 'glow' => '0 0 30px rgba(232, 62, 140, 0.9)', 'icon' => 'fas fa-magic', 'chance' => 13],
+                                                    6 => ['name' => 'Divine', 'color' => '#ffc107', 'glow' => '0 0 35px rgba(255, 193, 7, 1.0)', 'icon' => 'fas fa-sun', 'chance' => 15],
+                                                    7 => ['name' => 'Celestial', 'color' => '#17a2b8', 'glow' => '0 0 40px rgba(23, 162, 184, 1.0)', 'icon' => 'fas fa-star', 'chance' => 17]
+                                                ];
+                                                $currentRarity = $rarityConfig[$user->treasure_rarity_level] ?? $rarityConfig[0];
+                                            @endphp
+                                            
+                                            <!-- Treasure Type Display -->
+                                            <div class="rpg-rarity-display mb-3">
+                                                <div class="rpg-rarity-badge" style="background: linear-gradient(135deg, {{ $currentRarity['color'] }}, {{ $currentRarity['color'] }}cc); box-shadow: {{ $currentRarity['glow'] }}, 0 4px 15px rgba(0,0,0,0.2);">
+                                                    <i class="{{ $currentRarity['icon'] }} me-2"></i>
+                                                    <span class="fw-bold">{{ $currentRarity['name'] }} Treasure</span>
+                                                </div>
+                                                @if($currentRarity['chance'] > 0)
+                                                    <div class="rpg-bonus-chance mt-2">
+                                                        <small class="text-muted">
+                                                            <i class="fas fa-gift me-1 text-warning"></i>
+                                                            {{ $currentRarity['chance'] }}% chance for Random Box
+                                                        </small>
+                                                    </div>
+                                                @endif
+                                            </div>
+                                            
+                                            <!-- Open Treasure Buttons -->
+                                            <div class="rpg-action-area">
+                                                <!-- Regular Treasure Button -->
+                                                <form method="POST" action="{{ route('game.earn') }}" id="earnMoneyForm">
+                                                    @csrf
+                                                    <button type="submit" id="earnMoneyBtn"
+                                                            class="rpg-button rpg-button-primary rpg-button-large @if($user->treasure <= 0) rpg-button-disabled @endif"
+                                                            @if($user->treasure <= 0) disabled @endif>
+                                                        <div class="rpg-button-content">
+                                                            @if($user->treasure > 0)
+                                                                <i class="fas fa-hand-sparkles me-2"></i>
+                                                                <span class="d-none d-sm-inline">OPEN </span>TREASURE
+                                                            @else
+                                                                <i class="fas fa-times-circle me-2"></i>
+                                                                <span class="d-none d-sm-inline">OUT OF </span>TREASURE
+                                                            @endif
+                                                        </div>
+                                                        <div class="rpg-button-glow"></div>
+                                                    </button>
+                                                </form>
+                                                
+                                                <!-- Rare Treasure Button -->
+                                                @if(($user->rare_treasures ?? 0) > 0)
+                                                    <form method="POST" action="{{ route('game.open-rare-treasure') }}" class="mt-2">
+                                                        @csrf
+                                                        <button type="submit" class="rpg-button rpg-button-legendary rpg-button-large">
+                                                            <div class="rpg-button-content">
+                                                                <i class="fas fa-star me-2"></i>
+                                                                <span class="d-none d-sm-inline">OPEN RARE TREASURE</span>
+                                                                <span class="d-sm-none">RARE</span>
+                                                            </div>
+                                                            <div class="rpg-button-glow"></div>
+                                                        </button>
+                                                    </form>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Steal Success Message -->
+                                @if (session('success') && (str_contains(session('success'), 'Heist successful!') || str_contains(session('success'), 'BONUS: Stole')))
+                                    <div id="stealSuccessMessage" class="mt-3">
+                                        <div class="rpg-alert rpg-alert-success">
+                                            <div class="rpg-alert-icon">
+                                                <i class="fas fa-mask"></i>
+                                            </div>
+                                            <div class="rpg-alert-content">
+                                                <strong>{{ session('success') }}</strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+                                
+                                <!-- Auto Click Status -->
+                                <div id="autoClickStatus" class="mt-3" style="display: none;">
+                                    <div class="rpg-alert rpg-alert-info">
+                                        <div class="rpg-alert-icon">
+                                            <div class="spinner-border spinner-border-sm" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                        </div>
+                                        <div class="rpg-alert-content">
+                                            <strong>Auto Click Active:</strong> <span id="autoClickCounter">0</span> treasures opened
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                @else
-                    <div class="rpg-time-indicator rpg-day-mode mb-4">
-                        <div class="time-indicator-content">
-                            <div class="time-icon">
-                                <i class="fas fa-sun"></i>
-                            </div>
-                            <div class="time-info">
-                                <h6 class="time-title">{{ __('nav.day_time_safe_mode') }}</h6>
-                                <p class="time-description">
-                                    {{ __('nav.treasure_opening_safe') }}
-                                </p>
-                            </div>
-                            <div class="time-badge">
-                                <span class="mode-label">{{ __('nav.day_mode') }}</span>
-                            </div>
-                        </div>
-                    </div>
-                @endif
+                </div>
 
                 <!-- RPG Status Messages -->
                 @if (session('success') && !str_contains(session('success'), 'Heist successful!') && !str_contains(session('success'), 'BONUS: Stole'))
@@ -94,7 +272,7 @@
                 @endif
 
                 <!-- RPG Player Stats Grid -->
-                <div class="row mb-5">
+                <div class="row">
                     <!-- Player Money Card -->
                     <div class="col-12 col-md-6 col-lg-2-4 mb-4">
                         <div class="rpg-stat-card stat-money">
@@ -211,7 +389,7 @@
                 </div>
 
                 <!-- Player Level & Experience and Class System Row -->
-                <div class="row mb-4">
+                <div class="row">
                     <!-- Player Level & Experience Card -->
                     <div class="col-12 col-lg-7">
                         <div class="rpg-panel panel-main">
@@ -268,7 +446,7 @@
                             <!-- Magical Background Effect -->
                             <div class="position-absolute w-100 h-100" style="top: 0; left: 0; opacity: 0.05; background: radial-gradient(circle at 20% 30%, #6f42c1 0%, transparent 50%), radial-gradient(circle at 80% 70%, #e83e8c 0%, transparent 50%), radial-gradient(circle at 40% 80%, #fd7e14 0%, transparent 50%);"></div>
                             
-                            <div class="panel-content p-4">
+                            <div class="panel-content p-3">
                                 @if($user->selected_class)
                                     <!-- Current Class Display -->
                                     <div class="rpg-class-display">
@@ -385,183 +563,6 @@
                     </div>
                     @endif
                 </div>
-
-            <!-- Game Actions Section -->
-            <div class="row justify-content-center">
-                <!-- EARN MONEY ACTION -->
-                <div class="col-12 col-lg-8">
-                    <div class="rpg-panel panel-main position-relative overflow-hidden" style="min-height: 300px;">
-                        <!-- Background Pattern -->
-                        <div class="position-absolute w-100 h-100" style="top: 0; left: 0; opacity: 0.03; background-image: url('data:image/svg+xml,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100 100\"><defs><pattern id=\"treasure-pattern\" x=\"0\" y=\"0\" width=\"20\" height=\"20\" patternUnits=\"userSpaceOnUse\"><circle cx=\"10\" cy=\"10\" r=\"2\" fill=\"%23ffd700\"/></pattern></defs><rect width=\"100\" height=\"100\" fill=\"url(%23treasure-pattern)\"/></svg>'); background-repeat: repeat;"></div>
-                        
-                        <div class="panel-content p-4">
-                            <!-- Header Section -->
-                            <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4">
-                                <div class="rpg-section-header mb-3 mb-md-0">
-                                    <h2 class="rpg-title text-primary">
-                                        <i class="fas fa-treasure-chest me-2 text-warning" style="text-shadow: 0 0 10px rgba(255,193,7,0.5);"></i>
-                                        Treasure Chamber
-                                    </h2>
-                                    <p class="rpg-subtitle mb-0">Delve into mystical treasures</p>
-                                </div>
-                                
-                                <!-- Auto Click Toggle (Level 3+ Required) -->
-                                @if($user->level >= 3)
-                                    <div class="rpg-toggle-container">
-                                        <div class="form-check form-switch rpg-switch">
-                                            <input class="form-check-input rpg-switch-input" type="checkbox" id="autoClickToggle" 
-                                                   @if($user->treasure <= 0) disabled @endif>
-                                            <label class="form-check-label rpg-switch-label fw-bold" for="autoClickToggle">
-                                                <i class="fas fa-magic me-2"></i>
-                                                <span class="d-none d-sm-inline">Auto Click</span>
-                                                <span class="d-sm-none">Auto</span>
-                                            </label>
-                                        </div>
-                                    </div>
-                                @else
-                                    <div class="rpg-locked-feature">
-                                        <span class="badge bg-secondary">
-                                            <i class="fas fa-lock me-1"></i>
-                                            Level 3 Required
-                                        </span>
-                                    </div>
-                                @endif
-                            </div>
-                            
-                            <!-- Description -->
-                            <div class="rpg-description-panel mb-4">
-                                <div class="row justify-content-center">
-                                    <div class="col-12 col-md-10">
-                                        <div class="text-center">
-                                            <p class="rpg-flavor-text mb-2">
-                                                {{ __('nav.click_to_earn_money') }}
-                                            </p>
-                                            @if($user->steal_level > 0)
-                                                <div class="rpg-bonus-indicator">
-                                                    <span class="badge bg-info bg-gradient">
-                                                        <i class="fas fa-mask me-1"></i>
-                                                        <strong>{{ __('nav.bonus') }}:</strong> {{ __('nav.steal_bonus', ['percent' => $user->steal_level * 5]) }}
-                                                    </span>
-                                                </div>
-                                            @endif
-                                            @if($user->level < 3)
-                                                <div class="rpg-bonus-indicator mt-2">
-                                                    <span class="badge bg-warning text-dark">
-                                                        <i class="fas fa-lock me-1"></i>
-                                                        <strong>Auto-click unlocks at Level 3</strong>
-                                                    </span>
-                                                </div>
-                                            @endif
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- Treasure Section -->
-                            <div class="row justify-content-center">
-                                <div class="col-12 col-sm-10 col-md-8">
-                                    <div class="rpg-treasure-display text-center">
-                                        @php
-                                            // Treasure rarity configuration with random box chances
-                                            $rarityConfig = [
-                                                0 => ['name' => 'Common', 'color' => '#6c757d', 'glow' => 'none', 'icon' => 'fas fa-box', 'chance' => 0],
-                                                1 => ['name' => 'Uncommon', 'color' => '#28a745', 'glow' => '0 0 10px rgba(40, 167, 69, 0.5)', 'icon' => 'fas fa-treasure-chest', 'chance' => 5],
-                                                2 => ['name' => 'Rare', 'color' => '#007bff', 'glow' => '0 0 15px rgba(0, 123, 255, 0.6)', 'icon' => 'fas fa-gem', 'chance' => 7],
-                                                3 => ['name' => 'Epic', 'color' => '#6f42c1', 'glow' => '0 0 20px rgba(111, 66, 193, 0.7)', 'icon' => 'fas fa-crown', 'chance' => 9],
-                                                4 => ['name' => 'Legendary', 'color' => '#fd7e14', 'glow' => '0 0 25px rgba(253, 126, 20, 0.8)', 'icon' => 'fas fa-fire', 'chance' => 11],
-                                                5 => ['name' => 'Mythic', 'color' => '#e83e8c', 'glow' => '0 0 30px rgba(232, 62, 140, 0.9)', 'icon' => 'fas fa-magic', 'chance' => 13],
-                                                6 => ['name' => 'Divine', 'color' => '#ffc107', 'glow' => '0 0 35px rgba(255, 193, 7, 1.0)', 'icon' => 'fas fa-sun', 'chance' => 15],
-                                                7 => ['name' => 'Celestial', 'color' => '#17a2b8', 'glow' => '0 0 40px rgba(23, 162, 184, 1.0)', 'icon' => 'fas fa-star', 'chance' => 17]
-                                            ];
-                                            $currentRarity = $rarityConfig[$user->treasure_rarity_level] ?? $rarityConfig[0];
-                                        @endphp
-                                        
-                                        <!-- Treasure Type Display -->
-                                        <div class="rpg-rarity-display mb-4">
-                                            <div class="rpg-rarity-badge" style="background: linear-gradient(135deg, {{ $currentRarity['color'] }}, {{ $currentRarity['color'] }}cc); box-shadow: {{ $currentRarity['glow'] }}, 0 4px 15px rgba(0,0,0,0.2);">
-                                                <i class="{{ $currentRarity['icon'] }} me-2" style="font-size: 1.2rem;"></i>
-                                                <span class="fw-bold">{{ $currentRarity['name'] }} Treasure</span>
-                                            </div>
-                                            @if($currentRarity['chance'] > 0)
-                                                <div class="rpg-bonus-chance mt-2">
-                                                    <small class="text-muted">
-                                                        <i class="fas fa-gift me-1 text-warning"></i>
-                                                        {{ $currentRarity['chance'] }}% chance for Random Box
-                                                    </small>
-                                                </div>
-                                            @endif
-                                        </div>
-                                        
-                                        <!-- Open Treasure Buttons -->
-                                        <div class="rpg-action-area">
-                                            <!-- Regular Treasure Button -->
-                                            <form method="POST" action="{{ route('game.earn') }}" id="earnMoneyForm">
-                                                @csrf
-                                                <button type="submit" id="earnMoneyBtn"
-                                                        class="rpg-button rpg-button-primary rpg-button-large @if($user->treasure <= 0) rpg-button-disabled @endif"
-                                                        @if($user->treasure <= 0) disabled @endif>
-                                                    <div class="rpg-button-content">
-                                                        @if($user->treasure > 0)
-                                                            <i class="fas fa-hand-sparkles me-2"></i>
-                                                            <span class="d-none d-sm-inline">OPEN </span>TREASURE
-                                                        @else
-                                                            <i class="fas fa-times-circle me-2"></i>
-                                                            <span class="d-none d-sm-inline">OUT OF </span>TREASURE
-                                                        @endif
-                                                    </div>
-                                                    <div class="rpg-button-glow"></div>
-                                                </button>
-                                            </form>
-                                            
-                                            <!-- Rare Treasure Button -->
-                                            @if(($user->rare_treasures ?? 0) > 0)
-                                                <form method="POST" action="{{ route('game.open-rare-treasure') }}" class="mt-3">
-                                                    @csrf
-                                                    <button type="submit" class="rpg-button rpg-button-legendary rpg-button-large">
-                                                        <div class="rpg-button-content">
-                                                            <i class="fas fa-star me-2"></i>
-                                                            <span class="d-none d-sm-inline">OPEN RARE TREASURE </span>
-                                                        </div>
-                                                        <div class="rpg-button-glow"></div>
-                                                    </button>
-                                                </form>
-                                            @endif
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- Steal Success Message -->
-                            @if (session('success') && (str_contains(session('success'), 'Heist successful!') || str_contains(session('success'), 'BONUS: Stole')))
-                                <div id="stealSuccessMessage" class="mt-4">
-                                    <div class="rpg-alert rpg-alert-success">
-                                        <div class="rpg-alert-icon">
-                                            <i class="fas fa-mask"></i>
-                                        </div>
-                                        <div class="rpg-alert-content">
-                                            <strong>{{ session('success') }}</strong>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endif
-                            
-                            <!-- Auto Click Status -->
-                            <div id="autoClickStatus" class="mt-4" style="display: none;">
-                                <div class="rpg-alert rpg-alert-info">
-                                    <div class="rpg-alert-icon">
-                                        <div class="spinner-border spinner-border-sm" role="status">
-                                            <span class="visually-hidden">Loading...</span>
-                                        </div>
-                                    </div>
-                                    <div class="rpg-alert-content">
-                                        <strong>Auto Click Active:</strong> <span id="autoClickCounter">0</span> treasures opened
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </div>
@@ -615,31 +616,88 @@
     
     /* Time Indicator Content Visibility Fix */
     .time-indicator-content {
+        background-color: #6f42c1;
         color: #ffffff !important;
         text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8) !important;
+        padding: 1.25rem;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        justify-content: space-between;
     }
-    
+
+    .time-indicator-content .time-icon, .time-indicator-content .time-info, .time-indicator-content .time-badge {
+        padding: 5px;
+    }
+
     .time-indicator-content .time-title {
         color: #ffffff !important;
         font-weight: 600 !important;
         text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8) !important;
+        margin-bottom: 0.75rem;
+        font-size: 1rem;
     }
     
     .time-indicator-content .time-description {
         color: #f1f5f9 !important;
         font-weight: 500 !important;
         text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7) !important;
+        font-size: 0.875rem;
+        line-height: 1.4;
     }
     
     .time-indicator-content .mode-label {
         color: #ffffff !important;
         font-weight: 600 !important;
         text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8) !important;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    
+    .time-icon {
+        text-align: center;
+        margin-bottom: 0.75rem;
+    }
+    
+    .time-icon i {
+        font-size: 2rem;
+        color: #ffd700;
+        text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    }
+    
+    .time-badge {
+        text-align: center;
+        margin-top: 0.75rem;
+    }
+    
+    .risk-indicators span {
+        font-size: 0.75rem;
+        margin-bottom: 0.25rem;
     }
     
     .risk-danger, .risk-success, .risk-normal {
         font-weight: 600 !important;
         text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8) !important;
+    }
+    
+    /* Responsive adjustments for side-by-side layout */
+    @media (max-width: 991.98px) {
+        .time-indicator-content {
+            padding: 1rem;
+        }
+        
+        .time-icon i {
+            font-size: 1.5rem;
+        }
+        
+        .time-indicator-content .time-title {
+            font-size: 0.9rem;
+        }
+        
+        .time-indicator-content .time-description {
+            font-size: 0.8rem;
+        }
     }
     
     .container-fluid > .container {
@@ -1160,9 +1218,9 @@
         padding: 2rem 1rem;
     }
     
-    .rpg-class-locked {
+    /* .rpg-class-locked {
         padding: 2rem 1rem;
-    }
+    } */
     
     .rpg-requirement-badge {
         background: linear-gradient(135deg, rgba(108,117,125,0.3) 0%, rgba(73,80,87,0.3) 100%);
@@ -1656,6 +1714,18 @@ document.addEventListener('DOMContentLoaded', function() {
     function performAutoClick() {
         if (isProcessing || currentTreasure <= 0) return;
         
+        // Check rate limiting for auto-click as well
+        const currentTime = Date.now();
+        const timeDifference = currentTime - lastTreasureOpenTime;
+        
+        if (timeDifference < treasureOpenDelay) {
+            // Wait for the remaining time before next auto-click
+            const remainingDelay = treasureOpenDelay - timeDifference;
+            setTimeout(performAutoClick, remainingDelay);
+            return;
+        }
+        
+        lastTreasureOpenTime = currentTime;
         isProcessing = true;
         
         // Show processing state
@@ -1715,6 +1785,47 @@ document.addEventListener('DOMContentLoaded', function() {
             earnMoneyBtn.disabled = false;
         });
     }
+    
+    // Add rate limiting for treasure opening
+    let lastTreasureOpenTime = 0;
+    const treasureOpenDelay = 2000; // 2 seconds in milliseconds
+    
+    // Override form submission to add rate limiting
+    earnMoneyForm.addEventListener('submit', function(e) {
+        const currentTime = Date.now();
+        const timeDifference = currentTime - lastTreasureOpenTime;
+        
+        if (timeDifference < treasureOpenDelay) {
+            e.preventDefault();
+            const remainingSeconds = Math.ceil((treasureOpenDelay - timeDifference) / 1000);
+            
+            // Show rate limit message
+            const errorMessage = `{{ __('nav.treasure_opening_too_fast', ['seconds' => '__SECONDS__']) }}`.replace('__SECONDS__', remainingSeconds);
+            
+            // Create temporary error notification
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'alert alert-warning alert-dismissible fade show mt-3';
+            errorDiv.innerHTML = `
+                <i class="fas fa-clock me-2"></i>
+                <strong>${errorMessage}</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            
+            // Insert error message before the form
+            earnMoneyForm.parentNode.insertBefore(errorDiv, earnMoneyForm);
+            
+            // Auto-dismiss after the remaining time
+            setTimeout(() => {
+                if (errorDiv.parentNode) {
+                    errorDiv.remove();
+                }
+            }, remainingSeconds * 1000);
+            
+            return false;
+        }
+        
+        lastTreasureOpenTime = currentTime;
+    });
     
     // Add event listener to earn money button to hide steal success message
     earnMoneyBtn.addEventListener('click', function() {

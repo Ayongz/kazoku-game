@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use App\Models\User;
 use App\Models\GameSetting;
 use App\Models\Inventory;
@@ -79,6 +80,37 @@ class GameController extends Controller
     public function earnMoney(Request $request)
     {
         $user = Auth::user();
+        
+        // Check for treasure opening delay (2 seconds)
+        $cacheKey = 'treasure_opened_' . $user->id;
+        $lastOpenTime = Cache::get($cacheKey);
+        $currentTime = time();
+        $delaySeconds = 2;
+        
+        if ($lastOpenTime !== null) {
+            $timeDifference = $currentTime - $lastOpenTime;
+            if ($timeDifference < $delaySeconds) {
+                $remainingSeconds = $delaySeconds - $timeDifference;
+                
+                $errorMessage = __('nav.treasure_opening_too_fast', ['seconds' => $remainingSeconds]);
+                
+                if ($request->ajax()) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => $errorMessage,
+                        'treasure' => $user->treasure,
+                        'money_earned' => $user->money_earned,
+                        'remaining_delay' => $remainingSeconds
+                    ], 429); // 429 Too Many Requests
+                }
+                
+                return redirect()->route('game.dashboard')
+                    ->with('error', $errorMessage);
+            }
+        }
+        
+        // Set the current time as last treasure opening time (expires after 5 seconds for safety)
+        Cache::put($cacheKey, $currentTime, 5);
 
         // Check if user has treasure left
         if ($user->treasure <= 0) {
@@ -88,7 +120,7 @@ class GameController extends Controller
                     'message' => 'You have no treasure left! Wait for the hourly reset.',
                     'treasure' => $user->treasure,
                     'money_earned' => $user->money_earned
-                ], 2000);
+                ], 400);
             }
             
             return redirect()->route('game.dashboard')
@@ -317,6 +349,35 @@ class GameController extends Controller
     public function openRareTreasure(Request $request)
     {
         $user = Auth::user();
+        
+        // Check for treasure opening delay (2 seconds) - same mechanism as regular treasure
+        $cacheKey = 'treasure_opened_' . $user->id;
+        $lastOpenTime = Cache::get($cacheKey);
+        $currentTime = time();
+        $delaySeconds = 2;
+        
+        if ($lastOpenTime !== null) {
+            $timeDifference = $currentTime - $lastOpenTime;
+            if ($timeDifference < $delaySeconds) {
+                $remainingSeconds = $delaySeconds - $timeDifference;
+                
+                $errorMessage = __('nav.treasure_opening_too_fast', ['seconds' => $remainingSeconds]);
+                
+                if ($request->ajax()) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => $errorMessage,
+                        'remaining_delay' => $remainingSeconds
+                    ], 429); // 429 Too Many Requests
+                }
+                
+                return redirect()->route('game.dashboard')
+                    ->with('error', $errorMessage);
+            }
+        }
+        
+        // Set the current time as last treasure opening time (expires after 5 seconds for safety)
+        Cache::put($cacheKey, $currentTime, 5);
 
         // Check if user has rare treasures
         if (($user->rare_treasures ?? 0) <= 0) {

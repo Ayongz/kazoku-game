@@ -118,9 +118,11 @@ return [
     
     // Store page translations
     'game_store' => 'Game Store',
-    'success' => 'Success!',
-    'error' => 'Error!',
+    'success' => 'Success',
+    'error' => 'Error',
     'lose' => 'You Lost!',
+    'treasure_opening_too_fast' => 'Slow down! Please wait :seconds seconds between treasure openings.',
+    'treasure_spam_detected' => 'Treasure opening too fast! Please wait before trying again.',
     'your_money' => 'Your Money',
     'auto_steal' => 'Auto Steal',
     'auto_earning' => 'Auto Earning',

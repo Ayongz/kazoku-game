@@ -124,6 +124,8 @@ return [
     'success' => 'Berhasil!',
     'error' => 'Error!',
     'lose' => 'Anda Kalah!',
+    'treasure_opening_too_fast' => 'Pelan-pelan! Harap tunggu :seconds detik antara pembukaan harta.',
+    'treasure_spam_detected' => 'Pembukaan harta terlalu cepat! Harap tunggu sebelum mencoba lagi.',
     'your_money' => 'Uang Anda',
     'auto_steal' => 'Auto Steal',
     'auto_earning' => 'Auto Earning',
