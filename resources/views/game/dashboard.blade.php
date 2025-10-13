@@ -39,9 +39,10 @@
                                             {{ __('nav.opening_treasures_risk') }}
                                         </p>
                                         <div class="risk-indicators">
-                                            <span class="risk-danger d-block">{{ __('nav.chance_to_lose_money') }}</span>
-                                            <span class="risk-success d-block">{{ __('nav.chance_for_bonus') }}</span>
-                                            <span class="risk-normal d-block">{{ __('nav.chance_normal') }}</span>
+                                            <span class="risk-danger d-block">25% {{ __('nav.chance_to_lose_money') }}</span>
+                                            <span class="risk-success d-block">25% {{ __('nav.chance_for_bonus') }}</span>
+                                            <span class="risk-rare d-block text-warning">5% {{ __('nav.chance_rare_treasure') }}</span>
+                                            <span class="risk-normal d-block">45% {{ __('nav.chance_normal') }}</span>
                                         </div>
                                     </div>
                                     <div class="time-badge">
@@ -191,9 +192,11 @@
                                                             @if($user->treasure > 0)
                                                                 <i class="fas fa-hand-sparkles me-2"></i>
                                                                 <span class="d-none d-sm-inline">OPEN TREASURE</span>
+                                                                <span class="d-sm-none">OPEN TREASURE</span>
                                                             @else
                                                                 <i class="fas fa-times-circle me-2"></i>
                                                                 <span class="d-none d-sm-inline">OUT OF TREASURE</span>
+                                                                <span class="d-sm-none">NO TREASURE</span>
                                                             @endif
                                                         </div>
                                                         <div class="rpg-button-glow"></div>
@@ -686,7 +689,7 @@
         margin-bottom: 0.25rem;
     }
     
-    .risk-danger, .risk-success, .risk-normal {
+    .risk-danger, .risk-success, .risk-normal, .risk-rare {
         font-weight: 600 !important;
         text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8) !important;
     }
@@ -801,7 +804,6 @@
         font-family: 'Segoe UI', system-ui, sans-serif;
         font-weight: 700;
         font-size: 1.5rem;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
         margin: 0;
         color: #000000;
     }
@@ -962,6 +964,10 @@
         padding: 6px 12px;
         border-radius: 6px;
         box-shadow: 0 2px 8px rgba(6,182,212,0.3);
+        word-break: break-word;
+        text-align: center;
+        max-width: 100%;
+        display: inline-block;
     }
     
     /* Treasure Display */
@@ -1374,6 +1380,12 @@
             margin-bottom: 1rem;
         }
         
+        .rpg-bonus-indicator .badge {
+            font-size: 0.7rem;
+            padding: 4px 8px;
+            line-height: 1.3;
+        }
+        
         .rpg-class-display .d-flex {
             flex-direction: column;
         }
@@ -1521,8 +1533,15 @@ document.addEventListener('DOMContentLoaded', function() {
         autoClickToggle.disabled = true;
         
         // Update button state
-        earnMoneyBtn.innerHTML = 'OUT OF TREASURE';
-        earnMoneyBtn.className = 'btn btn-lg w-100 w-sm-auto fw-bold text-uppercase btn-secondary disabled';
+        earnMoneyBtn.innerHTML = `
+            <div class="rpg-button-content">
+                <i class="fas fa-times-circle me-2"></i>
+                <span class="d-none d-sm-inline">OUT OF TREASURE</span>
+                <span class="d-sm-none">NO TREASURE</span>
+            </div>
+            <div class="rpg-button-glow"></div>
+        `;
+        earnMoneyBtn.className = 'rpg-button rpg-button-disabled rpg-button-large';
         earnMoneyBtn.disabled = true;
         
         // Show completion message

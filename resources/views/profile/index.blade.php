@@ -125,7 +125,7 @@
                 <!-- Back Button -->
                 <div class="rpg-back-area">
                     <a href="{{ route('game.dashboard') }}" class="rpg-back-btn">
-                        <i class="fas fa-arrow-left"></i> {{ __('nav.back_to_dashboard') }}
+                        <i class="fas fa-arrow-left"></i> &nbsp; {{ __('nav.back_to_dashboard') }}
                     </a>
                 </div>
             </div>

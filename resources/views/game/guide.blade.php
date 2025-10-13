@@ -616,7 +616,7 @@
                                     <p class="rpg-content-text">{{ __('gambling.treasure_fusion_desc') }}</p>
                                     <ul class="rpg-content-list">
                                         <li>{{ __('gambling.cost') }}: 3 {{ __('nav.treasure') }} + IDR 1,000</li>
-                                        <li>{{ __('gambling.success_rate') }}: 50%</li>
+                                        <li>{{ __('gambling.success_rate') }}: 35%</li>
                                         <li>{{ __('gambling.reward') }}: 1 {{ __('gambling.rare_treasure') }}</li>
                                     </ul>
                                 </div>
