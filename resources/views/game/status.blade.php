@@ -328,34 +328,6 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Quick Actions -->
-            <div class="row g-3 mb-4">
-                <div class="col-md-3 col-6">
-                    <a href="{{ route('game.dashboard') }}" class="btn btn-primary w-100">
-                        <i class="fas fa-gamepad me-2"></i>
-                        {{ __('nav.dashboard') }}
-                    </a>
-                </div>
-                <div class="col-md-3 col-6">
-                    <a href="{{ route('store.index') }}" class="btn btn-success w-100">
-                        <i class="fas fa-store me-2"></i>
-                        {{ __('nav.store') }}
-                    </a>
-                </div>
-                <div class="col-md-3 col-6">
-                    <a href="{{ route('game.inventory') }}" class="btn btn-info w-100">
-                        <i class="fas fa-box me-2"></i>
-                        {{ __('nav.inventory') }}
-                    </a>
-                </div>
-                <div class="col-md-3 col-6">
-                    <button onclick="location.reload()" class="btn btn-outline-secondary w-100">
-                        <i class="fas fa-sync-alt me-2"></i>
-                        {{ __('nav.refresh') }}
-                    </button>
-                </div>
-            </div>
         </div>
     </div>
 </div>

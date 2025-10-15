@@ -9,97 +9,90 @@
         <div class="energy-waves"></div>
     </div>
 
-    <div class="container py-5">
+    <div class="container pt-1">
         <div class="row justify-content-center">
             <div class="col-lg-10 col-xl-8">
                 
                 <!-- RPG Header -->
-                <div class="rpg-header text-center mb-5">
+                <div class="rpg-header text-center mb-4">
                     <div class="store-title-container">
-                        <h1 class="rpg-title">
-                            <i class="fas fa-crown me-3"></i>{{ __('nav.the_game_dashboard') }}
+                        <h1 class="rpg-title-enhanced">
+                            <i class="fas fa-crown me-2"></i>{{ __('nav.the_game_dashboard') }}
                         </h1>
-                        <div class="title-decoration"></div>
+                        <div class="title-decoration-enhanced"></div>
                     </div>
                 </div>
 
-                <!-- RPG Time Mode & Game Actions Row -->
-                <div class="row mb-4">
-                    <!-- RPG Time Mode Indicator -->
-                    <div class="col-12 col-lg-4 mb-4 mb-lg-0">
+                <!-- RPG Time Mode & Game Actions Row - Optimized -->
+                <div class="row mb-3">
+                    <!-- RPG Time Mode Indicator - Compact -->
+                    <div class="col-12 col-lg-5 mb-3 mb-lg-0">
                         @if($isNightTime)
-                            <div class="rpg-time-indicator rpg-night-mode h-100">
-                                <div class="time-indicator-content">
-                                    <div class="time-icon">
-                                        <i class="fas fa-moon"></i>
-                                    </div>
-                                    <div class="time-info">
-                                        <h6 class="time-title">{{ __('nav.night_time_risk_active') }}</h6>
-                                        <p class="time-description mb-2">
-                                            {{ __('nav.opening_treasures_risk') }}
-                                        </p>
-                                        <div class="risk-indicators">
-                                            <span class="risk-danger d-block">25% {{ __('nav.chance_to_lose_money') }}</span>
-                                            <span class="risk-success d-block">25% {{ __('nav.chance_for_bonus') }}</span>
-                                            <span class="risk-rare d-block text-warning">5% {{ __('nav.chance_rare_treasure') }}</span>
-                                            <span class="risk-normal d-block">45% {{ __('nav.chance_normal') }}</span>
+                            <div class="rpg-time-indicator rpg-night-mode h-100 compact-mode">
+                                <div class="time-indicator-content-compact">
+                                    <div class="time-header">
+                                        <div class="time-icon-compact">
+                                            <i class="fas fa-moon" style="color: #ffffff;"></i>
+                                        </div>
+                                        <div class="time-info-compact">
+                                            <h6 class="time-title-compact" style="color: #ffffff; font-weight: 700;">{{ __('nav.night_mode') }}</h6>
+                                            <small class="time-description-compact" style="color: #ffffff; font-weight: 500;">{{ __('nav.opening_treasures_risk') }}</small>
                                         </div>
                                     </div>
-                                    <div class="time-badge">
-                                        <span class="mode-label">{{ __('nav.night_mode') }}</span>
-                                        <div class="mt-2">
-                                            <a href="{{ route('game.logs') }}" class="btn btn-sm btn-outline-light px-3" style="font-size: 0.75rem;">
-                                                <i class="fas fa-scroll me-1"></i>{{ __('nav.view_logs') }}
-                                            </a>
-                                        </div>
+                                    <div class="risk-indicators-compact">
+                                        <span class="risk-item risk-danger" style="color: #ffffff; font-weight: 600;">25% {{ __('nav.chance_to_lose_money') }}</span><br>
+                                        <span class="risk-item risk-success" style="color: #ffffff; font-weight: 600;">25% {{ __('nav.chance_for_bonus') }}</span><br>
+                                        <span class="risk-item risk-rare" style="color: #ffffff; font-weight: 600;">5% {{ __('nav.chance_rare_treasure') }}</span><br>
+                                        <span class="risk-item risk-normal" style="color: #ffffff; font-weight: 600;">45% {{ __('nav.chance_normal') }}</span>
+                                    </div>
+                                    <div class="time-action pt-2">
+                                        <a href="{{ route('game.logs') }}" class="btn btn-sm btn-outline-light compact-btn">
+                                            <i class="fas fa-scroll me-1"></i>{{ __('nav.view_logs') }}
+                                        </a>
                                     </div>
                                 </div>
                             </div>
                         @else
-                            <div class="rpg-time-indicator rpg-day-mode h-100">
-                                <div class="time-indicator-content">
-                                    <div class="time-icon">
-                                        <i class="fas fa-sun"></i>
-                                    </div>
-                                    <div class="time-info">
-                                        <h6 class="time-title">{{ __('nav.day_time_safe_mode') }}</h6>
-                                        <p class="time-description mb-0">
-                                            {{ __('nav.treasure_opening_safe') }}
-                                        </p>
-                                    </div>
-                                    <div class="time-badge">
-                                        <span class="mode-label">{{ __('nav.day_mode') }}</span>
-                                        <div class="mt-2">
-                                            <a href="{{ route('game.logs') }}" class="btn btn-sm btn-outline-light px-3" style="font-size: 0.75rem;">
-                                                <i class="fas fa-scroll me-1"></i>{{ __('nav.view_logs') }}
-                                            </a>
+                            <div class="rpg-time-indicator rpg-day-mode h-100 compact-mode">
+                                <div class="time-indicator-content-compact">
+                                    <div class="time-header">
+                                        <div class="time-icon-compact">
+                                            <i class="fas fa-sun" style="color: #ffffff;"></i>
                                         </div>
+                                        <div class="time-info-compact">
+                                            <h6 class="time-title-compact" style="color: #ffffff; font-weight: 700;">{{ __('nav.day_mode') }}</h6>
+                                            <small class="time-description-compact" style="color: #ffffff; font-weight: 500;">{{ __('nav.treasure_opening_safe') }}</small>
+                                        </div>
+                                    </div>
+                                    <div class="time-action">
+                                        <a href="{{ route('game.logs') }}" class="btn btn-sm btn-outline-light compact-btn">
+                                            <i class="fas fa-scroll me-1"></i>{{ __('nav.view_logs') }}
+                                        </a>
                                     </div>
                                 </div>
                             </div>
                         @endif
                     </div>
 
-                    <!-- Game Actions Section (Treasure Chamber) -->
-                    <div class="col-12 col-lg-8">
-                        <div class="rpg-panel panel-main position-relative overflow-hidden h-100">
+                    <!-- Game Actions Section (Treasure Chamber) - Compact -->
+                    <div class="col-12 col-lg-7">
+                        <div class="rpg-panel panel-main position-relative overflow-hidden h-100 compact-panel">
                             <!-- Background Pattern -->
                             <div class="position-absolute w-100 h-100" style="top: 0; left: 0; opacity: 0.03; background-image: url('data:image/svg+xml,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100 100\"><defs><pattern id=\"treasure-pattern\" x=\"0\" y=\"0\" width=\"20\" height=\"20\" patternUnits=\"userSpaceOnUse\"><circle cx=\"10\" cy=\"10\" r=\"2\" fill=\"%23ffd700\"/></pattern></defs><rect width=\"100\" height=\"100\" fill=\"url(%23treasure-pattern)\"/></svg>'); background-repeat: repeat;"></div>
                             
                             <div class="panel-content p-3">
-                                <!-- Header Section -->
-                                <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-3">
-                                    <div class="rpg-section-header mb-2 mb-md-0">
-                                        <h4 class="rpg-title text-primary mb-1">
-                                            <i class="fas fa-treasure-chest me-2 text-warning" style="text-shadow: 0 0 10px rgba(255,193,7,0.5);"></i>
+                                <!-- Header Section - Compact -->
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <div class="rpg-section-header">
+                                        <h5 class="rpg-title-compact text-white mb-1">
+                                            <i class="fas fa-treasure-chest me-2 text-warning"></i>
                                             Treasure Chamber
-                                        </h4>
-                                        <p class="rpg-subtitle mb-0 small">Delve into mystical treasures</p>
+                                        </h5>
                                     </div>
                                     
                                     <!-- Auto Click Toggle (Level 2+ Required) -->
                                     @if($user->level >= 2)
-                                        <div class="rpg-toggle-container">
+                                        <div class="rpg-toggle-container-compact">
                                             <div class="form-check form-switch rpg-switch">
                                                 <input class="form-check-input rpg-switch-input" type="checkbox" id="autoClickToggle" 
                                                        @if($user->treasure <= 0) disabled @endif>
@@ -120,14 +113,14 @@
                                     @endif
                                 </div>
                                 
-                                <!-- Description -->
-                                <div class="rpg-description-panel mb-3">
+                                <!-- Description - Compact -->
+                                <div class="rpg-description-panel-compact mb-3">
                                     <div class="text-center">
-                                        <p class="rpg-flavor-text mb-2 small">
+                                        <p class="rpg-flavor-text-compact mb-2 small">
                                             {{ __('nav.click_to_earn_money') }}
                                         </p>
                                         @if($user->steal_level > 0)
-                                            <div class="rpg-bonus-indicator">
+                                            <div class="rpg-bonus-indicator-compact">
                                                 <span class="badge bg-info bg-gradient small">
                                                     <i class="fas fa-mask me-1"></i>
                                                     <strong>{{ __('nav.bonus') }}:</strong> {{ __('nav.steal_bonus', ['percent' => $user->steal_level * 5]) }}
@@ -135,7 +128,7 @@
                                             </div>
                                         @endif
                                         @if($user->level < 2)
-                                            <div class="rpg-bonus-indicator mt-2">
+                                            <div class="rpg-bonus-indicator-compact mt-2">
                                                 <span class="badge bg-warning text-dark small">
                                                     <i class="fas fa-lock me-1"></i>
                                                     <strong>Auto-click unlocks at Level 2</strong>
@@ -145,10 +138,10 @@
                                     </div>
                                 </div>
                                 
-                                <!-- Treasure Section -->
+                                <!-- Treasure Section - Compact -->
                                 <div class="row justify-content-center">
                                     <div class="col-12">
-                                        <div class="rpg-treasure-display text-center">
+                                        <div class="rpg-treasure-display-compact text-center">
                                             @php
                                                 // Treasure rarity configuration with random box chances
                                                 $rarityConfig = [
@@ -164,39 +157,39 @@
                                                 $currentRarity = $rarityConfig[$user->treasure_rarity_level] ?? $rarityConfig[0];
                                             @endphp
                                             
-                                            <!-- Treasure Type Display -->
-                                            <div class="rpg-rarity-display mb-3">
-                                                <div class="rpg-rarity-badge" style="background: linear-gradient(135deg, {{ $currentRarity['color'] }}, {{ $currentRarity['color'] }}cc); box-shadow: {{ $currentRarity['glow'] }}, 0 4px 15px rgba(0,0,0,0.2);">
-                                                    <i class="{{ $currentRarity['icon'] }} me-2"></i>
-                                                    <span class="fw-bold">{{ $currentRarity['name'] }} Treasure</span>
+                                            <!-- Treasure Type Display - Compact -->
+                                            <div class="rpg-rarity-display-compact mb-3">
+                                                <div class="rpg-rarity-badge-compact" style="background: linear-gradient(135deg, {{ $currentRarity['color'] }}, {{ $currentRarity['color'] }}cc); box-shadow: {{ $currentRarity['glow'] }}, 0 4px 15px rgba(0,0,0,0.2);">
+                                                    <i class="{{ $currentRarity['icon'] }} me-1"></i>
+                                                    <span class="fw-bold">{{ $currentRarity['name'] }}</span>
                                                 </div>
                                                 @if($currentRarity['chance'] > 0)
-                                                    <div class="rpg-bonus-chance mt-2">
+                                                    <div class="rpg-bonus-chance-compact mt-1">
                                                         <small class="text-muted">
                                                             <i class="fas fa-gift me-1 text-warning"></i>
-                                                            {{ $currentRarity['chance'] }}% chance for Random Box
+                                                            {{ $currentRarity['chance'] }}% Random Box
                                                         </small>
                                                     </div>
                                                 @endif
                                             </div>
                                             
-                                            <!-- Open Treasure Buttons -->
-                                            <div class="rpg-action-area">
+                                            <!-- Open Treasure Buttons - Compact -->
+                                            <div class="rpg-action-area-compact">
                                                 <!-- Regular Treasure Button -->
                                                 <form method="POST" action="{{ route('game.earn') }}" id="earnMoneyForm">
                                                     @csrf
                                                     <button type="submit" id="earnMoneyBtn"
-                                                            class="rpg-button rpg-button-primary rpg-button-large @if($user->treasure <= 0) rpg-button-disabled @endif"
+                                                            class="rpg-button rpg-button-primary rpg-button-compact @if($user->treasure <= 0) rpg-button-disabled @endif"
                                                             @if($user->treasure <= 0) disabled @endif>
                                                         <div class="rpg-button-content">
                                                             @if($user->treasure > 0)
                                                                 <i class="fas fa-hand-sparkles me-2"></i>
-                                                                <span class="d-none d-sm-inline">OPEN TREASURE</span>
-                                                                <span class="d-sm-none">OPEN TREASURE</span>
+                                                                <span class="d-none d-md-inline">OPEN TREASURE</span>
+                                                                <span class="d-md-none">OPEN TREASURE</span>
                                                             @else
                                                                 <i class="fas fa-times-circle me-2"></i>
-                                                                <span class="d-none d-sm-inline">OUT OF TREASURE</span>
-                                                                <span class="d-sm-none">NO TREASURE</span>
+                                                                <span class="d-none d-md-inline">NO TREASURE</span>
+                                                                <span class="d-md-none">EMPTY</span>
                                                             @endif
                                                         </div>
                                                         <div class="rpg-button-glow"></div>
@@ -207,11 +200,11 @@
                                                 @if(($user->rare_treasures ?? 0) > 0)
                                                     <form method="POST" action="{{ route('game.open-rare-treasure') }}" class="mt-2">
                                                         @csrf
-                                                        <button type="submit" class="rpg-button rpg-button-legendary rpg-button-large">
+                                                        <button type="submit" class="rpg-button rpg-button-legendary rpg-button-compact">
                                                             <div class="rpg-button-content">
                                                                 <i class="fas fa-star me-2"></i>
-                                                                <span class="d-none d-sm-inline">OPEN RARE TREASURE</span>
-                                                                <span class="d-sm-none">RARE</span>
+                                                                <span class="d-none d-md-inline">OPEN RARE</span>
+                                                                <span class="d-md-none">RARE</span>
                                                             </div>
                                                             <div class="rpg-button-glow"></div>
                                                         </button>
@@ -284,73 +277,70 @@
                     </div>
                 @endif
 
-                <!-- RPG Player Stats Grid -->
-                <div class="row">
+                <!-- RPG Player Stats Grid - Optimized -->
+                <div class="row g-2">
                     <!-- Player Money Card -->
-                    <div class="col-12 col-md-6 col-lg-2-4 mb-4">
-                        <div class="rpg-stat-card stat-money">
-                            <div class="rpg-stat-icon">
+                    <div class="col-6 col-md-4 col-lg-2-4 mb-3">
+                        <div class="rpg-stat-card-compact stat-money">
+                            <div class="rpg-stat-icon-compact">
                                 <i class="fas fa-coins"></i>
                             </div>
-                            <h3 class="rpg-stat-label">{{ __('nav.money_earned') }}</h3>
-                            <h2 class="rpg-stat-value" id="playerMoneyDisplay">
-                                IDR {{ number_format($user->money_earned, 0, ',', '.') }}
-                            </h2>
+                            <h6 class="rpg-stat-label-compact">{{ __('nav.money_earned') }}</h6>
+                            <h5 class="rpg-stat-value-compact" id="playerMoneyDisplay">
+                                <span class="d-none d-sm-inline">IDR </span>{{ number_format($user->money_earned, 0, ',', '.') }}
+                            </h5>
                         </div>
                     </div>
 
                     <!-- Treasure Card -->
-                    <div class="col-12 col-md-6 col-lg-2-4 mb-4">
-                        <div class="rpg-stat-card stat-treasure">
-                            <div class="rpg-stat-icon">
+                    <div class="col-6 col-md-4 col-lg-2-4 mb-3">
+                        <div class="rpg-stat-card-compact stat-treasure">
+                            <div class="rpg-stat-icon-compact">
                                 <i class="fas fa-gem"></i>
                             </div>
-                            <h3 class="rpg-stat-label">{{ __('nav.current_treasure') }}</h3>
-                            <h2 class="rpg-stat-value @if($user->treasure > 0) text-warning @else text-danger @endif" id="playerTreasureDisplay">
-                                {{ $user->treasure }} / {{ 20 + ($user->treasure_multiplier_level * 5) }}
+                            <h6 class="rpg-stat-label-compact">{{ __('nav.current_treasure') }}</h6>
+                            <h5 class="rpg-stat-value-compact @if($user->treasure > 0) text-warning @else text-danger @endif" id="playerTreasureDisplay">
+                                {{ $user->treasure }}/{{ 20 + ($user->treasure_multiplier_level * 5) }}
                                 @if(($user->rare_treasures ?? 0) > 0)
-                                    <span class="rare-treasure-indicator ms-2">
+                                    <span class="rare-treasure-indicator-compact ms-1">
                                         <i class="fas fa-star text-warning"></i>{{ $user->rare_treasures }}
                                     </span>
                                 @endif
-                            </h2>
-                            <div class="rpg-stat-details">
+                            </h5>
+                            <div class="rpg-stat-details-compact">
                                 @php
                                     $fastRecoveryIntervals = [60, 55, 50, 45, 40, 30];
                                     $currentInterval = $fastRecoveryIntervals[$user->fast_recovery_level ?? 0];
                                 @endphp
-                                <small>{{ __('nav.treasure_every_minutes', ['minutes' => $currentInterval]) }}</small>
-                                @if($user->fast_recovery_level > 0)
-                                    <br><small>{{ __('nav.fast_recovery_level', ['level' => $user->fast_recovery_level]) }}</small>
-                                @endif
+                                <small>+5/{{ $currentInterval }}min</small>
                                 @if(($user->rare_treasures ?? 0) > 0)
-                                    <br><small class="text-warning">{{ __('nav.rare_treasures') }}: {{ $user->rare_treasures }}</small>
+                                    <br><small class="text-warning">Rare: {{ $user->rare_treasures }}</small>
                                 @endif
                             </div>
                         </div>
                     </div>
 
                     <!-- Random Box Card -->
-                    <div class="col-12 col-md-6 col-lg-2-4 mb-4">
-                        <div class="rpg-stat-card stat-boxes">
-                            <div class="rpg-stat-icon">
+                    <div class="col-6 col-md-4 col-lg-2-4 mb-3">
+                        <div class="rpg-stat-card-compact stat-boxes">
+                            <div class="rpg-stat-icon-compact">
                                 <i class="fas fa-gift"></i>
                             </div>
-                            <h3 class="rpg-stat-label">{{ __('nav.random_boxes') }}</h3>
-                            <h2 class="rpg-stat-value" id="playerRandomBoxDisplay">
+                            <h6 class="rpg-stat-label-compact">{{ __('nav.random_boxes') }}</h6>
+                            <h5 class="rpg-stat-value-compact" id="playerRandomBoxDisplay">
                                 {{ $user->randombox ?? 0 }}
-                            </h2>
-                            <div class="rpg-stat-details">
+                            </h5>
+                            <div class="rpg-stat-details-compact">
                                 @if($user->treasure_rarity_level > 0)
-                                    <small>{{ __('nav.treasure_rarity_level', ['level' => $user->treasure_rarity_level]) }}</small>
+                                    <small>Rarity Lv{{ $user->treasure_rarity_level }}</small>
                                 @else
-                                    <small>{{ __('nav.common_treasure_only') }}</small>
+                                    <small>Common only</small>
                                 @endif
                             </div>
                             @if(($user->randombox ?? 0) > 0)
-                                <div class="rpg-stat-action">
-                                    <a href="{{ route('game.inventory') }}" class="btn btn-sm btn-outline-light">
-                                        <i class="fas fa-gift me-1"></i>{{ __('nav.open_boxes') }}
+                                <div class="rpg-stat-action-compact">
+                                    <a href="{{ route('game.inventory') }}" class="btn btn-xs btn-outline-light">
+                                        <i class="fas fa-gift me-1"></i>Open
                                     </a>
                                 </div>
                             @endif
@@ -358,26 +348,26 @@
                     </div>
 
                     <!-- Shield Card -->
-                    <div class="col-12 col-md-6 col-lg-2-4 mb-4">
-                        <div class="rpg-stat-card stat-shield">
-                            <div class="rpg-stat-icon">
+                    <div class="col-6 col-md-4 col-lg-2-4 mb-3">
+                        <div class="rpg-stat-card-compact stat-shield">
+                            <div class="rpg-stat-icon-compact">
                                 <i class="fas fa-shield-alt"></i>
                             </div>
-                            <h3 class="rpg-stat-label">{{ __('nav.shield_protection') }}</h3>
+                            <h6 class="rpg-stat-label-compact">{{ __('nav.shield_protection') }}</h6>
                             @if($user->shield_expires_at && $user->shield_expires_at > now())
-                                <h2 class="rpg-stat-value text-success">
+                                <h5 class="rpg-stat-value-compact text-success">
                                     {{ __('nav.active') }}
-                                </h2>
-                                <div class="rpg-stat-details">
-                                    <small>{{ __('nav.protected_until') }}<br>{{ $user->shield_expires_at->setTimezone('Asia/Jakarta')->format('M d, H:i') }}</small>
+                                </h5>
+                                <div class="rpg-stat-details-compact">
+                                    <small>Until {{ $user->shield_expires_at->setTimezone('Asia/Jakarta')->format('H:i') }}</small>
                                 </div>
                             @else
-                                <h2 class="rpg-stat-value text-secondary">
+                                <h5 class="rpg-stat-value-compact text-secondary">
                                     {{ __('nav.inactive') }}
-                                </h2>
-                                <div class="rpg-stat-action">
-                                    <a href="{{ route('store.index') }}" class="btn btn-sm btn-outline-light">
-                                        <i class="fas fa-shopping-cart me-1"></i>{{ __('nav.buy_shield') }}
+                                </h5>
+                                <div class="rpg-stat-action-compact">
+                                    <a href="{{ route('store.index') }}" class="btn btn-xs btn-outline-light">
+                                        <i class="fas fa-shopping-cart me-1"></i>Buy
                                     </a>
                                 </div>
                             @endif
@@ -385,17 +375,17 @@
                     </div>
 
                     <!-- Global Prize Pool Card -->
-                    <div class="col-12 col-md-6 col-lg-2-4 mb-4">
-                        <div class="rpg-stat-card stat-prize">
-                            <div class="rpg-stat-icon">
+                    <div class="col-12 col-md-4 col-lg-2-4 mb-3">
+                        <div class="rpg-stat-card-compact stat-prize">
+                            <div class="rpg-stat-icon-compact">
                                 <i class="fas fa-trophy"></i>
                             </div>
-                            <h3 class="rpg-stat-label">{{ __('nav.global_prize_pool') }}</h3>
-                            <h2 class="rpg-stat-value" id="globalPrizePoolDisplay">
-                                IDR {{ number_format($globalPrizePool, 0, ',', '.') }}
-                            </h2>
-                            <div class="rpg-stat-details">
-                                <small>{{ __('nav.distributed_daily') }}</small>
+                            <h6 class="rpg-stat-label-compact">{{ __('nav.global_prize_pool') }}</h6>
+                            <h5 class="rpg-stat-value-compact" id="globalPrizePoolDisplay">
+                                <span class="d-none d-sm-inline">IDR </span>{{ number_format($globalPrizePool, 0, ',', '.') }}
+                            </h5>
+                            <div class="rpg-stat-details-compact">
+                                <small>Daily distributed</small>
                             </div>
                         </div>
                     </div>
@@ -403,37 +393,44 @@
 
                 <!-- Player Level & Experience and Class System Row -->
                 <div class="row">
-                    <!-- Player Level & Experience Card -->
+                    <!-- Player Level & Experience Card - Optimized -->
                     <div class="col-12 col-lg-7">
                         <div class="rpg-panel panel-main">
-                            <div class="panel-content p-4">
+                            <div class="panel-content p-3">
                                 <div class="row align-items-center">
-                                    <div class="col-md-3 col-sm-3 text-center mb-3 mb-md-0">
-                                        <!-- Profile Picture -->
-                                        <div class="rpg-profile-picture">
+                                    <div class="col-auto text-center">
+                                        <!-- Profile Picture - Compact -->
+                                        <div class="rpg-profile-picture-compact">
                                             <img src="{{ \App\Http\Controllers\ProfileController::getProfilePictureUrl($user) }}" 
                                                  alt="{{ $user->name }}'s Profile Picture" 
-                                                 class="rpg-avatar">
-                                            <div class="rpg-avatar-border"></div>
-                                        </div>
-                                        <div class="rpg-player-name mt-2">
-                                            <small class="text-light">{{ $user->name }}</small>
+                                                 class="rpg-avatar-compact">
+                                            <div class="rpg-avatar-border-compact"></div>
                                         </div>
                                     </div>
-                                    <div class="col-md-9 col-sm-9">
-                                        <h3 class="rpg-title mb-3" style="color:white;">
-                                            <i class="fas fa-star me-2 text-warning"></i>{{ __('nav.player_level') }}
-                                        </h3>
-                                        <h2 class="rpg-stat-value text-warning mb-3" id="playerLevelDisplay">
-                                            {{ __('nav.level') }} {{ $user->level }}
-                                        </h2>
-                                        <div class="mb-3">
+                                    <div class="col">
+                                        <div class="d-flex justify-content-between align-items-start mb-2">
+                                            <div>
+                                                <h5 class="rpg-title-compact text-white mb-1">
+                                                    <i class="fas fa-star me-1 text-warning"></i>{{ $user->name }}
+                                                </h5>
+                                                <h4 class="rpg-level-compact text-warning mb-2" id="playerLevelDisplay">
+                                                    {{ __('nav.level') }} {{ $user->level }}
+                                                </h4>
+                                            </div>
+                                            <div class="text-end">
+                                                <small class="text-light d-block">{{ __('nav.player_level') }}</small>
+                                                <small class="text-muted">{{ number_format($user->experience) }} EXP</small>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Experience Progress - Compact -->
+                                        <div class="exp-section-compact">
                                             @php
                                                 use App\Services\ExperienceService;
                                                 $expToNext = ExperienceService::getExpToNextLevel($user->experience, $user->level);
                                                 $expProgress = ExperienceService::getExpProgressPercentage($user->experience, $user->level);
                                             @endphp
-                                            <div class="progress mb-2" style="height: 10px; border-radius: 8px; background: rgba(255,255,255,0.1);">
+                                            <div class="progress progress-compact mb-1" style="height: 8px; border-radius: 6px; background: rgba(255,255,255,0.1);">
                                                 <div class="progress-bar" role="progressbar" 
                                                      style="width: {{ $expProgress }}%; background: linear-gradient(90deg, #ffd700, #ffed4e);" 
                                                      aria-valuenow="{{ $expProgress }}" 
@@ -441,10 +438,10 @@
                                                      aria-valuemax="100">
                                                 </div>
                                             </div>
-                                            <p class="text-light mb-0" id="playerExpDisplay">
-                                                {{ number_format($user->experience) }} EXP
-                                                <small class="text-white ms-2">{{ number_format($expToNext) }} EXP to next level</small>
-                                            </p>
+                                            <div class="d-flex justify-content-between">
+                                                <small class="text-light">{{ $expProgress }}% Progress</small>
+                                                <small class="text-white" id="playerExpDisplay">{{ number_format($expToNext) }} EXP to next</small>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -454,7 +451,7 @@
                     
                     <!-- Class System Section -->
                     @if($user->canSelectClass() || $user->canAdvanceClass() || $user->selected_class || $user->level < 4)
-                    <div class="col-12 col-lg-5">
+                    <div class="col-12 col-lg-5 mt-4 mt-lg-0">
                         <div class="rpg-panel panel-class position-relative overflow-hidden h-100">
                             <!-- Magical Background Effect -->
                             <div class="position-absolute w-100 h-100" style="top: 0; left: 0; opacity: 0.05; background: radial-gradient(circle at 20% 30%, #6f42c1 0%, transparent 50%), radial-gradient(circle at 80% 70%, #e83e8c 0%, transparent 50%), radial-gradient(circle at 40% 80%, #fd7e14 0%, transparent 50%);"></div>
@@ -631,7 +628,6 @@
     .time-indicator-content {
         background-color: #6f42c1;
         color: #ffffff !important;
-        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8) !important;
         padding: 1.25rem;
         display: flex;
         flex-direction: column;
@@ -646,15 +642,13 @@
     .time-indicator-content .time-title {
         color: #ffffff !important;
         font-weight: 600 !important;
-        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8) !important;
         margin-bottom: 0.75rem;
         font-size: 1rem;
     }
     
     .time-indicator-content .time-description {
-        color: #f1f5f9 !important;
+        color: #ffffff !important;
         font-weight: 500 !important;
-        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7) !important;
         font-size: 0.875rem;
         line-height: 1.4;
     }
@@ -662,7 +656,6 @@
     .time-indicator-content .mode-label {
         color: #ffffff !important;
         font-weight: 600 !important;
-        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8) !important;
         font-size: 0.75rem;
         text-transform: uppercase;
         letter-spacing: 1px;
@@ -691,7 +684,7 @@
     
     .risk-danger, .risk-success, .risk-normal, .risk-rare {
         font-weight: 600 !important;
-        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8) !important;
+        color: #ffffff !important;
     }
     
     /* Responsive adjustments for side-by-side layout */
@@ -1458,6 +1451,441 @@
         font-weight: bold !important;
         text-shadow: 1px 1px 2px rgba(0,0,0,0.3) !important;
     }
+
+    /* === COMPACT MODE STYLES === */
+    
+    /* Enhanced Title Styling */
+    .rpg-title-enhanced {
+        background: linear-gradient(135deg, #fff 0%, #f8f9fa 50%, #fff 100%);
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-shadow: 0 2px 8px rgba(255,255,255,0.3), 0 0 30px rgba(255,255,255,0.2);
+        font-weight: 900;
+        letter-spacing: 2px;
+        position: relative;
+        z-index: 2;
+        margin-bottom: 0;
+    }
+    
+    .rpg-title-enhanced::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%, rgba(255,255,255,0.1) 100%);
+        border-radius: 10px;
+        z-index: -1;
+    }
+    
+    /* Compact Mode Layouts */
+    .compact-mode {
+        padding: 0.5rem !important;
+        margin: 0.25rem 0 !important;
+    }
+    
+    .compact-mode h6 {
+        font-size: 0.8rem;
+        margin-bottom: 0.25rem;
+        color: #ffffff !important;
+        font-weight: 600;
+    }
+    
+    .compact-mode .small-time {
+        font-size: 0.7rem;
+        line-height: 1.2;
+    }
+    
+    /* Compact Mode Night Time Text Visibility */
+    .compact-mode .time-header {
+        color: #ffffff !important;
+    }
+    
+    .compact-mode .time-icon-compact {
+        color: #ffffff !important;
+    }
+    
+    .compact-mode .time-info-compact {
+        color: #ffffff !important;
+    }
+    
+    .compact-mode .time-title-compact {
+        color: #ffffff !important;
+        font-weight: 700;
+    }
+    
+    .compact-mode .time-description-compact {
+        color: #ffffff !important;
+        font-weight: 500;
+    }
+    
+    .compact-mode .risk-indicators-compact {
+        color: #ffffff !important;
+    }
+    
+    .compact-mode .risk-item {
+        color: #ffffff !important;
+        font-weight: 600;
+    }
+    
+    /* Compact Title Styles */
+    .rpg-title-compact {
+        font-size: 1rem !important;
+        font-weight: 700;
+        margin-bottom: 0.5rem !important;
+    }
+    
+    /* Compact Toggle Container */
+    .rpg-toggle-container-compact {
+        background: rgba(255,255,255,0.1);
+        border-radius: 8px;
+        padding: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    /* Compact Description Panel */
+    .rpg-description-panel-compact {
+        background: rgba(0,0,0,0.3);
+        border-radius: 8px;
+        padding: 0.75rem;
+        border: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .rpg-flavor-text-compact {
+        font-size: 0.85rem;
+        line-height: 1.4;
+        margin-bottom: 0.5rem !important;
+        color: #ffffff !important;
+        font-weight: 600;
+    }
+    
+    .rpg-bonus-indicator-compact {
+        background: rgba(40, 167, 69, 0.2);
+        border: 1px solid rgba(40, 167, 69, 0.3);
+        border-radius: 6px;
+        padding: 0.3rem 0.5rem;
+    }
+    
+    .rpg-bonus-indicator-compact small {
+        font-size: 0.75rem;
+        font-weight: 600;
+    }
+    
+    /* Compact Treasure Display */
+    .rpg-treasure-display-compact {
+        margin: 1rem 0;
+    }
+    
+    .rpg-rarity-display-compact {
+        margin-bottom: 1rem !important;
+    }
+    
+    .rpg-rarity-badge-compact {
+        display: inline-block;
+        padding: 0.4rem 0.8rem;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        font-weight: 700;
+        color: white;
+        text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+        border: 2px solid rgba(255,255,255,0.3);
+    }
+    
+    .rpg-bonus-chance-compact {
+        margin-top: 0.5rem !important;
+    }
+    
+    .rpg-action-area-compact {
+        margin: 1rem 0;
+    }
+    
+    /* Compact Button Styles */
+    .rpg-button-compact {
+        padding: 0.5rem 1rem !important;
+        font-size: 0.9rem !important;
+        min-height: 40px;
+        border-radius: 8px;
+    }
+    
+    .rpg-button-compact .rpg-button-content {
+        font-size: 0.85rem;
+    }
+    
+    /* Compact Stat Cards */
+    .rpg-stat-card-compact {
+        background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+        border: 1px solid rgba(255,255,255,0.2);
+        border-radius: 12px;
+        padding: 0.75rem;
+        backdrop-filter: blur(10px);
+        text-align: center;
+        height: 100%;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .rpg-stat-card-compact:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        border-color: rgba(255,255,255,0.3);
+    }
+    
+    .rpg-stat-icon-compact {
+        font-size: 1.2rem;
+        margin-bottom: 0.5rem;
+        color: rgba(255,255,255,0.9);
+    }
+    
+    .rpg-stat-label-compact {
+        font-size: 0.7rem;
+        font-weight: 600;
+        color: rgba(255,255,255,0.8);
+        margin-bottom: 0.3rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    .rpg-stat-value-compact {
+        font-size: 0.9rem;
+        font-weight: 700;
+        color: white;
+        margin-bottom: 0.25rem;
+        line-height: 1.2;
+    }
+    
+    .rpg-stat-details-compact {
+        font-size: 0.65rem;
+        color: rgba(255,255,255,0.7);
+        margin-top: 0.25rem;
+    }
+    
+    .rpg-stat-action-compact {
+        margin-top: 0.5rem;
+    }
+    
+    .btn-xs {
+        padding: 0.2rem 0.4rem;
+        font-size: 0.7rem;
+        border-radius: 4px;
+    }
+    
+    .rare-treasure-indicator-compact {
+        font-size: 0.7rem;
+        color: #ffc107;
+    }
+    
+    /* Class System Compact Styles */
+    .rpg-class-panel-compact {
+        background: linear-gradient(135deg, rgba(111, 66, 193, 0.1) 0%, rgba(232, 62, 140, 0.1) 100%);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 15px;
+        padding: 1rem;
+        backdrop-filter: blur(10px);
+    }
+    
+    .rpg-section-title-compact {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: white;
+        margin-bottom: 0.75rem;
+        text-align: center;
+    }
+    
+    .rpg-class-card-compact {
+        background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+        border: 1px solid rgba(255,255,255,0.2);
+        border-radius: 10px;
+        padding: 0.75rem;
+        text-align: center;
+        height: 100%;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(5px);
+    }
+    
+    .rpg-class-card-compact:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        border-color: rgba(255,255,255,0.3);
+    }
+    
+    .rpg-class-icon-compact {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+        color: rgba(255,255,255,0.9);
+    }
+    
+    .rpg-class-name-compact {
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: white;
+        margin-bottom: 0.5rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    .rpg-class-level-compact {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.25rem;
+    }
+    
+    .level-badge-compact {
+        padding: 0.2rem 0.5rem;
+        border-radius: 15px;
+        font-size: 0.7rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+    }
+    
+    .level-badge-compact.level-active {
+        background: linear-gradient(135deg, #28a745, #20c997);
+        color: white;
+        box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
+    }
+    
+    .level-badge-compact.level-inactive {
+        background: linear-gradient(135deg, #6c757d, #495057);
+        color: white;
+        opacity: 0.7;
+    }
+    
+    .rpg-class-level-compact small {
+        font-size: 0.65rem;
+        color: rgba(255,255,255,0.8);
+        text-align: center;
+    }
+    
+    /* Mobile Responsive Adjustments */
+    @media (max-width: 576px) {
+        .rpg-title-enhanced {
+            font-size: 1.5rem;
+            letter-spacing: 1px;
+        }
+        
+        .compact-mode {
+            padding: 0.3rem !important;
+        }
+        
+        .rpg-stat-card-compact {
+            padding: 0.5rem;
+        }
+        
+        .rpg-stat-icon-compact {
+            font-size: 1rem;
+        }
+        
+        .rpg-stat-value-compact {
+            font-size: 0.8rem;
+        }
+        
+        .rpg-stat-label-compact {
+            font-size: 0.65rem;
+        }
+        
+        .rpg-class-card-compact {
+            padding: 0.5rem;
+        }
+        
+        .rpg-class-icon-compact {
+            font-size: 1.2rem;
+        }
+        
+        .rpg-class-name-compact {
+            font-size: 0.75rem;
+        }
+    }
+    
+    /* Player Level & Experience Compact Styles */
+    .rpg-profile-picture-compact {
+        position: relative;
+        display: inline-block;
+        margin-right: 0.75rem;
+    }
+    
+    .rpg-avatar-compact {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid #ffd700;
+        box-shadow: 
+            0 0 10px rgba(255,215,0,0.3),
+            0 2px 8px rgba(0,0,0,0.2);
+        transition: all 0.3s ease;
+        position: relative;
+        z-index: 2;
+    }
+    
+    .rpg-avatar-compact:hover {
+        transform: scale(1.05);
+        box-shadow: 
+            0 0 15px rgba(255,215,0,0.5),
+            0 3px 12px rgba(0,0,0,0.3);
+    }
+    
+    .rpg-avatar-border-compact {
+        position: absolute;
+        top: -1px;
+        left: -1px;
+        right: -1px;
+        bottom: -1px;
+        border-radius: 50%;
+        background: linear-gradient(45deg, #ffd700, #ffed4e, #ffd700);
+        z-index: 1;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    
+    .rpg-profile-picture-compact:hover .rpg-avatar-border-compact {
+        opacity: 1;
+        animation: rotate 3s linear infinite;
+    }
+    
+    .rpg-title-compact {
+        font-size: 1rem !important;
+        font-weight: 600;
+        margin-bottom: 0.25rem !important;
+    }
+    
+    .rpg-level-compact {
+        font-size: 1.25rem !important;
+        font-weight: 700;
+        margin-bottom: 0.5rem !important;
+    }
+    
+    .exp-section-compact {
+        margin-top: 0.5rem;
+    }
+    
+    .progress-compact {
+        height: 6px !important;
+        border-radius: 4px !important;
+    }
+    
+    /* Ultra compact for very small screens */
+    @media (max-width: 400px) {
+        .rpg-stat-label-compact {
+            font-size: 0.6rem;
+        }
+        
+        .rpg-stat-value-compact {
+            font-size: 0.75rem;
+        }
+        
+        .rpg-stat-details-compact {
+            font-size: 0.6rem;
+        }
+        
+        .btn-xs {
+            padding: 0.15rem 0.3rem;
+            font-size: 0.65rem;
+        }
+    }
 </style>
 
 <script>
@@ -1623,7 +2051,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 ${formattedExp} EXP<br>
                 <small>${formattedExpToNext} EXP to next level</small>
                 @if($user->level < 3)
-                    <br><small class="text-warning">Auto-click unlocks at Level 3</small>
+                    <br><small class="text-warning">Auto-click unlocks at Level 2</small>
                 @endif
             `;
             

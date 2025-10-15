@@ -16,11 +16,11 @@ class StoreController extends Controller
     const MAX_INTIMIDATION_LEVEL = 5; // Maximum intimidation level
     const MAX_FAST_RECOVERY_LEVEL = 5; // Maximum fast recovery level
     const MAX_TREASURE_RARITY_LEVEL = 7; // Maximum treasure rarity level
-    const BASE_STEAL_COST = 15000;      // Base cost for steal upgrade
-    const BASE_AUTO_EARNING_COST = 15000; // Base cost for auto earning upgrade
-    const BASE_TREASURE_MULTIPLIER_COST = 15000; // Base cost for treasure multiplier upgrade
-    const BASE_LUCKY_STRIKES_COST = 15000; // Base cost for lucky strikes upgrade
-    const BASE_COUNTER_ATTACK_COST = 40000; // Base cost for counter attack upgrade
+    const BASE_STEAL_COST = 10000;      // Base cost for steal upgrade
+    const BASE_AUTO_EARNING_COST = 10000; // Base cost for auto earning upgrade
+    const BASE_TREASURE_MULTIPLIER_COST = 10000; // Base cost for treasure multiplier upgrade
+    const BASE_LUCKY_STRIKES_COST = 10000; // Base cost for lucky strikes upgrade
+    const BASE_COUNTER_ATTACK_COST = 20000; // Base cost for counter attack upgrade
     const BASE_INTIMIDATION_COST = 20000; // Base cost for intimidation upgrade
     const BASE_FAST_RECOVERY_COST = 20000; // Base cost for fast recovery upgrade
     const BASE_TREASURE_RARITY_COST = 20000; // Base cost for treasure rarity upgrade
@@ -37,11 +37,11 @@ class StoreController extends Controller
         5 => 180000,  // Level 5: 180k
     ];
     const PRESTIGE_LEVEL_REQUIREMENTS = [ // Minimum player level requirements
-        1 => 10,  // Level 1: Player level 10
-        2 => 20,  // Level 2: Player level 20
-        3 => 30,  // Level 3: Player level 30
-        4 => 40,  // Level 4: Player level 40
-        5 => 50,  // Level 5: Player level 50
+        1 => 5,  // Level 1: Player level 5
+        2 => 10,  // Level 2: Player level 10
+        3 => 15,  // Level 3: Player level 15
+        4 => 20,  // Level 4: Player level 20
+        5 => 25,  // Level 5: Player level 25
     ];
 
     /**

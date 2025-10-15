@@ -9,7 +9,7 @@
         <div class="magic-orbs"></div>
     </div>
 
-    <div class="container-fluid py-3">
+    <div class="container-fluid pt-3">
         <div class="row justify-content-center">
             <div class="col-12 col-xl-11">
                 <!-- Store Header -->
@@ -76,7 +76,7 @@
                                     <h6 class="ability-name">{{ __('nav.auto_steal') }}</h6>
                                     <span class="ability-level">{{ __('nav.level_max', ['current' => $user->steal_level, 'max' => $maxStealLevel]) }}</span>
                                 </div>
-                                <button class="rpg-info-btn" type="button" data-bs-toggle="collapse" data-bs-target="#autoStealInfo">
+                                <button class="rpg-info-btn" type="button" data-target="#autoStealInfo" aria-expanded="false" aria-controls="autoStealInfo">
                                     <i class="fas fa-info-circle"></i>
                                 </button>
                             </div>
@@ -147,7 +147,7 @@
                                 <h6 class="ability-name">{{ __('nav.auto_earning') }}</h6>
                                 <span class="ability-level">{{ __('nav.level_max', ['current' => $user->auto_earning_level, 'max' => $maxAutoEarningLevel]) }}</span>
                             </div>
-                            <button class="rpg-info-btn" type="button" data-bs-toggle="collapse" data-bs-target="#autoEarningInfo">
+                            <button class="rpg-info-btn" type="button" data-target="#autoEarningInfo" aria-expanded="false" aria-controls="autoEarningInfo">
                                 <i class="fas fa-info-circle"></i>
                             </button>
                         </div>
@@ -224,7 +224,7 @@
                                     @endif
                                 </span>
                             </div>
-                            <button class="rpg-info-btn" type="button" data-bs-toggle="collapse" data-bs-target="#shieldInfo">
+                            <button class="rpg-info-btn" type="button" data-target="#shieldInfo" aria-expanded="false" aria-controls="shieldInfo">
                                 <i class="fas fa-info-circle"></i>
                             </button>
                         </div>
@@ -292,7 +292,7 @@
                                 <h6 class="ability-name">{{ __('nav.treasure_multiplier') }}</h6>
                                 <span class="ability-level">{{ __('nav.level_max', ['current' => $user->treasure_multiplier_level, 'max' => $maxTreasureMultiplierLevel]) }}</span>
                             </div>
-                            <button class="rpg-info-btn" type="button" data-bs-toggle="collapse" data-bs-target="#treasureMultiplierInfo">
+                            <button class="rpg-info-btn" type="button" data-target="#treasureMultiplierInfo" aria-expanded="false" aria-controls="treasureMultiplierInfo">
                                 <i class="fas fa-info-circle"></i>
                             </button>
                         </div>
@@ -363,7 +363,7 @@
                                 <h6 class="ability-name">{{ __('nav.lucky_strikes') }}</h6>
                                 <span class="ability-level">{{ __('nav.level_max', ['current' => $user->lucky_strikes_level, 'max' => $maxLuckyStrikesLevel]) }}</span>
                             </div>
-                            <button class="rpg-info-btn" type="button" data-bs-toggle="collapse" data-bs-target="#luckyStrikesInfo">
+                            <button class="rpg-info-btn" type="button" data-target="#luckyStrikesInfo" aria-expanded="false" aria-controls="luckyStrikesInfo">
                                 <i class="fas fa-info-circle"></i>
                             </button>
                         </div>
@@ -434,7 +434,7 @@
                                 <h6 class="ability-name">{{ __('nav.counter_attack') }}</h6>
                                 <span class="ability-level">{{ __('nav.level_max', ['current' => $user->counter_attack_level, 'max' => $maxCounterAttackLevel]) }}</span>
                             </div>
-                            <button class="rpg-info-btn" type="button" data-bs-toggle="collapse" data-bs-target="#counterAttackInfo">
+                            <button class="rpg-info-btn" type="button" data-target="#counterAttackInfo" aria-expanded="false" aria-controls="counterAttackInfo">
                                 <i class="fas fa-info-circle"></i>
                             </button>
                         </div>
@@ -505,7 +505,7 @@
                                 <h6 class="ability-name">{{ __('nav.intimidation') }}</h6>
                                 <span class="ability-level">{{ __('nav.level_max', ['current' => $user->intimidation_level, 'max' => $maxIntimidationLevel]) }}</span>
                             </div>
-                            <button class="rpg-info-btn" type="button" data-bs-toggle="collapse" data-bs-target="#intimidationInfo">
+                            <button class="rpg-info-btn" type="button" data-target="#intimidationInfo" aria-expanded="false" aria-controls="intimidationInfo">
                                 <i class="fas fa-info-circle"></i>
                             </button>
                         </div>
@@ -576,7 +576,7 @@
                                 <h6 class="ability-name">{{ __('nav.fast_recovery') }}</h6>
                                 <span class="ability-level">{{ __('nav.level_max', ['current' => $user->fast_recovery_level, 'max' => $maxFastRecoveryLevel]) }}</span>
                             </div>
-                            <button class="rpg-info-btn" type="button" data-bs-toggle="collapse" data-bs-target="#fastRecoveryInfo">
+                            <button class="rpg-info-btn" type="button" data-target="#fastRecoveryInfo" aria-expanded="false" aria-controls="fastRecoveryInfo">
                                 <i class="fas fa-info-circle"></i>
                             </button>
                         </div>
@@ -655,7 +655,7 @@
                                 <h6 class="ability-name">{{ __('nav.treasure_rarity') }}</h6>
                                 <span class="ability-level">{{ __('nav.level_max', ['current' => $user->treasure_rarity_level, 'max' => $maxTreasureRarityLevel]) }}</span>
                             </div>
-                            <button class="rpg-info-btn" type="button" data-bs-toggle="collapse" data-bs-target="#treasureRarityInfo">
+                            <button class="rpg-info-btn" type="button" data-target="#treasureRarityInfo" aria-expanded="false" aria-controls="treasureRarityInfo">
                                 <i class="fas fa-info-circle"></i>
                             </button>
                         </div>
@@ -740,7 +740,7 @@
                                 <h6 class="ability-name">{{ __('nav.prestige_system') }}</h6>
                                 <span class="ability-level">{{ __('nav.level_max', ['current' => $user->prestige_level, 'max' => $maxPrestigeLevel]) }}</span>
                             </div>
-                            <button class="rpg-info-btn" type="button" data-bs-toggle="collapse" data-bs-target="#prestigeInfo">
+                            <button class="rpg-info-btn" type="button" data-target="#prestigeInfo" aria-expanded="false" aria-controls="prestigeInfo">
                                 <i class="fas fa-info-circle"></i>
                             </button>
                         </div>
@@ -1265,6 +1265,19 @@
 
 .rpg-collapse {
     margin-bottom: 1rem;
+    overflow: hidden;
+}
+
+.rpg-collapse.collapsing {
+    transition: height 0.35s ease;
+}
+
+.rpg-collapse:not(.show) {
+    display: none;
+}
+
+.rpg-collapse.show {
+    display: block;
 }
 
 .rpg-description {
@@ -1614,6 +1627,72 @@ document.addEventListener('DOMContentLoaded', function() {
                 closeBtn.click();
             }
         }, 5000);
+    });
+
+    // Handle collapse behavior to ensure only one info panel is open at a time
+    const infoButtons = document.querySelectorAll('.rpg-info-btn');
+    const collapseElements = document.querySelectorAll('.rpg-collapse');
+    
+    // Store active collapse instances
+    const collapseInstances = new Map();
+    
+    // Initialize Bootstrap collapse instances
+    collapseElements.forEach(collapse => {
+        const bsCollapse = new bootstrap.Collapse(collapse, {
+            toggle: false
+        });
+        collapseInstances.set(collapse.id, bsCollapse);
+    });
+    
+    infoButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const targetId = this.getAttribute('data-target').substring(1); // Remove #
+            const targetElement = document.getElementById(targetId);
+            const targetInstance = collapseInstances.get(targetId);
+            
+            if (!targetElement || !targetInstance) return;
+            
+            const isCurrentlyShown = targetElement.classList.contains('show');
+            
+            // Close all other collapse elements
+            collapseElements.forEach(collapse => {
+                if (collapse.id !== targetId && collapse.classList.contains('show')) {
+                    const instance = collapseInstances.get(collapse.id);
+                    if (instance) {
+                        instance.hide();
+                    }
+                }
+            });
+            
+            // Toggle the current element
+            if (isCurrentlyShown) {
+                targetInstance.hide();
+            } else {
+                targetInstance.show();
+            }
+        });
+    });
+
+    // Update aria-expanded attribute when collapse state changes
+    collapseElements.forEach(collapse => {
+        collapse.addEventListener('shown.bs.collapse', function() {
+            const targetId = '#' + this.id;
+            const button = document.querySelector(`[data-bs-target="${targetId}"]`);
+            if (button) {
+                button.setAttribute('aria-expanded', 'true');
+            }
+        });
+
+        collapse.addEventListener('hidden.bs.collapse', function() {
+            const targetId = '#' + this.id;
+            const button = document.querySelector(`[data-bs-target="${targetId}"]`);
+            if (button) {
+                button.setAttribute('aria-expanded', 'false');
+            }
+        });
     });
 });
 </script>

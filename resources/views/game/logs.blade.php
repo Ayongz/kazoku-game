@@ -9,7 +9,7 @@
         <div class="energy-waves"></div>
     </div>
 
-    <div class="container py-5">
+    <div class="container pt-5">
         <div class="row justify-content-center">
             <div class="col-lg-11 col-xl-10">
                 

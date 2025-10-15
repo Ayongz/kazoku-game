@@ -684,4 +684,22 @@ return [
     'view_logs' => 'Lihat Log',
     'activity_history' => 'Riwayat Aktivitas',
 
+    // Missing status page translations
+    'character_status' => 'Status Karakter',
+    'view_your_character_progression' => 'Lihat kemajuan karakter dan statistik Anda',
+    'edit_profile' => 'Edit Profil',
+    'experience_progress' => 'Kemajuan Pengalaman',
+    'to_level' => 'Ke Level',
+    'protection_status' => 'Status Perlindungan',
+    'shield_active' => 'Perisai Aktif',
+    'remaining' => 'Tersisa',
+    'no_protection' => 'Tidak Ada Perlindungan',
+    'vulnerable_to_attacks' => 'Rentan terhadap Serangan',
+    'character_abilities' => 'Kemampuan Karakter',
+    'chance_per_treasure' => 'Peluang per harta',
+    'treasure_type' => 'Tipe Harta',
+    'prestige_level' => 'Level Prestise',
+    'no_prestige_bonus' => 'Tidak ada bonus prestise',
+    'logs' => 'Log Aktivitas',
+
 ];

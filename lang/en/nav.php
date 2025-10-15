@@ -681,4 +681,22 @@ return [
     'view_logs' => 'View Logs',
     'activity_history' => 'Activity History',
 
+    // Missing status page translations
+    'character_status' => 'Character Status',
+    'view_your_character_progression' => 'View your character progression and statistics',
+    'edit_profile' => 'Edit Profile',
+    'experience_progress' => 'Experience Progress',
+    'to_level' => 'To Level',
+    'protection_status' => 'Protection Status',
+    'shield_active' => 'Shield Active',
+    'remaining' => 'Remaining',
+    'no_protection' => 'No Protection',
+    'vulnerable_to_attacks' => 'Vulnerable to Attacks',
+    'character_abilities' => 'Character Abilities',
+    'chance_per_treasure' => 'Chance per treasure',
+    'treasure_type' => 'Treasure Type',
+    'prestige_level' => 'Prestige Level',
+    'no_prestige_bonus' => 'No prestige bonus',
+    'logs' => 'Activity Logs',
+
 ];

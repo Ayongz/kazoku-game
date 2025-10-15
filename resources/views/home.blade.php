@@ -447,7 +447,7 @@
 </style>
 
 <div class="rpg-dashboard-container">
-    <div class="container py-4">
+    <div class="container pt-4">
         <!-- Header Section -->
         <div class="text-center mb-4">
             <h1 class="rpg-title display-4 mb-3">

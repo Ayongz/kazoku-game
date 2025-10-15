@@ -8,7 +8,7 @@
         <div class="magic-orbs"></div>
     </div>
 
-    <div class="container py-5">
+    <div class="container pt-5">
         <div class="row justify-content-center">
             <div class="col-lg-10 col-xl-8">
                 <!-- RPG Header -->
@@ -63,7 +63,7 @@
                                     </div>
 
                                     <!-- Action Button -->
-                                    <button class="rpg-btn rpg-primary-btn px-5 py-3" id="openBoxBtn" onclick="openRandomBox()">
+                                    <button class="rpg-btn rpg-primary-btn px-5 pt-3" id="openBoxBtn" onclick="openRandomBox()">
                                         <span class="btn-text">
                                             <i class="fas fa-gift me-2"></i>
                                             {{ __('nav.open_random_box') }}
@@ -76,7 +76,7 @@
                                     </p>
                                 @else
                                     <!-- No Boxes State -->
-                                    <div class="rpg-empty-state py-5">
+                                    <div class="rpg-empty-state py-1">
                                         <div class="empty-state-icon mb-4">
                                             <i class="fas fa-box-open"></i>
                                         </div>
@@ -85,20 +85,6 @@
                                             {{ __('nav.no_boxes_message') }}<br>
                                             {{ __('nav.get_boxes_tip') }}
                                         </p>
-                                        <div class="rpg-action-buttons">
-                                            <a href="{{ route('game.dashboard') }}" class="rpg-btn rpg-secondary-btn">
-                                                <span class="btn-text">
-                                                    <i class="fas fa-arrow-left me-2"></i>
-                                                    {{ __('nav.back_to_dashboard') }}
-                                                </span>
-                                            </a>
-                                            <a href="{{ route('store.index') }}" class="rpg-btn rpg-primary-btn ms-2">
-                                                <span class="btn-text">
-                                                    <i class="fas fa-store me-2"></i>
-                                                    {{ __('nav.visit_store') }}
-                                                </span>
-                                            </a>
-                                        </div>
                                     </div>
                                 @endif
                             </div>

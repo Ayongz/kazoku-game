@@ -22,6 +22,7 @@
 </head>
 <body>
     <div id="app">
+        @auth
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ route('home') }}">
@@ -34,137 +35,99 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
-                        @auth
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('game.dashboard') }}">
-                                    <i class="fas fa-gamepad me-1"></i>{{ __('nav.game') }}
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('store.index') }}">
-                                    <i class="fas fa-store me-1"></i>{{ __('nav.store') }}
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('game.inventory') }}">
-                                    <i class="fas fa-box me-1"></i>{{ __('nav.inventory') }}
-                                    @auth
-                                        @if((auth()->user()->randombox ?? 0) > 0)
-                                            <span class="badge bg-info ms-1">{{ auth()->user()->randombox }}</span>
-                                        @endif
-                                    @endauth
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('game.status') }}">
-                                    <i class="fas fa-chart-line me-1"></i>{{ __('nav.status') }}
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('game.class-path') }}">
-                                    <i class="fas fa-tree me-1"></i>{{ __('nav.class_path') }}
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('gambling.hall') }}">
-                                    <i class="fas fa-dice me-1"></i>{{ __('nav.gambling_hall') }}
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('game.guide') }}">
-                                    <i class="fas fa-book me-1"></i>{{ __('nav.guide') }}
-                                </a>
-                            </li>
-                        @endauth
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('game.dashboard') }}">
+                                <i class="fas fa-gamepad me-1"></i>{{ __('nav.game') }}
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('store.index') }}">
+                                <i class="fas fa-store me-1"></i>{{ __('nav.store') }}
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('game.inventory') }}">
+                                <i class="fas fa-box me-1"></i>{{ __('nav.inventory') }}
+                                @if((auth()->user()->randombox ?? 0) > 0)
+                                    <span class="badge bg-info ms-1">{{ auth()->user()->randombox }}</span>
+                                @endif
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('game.status') }}">
+                                <i class="fas fa-chart-line me-1"></i>{{ __('nav.status') }}
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('game.class-path') }}">
+                                <i class="fas fa-tree me-1"></i>{{ __('nav.class_path') }}
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('gambling.hall') }}">
+                                <i class="fas fa-dice me-1"></i>{{ __('nav.gambling_hall') }}
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('game.guide') }}">
+                                <i class="fas fa-book me-1"></i>{{ __('nav.guide') }}
+                            </a>
+                        </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
-                        <!-- Authentication Links -->
-                        @guest
-                            <!-- Language Switcher for Guests -->
-                            <!-- <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="languageNavDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="fas fa-globe me-1"></i>
-                                    @if(app()->getLocale() == 'id')
-                                        {{ __('auth.indonesian') }}
-                                    @else
-                                        {{ __('auth.english') }}
-                                    @endif
-                                </a>
-                                <ul class="dropdown-menu" aria-labelledby="languageNavDropdown">
-                                    <li>
-                                        <a class="dropdown-item @if(app()->getLocale() == 'en') active @endif" 
-                                           href="{{ route('language.switch', 'en') }}">
-                                            <i class="fas fa-flag-usa me-2"></i>{{ __('auth.english') }}
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item @if(app()->getLocale() == 'id') active @endif" 
-                                           href="{{ route('language.switch', 'id') }}">
-                                            <i class="fas fa-flag me-2"></i>{{ __('auth.indonesian') }}
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li> -->
-                            
-                            <!-- @if (Route::has('login'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">{{ __('nav.login') }}</a>
-                                </li>
-                            @endif -->
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                <i class="fas fa-user-circle me-1"></i>{{ Auth::user()->name }}
+                            </a>
 
-                            <!-- @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                </li>
-                            @endif -->
-                        @else
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    <i class="fas fa-user-circle me-1"></i>{{ Auth::user()->name }}
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ route('profile.index') }}">
+                                    <i class="fas fa-user-circle me-2"></i>Profile
+                                </a>
+                                
+                                <!-- Language Switcher in User Menu -->
+                                <div class="dropdown-divider"></div>
+                                <h6 class="dropdown-header">
+                                    <i class="fas fa-globe me-2"></i>Language
+                                </h6>
+                                <a class="dropdown-item @if(app()->getLocale() == 'en') active @endif" 
+                                   href="{{ route('language.switch', 'en') }}">
+                                    <i class="fas fa-flag-usa me-2"></i>{{ __('auth.english') }}
+                                </a>
+                                <a class="dropdown-item @if(app()->getLocale() == 'id') active @endif" 
+                                   href="{{ route('language.switch', 'id') }}">
+                                    <i class="fas fa-flag me-2"></i>{{ __('auth.indonesian') }}
+                                </a>
+                                
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{{ route('logout') }}"
+                                   onclick="event.preventDefault();
+                                                 document.getElementById('logout-form').submit();">
+                                    <i class="fas fa-sign-out-alt me-2"></i>{{ __('nav.logout') }}
                                 </a>
 
-                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('profile.index') }}">
-                                        <i class="fas fa-user-circle me-2"></i>Profile
-                                    </a>
-                                    
-                                    <!-- Language Switcher in User Menu -->
-                                    <div class="dropdown-divider"></div>
-                                    <h6 class="dropdown-header">
-                                        <i class="fas fa-globe me-2"></i>Language
-                                    </h6>
-                                    <a class="dropdown-item @if(app()->getLocale() == 'en') active @endif" 
-                                       href="{{ route('language.switch', 'en') }}">
-                                        <i class="fas fa-flag-usa me-2"></i>{{ __('auth.english') }}
-                                    </a>
-                                    <a class="dropdown-item @if(app()->getLocale() == 'id') active @endif" 
-                                       href="{{ route('language.switch', 'id') }}">
-                                        <i class="fas fa-flag me-2"></i>{{ __('auth.indonesian') }}
-                                    </a>
-                                    
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        <i class="fas fa-sign-out-alt me-2"></i>{{ __('nav.logout') }}
-                                    </a>
-
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                        @csrf
-                                    </form>
-                                </div>
-                            </li>
-                        @endguest
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                    @csrf
+                                </form>
+                            </div>
+                        </li>
                     </ul>
                 </div>
             </div>
         </nav>
+        @endauth
 
-        <main class="py-4">
+        @auth
+        <main class="pt-4">
             @yield('content')
         </main>
+        @else
+        <main>
+            @yield('content')
+        </main>
+        @endauth
     </div>
 
     <!-- Bootstrap 5 JavaScript Bundle (includes Popper) -->
