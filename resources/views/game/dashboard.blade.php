@@ -97,8 +97,8 @@
                                         <p class="rpg-subtitle mb-0 small">Delve into mystical treasures</p>
                                     </div>
                                     
-                                    <!-- Auto Click Toggle (Level 3+ Required) -->
-                                    @if($user->level >= 3)
+                                    <!-- Auto Click Toggle (Level 2+ Required) -->
+                                    @if($user->level >= 2)
                                         <div class="rpg-toggle-container">
                                             <div class="form-check form-switch rpg-switch">
                                                 <input class="form-check-input rpg-switch-input" type="checkbox" id="autoClickToggle" 
@@ -114,7 +114,7 @@
                                         <div class="rpg-locked-feature">
                                             <span class="badge bg-secondary small">
                                                 <i class="fas fa-lock me-1"></i>
-                                                Level 3 Required
+                                                Level 2 Required
                                             </span>
                                         </div>
                                     @endif
@@ -134,11 +134,11 @@
                                                 </span>
                                             </div>
                                         @endif
-                                        @if($user->level < 3)
+                                        @if($user->level < 2)
                                             <div class="rpg-bonus-indicator mt-2">
                                                 <span class="badge bg-warning text-dark small">
                                                     <i class="fas fa-lock me-1"></i>
-                                                    <strong>Auto-click unlocks at Level 3</strong>
+                                                    <strong>Auto-click unlocks at Level 2</strong>
                                                 </span>
                                             </div>
                                         @endif

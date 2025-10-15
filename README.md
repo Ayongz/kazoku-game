@@ -1,241 +1,623 @@
 # 🎮 Kazoku Game
 
-**A competitive money-earning web game built with Laravel**
+**A comprehensive RPG-style money-earning web game built with Laravel**
 
-Kazoku Game is an interactive browser-based game where players compete to earn virtual money, upgrade abilities, and climb the leaderboard. Built with Laravel and Bootstrap, it features a comprehensive economy system with passive income mechanics and competitive gameplay.
+Kazoku Game is an advanced browser-based strategy RPG where players compete to earn virtual money, level up, select classes, upgrade abilities, and dominate the leaderboard. Built with Laravel and Bootstrap, it features a complex economy system with day/night cycles, PvP mechanics, class systems, and prestige progression.
 
 ## 🎯 Game Overview
 
 ### What is Kazoku Game?
 
-Kazoku Game is a **money accumulation strategy game** where players:
-- **Earn money** through active clicking (limited attempts per hour)
-- **Upgrade abilities** to unlock passive income and steal mechanics
-- **Compete globally** on leaderboards for daily prize pools
-- **Build strategies** to maximize earnings and climb rankings
+Kazoku Game is a **multi-layered RPG strategy game** where players:
+- **🏴‍☠️ Treasure Hunt**: Open treasures with day/night risk systems and rare treasure discoveries
+- **⚡ Level & Experience**: Gain XP, level up, and unlock new features (Auto-click at Level 2!)
+- **🎭 Class Selection**: Choose from 7 unique classes at Level 4, advance at Level 8
+- **🛡️ PvP Combat**: Steal from players, defend with shields, counter-attack, and intimidate
+- **🎰 Gambling Hall**: Test your luck with coin flip games and treasure fusion
+- **📦 Inventory System**: Collect and open random boxes for rare rewards
+- **👑 Prestige System**: Elite passive income for veteran players
 
 ### Core Gameplay Loop
 
-1. **📱 Earn Money**: Click "Earn Money Now" to get random amounts (1,000-10,000 IDR)
-2. **🏪 Visit Store**: Upgrade steal abilities and auto-earning capabilities  
-3. **🏆 Compete**: Climb the leaderboard to win daily prize pools
-4. **💰 Strategize**: Balance active earning vs passive income investments
+1. **�️ Open Treasures**: Click to consume treasure and earn money (100-2,000 IDR base)
+2. **�☀️ Time Strategy**: Safe day mode vs risky night mode with 5% rare treasure chance
+3. **🏪 Upgrade Store**: Purchase 15+ different upgrade types and abilities
+4. **🎯 Class Powers**: Leverage unique class abilities for specialized gameplay
+5. **🏆 Compete**: Dominate leaderboards and win daily prize pools
+6. **� Prestige**: Unlock elite passive income system for massive hourly earnings
 
 ---
 
-## 🎮 Game Features
+## 🎮 Core Game Systems
 
-### 💵 **Active Earning System**
-- **Random Rewards**: Each attempt earns 1,000-10,000 IDR
-- **Limited Attempts**: Players get attempts that regenerate hourly
-- **Prize Pool Contribution**: 10% of earnings contribute to global prize pool
+### �️ **Treasure Hunting System**
+- **Base Earnings**: 100-2,000 IDR per treasure (updated from old 1K-10K)
+- **Treasure Capacity**: Starts at 20, upgradeable with Treasure Multiplier
+- **Regeneration**: +5 treasure every 60 minutes (improvable with Fast Recovery)
+- **Auto-Click**: Unlocks at Level 2 for automated treasure opening
+- **Treasure Rarity**: 8 tiers from Common to Celestial affecting random box chances
 
-### 🤖 **Auto Earning (Passive Income)**
-- **Progressive Levels**: Upgrade from Level 1-20
-- **Passive Rate**: Earn 0.05% per level per hour of your total money
-- **Maximum Potential**: Level 20 = 1.0% hourly passive income
-- **24/7 Income**: Earn money even when offline
+### 🌙☀️ **Day/Night Risk System (GMT+7 Timezone)**
+- **🌅 Day Mode (6 AM - 6 PM)**: Safe treasure opening with normal rewards
+- **🌙 Night Mode (6 PM - 6 AM)**: High-risk, high-reward system:
+  - **25%** chance to lose money in darkness
+  - **25%** chance for 1.5x bonus earnings
+  - **5%** chance to discover rare treasures (5-6x value)
+  - **45%** chance for normal earnings
 
-### 🎭 **Steal Ability**
-- **Heist Mechanics**: Steal from other players and the global prize pool
-- **Success Rates**: 20% success chance per level (max 80% at Level 4+)
-- **Risk vs Reward**: Higher levels steal larger amounts
-- **Strategic Gameplay**: Time your heists for maximum profit
+### ⚡ **Level & Experience System**
+- **Experience Sources**: Treasure hunting, gambling, rare treasures (double XP)
+- **Level Benefits**: Unlock Auto-Click (Lv2), Classes (Lv4), Advanced Classes (Lv8)
+- **Progressive Unlocks**: New features and higher upgrade caps at each level
 
-### 🏆 **Competitive Features**
-- **Daily Leaderboard**: Top 10 richest players displayed
-- **Global Prize Pool**: Accumulated from all player contributions
-- **Daily Winner**: Richest player wins entire prize pool at midnight
-- **Real-time Rankings**: See your position among all players
+### 🎭 **Class System (7 Unique Classes)**
 
-### 📊 **Game Economy**
-- **Balanced Pricing**: Upgrade costs scale with player progression
-- **Inflation Control**: Limited attempts prevent economy breaking
-- **Prize Pool Cycling**: Daily redistribution keeps economy active
-- **Multiple Income Streams**: Active + Passive + Stealing strategies
+#### **Basic Classes (Level 4)**
+- **🗝️ Treasure Hunter**: 15% chance for free treasure attempts
+- **💼 Proud Merchant**: 20% bonus money earnings
+- **🎰 Fortune Gambler**: 15% double chance, 8% lose everything chance  
+- **🌙 Moon Guardian**: 20% random box chance during night hours
+- **☀️ Day Breaker**: 20% random box chance during day hours
+- **📦 Box Collector**: 10% chance for double random boxes
+- **📜 Divine Scholar**: 10% bonus experience from treasures
+
+#### **Advanced Classes (Level 8)**
+- Enhanced versions with 25-30% abilities instead of 15-20%
+- **Master Treasure Hunter**, **Elite Merchant**, **Fortune Master**, etc.
+
+### 🛡️ **PvP & Defense Systems**
+
+#### **🗡️ Auto Steal (Offensive)**
+- **Success Rate**: 5% per level (max 25% at Level 5)
+- **Automatic**: Triggers when you earn money, attempts to steal from random players
+- **Steal Amount**: 1-5% of target's money based on your level
+- **Lucky Strikes**: Can double stolen amounts with luck bonuses
+
+#### **🛡️ Defense Mechanisms**
+- **Shield Protection**: 3-hour invincibility from all theft (IDR 10,000)
+- **Counter-Attack**: 20% chance per level to steal back when attacked
+- **Intimidation**: Reduces others' steal success rates against you by 2% per level
+- **Fast Recovery**: Reduces treasure regeneration time (60min → 30min at max)
+
+### 🎰 **Gambling Hall Features**
+- **Coin Flip Games**: Bet money on heads/tails with customizable amounts
+- **Min/Mid/Max Betting**: Smart betting buttons based on your wealth
+- **Treasure Fusion**: Combine treasures to create rare treasures (5-6x value)
+- **Experience Rewards**: Gain 10 XP per gambling game
+
+### 📦 **Inventory & Random Box System**
+- **Random Box Sources**: Treasure rarity upgrades, class abilities, night bonuses
+- **Reward Tiers**: Common, Rare, Legendary with escalating reward values
+- **Box Contents**: Money, treasures, experience, shield protection, upgrade materials
+- **Rarity Scaling**: Higher treasure rarity = better box drop chances
+
+### 👑 **Prestige System (Elite Passive Income)**
+- **Unlock Requirement**: High-level players with substantial wealth
+- **Passive Rates**: 1-5% of total money earned per hour automatically
+- **Prestige Levels**: 5 tiers with escalating costs and benefits
+- **24/7 Earnings**: Massive passive income even when offline
+
+### 🔄 **Automated Systems**
+- **Hourly Treasure Regen**: +5 treasure every 60 minutes (faster with upgrades)
+- **Hourly Auto Earning**: Passive income from Auto Earning upgrades
+- **Daily Prize Distribution**: Richest player wins accumulated prize pool
+- **Prestige Processing**: Elite hourly income for prestige players
+
+---
+
+## 🛠️ **Complete Upgrade System (15+ Upgrade Types)**
+
+### **Core Upgrades**
+- **🤖 Auto Earning (1-20)**: 0.05% passive income per level per hour
+- **🗡️ Auto Steal (1-5)**: 5% success rate per level, auto-triggers on earnings
+- **🗝️ Treasure Multiplier (1-10)**: +5 max treasure capacity + efficiency bonus per level
+- **⚡ Lucky Strikes (1-5)**: 2% chance per level to double earnings/steals
+- **🛡️ Shield Protection**: 3 hours of theft immunity (consumable)
+
+### **Advanced Upgrades** 
+- **🔄 Counter-Attack (1-5)**: 20% chance per level to steal back from attackers
+- **😈 Intimidation (1-5)**: Reduce others' steal success by 2% per level
+- **⚡ Fast Recovery (1-3)**: Reduce treasure regen from 60min to 30min
+- **💎 Treasure Rarity (1-7)**: Unlock Common → Celestial treasure types
+- **👑 Prestige System (1-5)**: Elite 1-5% hourly passive income
+
+### 📊 **Game Economy & Balance**
+- **Balanced Progression**: Upgrade costs scale exponentially with level
+- **Multiple Strategies**: Pure earning, stealing, gambling, or hybrid approaches
+- **Risk/Reward Balance**: Night mode offers high risk for high reward
+- **Anti-Inflation**: Treasure limits and cooldowns prevent economy breaking
+- **Competitive Dynamics**: Leaderboards and daily prizes drive engagement
 
 ---
 
 ## 🛠️ Technical Implementation
 
-### **Built With Laravel 12**
-- **MVC Architecture**: Clean separation of game logic and presentation
-- **Eloquent ORM**: Efficient database operations for user data and game state
-- **Middleware Protection**: All game routes require authentication
-- **Scheduled Commands**: Automated hourly and daily game mechanics
+### **Built With Laravel 11**
+- **MVC Architecture**: Clean separation of game logic, controllers, and views
+- **Eloquent ORM**: Complex database relationships for users, inventory, logs
+- **Middleware Protection**: Authentication required for all game features
+- **Scheduled Commands**: Automated systems for treasure regen, auto earning, prize distribution
+- **Service Classes**: ExperienceService for level calculations and progression
 
 ### **Frontend Technologies**
-- **Bootstrap 5**: Responsive UI design with modern components
-- **Font Awesome**: Rich iconography for enhanced user experience
-- **Blade Templates**: Server-side rendering for optimal performance
-- **Custom CSS**: Polished styling with animations and gradients
+- **Bootstrap 5**: Responsive RPG-themed UI with custom components
+- **Font Awesome**: 500+ icons for abilities, classes, and game elements
+- **Blade Templates**: Server-side rendering with multilingual support (EN/ID)
+- **Custom CSS**: RPG-style themes with night/day mode styling
+- **JavaScript**: Auto-click functionality, AJAX treasure opening, real-time updates
 
-### **Database Schema**
+### **Enhanced Database Schema**
 ```sql
 users:
 - money_earned (BIGINT): Player's total accumulated money
-- attempts (SMALLINT): Available earning attempts
-- steal_level (SMALLINT): Steal ability level (0-5)
-- auto_earning_level (SMALLINT): Auto earning level (0-20)
+- level (INT): Player level (unlocks features)
+- experience (BIGINT): Experience points for level progression
+- treasure (INT): Current treasure count (regenerates hourly)
+- rare_treasures (INT): Special high-value treasures from night mode
+
+-- Upgrade System (15+ upgrade types)
+- steal_level, auto_earning_level, treasure_multiplier_level
+- lucky_strikes_level, counter_attack_level, intimidation_level
+- fast_recovery_level, treasure_rarity_level, prestige_level
+- shield_expires_at (TIMESTAMP): PvP protection status
+
+-- Class System
+- selected_class (STRING): One of 7 unique classes
+- has_advanced_class (BOOLEAN): Advanced class upgrade status
+- class_selected_at (TIMESTAMP): Class selection history
 
 game_settings:
-- global_prize_pool (DECIMAL): Community prize pool
+- global_prize_pool (DECIMAL): Community prize pool from all earnings
+
+inventories:
+- user_id, item_type (random_box, shield, etc.)
+- quantity (INT): Number of items owned
+
+player_logs:
+- Comprehensive action logging system
+- Tracks treasure opening, stealing, class bonuses, level ups
+- JSON additional_data for complex event details
 ```
 
-### **Automated Systems**
-- **Hourly Attempt Reset**: `game:add-attempts` - Adds 5 attempts (max 20)
-- **Hourly Auto Earning**: `game:process-auto-earning` - Processes passive income
-- **Daily Prize Distribution**: `game:distribute-prize` - Awards richest player at midnight
+### **Automated Systems & Scheduling**
+- **Treasure Regeneration**: `game:add-treasure` - +5 treasure every 60min (affected by Fast Recovery)
+- **Auto Earning Processing**: `game:process-auto-earning` - Processes passive income hourly
+- **Daily Prize Distribution**: `game:distribute-prize` - Awards richest player at midnight GMT+7  
+- **Prestige Income**: Hourly processing for elite passive income (1-5% per hour)
+- **Shield Expiration**: Automatic cleanup of expired PvP protection
 
 ---
 
-## 🚀 Getting Started
+## 🚀 Installation & Setup
 
-### **Prerequisites**
-- PHP 8.2+
-- Composer
-- MySQL/SQLite Database
-- Node.js & NPM
+### **System Requirements**
+- **PHP 8.1+** with extensions: mbstring, pdo_mysql, bcmath, ctype, fileinfo
+- **Composer 2.x** for PHP dependency management
+- **MySQL 8.0+** or **MariaDB 10.4+** for database
+- **Node.js 16+** & **NPM** for frontend asset compilation
+- **Web Server**: Apache/Nginx with proper URL rewriting
 
-### **Installation**
+### **Quick Installation Guide**
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/Ayongz/kazoku-game.git
-   cd kazoku-game
-   ```
+#### **1. Repository Setup**
+```bash
+git clone https://github.com/Ayongz/kazoku-game.git
+cd kazoku-game
+chmod -R 755 storage bootstrap/cache  # Set proper permissions
+```
 
-2. **Install dependencies**
-   ```bash
-   composer install
-   npm install
-   ```
+#### **2. Backend Dependencies**
+```bash
+composer install --optimize-autoloader
+```
 
-3. **Environment setup**
-   ```bash
-   cp .env.example .env
-   php artisan key:generate
-   ```
+#### **3. Environment Configuration**
+```bash
+cp .env.example .env
+php artisan key:generate
+```
 
-4. **Configure database**
-   - Update `.env` with your database credentials
-   - Set `APP_NAME="Kazoku Game"`
+**Configure your `.env` file:**
+```env
+APP_NAME="Kazoku Game"
+APP_ENV=production
+APP_DEBUG=false
+APP_URL=http://your-domain.com
 
-5. **Run migrations**
-   ```bash
-   php artisan migrate
-   ```
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=kazoku_game
+DB_USERNAME=your_username
+DB_PASSWORD=your_password
 
-6. **Build assets**
-   ```bash
-   npm run dev
-   ```
+CACHE_DRIVER=file
+SESSION_DRIVER=file
+QUEUE_CONNECTION=database
+```
 
-7. **Start the application**
-   ```bash
-   php artisan serve
-   ```
+#### **4. Database Setup**
+```bash
+# Create database (MySQL)
+mysql -u root -p -e "CREATE DATABASE kazoku_game;"
 
-8. **Start the scheduler** (for automated game mechanics)
-   ```bash
-   php artisan schedule:start
-   ```
+# Run all migrations (creates 15+ tables)
+php artisan migrate
+
+# Optional: Seed with sample data
+php artisan db:seed
+```
+
+#### **5. Frontend Assets**
+```bash
+npm install
+npm run production  # For production
+# OR
+npm run dev        # For development
+npm run watch      # For development with auto-recompilation
+```
+
+#### **6. Application Launch**
+```bash
+# Start Laravel development server
+php artisan serve --host=0.0.0.0 --port=8000
+
+# Start the scheduler (CRITICAL for game mechanics)
+php artisan schedule:work
+```
+
+### **🔧 Production Deployment**
+
+#### **Web Server Configuration (Apache)**
+```apache
+<VirtualHost *:80>
+    ServerName kazoku-game.example.com
+    DocumentRoot /path/to/kazoku-game/public
+    
+    <Directory /path/to/kazoku-game/public>
+        AllowOverride All
+        Require all granted
+    </Directory>
+    
+    ErrorLog ${APACHE_LOG_DIR}/kazoku_error.log
+    CustomLog ${APACHE_LOG_DIR}/kazoku_access.log combined
+</VirtualHost>
+```
+
+#### **Crontab Setup (Essential for Game Mechanics)**
+```bash
+# Edit crontab
+crontab -e
+
+# Add Laravel scheduler (runs every minute)
+* * * * * cd /path/to/kazoku-game && php artisan schedule:run >> /dev/null 2>&1
+```
+
+#### **Supervisor Configuration (For Queue Workers)**
+```ini
+[program:kazoku-worker]
+process_name=%(program_name)s_%(process_num)02d
+command=php /path/to/kazoku-game/artisan queue:work --sleep=3 --tries=3 --max-time=3600
+autostart=true
+autorestart=true
+user=www-data
+numprocs=2
+redirect_stderr=true
+stdout_logfile=/path/to/kazoku-game/storage/logs/worker.log
+```
+
+### **🎮 Game Balance Configuration**
+
+All game constants can be adjusted in `app/Http/Controllers/GameController.php`:
+
+```php
+// Treasure System
+const MIN_EARN_AMOUNT = 100;        // Base minimum earnings
+const MAX_EARN_AMOUNT = 2000;       // Base maximum earnings
+
+// Night Risk System
+const NIGHT_RISK_LOSS_CHANCE = 25;     // 25% money loss chance
+const NIGHT_RISK_BONUS_CHANCE = 25;    // 25% bonus chance
+const NIGHT_RARE_TREASURE_CHANCE = 5;  // 5% rare treasure chance
+
+// Class System Constants  
+const CLASS_UNLOCK_LEVEL = 4;           // Level for class selection
+const ADVANCED_CLASS_LEVEL = 8;         // Level for class advancement
+```
 
 ---
 
-## 🎮 Game Mechanics
+## 🎯 Getting Started (Player Guide)
 
-### **Earning Progression**
-| Action | Base Amount | Frequency | Contribution to Prize Pool |
-|--------|-------------|-----------|---------------------------|
-| Manual Earning | 1,000-10,000 IDR | Per attempt | 10% |
-| Auto Earning (Lv1) | 0.05% of total/hour | Hourly | 10% |
-| Auto Earning (Lv20) | 1.0% of total/hour | Hourly | 10% |
-| Stealing (Lv1) | 1x manual amount | Manual | Reduces pool |
+### **📝 Account Creation**
+1. **Register** at `/register` with username, email, and password
+2. **Verify** your account (if email verification enabled)
+3. **Login** and access your dashboard immediately
 
-### **Upgrade Costs**
-- **Steal Ability**: 5,000 × level (5K, 10K, 15K, 20K, 25K)
-- **Auto Earning**: 10,000 × level (10K, 20K, 30K, ..., 200K)
+### **🎮 First 10 Minutes**
+1. **Open Your First Treasure**: Click "OPEN TREASURE" to earn your first IDR 100-2,000
+2. **Check Your Stats**: View level, experience, and treasure count in the dashboard
+3. **Understand Day/Night**: Note the current time mode and its effects
+4. **Explore the Store**: See available upgrades but focus on earning first
+5. **Reach Level 2**: Open treasures to gain XP and unlock Auto-Click feature
 
-### **Daily Prize Pool**
-- Accumulates from 10% of all player earnings
-- Winner: Player with highest total money at midnight
-- Prize pool resets to 0 after distribution
-- Creates daily competition and engagement
+### **🚀 First Hour Strategy**
+1. **Level 2 Achievement**: Unlock Auto-Click for automated treasure opening
+2. **Earn 10K+ IDR**: Build initial capital through consistent treasure hunting
+3. **First Upgrade**: Consider Auto Earning Level 1 for passive income
+4. **Level 4 Goal**: Work towards class selection unlock
+5. **Learn the Rhythm**: Understand treasure regeneration and timing
 
----
-
-## 🎯 Game Strategy Guide
-
-### **Early Game (0-50K IDR)**
-1. Focus on manual earning to build initial capital
-2. Purchase Auto Earning Level 1-3 for passive income
-3. Save up for Steal Level 1 to unlock heist mechanics
-
-### **Mid Game (50K-500K IDR)**
-1. Balance auto earning upgrades with steal levels
-2. Time heists when global prize pool is high
-3. Monitor leaderboard for competitive positioning
-
-### **Late Game (500K+ IDR)**
-1. Maximize auto earning levels (15-20)
-2. Master steal timing for optimal profits
-3. Compete daily for prize pool victories
+### **🏆 First Week Goals**
+- **Reach Level 4+**: Unlock and choose your first class
+- **50K+ IDR**: Build substantial wealth for major upgrades
+- **Auto Steal Level 1**: Enter the PvP economy
+- **Strategic Upgrades**: Focus on 2-3 upgrade types rather than spreading thin
+- **Night Mode Experimentation**: Try risky night treasures for rare rewards
 
 ---
 
-## 📱 User Interface
+## 🤝 Contributing & Development
 
-### **Game Dashboard**
-- Real-time money display with formatting
-- Attempt counter with hourly reset indication
-- Global prize pool status
-- Quick action buttons for earning and stealing
+### **🐛 Bug Reports**
+- **Issue Template**: Use provided GitHub issue template with reproduction steps
+- **Include Details**: Laravel version, PHP version, browser, and error logs
+- **Screenshots**: Visual bugs should include before/after screenshots
 
-### **Store Page**
-- Visual upgrade progression
-- Cost/benefit analysis for each upgrade
-- Current ability status and next level preview
-- Secure purchase system with validation
+### **✨ Feature Requests**
+- **Game Balance**: Suggest changes to upgrade costs, success rates, or rewards
+- **New Features**: Propose new game mechanics with detailed descriptions
+- **UI/UX**: Interface improvements and user experience enhancements
 
-### **Leaderboard (Home)**
-- Top 10 richest players
-- Personal ranking and statistics
-- Game-wide statistics (total money, players)
-- Ability level indicators for competitive analysis
+### **💻 Code Contributions**
+1. **Fork the repository** and create a feature branch
+2. **Follow PSR-12** coding standards for PHP code
+3. **Add tests** for new game mechanics and features
+4. **Update documentation** including README and code comments
+5. **Submit pull request** with clear description of changes
 
----
+### **🔧 Development Setup**
+```bash
+# Development with hot reloading
+npm run dev
+npm run watch
 
-## 🔧 Development Features
+# Run tests
+php artisan test
 
-### **Security**
-- Authentication required for all game features
-- CSRF protection on all forms
-- Input validation and sanitization
-- Secure session management
+# Code style checking
+./vendor/bin/pint
 
-### **Performance**
-- Optimized database queries with Eloquent
-- Efficient scheduling system
-- Responsive design for all devices
-- Minimal JavaScript for fast loading
-
-### **Maintainability**
-- Clean MVC architecture
-- Comprehensive commenting
-- Modular component design
-- Easy configuration management
+# Database refresh for testing
+php artisan migrate:fresh --seed
+```
 
 ---
 
-## 📈 Future Enhancements
+## 📄 License & Legal
 
-- **Guilds/Teams**: Collaborative gameplay features
-- **Achievement System**: Unlock rewards for milestones
-- **Item Shop**: Purchasable boosts and cosmetics
-- **Mini-Games**: Additional earning methods
-- **Social Features**: Friend systems and messaging
-- **Mobile App**: Native iOS/Android applications
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+
+### **Third-Party Assets**
+- **Bootstrap 5**: MIT License
+- **Font Awesome**: Font Awesome Free License
+- **Laravel Framework**: MIT License
+
+---
+
+## 🎮 Start Your Adventure
+
+### **🌟 Ready to Begin?**
+
+**[🚀 Play Now - Register Here!](http://localhost:8000/register)**
+
+### **🏆 What Awaits You**
+- **🗝️ Treasure Hunting**: Open treasures and discover rare rewards
+- **⚡ Level Progression**: Gain experience and unlock powerful features  
+- **🎭 Class Mastery**: Choose from 7 unique classes with special abilities
+- **🛡️ PvP Combat**: Engage in strategic stealing and defense mechanics
+- **🎰 Risk & Reward**: Master the day/night cycle for maximum profits
+- **👑 Elite Status**: Achieve prestige levels for massive passive income
+
+### **💡 Pro Tips for New Players**
+- **Start Conservative**: Focus on day-time treasure hunting until you build defenses
+- **Level First**: Prioritize experience gains to unlock Auto-Click at Level 2
+- **Choose Wisely**: Your Level 4 class selection significantly impacts your playstyle
+- **Time Zones Matter**: GMT+7 night mode (6 PM - 6 AM) offers high-risk, high-reward gameplay
+- **Community**: Learn from the leaderboard and observe successful player strategies
+
+---
+
+**⚡ The adventure begins now. Will you rise to become the ultimate Kazoku champion? ⚡**
+
+## 🎮 Advanced Game Mechanics
+
+### **Earning & Economy System**
+| Action | Base Amount | Frequency | Special Features |
+|--------|-------------|-----------|------------------|
+| Treasure Hunting | 100-2,000 IDR | Per treasure | Class bonuses, Lucky Strikes 2x, Night risks |
+| Auto Earning (Lv1-20) | 0.05-1.0% per hour | Hourly | Works offline, no treasure required |
+| Auto Steal (Lv1-5) | 1-5% of target's money | Auto-trigger | Intimidation resistance, Counter-attacks |
+| Gambling (Coin Flip) | Custom bet amounts | Manual | 10 XP per game, 50/50 odds |
+| Rare Treasures | 5-6x normal (500-12,000) | From night mode/fusion | Double XP, class bonuses apply |
+| Prestige Income | 1-5% per hour | Elite system | Massive passive income for veterans |
+
+### **Comprehensive Upgrade Costs**
+| Upgrade Type | Base Cost | Max Level | Scaling | Special Notes |
+|--------------|-----------|-----------|---------|---------------|
+| Auto Steal | IDR 10K | Level 5 | Linear × level | PvP core mechanic |
+| Auto Earning | IDR 10K | Level 20 | Linear × level | Passive income foundation |
+| Treasure Multiplier | IDR 15K | Level 10 | Linear × level | +5 capacity + efficiency |
+| Lucky Strikes | IDR 15K | Level 5 | Linear × level | 2% chance per level to double |
+| Counter-Attack | IDR 40K | Level 5 | Linear × level | 20% steal-back chance per level |
+| Intimidation | IDR 20K | Level 5 | Linear × level | -2% enemy success per level |
+| Fast Recovery | IDR 20K | Level 3 | Linear × level | 60min → 30min treasure regen |
+| Treasure Rarity | IDR 20K | Level 7 | Linear × level | Better random box chances |
+| Shield Protection | IDR 10K | Consumable | Fixed | 3 hours PvP immunity |
+| Prestige System | IDR 100K+ | Level 5 | Exponential | Elite passive income unlock |
+
+### **Class System Bonuses**
+| Class | Basic Ability (Lv4) | Advanced Ability (Lv8) |
+|-------|---------------------|-------------------------|
+| 🗝️ Treasure Hunter | 15% free treasure attempts | 25% free treasure attempts |
+| 💼 Proud Merchant | +20% money earnings | +30% money earnings |
+| 🎰 Fortune Gambler | 15% double, 8% lose all | 25% double, 12% lose all |
+| 🌙 Moon Guardian | 20% night random boxes | 30% night random boxes |
+| ☀️ Day Breaker | 20% day random boxes | 30% day random boxes |
+| 📦 Box Collector | 10% double boxes | 15% double boxes |
+| 📜 Divine Scholar | +10% experience | +20% experience |
+
+### **Day/Night Strategy Matrix**
+| Time Period | Risk Level | Recommended Players | Key Benefits |
+|-------------|------------|-------------------|--------------|
+| **🌅 Day (6AM-6PM GMT+7)** | Safe | New players, conservatives | Guaranteed normal earnings, safe grinding |
+| **🌙 Night (6PM-6AM GMT+7)** | High Risk/Reward | Risk-takers, advanced players | 25% bonus chance, 5% rare treasures |
+
+---
+
+## 🎯 Advanced Strategy Guide
+
+### **🟢 Early Game (Levels 1-3, 0-50K IDR)**
+**Priority Goals**: Level up fast, unlock Auto-Click at Level 2
+1. **Focus on treasure hunting** to gain experience and build capital
+2. **Purchase Auto Earning Level 1-2** for passive income foundation
+3. **Avoid night mode** until you have defensive upgrades
+4. **Save for Level 4** to unlock class selection
+
+### **🟡 Mid Game (Levels 4-7, 50K-500K IDR)**
+**Priority Goals**: Choose class, establish PvP presence, build upgrade foundation
+1. **Select optimal class** based on playstyle:
+   - **Conservative**: Treasure Hunter (free attempts) or Proud Merchant (bonus earnings)
+   - **Aggressive**: Fortune Gambler (high risk/reward) or Day/Moon Guardian (boxes)
+   - **Balanced**: Box Collector or Divine Scholar (experience focus)
+2. **Purchase Auto Steal Level 1** to participate in PvP economy
+3. **Invest in Treasure Multiplier** for increased capacity and efficiency
+4. **Consider Shield Protection** when holding large amounts of money
+
+### **🔴 Late Game (Level 8+, 500K+ IDR)**
+**Priority Goals**: Advanced class, max key upgrades, prestige preparation
+1. **Advance your class** at Level 8 for enhanced abilities
+2. **Maximize core upgrades**: Auto Steal (5), Auto Earning (15-20), Lucky Strikes (5)
+3. **Strategic night mode gameplay** for rare treasure acquisition
+4. **PvP optimization**: Balance Counter-Attack and Intimidation based on threat level
+5. **Prestige system preparation**: Accumulate wealth for elite passive income access
+
+### **🏆 Endgame (Prestige System)**
+**Priority Goals**: Elite passive income, leaderboard domination
+1. **Prestige Level investment** for 1-5% hourly passive income
+2. **Class mastery** with advanced abilities and perfect upgrade combinations
+3. **Market timing** for night mode rare treasure farming
+4. **Competitive positioning** for daily prize pool victories
+
+### **💡 Advanced Tips**
+- **Time Zone Advantage**: GMT+7 night mode (6 PM - 6 AM) offers rare treasure opportunities
+- **Class Synergy**: Combine Proud Merchant earnings with Lucky Strikes for maximum profit
+- **PvP Defense**: Intimidation + Counter-Attack creates powerful theft deterrent
+- **Random Box Optimization**: High treasure rarity + Box Collector class = consistent bonus rewards
+- **Prestige Timing**: Calculate optimal wealth threshold before investing in prestige system
+
+---
+
+## 📱 User Interface & Experience
+
+### **🎮 Game Dashboard (Main Hub)**
+- **Real-time Statistics**: Money, level, XP progress, treasure count with live updates
+- **Time-based Indicators**: Dynamic day/night mode display with risk percentages
+- **Auto-Click System**: Toggle automation for treasure opening (unlocks at Level 2)
+- **Class Status**: Current class abilities and bonuses prominently displayed
+- **Quick Actions**: Treasure opening, rare treasure access, status checking
+
+### **🏪 Enhanced Store System**
+- **15+ Upgrade Categories**: Complete upgrade tree with costs, benefits, and previews
+- **Smart Pricing Display**: Shows current level, next level cost, and percentage benefits
+- **Purchase Validation**: Prevents invalid purchases and provides clear error messaging
+- **Prestige Section**: Elite passive income system for high-level players
+- **Shield Protection**: Consumable PvP immunity system
+
+### **📊 Advanced Leaderboard**
+- **Top 10 Rankings**: Richest players with detailed ability breakdowns
+- **Competitive Intelligence**: See other players' class selections and upgrade levels
+- **Global Statistics**: Total players, accumulated wealth, prize pool status
+- **Personal Analytics**: Your ranking, wealth percentile, and progression metrics
+
+### **🎰 Gambling Hall**
+- **Coin Flip Games**: Customizable betting with min/mid/max smart buttons
+- **Treasure Fusion System**: Combine normal treasures to create rare treasures
+- **Experience Rewards**: 10 XP per gambling session for level progression
+- **Risk Management**: Betting limits and validation systems
+
+### **📦 Inventory Management**
+- **Random Box System**: Open boxes for money, treasures, experience, and special items
+- **Item Categories**: Shields, upgrade materials, rare treasures, and consumables
+- **Reward Tiers**: Common, Rare, Legendary boxes with escalating rewards
+- **Usage Tracking**: History of opened boxes and received rewards
+
+### **📈 Player Status & Analytics**
+- **Level Progression**: Experience bar, next level requirements, and unlock previews
+- **Upgrade Overview**: Visual representation of all 15+ upgrade levels
+- **Class Information**: Detailed class abilities, bonuses, and advancement options
+- **Activity Logs**: Complete history of treasure openings, PvP interactions, and earnings
+
+---
+
+## 🔧 Advanced Development Features
+
+### **🔒 Security & Anti-Cheat**
+- **Multi-layer Authentication**: Required for all game actions and sensitive operations
+- **Rate Limiting**: Treasure opening cooldowns, purchase validation, spam prevention
+- **Input Sanitization**: Comprehensive validation for all user inputs and transactions
+- **Session Security**: Secure session management with automatic cleanup
+- **Audit Logging**: Complete player action history for moderation and debugging
+
+### **⚡ Performance & Optimization**
+- **Database Efficiency**: Optimized queries with proper indexing and relationship loading
+- **Caching System**: Strategic use of Laravel cache for frequently accessed data
+- **AJAX Integration**: Seamless treasure opening and real-time updates without page reloads
+- **Mobile Responsive**: Optimized UI for all device sizes with touch-friendly controls
+- **Asset Optimization**: Minimized CSS/JS with efficient loading strategies
+
+### **🛠️ Maintainability & Architecture**
+- **Service Layer**: ExperienceService and other business logic abstraction
+- **Event-Driven Design**: Proper separation between game mechanics and presentation
+- **Modular Components**: Reusable UI components and game mechanics
+- **Configuration Management**: Easy adjustment of game constants and balance parameters
+- **Multilingual Support**: Complete EN/ID translation system for global accessibility
+- **Automated Testing**: Comprehensive test coverage for critical game mechanics
+
+### **📊 Analytics & Monitoring**
+- **Player Behavior Tracking**: Comprehensive logging of all player actions and decisions
+- **Economy Monitoring**: Real-time tracking of money flow, upgrade purchases, and prize pools
+- **Balance Analytics**: Data-driven insights for game balance adjustments
+- **Performance Metrics**: System performance monitoring and optimization opportunities
+
+---
+
+## � Roadmap & Future Enhancements
+
+### **🎮 Gameplay Expansions**
+- **Guild System**: Collaborative gameplay with team objectives and shared rewards
+- **Achievement System**: 100+ achievements with unlock rewards and prestige points
+- **Seasonal Events**: Limited-time events with exclusive rewards and mechanics
+- **PvP Arena**: Structured combat system beyond stealing mechanics
+- **Mini-Games**: Additional earning methods like puzzles, skill games, and challenges
+
+### **🛡️ Advanced Systems**
+- **Reputation System**: Player behavior tracking with rewards for positive interactions
+- **Trading System**: Player-to-player item and resource trading marketplace
+- **Clan Wars**: Large-scale competitive events between player groups
+- **Advanced Classes**: Third-tier class evolution system with unique mechanics
+
+### **📱 Platform Expansion**
+- **Native Mobile Apps**: iOS and Android applications with push notifications
+- **API Development**: RESTful API for third-party integrations and tools
+- **Social Media Integration**: Sharing achievements and competing with friends
+- **Cross-Platform Sync**: Seamless gameplay across web and mobile platforms
+
+### **🔮 Innovation Features**
+- **AI-Powered NPCs**: Dynamic computer-controlled players for enhanced competition
+- **Machine Learning**: Personalized game recommendations and difficulty adjustment
+- **Blockchain Integration**: Verified rare items and cross-game asset portability
+- **VR Support**: Immersive treasure hunting experience in virtual reality
 
 ---
 

@@ -225,8 +225,8 @@ class GameController extends Controller
             $user->level = $levelUpCheck['newLevel'];
             $levelUpMessage = " 🎉 LEVEL UP! " . $oldLevel . " → " . $user->level;
             
-            // Special message for reaching level 5 (auto-click unlock)
-            if ($user->level >= 5 && $oldLevel < 5) {
+            // Special message for reaching level 2 (auto-click unlock)
+            if ($user->level >= 2 && $oldLevel < 2) {
                 $levelUpMessage .= " (Auto-Click Unlocked!)";
             }
         }
