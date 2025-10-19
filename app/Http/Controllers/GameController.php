@@ -15,9 +15,12 @@ use DateTimeZone;
 
 class GameController extends Controller
 {
+    const FORCE_NIGHT_MODE = false;       // Set to true to force night mode, false to follow actual time
+    const FORCE_DAY_MODE = false;        // Set to true to force day mode, false to follow actual time
+    
     // Game Constants
-    const MIN_EARN_AMOUNT = 100;      // Minimum IDR earned per attempt
-    const MAX_EARN_AMOUNT = 2000;     // Maximum IDR earned per attempt
+    const MIN_EARN_AMOUNT = 500;      // Minimum IDR earned per attempt
+    const MAX_EARN_AMOUNT = 5000;     // Maximum IDR earned per attempt
     const MAX_STEAL_LEVEL = 5;         // Maximum steal level
     const MAX_TREASURE_MULTIPLIER_LEVEL = 10; // Maximum treasure multiplier level
     const MAX_LUCKY_STRIKES_LEVEL = 5; // Maximum lucky strikes level
@@ -702,9 +705,20 @@ class GameController extends Controller
     
     /**
      * Check if current time is during night hours (6 PM to 6 AM GMT+7)
+     * Can be overridden by FORCE_NIGHT_MODE constant for testing
      */
     private function isNightTime(): bool
     {
+        // If FORCE_DAY_MODE is enabled, always return false (day mode)
+        if (self::FORCE_DAY_MODE) {
+            return false;
+        }
+        
+        // If FORCE_NIGHT_MODE is enabled, always return true (night mode)
+        if (self::FORCE_NIGHT_MODE) {
+            return true;
+        }
+        
         // Get current time in GMT+7 timezone
         $gmt7Time = now()->setTimezone('Asia/Bangkok'); // GMT+7
         $currentHour = $gmt7Time->hour;

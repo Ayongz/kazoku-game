@@ -176,11 +176,12 @@
     /* background: linear-gradient(145deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.9)); */
     border: 2px solid rgba(59, 130, 246, 0.3);
     border-radius: 12px;
-    padding: 1.5rem;
+    padding: 1rem;
     text-align: center;
     position: relative;
     overflow: hidden;
     transition: all 0.3s ease;
+    height: 100%;
 }
 
 .rpg-stat-card::before {
@@ -201,16 +202,17 @@
 }
 
 .rpg-stat-icon {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
 }
 
 .rpg-stat-value {
     font-family: 'Orbitron', monospace;
     font-weight: 700;
-    font-size: 1.8rem;
+    font-size: 1.4rem;
     color: #fbbf24;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.25rem;
+    line-height: 1.2;
 }
 
 .rpg-stat-label {
@@ -218,13 +220,15 @@
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 1px;
-    font-size: 0.85rem;
+    font-size: 0.75rem;
+    line-height: 1.3;
 }
 
 .rpg-stat-description {
     color: #94a3b8;
-    font-size: 0.8rem;
-    margin-top: 0.5rem;
+    font-size: 0.7rem;
+    margin-top: 0.25rem;
+    display: none; /* Hidden to save space */
 }
 
 /* Player Position Panel */
@@ -232,7 +236,7 @@
     background: linear-gradient(145deg, rgba(124, 58, 237, 0.2), rgba(91, 33, 182, 0.2));
     border: 2px solid rgba(124, 58, 237, 0.4);
     border-radius: 15px;
-    padding: 2rem;
+    padding: 1.25rem;
     text-align: center;
     position: relative;
     overflow: hidden;
@@ -381,20 +385,25 @@
     }
     
     .rpg-stat-card {
-        padding: 1rem;
-        margin-bottom: 1rem;
+        padding: 0.75rem;
+        margin-bottom: 0.75rem;
     }
     
     .rpg-stat-icon {
-        font-size: 2rem;
+        font-size: 1.5rem;
+        margin-bottom: 0.25rem;
     }
     
     .rpg-stat-value {
-        font-size: 1.4rem;
+        font-size: 1.1rem;
+    }
+    
+    .rpg-stat-label {
+        font-size: 0.7rem;
     }
     
     .rpg-position-panel {
-        padding: 1.5rem;
+        padding: 1rem;
     }
     
     .rpg-table th,
@@ -423,11 +432,24 @@
 
 @media (max-width: 576px) {
     .rpg-stat-card {
-        padding: 0.8rem;
+        padding: 0.5rem;
+    }
+    
+    .rpg-stat-icon {
+        font-size: 1.25rem;
+        margin-bottom: 0.25rem;
+    }
+    
+    .rpg-stat-value {
+        font-size: 1rem;
+    }
+    
+    .rpg-stat-label {
+        font-size: 0.65rem;
     }
     
     .rpg-position-panel {
-        padding: 1rem;
+        padding: 0.75rem;
     }
     
     .rpg-table th,
@@ -486,62 +508,33 @@
         </div>
 
         <!-- Game Statistics Grid -->
-        <div class="row mb-4">
-            <div class="col-6 col-lg-3">
+        <div class="row g-3 mb-3">
+            <div class="col-6 col-md-3">
                 <div class="rpg-stat-card">
                     <div class="rpg-stat-icon">🎁</div>
                     <div class="rpg-stat-value">{{ number_format($globalPrizePool, 0, ',', '.') }}</div>
                     <div class="rpg-stat-label">{{ __('nav.global_prize_pool') }}</div>
-                    <div class="rpg-stat-description">{{ __('nav.master_treasure_hunt') }}</div>
                 </div>
             </div>
-            <div class="col-6 col-lg-3">
+            <div class="col-6 col-md-3">
                 <div class="rpg-stat-card">
                     <div class="rpg-stat-icon">💰</div>
                     <div class="rpg-stat-value">{{ number_format($totalMoneyInGame, 0, ',', '.') }}</div>
                     <div class="rpg-stat-label">{{ __('nav.total_wealth') }}</div>
-                    <div class="rpg-stat-description">{{ __('nav.earned_by_players') }}</div>
                 </div>
             </div>
-            <div class="col-6 col-lg-3">
+            <div class="col-6 col-md-3">
                 <div class="rpg-stat-card">
                     <div class="rpg-stat-icon">📦</div>
                     <div class="rpg-stat-value">{{ number_format($totalRandomBoxes, 0, ',', '.') }}</div>
                     <div class="rpg-stat-label">{{ __('nav.random_boxes') }}</div>
-                    <div class="rpg-stat-description">{{ __('nav.ready_to_open') }}</div>
                 </div>
             </div>
-            <div class="col-6 col-lg-3">
+            <div class="col-6 col-md-3">
                 <div class="rpg-stat-card">
                     <div class="rpg-stat-icon">👥</div>
                     <div class="rpg-stat-value">{{ number_format($totalPlayers, 0, ',', '.') }}</div>
                     <div class="rpg-stat-label">{{ __('nav.active_players') }}</div>
-                    <div class="rpg-stat-description">{{ __('nav.competing_glory') }}</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Your Position Panel -->
-        <div class="mb-4">
-            <div class="rpg-position-panel">
-                <h4 class="text-white fw-bold mb-3">{{ __('nav.your_current_standing') }}</h4>
-                <div class="row g-3">
-                    <div class="col-6 col-md-3">
-                        <div class="rpg-stat-value text-warning">#{{ $userRank }}</div>
-                        <div class="rpg-stat-description">{{ __('nav.rank_out_of', ['total' => $totalPlayers]) }}</div>
-                    </div>
-                    <div class="col-6 col-md-3">
-                        <div class="rpg-stat-value text-success">{{ $currentUser->level ?? 1 }}</div>
-                        <div class="rpg-stat-description">{{ __('nav.your_level') }}</div>
-                    </div>
-                    <div class="col-6 col-md-3">
-                        <div class="rpg-stat-value text-info">{{ $currentUser->randombox ?? 0 }}</div>
-                        <div class="rpg-stat-description">{{ __('nav.random_boxes') }}</div>
-                    </div>
-                    <div class="col-6 col-md-3">
-                        <div class="rpg-stat-value text-primary">{{ $currentUser->getRandomBoxChance() }}%</div>
-                        <div class="rpg-stat-description">{{ __('nav.box_drop_chance') }}</div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -596,8 +589,6 @@
                                                     <small class="text-primary fw-bold">
                                                         <i class="fas fa-user-check me-1"></i>{{ __('nav.you') }}
                                                     </small>
-                                                @else
-                                                    <small class="text-muted">ID: {{ $player->id }}</small>
                                                 @endif
                                                 <div class="d-md-none mt-1">
                                                     <span class="text-success fw-bold small">

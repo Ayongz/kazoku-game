@@ -763,10 +763,6 @@
                                     <h6>🎯 {{ __('nav.auto_steal') }}</h6>
                                     <p class="rpg-content-text">{{ __('nav.auto_steal_detailed') }}</p>
                                 </div>
-                                <div class="rpg-feature-card">
-                                    <h6>🕰️ {{ __('nav.scheduled_actions') }}</h6>
-                                    <p class="rpg-content-text">{{ __('nav.scheduled_actions_desc') }}</p>
-                                </div>
                             </div>
                         </div>
                     </div>

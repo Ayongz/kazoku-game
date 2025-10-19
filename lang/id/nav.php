@@ -636,8 +636,6 @@ return [
     'random_boxes_desc' => 'Kotak acak berisi berbagai hadiah termasuk uang, pengalaman, dan bonus khusus.',
     'reduced_protection' => 'Perlindungan dari pencurian berkurang',
     'regular_money_earning' => 'Tingkat penghasilan uang biasa',
-    'scheduled_actions' => 'Tindakan Terjadwal',
-    'scheduled_actions_desc' => 'Atur tindakan otomatis yang dijalankan pada waktu tertentu untuk gameplay optimal.',
     'standard_steal_protection' => 'Perlindungan pencurian standar',
     'steal_system' => 'Sistem Pencurian',
     'strategy_class_synergy' => 'Gabungkan kemampuan kelas dengan upgrade untuk sinergi maksimum',

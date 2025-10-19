@@ -633,8 +633,6 @@ return [
     'random_boxes_desc' => 'Random boxes contain various rewards including money, experience, and special bonuses.',
     'reduced_protection' => 'Reduced protection from theft',
     'regular_money_earning' => 'Regular money earning rates',
-    'scheduled_actions' => 'Scheduled Actions',
-    'scheduled_actions_desc' => 'Set up automated actions that execute at specific times for optimal gameplay.',
     'standard_steal_protection' => 'Standard steal protection',
     'steal_system' => 'Steal System',
     'strategy_class_synergy' => 'Combine class abilities with upgrades for maximum synergy',
