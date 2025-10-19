@@ -33,6 +33,10 @@
     z-index: 1;
 }
 
+.text-muted{
+    color:white !important;
+}
+
 @keyframes backgroundShift {
     0%, 100% { background-position: 0% 50%; }
     25% { background-position: 100% 50%; }
@@ -99,7 +103,6 @@
 .rpg-title {
     font-family: 'Cinzel', serif;
     font-weight: 700;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
     letter-spacing: 1px;
     background: linear-gradient(45deg, #fbbf24, #f59e0b, #d97706);
     background-size: 200% 200%;
@@ -116,7 +119,6 @@
 
 .rpg-subtitle {
     color: #e2e8f0;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
     font-weight: 500;
 }
 
@@ -171,7 +173,7 @@
 
 /* Stat Cards */
 .rpg-stat-card {
-    background: linear-gradient(145deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.9));
+    /* background: linear-gradient(145deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.9)); */
     border: 2px solid rgba(59, 130, 246, 0.3);
     border-radius: 12px;
     padding: 1.5rem;
@@ -201,7 +203,6 @@
 .rpg-stat-icon {
     font-size: 2.5rem;
     margin-bottom: 1rem;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
 }
 
 .rpg-stat-value {
@@ -209,7 +210,6 @@
     font-weight: 700;
     font-size: 1.8rem;
     color: #fbbf24;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
     margin-bottom: 0.5rem;
 }
 
@@ -262,12 +262,10 @@
 
 .rpg-table th {
     border: none;
-    color: #fbbf24;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 1px;
     padding: 1rem;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
 }
 
 .rpg-table td {
@@ -301,7 +299,6 @@
     padding: 0.5rem 1rem;
     border-radius: 20px;
     font-weight: 700;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
 }
 
 .rank-1 {
@@ -350,7 +347,6 @@
     font-size: 0.75rem;
     font-weight: 600;
     margin: 0.2rem;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
 }
 
 .ability-steal { background: linear-gradient(45deg, #dc2626, #991b1b); color: white; }
@@ -360,6 +356,23 @@
 .ability-counter { background: linear-gradient(45deg, #374151, #1f2937); color: white; }
 .ability-intimidate { background: linear-gradient(45deg, #fbbf24, #f59e0b); color: #1f2937; }
 .ability-shield { background: linear-gradient(45deg, #6b7280, #4b5563); color: white; }
+
+/* Level Badge */
+.rpg-level-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    background: linear-gradient(45deg, #7c3aed, #5b21b6);
+    border: 2px solid rgba(124, 58, 237, 0.3);
+    box-shadow: 0 0 15px rgba(124, 58, 237, 0.2);
+    transition: all 0.3s ease;
+}
+
+.rpg-level-badge:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(124, 58, 237, 0.4);
+}
 
 /* Responsive Design */
 @media (max-width: 768px) {
@@ -473,13 +486,13 @@
         </div>
 
         <!-- Game Statistics Grid -->
-        <div class="row g-3 mb-4">
+        <div class="row mb-4">
             <div class="col-6 col-lg-3">
                 <div class="rpg-stat-card">
                     <div class="rpg-stat-icon">🎁</div>
                     <div class="rpg-stat-value">{{ number_format($globalPrizePool, 0, ',', '.') }}</div>
                     <div class="rpg-stat-label">{{ __('nav.global_prize_pool') }}</div>
-                    <div class="rpg-stat-description">IDR {{ __('nav.master_treasure_hunt') }}</div>
+                    <div class="rpg-stat-description">{{ __('nav.master_treasure_hunt') }}</div>
                 </div>
             </div>
             <div class="col-6 col-lg-3">
@@ -548,7 +561,7 @@
                                 <th><i class="fas fa-hashtag me-1"></i>{{ __('nav.rank') }}</th>
                                 <th><i class="fas fa-user me-1"></i>{{ __('nav.player') }}</th>
                                 <th class="d-none d-md-table-cell"><i class="fas fa-wallet me-1"></i>{{ __('nav.money_earned') }}</th>
-                                <th class="text-center"><i class="fas fa-magic me-1"></i>{{ __('nav.abilities_status') }}</th>
+                                <th class="text-center"><i class="fas fa-star me-1"></i>{{ __('nav.level') }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -605,57 +618,9 @@
                                         @endif
                                     </td>
                                     <td class="text-center">
-                                        <div class="d-flex flex-wrap justify-content-center gap-1">
-                                            @if($player->steal_level > 0)
-                                                <span class="rpg-ability-badge ability-steal">
-                                                    <i class="fas fa-mask me-1"></i>
-                                                    <span class="d-none d-lg-inline">{{ __('nav.auto_steal_level', ['level' => $player->steal_level]) }}</span>
-                                                    <span class="d-lg-none">Steal Lv{{ $player->steal_level }}</span>
-                                                </span>
-                                            @endif
-                                            @if($player->auto_earning_level > 0)
-                                                <span class="rpg-ability-badge ability-auto">
-                                                    <i class="fas fa-robot me-1"></i>
-                                                    <span class="d-none d-lg-inline">{{ __('nav.auto_click_level', ['level' => $player->auto_earning_level]) }}</span>
-                                                    <span class="d-lg-none">Auto Lv{{ $player->auto_earning_level }}</span>
-                                                </span>
-                                            @endif
-                                            @if($player->treasure_multiplier_level > 0)
-                                                <span class="rpg-ability-badge ability-treasure">
-                                                    <i class="fas fa-gem me-1"></i>
-                                                    <span class="d-none d-lg-inline">{{ __('nav.treasure_level', ['level' => $player->treasure_multiplier_level]) }}</span>
-                                                    <span class="d-lg-none">Treasure Lv{{ $player->treasure_multiplier_level }}</span>
-                                                </span>
-                                            @endif
-                                            @if($player->lucky_strikes_level > 0)
-                                                <span class="rpg-ability-badge ability-lucky">
-                                                    <i class="fas fa-star me-1"></i>
-                                                    <span class="d-none d-lg-inline">{{ __('nav.lucky_level', ['level' => $player->lucky_strikes_level]) }}</span>
-                                                    <span class="d-lg-none">Lucky Lv{{ $player->lucky_strikes_level }}</span>
-                                                </span>
-                                            @endif
-                                            @if($player->counter_attack_level > 0)
-                                                <span class="rpg-ability-badge ability-counter">
-                                                    <i class="fas fa-shield-alt me-1"></i>
-                                                    <span class="d-none d-lg-inline">{{ __('nav.counter_level', ['level' => $player->counter_attack_level]) }}</span>
-                                                    <span class="d-lg-none">Counter Lv{{ $player->counter_attack_level }}</span>
-                                                </span>
-                                            @endif
-                                            @if($player->intimidation_level > 0)
-                                                <span class="rpg-ability-badge ability-intimidate">
-                                                    <i class="fas fa-skull me-1"></i>
-                                                    <span class="d-none d-lg-inline">{{ __('nav.intimidate_level', ['level' => $player->intimidation_level]) }}</span>
-                                                    <span class="d-lg-none">Intimidate Lv{{ $player->intimidation_level }}</span>
-                                                </span>
-                                            @endif
-                                            @if($player->shield_expires_at && $player->shield_expires_at > now())
-                                                <span class="rpg-ability-badge ability-shield">
-                                                    <i class="fas fa-shield-alt me-1"></i>{{ __('nav.shield') }}
-                                                </span>
-                                            @endif
-                                            @if($player->steal_level === 0 && $player->auto_earning_level === 0 && $player->treasure_multiplier_level === 0 && $player->lucky_strikes_level === 0 && $player->counter_attack_level === 0 && $player->intimidation_level === 0)
-                                                <small class="text-muted">{{ __('nav.no_abilities') }}</small>
-                                            @endif
+                                        <div class="rpg-level-badge">
+                                            <i class="fas fa-star me-2 text-warning"></i>
+                                            <span class="fw-bold text-white">{{ __('nav.level') }} {{ $player->level ?? 1 }}</span>
                                         </div>
                                     </td>
                                 </tr>
@@ -665,6 +630,7 @@
                 </div>
             </div>
         </div>
+        <br />
     </div>
 </div>
 @endsection
