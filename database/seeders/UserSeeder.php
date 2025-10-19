@@ -17,10 +17,10 @@ class UserSeeder extends Seeder
         User::create([
             'name' => 'Yong',
             'email' => 'yong@game.com',
-            'password' => Hash::make('123'), // You can use 'password' for easy testing
-            'money_earned' => 0, // Starts with a lot of money for testing
+            'password' => Hash::make('123'),
+            'money_earned' => 0,
             'treasure' => 300,
-            'gambling_attempts_today' => 0, // Start with 0 attempts used (20 available)
+            'gambling_attempts_today' => 0,
         ]);
 
         User::create([

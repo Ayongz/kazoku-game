@@ -14,7 +14,7 @@ return [
     'toggle_navigation' => 'Alihkan navigasi',
     
     // Home page
-    'leaderboard_title' => 'Papan Peringkat Kazoku Game',
+    'leaderboard_title' => 'Papan Peringkat',
     'leaderboard_subtitle' => 'Kuasai perburuan harta, kumpulkan kotak acak, dan dominasi peringkat!',
     'play_now' => 'Main Sekarang',
     'view_your_stats' => 'Lihat Statistik Anda',
@@ -90,7 +90,7 @@ return [
     
     // Leaderboard headers
     'top_players' => 'Pemain Teratas',
-    'richest_players_description' => 'Pemain terkaya dalam permainan',
+    'richest_players_description' => 'Para pencetak uang terbanyak dan penghasil terbesar dalam permainan.',
     'abilities_status' => 'Kemampuan & Status',
     'player_id' => 'ID Pemain: :id',
     'auto_steal_level' => 'Auto Steal Lv.:level',

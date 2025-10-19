@@ -14,7 +14,7 @@ return [
     'toggle_navigation' => 'Toggle navigation',
     
     // Home page
-    'leaderboard_title' => 'Kazoku Game Leaderboard',
+    'leaderboard_title' => 'Game Leaderboard',
     'leaderboard_subtitle' => 'Master the treasure hunt, collect random boxes, and dominate the rankings!',
     'play_now' => 'Play Now',
     'view_your_stats' => 'View Your Stats',
@@ -87,7 +87,7 @@ return [
     
     // Leaderboard headers
     'top_players' => 'Top Players',
-    'richest_players_description' => 'The richest players in the game',
+    'richest_players_description' => 'The top money-makers and biggest earners in the game.',
     'abilities_status' => 'Abilities & Status',
     'player_id' => 'Player ID: :id',
     'auto_steal_level' => 'Auto Steal Lv.:level',
