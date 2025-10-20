@@ -146,7 +146,7 @@ return [
     'next_level' => 'Next Level (:level)',
     'auto_steal_description' => 'Automatically attempts to steal from other players when you earn money. Higher levels increase success rate and steal amount.',
     'auto_earning_description' => 'Generates passive income every hour based on your total money. Works even when offline. No treasure required.',
-    'treasure_multiplier_description' => 'Increases money earned from treasure hunting. Each level provides a permanent bonus to all treasure rewards.',
+    'treasure_multiplier_description' => 'Increase treasure storage and gives chance to keep treasure after using it',
     'lucky_strikes_description' => 'Adds a chance for critical hits during treasure hunting, multiplying your earnings significantly.',
     'counter_attack_description' => 'When someone tries to steal from you, this ability gives you a chance to steal from them instead.',
     'intimidation_description' => 'Reduces the chance of being targeted by other players\' auto steal attempts.',

@@ -149,7 +149,7 @@ return [
     'next_level' => 'Level Selanjutnya (:level)',
     'auto_steal_description' => 'Secara otomatis mencoba mencuri dari pemain lain saat Anda mendapatkan uang. Level yang lebih tinggi meningkatkan tingkat keberhasilan dan jumlah pencurian.',
     'auto_earning_description' => 'Menghasilkan pendapatan pasif setiap jam berdasarkan total uang Anda. Bekerja bahkan saat offline. Tidak perlu harta.',
-    'treasure_multiplier_description' => 'Meningkatkan uang yang diperoleh dari perburuan harta. Setiap level memberikan bonus permanen untuk semua hadiah harta.',
+    'treasure_multiplier_description' => 'Meningkatkan kapasitas penyimpanan harta dan memberikan peluang untuk tetap menyimpan harta setelah digunakan.',
     'lucky_strikes_description' => 'Menambahkan peluang untuk serangan kritis selama perburuan harta, melipatgandakan penghasilan Anda secara signifikan.',
     'counter_attack_description' => 'Ketika seseorang mencoba mencuri dari Anda, kemampuan ini memberi Anda kesempatan untuk mencuri dari mereka.',
     'intimidation_description' => 'Mengurangi peluang menjadi target oleh upaya auto steal pemain lain.',

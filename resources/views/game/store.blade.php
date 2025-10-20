@@ -677,7 +677,7 @@
                                             <ul>
                                                 <li>{{ __('nav.rarity') }}: {{ $nextRarityName }}</li>
                                                 <li>{{ __('nav.random_box_chance') }}: {{ $nextChance }}%</li>
-                                                <li>{{ __('nav.better_rewards') }}</li>
+                                                <!-- <li>{{ __('nav.better_rewards') }}</li> -->
                                             </ul>
                                         </div>
                                     @endif
@@ -803,7 +803,7 @@
                                         </button>
                                     </form>
                                     @if (!$isLevelRequirementMet)
-                                        <small class="text-muted mt-2 d-block text-center">{{ __('nav.need_level') }} {{ $requiredLevel }}</small>
+                                        <small class="text-muted mt-2 d-block text-center" style="color:white !important;">{{ __('nav.need_level') }} {{ $requiredLevel }}</small>
                                     @endif
                                 @else
                                     <div class="max-level-badge">

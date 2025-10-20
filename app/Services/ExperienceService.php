@@ -72,14 +72,14 @@ class ExperienceService
     
     /**
      * Get experience gained from opening treasure
-     * Formula: Base 10 EXP + (level * 2) for scaling
+     * Formula: Random base EXP (10-13) + (level * 2) for scaling
      * 
      * @param int $playerLevel
      * @return int
      */
     public static function getExpFromTreasure(int $playerLevel): int
     {
-        return 10 + ($playerLevel * 2);
+        return rand(10, 13) + ($playerLevel * 2);
     }
     
     /**

@@ -86,7 +86,35 @@ class GameController extends Controller
     {
         $user = Auth::user();
         
-        // Check for treasure opening delay (2 seconds)
+        // Validate rate limiting and treasure availability
+        $rateLimitCheck = $this->checkRateLimit($user, $request);
+        if ($rateLimitCheck !== null) {
+            return $rateLimitCheck;
+        }
+        
+        $treasureCheck = $this->validateTreasureAvailability($user, $request);
+        if ($treasureCheck !== null) {
+            return $treasureCheck;
+        }
+        
+        // Process earnings calculation
+        $earningsResult = $this->calculateEarnings($user);
+        
+        // Apply class abilities
+        $this->applyClassAbilities($user, $earningsResult);
+        
+        // Update user progress
+        $this->updateUserProgress($user, $earningsResult);
+        
+        // Create response
+        return $this->createEarningsResponse($user, $earningsResult, $request);
+    }
+    
+    /**
+     * Check rate limiting for treasure opening
+     */
+    private function checkRateLimit($user, Request $request)
+    {
         $cacheKey = 'treasure_opened_' . $user->id;
         $lastOpenTime = Cache::get($cacheKey);
         $currentTime = time();
@@ -96,7 +124,6 @@ class GameController extends Controller
             $timeDifference = $currentTime - $lastOpenTime;
             if ($timeDifference < $delaySeconds) {
                 $remainingSeconds = $delaySeconds - $timeDifference;
-                
                 $errorMessage = __('nav.treasure_opening_too_fast', ['seconds' => $remainingSeconds]);
                 
                 if ($request->ajax()) {
@@ -106,48 +133,62 @@ class GameController extends Controller
                         'treasure' => $user->treasure,
                         'money_earned' => $user->money_earned,
                         'remaining_delay' => $remainingSeconds
-                    ], 429); // 429 Too Many Requests
+                    ], 429);
                 }
                 
-                return redirect()->route('game.dashboard')
-                    ->with('error', $errorMessage);
+                return redirect()->route('game.dashboard')->with('error', $errorMessage);
             }
         }
         
-        // Set the current time as last treasure opening time (expires after 5 seconds for safety)
+        // Set the current time as last treasure opening time
         Cache::put($cacheKey, $currentTime, 5);
-
-        // Check if user has treasure left
+        return null;
+    }
+    
+    /**
+     * Validate treasure availability
+     */
+    private function validateTreasureAvailability($user, Request $request)
+    {
         if ($user->treasure <= 0) {
+            $errorMessage = 'You have no treasure left! Wait for the hourly reset.';
+            
             if ($request->ajax()) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'You have no treasure left! Wait for the hourly reset.',
+                    'message' => $errorMessage,
                     'treasure' => $user->treasure,
                     'money_earned' => $user->money_earned
                 ], 400);
             }
             
-            return redirect()->route('game.dashboard')
-                ->with('error', 'You have no treasure left! Wait for the hourly reset.');
+            return redirect()->route('game.dashboard')->with('error', $errorMessage);
         }
-
-        // Generate random money amount between min and max
+        
+        return null;
+    }
+    
+    /**
+     * Calculate base earnings and apply modifiers
+     */
+    private function calculateEarnings($user): array
+    {
+        // Generate base earnings
         $baseEarnedAmount = rand(self::MIN_EARN_AMOUNT, self::MAX_EARN_AMOUNT);
-
-        // Apply Lucky Strikes bonus if available
         $luckyStrikesBonus = "";
+        
+        // Apply Lucky Strikes bonus
         if ($user->lucky_strikes_level > 0) {
-            $luckyChance = $user->lucky_strikes_level * 2; // 2%, 4%, 6%, 8%, 10%
+            $luckyChance = $user->lucky_strikes_level * 2;
             if (rand(1, 100) <= $luckyChance) {
-                $baseEarnedAmount *= 2; // Double the money
+                $baseEarnedAmount *= 2;
                 $luckyStrikesBonus = " (LUCKY STRIKE 2X!)";
             }
         }
-
-        // Apply night-time risk system (6 PM to 6 AM GMT+7)
-        $nightRiskMessage = "";
+        
+        // Apply night-time risk system
         $finalEarnedAmount = $baseEarnedAmount;
+        $nightRiskMessage = "";
         $nightRareTreasureGained = false;
         
         if ($this->isNightTime()) {
@@ -155,56 +196,104 @@ class GameController extends Controller
             $finalEarnedAmount = $nightRisk['amount'];
             $nightRiskMessage = " " . $nightRisk['message'];
             
-            // Check if rare treasure was gained from night bonus
             if (isset($nightRisk['rare_treasure_gained']) && $nightRisk['rare_treasure_gained']) {
                 $user->rare_treasures = ($user->rare_treasures ?? 0) + 1;
                 $nightRareTreasureGained = true;
             }
         }
-
-        // Apply class abilities that affect earnings
+        
+        return [
+            'base_amount' => $baseEarnedAmount,
+            'final_amount' => $finalEarnedAmount,
+            'lucky_strikes_bonus' => $luckyStrikesBonus,
+            'night_risk_message' => $nightRiskMessage,
+            'night_rare_treasure_gained' => $nightRareTreasureGained,
+            'class_messages' => []
+        ];
+    }
+    
+    /**
+     * Apply class abilities to earnings
+     */
+    private function applyClassAbilities($user, array &$earningsResult): void
+    {
         $classMessages = [];
         
-        // Proud Merchant class ability - bonus earnings
-        if ($user->selected_class === 'proud_merchant' && $finalEarnedAmount > 0) {
+        // Proud Merchant bonus earnings
+        if ($user->selected_class === 'proud_merchant' && $earningsResult['final_amount'] > 0) {
             $bonusPercentage = $user->has_advanced_class ? 
                 self::ADV_PROUD_MERCHANT_BONUS_EARNING : 
                 self::PROUD_MERCHANT_BONUS_EARNING;
             
-            $bonusAmount = floor($finalEarnedAmount * ($bonusPercentage / 100));
-            $finalEarnedAmount += $bonusAmount;
+            $bonusAmount = floor($earningsResult['final_amount'] * ($bonusPercentage / 100));
+            $earningsResult['final_amount'] += $bonusAmount;
             $classMessages[] = "💼 Merchant Bonus: +IDR " . number_format($bonusAmount, 0, ',', '.');
         }
         
-        // Fortune Gambler class ability - risk/reward
-        if ($user->selected_class === 'fortune_gambler' && $finalEarnedAmount > 0) {
-            $gamblerResult = $this->applyFortuneGamblerAbility($user, $finalEarnedAmount);
-            $finalEarnedAmount = $gamblerResult['amount'];
+        // Fortune Gambler risk/reward
+        if ($user->selected_class === 'fortune_gambler' && $earningsResult['final_amount'] > 0) {
+            $gamblerResult = $this->applyFortuneGamblerAbility($user, $earningsResult['final_amount']);
+            $earningsResult['final_amount'] = $gamblerResult['amount'];
             if ($gamblerResult['message']) {
                 $classMessages[] = $gamblerResult['message'];
             }
         }
-
-        // Calculate prize pool contribution and player receives amount
-        if ($finalEarnedAmount > 0) {
-            // Positive earnings - contribute to prize pool
-            $prizePoolContribution = $finalEarnedAmount * 0.10;
-            $playerReceives = $finalEarnedAmount - $prizePoolContribution;
-        } else {
-            // Loss scenario - no prize pool contribution, player loses money directly
-            $prizePoolContribution = 0;
-            $playerReceives = $finalEarnedAmount; // This will be negative
-        }
-
-        // Update user money (can be positive or negative)
-        $user->money_earned += $playerReceives;
         
-        // Ensure money doesn't go below 0
+        $earningsResult['class_messages'] = $classMessages;
+    }
+    
+    /**
+     * Update user progress (money, experience, level, treasure)
+     */
+    private function updateUserProgress($user, array &$earningsResult): void
+    {
+        // Calculate prize pool and player amounts
+        if ($earningsResult['final_amount'] > 0) {
+            $prizePoolContribution = $earningsResult['final_amount'] * 0.10;
+            $playerReceives = $earningsResult['final_amount'] - $prizePoolContribution;
+        } else {
+            $prizePoolContribution = 0;
+            $playerReceives = $earningsResult['final_amount'];
+        }
+        
+        $earningsResult['prize_pool_contribution'] = $prizePoolContribution;
+        $earningsResult['player_receives'] = $playerReceives;
+        
+        // Update user money
+        $user->money_earned += $playerReceives;
         if ($user->money_earned < 0) {
             $user->money_earned = 0;
         }
         
-        // Add experience for opening treasure
+        // Handle experience and level progression
+        $this->updateExperienceAndLevel($user, $earningsResult);
+        
+        // Handle treasure consumption and abilities
+        $this->processTreasureConsumption($user, $earningsResult);
+        
+        // Handle random box generation
+        $this->processRandomBoxGeneration($user, $earningsResult);
+        
+        // Apply additional class abilities
+        $this->applyAdditionalClassAbilities($user, $earningsResult);
+        
+        $user->save();
+        
+        // Update global prize pool
+        if ($prizePoolContribution > 0) {
+            $gameSettings = GameSetting::first();
+            if ($gameSettings) {
+                $gameSettings->global_prize_pool += $prizePoolContribution;
+                $gameSettings->save();
+            }
+        }
+    }
+    
+    /**
+     * Update experience and check for level up
+     */
+    private function updateExperienceAndLevel($user, array &$earningsResult): void
+    {
         $expGained = ExperienceService::getExpFromTreasure($user->level);
         
         // Apply Divine Scholar bonus experience
@@ -215,26 +304,32 @@ class GameController extends Controller
             
             $bonusExp = floor($expGained * ($bonusPercentage / 100));
             $expGained += $bonusExp;
-            $classMessages[] = "📜 Scholar's Wisdom: +{$bonusExp} bonus EXP!";
+            $earningsResult['class_messages'][] = "📜 Scholar's Wisdom: +{$bonusExp} bonus EXP!";
         }
         
         $user->experience += $expGained;
+        $earningsResult['exp_gained'] = $expGained;
         
         // Check for level up
         $levelUpCheck = ExperienceService::checkLevelUp($user->experience, $user->level);
-        $levelUpMessage = "";
+        $earningsResult['level_up_check'] = $levelUpCheck;
+        
         if ($levelUpCheck['shouldLevelUp']) {
             $oldLevel = $user->level;
             $user->level = $levelUpCheck['newLevel'];
-            $levelUpMessage = " 🎉 LEVEL UP! " . $oldLevel . " → " . $user->level;
+            $earningsResult['level_up_message'] = " 🎉 LEVEL UP! {$oldLevel} → {$user->level}";
             
-            // Special message for reaching level 2 (auto-click unlock)
             if ($user->level >= 2 && $oldLevel < 2) {
-                $levelUpMessage .= " (Auto-Click Unlocked!)";
+                $earningsResult['level_up_message'] .= " (Auto-Click Unlocked!)";
             }
         }
-        
-        // Apply Treasure Efficiency (chance to not consume treasure)
+    }
+    
+    /**
+     * Process treasure consumption and efficiency
+     */
+    private function processTreasureConsumption($user, array &$earningsResult): void
+    {
         $treasureConsumed = true;
         
         // Treasure Hunter free attempt ability
@@ -242,16 +337,16 @@ class GameController extends Controller
             $treasureHunterResult = $this->applyTreasureHunterFreeAttempt($user);
             if ($treasureHunterResult['success']) {
                 $treasureConsumed = false;
-                $classMessages[] = $treasureHunterResult['message'];
+                $earningsResult['class_messages'][] = $treasureHunterResult['message'];
             }
         }
         
         // Regular treasure efficiency bonus
         if ($treasureConsumed && $user->treasure_multiplier_level > 0) {
-            $efficiencyChance = $user->treasure_multiplier_level * 2; // 2%, 4%, 6%, etc.
+            $efficiencyChance = $user->treasure_multiplier_level * 2;
             if (rand(1, 100) <= $efficiencyChance) {
                 $treasureConsumed = false;
-                $luckyStrikesBonus .= " (TREASURE SAVED!)";
+                $earningsResult['lucky_strikes_bonus'] .= " (TREASURE SAVED!)";
             }
         }
         
@@ -259,21 +354,36 @@ class GameController extends Controller
             $user->treasure -= 1;
         }
         
-        // Check for random box based on treasure rarity level
+        $earningsResult['treasure_consumed'] = $treasureConsumed;
+    }
+    
+    /**
+     * Process random box generation
+     */
+    private function processRandomBoxGeneration($user, array &$earningsResult): void
+    {
         $randomBoxMessage = "";
+        
         if ($user->treasure_rarity_level > 0) {
             if ($user->rollForRandomBox()) {
-                // User gets a random box!
                 $user->randombox = ($user->randombox ?? 0) + 1;
                 $randomBoxMessage = " 🎁 BONUS: Received 1 Random Box!";
             }
         }
         
+        $earningsResult['random_box_message'] = $randomBoxMessage;
+    }
+    
+    /**
+     * Apply additional class abilities (Moon Guardian, Day Breaker, Box Collector)
+     */
+    private function applyAdditionalClassAbilities($user, array &$earningsResult): void
+    {
         // Moon Guardian night-time random box ability
         if ($user->selected_class === 'moon_guardian' && $this->isNightTime()) {
             $moonGuardianResult = $this->applyMoonGuardianAbility($user);
             if ($moonGuardianResult['success']) {
-                $classMessages[] = $moonGuardianResult['message'];
+                $earningsResult['class_messages'][] = $moonGuardianResult['message'];
             }
         }
         
@@ -281,7 +391,7 @@ class GameController extends Controller
         if ($user->selected_class === 'day_breaker' && !$this->isNightTime()) {
             $dayBreakerResult = $this->applyDayBreakerAbility($user);
             if ($dayBreakerResult['success']) {
-                $classMessages[] = $dayBreakerResult['message'];
+                $earningsResult['class_messages'][] = $dayBreakerResult['message'];
             }
         }
         
@@ -289,56 +399,16 @@ class GameController extends Controller
         if ($user->selected_class === 'box_collector') {
             $boxCollectorResult = $this->applyBoxCollectorAbility($user);
             if ($boxCollectorResult['success']) {
-                $classMessages[] = $boxCollectorResult['message'];
+                $earningsResult['class_messages'][] = $boxCollectorResult['message'];
             }
         }
-        
-        $user->save();
-
-        // Update global prize pool (only add contribution if there's a positive contribution)
-        $gameSettings = GameSetting::first();
-        if ($gameSettings && $prizePoolContribution > 0) {
-            $gameSettings->global_prize_pool += $prizePoolContribution;
-            $gameSettings->save();
-        }
-
-        // Create success message based on earnings result
-        $classMessageString = !empty($classMessages) ? " " . implode(" ", $classMessages) : "";
-        
-        if ($playerReceives >= 0) {
-            $successMessage = "Great work! You earned IDR " . number_format($playerReceives, 0, ',', '.') . 
-                             ($prizePoolContribution > 0 ? " (IDR " . number_format($prizePoolContribution, 0, ',', '.') . " contributed to prize pool)" : "") . 
-                             " [+" . $expGained . " EXP]" . $luckyStrikesBonus . $levelUpMessage . $randomBoxMessage . $nightRiskMessage . $classMessageString;
-        } else {
-            $successMessage = "You lost IDR " . number_format(abs($playerReceives), 0, ',', '.') . 
-                             " [+" . $expGained . " EXP]" . $levelUpMessage . $randomBoxMessage . $nightRiskMessage . $classMessageString;
-        }
-
-        // Create log entry for treasure opening
-        $additionalData = [
-            'base_earned' => $baseEarnedAmount,
-            'final_earned' => $finalEarnedAmount,
-            'night_mode' => $this->isNightTime(),
-            'night_rare_treasure_gained' => $nightRareTreasureGained,
-            'class_bonuses' => $classMessages,
-            'treasure_consumed' => $treasureConsumed,
-            'random_box_gained' => !empty($randomBoxMessage),
-            'level_up' => $levelUpCheck['shouldLevelUp']
-        ];
-
-        PlayerLog::createLog(
-            userId: $user->id,
-            actionType: 'treasure_open',
-            description: strip_tags($successMessage),
-            moneyChange: $playerReceives,
-            treasureChange: $treasureConsumed ? -1 : 0,
-            rareTreasureChange: $nightRareTreasureGained ? 1 : 0,
-            randomBoxChange: !empty($randomBoxMessage) ? 1 : 0,
-            experienceGained: $expGained,
-            additionalData: $additionalData,
-            isSuccess: $playerReceives >= 0
-        );
-
+    }
+    
+    /**
+     * Create response based on earnings result
+     */
+    private function createEarningsResponse($user, array $earningsResult, Request $request)
+    {
         // Auto-attempt steal if user has steal ability
         $stealMessage = "";
         if ($user->steal_level > 0) {
@@ -347,37 +417,102 @@ class GameController extends Controller
                 $stealMessage = " + " . $stealResult['message'];
             }
         }
-
-        // Handle AJAX requests
+        
+        // Create log entry
+        $this->createTreasureOpeningLog($user, $earningsResult);
+        
+        // Build success message
+        $successMessage = $this->buildSuccessMessage($earningsResult);
+        
+        // Handle AJAX vs regular response
         if ($request->ajax()) {
-            return response()->json([
-                'success' => true,
-                'message' => $successMessage . $stealMessage,
-                'earned_amount' => $playerReceives,
-                'prize_pool_contribution' => $prizePoolContribution,
-                'total_earned_amount' => $finalEarnedAmount,
-                'treasure_remaining' => $user->treasure,
-                'max_treasure_capacity' => 20 + ($user->treasure_multiplier_level * 5),
-                'treasure_multiplier_level' => $user->treasure_multiplier_level,
-                'total_money' => $user->money_earned,
-                'formatted_money' => number_format($user->money_earned, 0, ',', '.'),
-                'global_prize_pool' => $gameSettings ? $gameSettings->global_prize_pool : 0,
-                'formatted_global_prize_pool' => $gameSettings ? number_format($gameSettings->global_prize_pool, 0, ',', '.') : '0',
-                'experience_gained' => $expGained,
-                'total_experience' => $user->experience,
-                'current_level' => $user->level,
-                'level_up' => $levelUpCheck['shouldLevelUp'],
-                'exp_to_next_level' => ExperienceService::getExpToNextLevel($user->experience, $user->level),
-                'exp_progress_percentage' => ExperienceService::getExpProgressPercentage($user->experience, $user->level),
-                'random_box_gained' => !empty($randomBoxMessage),
-                'random_box_chance' => $user->getRandomBoxChance(),
-                'total_random_boxes' => $user->randombox ?? 0
-            ]);
+            return $this->createAjaxResponse($user, $earningsResult, $successMessage . $stealMessage);
         }
-
-        // Handle regular form submission
+        
         return redirect()->route('game.dashboard')
             ->with('success', $successMessage . $stealMessage);
+    }
+    
+    /**
+     * Build success message from earnings result
+     */
+    private function buildSuccessMessage(array $earningsResult): string
+    {
+        $classMessageString = !empty($earningsResult['class_messages']) ? 
+            " " . implode(" ", $earningsResult['class_messages']) : "";
+        
+        $levelUpMessage = $earningsResult['level_up_message'] ?? "";
+        
+        if ($earningsResult['player_receives'] >= 0) {
+            return "Great work! You earned IDR " . number_format($earningsResult['player_receives'], 0, ',', '.') . 
+                   ($earningsResult['prize_pool_contribution'] > 0 ? " (IDR " . number_format($earningsResult['prize_pool_contribution'], 0, ',', '.') . " contributed to prize pool)" : "") . 
+                   " [+" . $earningsResult['exp_gained'] . " EXP]" . $earningsResult['lucky_strikes_bonus'] . $levelUpMessage . $earningsResult['random_box_message'] . $earningsResult['night_risk_message'] . $classMessageString;
+        } else {
+            return "You lost IDR " . number_format(abs($earningsResult['player_receives']), 0, ',', '.') . 
+                   " [+" . $earningsResult['exp_gained'] . " EXP]" . $levelUpMessage . $earningsResult['random_box_message'] . $earningsResult['night_risk_message'] . $classMessageString;
+        }
+    }
+    
+    /**
+     * Create treasure opening log entry
+     */
+    private function createTreasureOpeningLog($user, array $earningsResult): void
+    {
+        $additionalData = [
+            'base_earned' => $earningsResult['base_amount'],
+            'final_earned' => $earningsResult['final_amount'],
+            'night_mode' => $this->isNightTime(),
+            'night_rare_treasure_gained' => $earningsResult['night_rare_treasure_gained'],
+            'class_bonuses' => $earningsResult['class_messages'],
+            'treasure_consumed' => $earningsResult['treasure_consumed'],
+            'random_box_gained' => !empty($earningsResult['random_box_message']),
+            'level_up' => $earningsResult['level_up_check']['shouldLevelUp']
+        ];
+
+        PlayerLog::createLog(
+            userId: $user->id,
+            actionType: 'treasure_open',
+            description: strip_tags($this->buildSuccessMessage($earningsResult)),
+            moneyChange: $earningsResult['player_receives'],
+            treasureChange: $earningsResult['treasure_consumed'] ? -1 : 0,
+            rareTreasureChange: $earningsResult['night_rare_treasure_gained'] ? 1 : 0,
+            randomBoxChange: !empty($earningsResult['random_box_message']) ? 1 : 0,
+            experienceGained: $earningsResult['exp_gained'],
+            additionalData: $additionalData,
+            isSuccess: $earningsResult['player_receives'] >= 0
+        );
+    }
+    
+    /**
+     * Create AJAX response
+     */
+    private function createAjaxResponse($user, array $earningsResult, string $message): \Illuminate\Http\JsonResponse
+    {
+        $gameSettings = GameSetting::first();
+        
+        return response()->json([
+            'success' => true,
+            'message' => $message,
+            'earned_amount' => $earningsResult['player_receives'],
+            'prize_pool_contribution' => $earningsResult['prize_pool_contribution'],
+            'total_earned_amount' => $earningsResult['final_amount'],
+            'treasure_remaining' => $user->treasure,
+            'max_treasure_capacity' => 20 + ($user->treasure_multiplier_level * 5),
+            'treasure_multiplier_level' => $user->treasure_multiplier_level,
+            'total_money' => $user->money_earned,
+            'formatted_money' => number_format($user->money_earned, 0, ',', '.'),
+            'global_prize_pool' => $gameSettings ? $gameSettings->global_prize_pool : 0,
+            'formatted_global_prize_pool' => $gameSettings ? number_format($gameSettings->global_prize_pool, 0, ',', '.') : '0',
+            'experience_gained' => $earningsResult['exp_gained'],
+            'total_experience' => $user->experience,
+            'current_level' => $user->level,
+            'level_up' => $earningsResult['level_up_check']['shouldLevelUp'],
+            'exp_to_next_level' => ExperienceService::getExpToNextLevel($user->experience, $user->level),
+            'exp_progress_percentage' => ExperienceService::getExpProgressPercentage($user->experience, $user->level),
+            'random_box_gained' => !empty($earningsResult['random_box_message']),
+            'random_box_chance' => $user->getRandomBoxChance(),
+            'total_random_boxes' => $user->randombox ?? 0
+        ]);
     }
 
     /**
