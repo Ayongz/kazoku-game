@@ -79,4 +79,21 @@ class HomeController extends Controller
             'topTreasureRarityPlayer' => $topTreasureRarityPlayer,
         ]);
     }
+
+    /**
+     * Mark welcome overlay as shown for current session
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function markWelcomeShown(Request $request)
+    {
+        // Mark welcome overlay as shown in the session
+        session(['welcome_shown' => true]);
+        
+        return response()->json([
+            'success' => true,
+            'message' => 'Welcome overlay marked as shown'
+        ]);
+    }
 }

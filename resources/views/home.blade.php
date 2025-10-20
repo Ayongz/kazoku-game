@@ -1,6 +1,25 @@
 @extends('layouts.app')
 
 @section('content')
+
+<!-- Welcome Overlay (shown only once per login session) -->
+@if(!session('welcome_shown') && auth()->check())
+<div id="welcome-overlay">
+    <div class="welcome-box">
+        <h1 id="welcome-text">WELCOME, {{ strtoupper(auth()->user()->name) }}</h1>
+        <p class="subtext">Initializing your dashboard...</p>
+        <div class="loading-dots">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+</div>
+@endif
+
+<!-- Main Home Content (hidden initially if welcome overlay is shown) -->
+<div id="home-dashboard" class="@if(!session('welcome_shown') && auth()->check()) hidden @endif">
+
 <style>
 /* === RPG THEME STYLING === */
 
@@ -624,4 +643,161 @@
         <br />
     </div>
 </div>
+
+</div> <!-- End home-dashboard -->
+
+<!-- Welcome Overlay Styles and Scripts -->
+@if(!session('welcome_shown') && auth()->check())
+<style>
+/* Welcome Overlay Styles */
+#welcome-overlay {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle at center, #0a0f1c 0%, #000 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 9999;
+    animation: welcomeFadeOut 1.2s ease 4s forwards;
+}
+
+.welcome-box {
+    text-align: center;
+    animation: welcomeZoomIn 1.2s ease forwards;
+}
+
+#welcome-text {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    color: #00fff2;
+    text-shadow:
+        0 0 5px #00fff2,
+        0 0 15px #00fff2,
+        0 0 30px #00fff2,
+        0 0 60px #00fff2;
+    letter-spacing: 2px;
+    animation: welcomePulseGlow 2s infinite alternate;
+    margin-bottom: 1rem;
+}
+
+.subtext {
+    color: #9efaff;
+    opacity: 0.8;
+    font-size: 1.1rem;
+    animation: welcomeFadeIn 2s ease-in-out;
+    margin-bottom: 1.5rem;
+}
+
+.loading-dots {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.loading-dots span {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #00fff2;
+    animation: loadingDot 1.4s infinite ease-in-out both;
+    box-shadow: 0 0 10px #00fff2;
+}
+
+.loading-dots span:nth-child(1) { animation-delay: -0.32s; }
+.loading-dots span:nth-child(2) { animation-delay: -0.16s; }
+.loading-dots span:nth-child(3) { animation-delay: 0s; }
+
+.hidden {
+    display: none !important;
+}
+
+/* Welcome Animations */
+@keyframes welcomeZoomIn {
+    0% { transform: scale(0); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes welcomePulseGlow {
+    from { 
+        text-shadow: 0 0 5px #00fff2, 0 0 15px #00fff2, 0 0 30px #00fff2; 
+        transform: scale(1);
+    }
+    to { 
+        text-shadow: 0 0 20px #00fff2, 0 0 40px #00fff2, 0 0 80px #00fff2; 
+        transform: scale(1.02);
+    }
+}
+
+@keyframes welcomeFadeOut {
+    0% { opacity: 1; }
+    100% { opacity: 0; visibility: hidden; }
+}
+
+@keyframes welcomeFadeIn {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 0.8; transform: translateY(0); }
+}
+
+@keyframes loadingDot {
+    0%, 80%, 100% {
+        transform: scale(0);
+        opacity: 0.5;
+    }
+    40% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    #welcome-text {
+        font-size: 2rem;
+        letter-spacing: 1px;
+    }
+    
+    .subtext {
+        font-size: 1rem;
+    }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const overlay = document.getElementById('welcome-overlay');
+    const homeDashboard = document.getElementById('home-dashboard');
+    
+    if (overlay && homeDashboard) {
+        // Update subtext after 2 seconds
+        setTimeout(() => {
+            const subtext = document.querySelector('.subtext');
+            if (subtext) {
+                subtext.textContent = 'All systems online. Let\'s play!';
+                subtext.style.color = '#00ff88';
+                subtext.style.animation = 'welcomeFadeIn 0.5s ease-in-out';
+            }
+        }, 2000);
+        
+        // Remove overlay and show dashboard after animation completes
+        setTimeout(() => {
+            overlay.style.display = 'none';
+            homeDashboard.classList.remove('hidden');
+            
+            // Mark welcome as shown in session via AJAX
+            fetch('{{ route("mark-welcome-shown") }}', {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({})
+            }).catch(error => console.log('Session update failed:', error));
+            
+        }, 5200); // 4s delay + 1.2s fadeOut
+    }
+});
+</script>
+@endif
+
 @endsection

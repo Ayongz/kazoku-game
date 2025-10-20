@@ -10,6 +10,7 @@ use App\Http\Controllers\GuideController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\GamblingController;
 use App\Http\Controllers\PlayerLogController;
+use App\Http\Controllers\HomeController;
 
 // Language switching route
 Route::get('/language/{language}', [LanguageController::class, 'switchLanguage'])->name('language.switch');
@@ -92,6 +93,10 @@ Route::middleware(['auth'])->group(function () {
     // Player activity logs
     Route::get('/game/logs', [PlayerLogController::class, 'index'])->name('game.logs');
     Route::post('/game/logs/clear-old', [PlayerLogController::class, 'clearOldLogs'])->name('game.logs.clear-old');
+    
+    // --- WELCOME OVERLAY ROUTES ---
+    // Mark welcome overlay as shown
+    Route::post('/mark-welcome-shown', [HomeController::class, 'markWelcomeShown'])->name('mark-welcome-shown');
     
     // --- PROFILE ROUTES ---
     // Profile management

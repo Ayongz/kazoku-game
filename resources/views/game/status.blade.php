@@ -14,34 +14,39 @@
         <div class="row justify-content-center">
             <div class="col-lg-10 col-xl-8">
             <!-- Header -->
-            <div class="text-center mb-5">
-                <!-- Player Profile Section -->
-                <div class="player-profile-card mb-4">
-                    <div class="player-avatar-container">
-                        <img src="{{ \App\Http\Controllers\ProfileController::getProfilePictureUrl($user) }}" 
-                             alt="{{ $user->name }}" class="player-profile-avatar">
+            <div class="text-center mb-3">
+                <!-- Player Profile Section - Optimized -->
+                <div class="player-profile-card-compact mb-3">
+                    <div class="d-flex align-items-center justify-content-center flex-wrap gap-3">
+                        <div class="player-avatar-compact">
+                            <img src="{{ \App\Http\Controllers\ProfileController::getProfilePictureUrl($user) }}" 
+                                 alt="{{ $user->name }}" class="player-profile-avatar-small">
+                        </div>
+                        <div class="player-info text-center">
+                            <h2 class="fw-bold text-dark mb-1">{{ $user->name }}</h2>
+                            <p class="text-muted mb-2 small">{{ __('nav.character_progression') }}</p>
+                            <a href="{{ route('profile.index') }}" class="btn btn-outline-primary btn-sm">
+                                <i class="fas fa-edit me-1"></i>Change Avatar
+                            </a>
+                        </div>
                     </div>
-                    <h1 class="display-4 fw-bold text-dark mb-2">{{ $user->name }}</h1>
-                    <p class="text-muted fs-5">{{ __('nav.character_progression') }}</p>
-                    <a href="{{ route('profile.index') }}" class="btn btn-outline-primary btn-sm">
-                        <i class="fas fa-edit me-1"></i>Change Avatar
-                    </a>
                 </div>
                 
-                <div class="row text-center mt-4">
-                    <div class="col-md-4">
-                        <div class="badge bg-primary fs-6 px-3 py-2 mb-2">
-                            {{ __('nav.level') }} {{ $user->level ?? 1 }}
+                <!-- Quick Stats Row - Compact -->
+                <div class="row text-center mb-3">
+                    <div class="col-4">
+                        <div class="badge bg-primary px-2 py-1 w-100">
+                            <small>{{ __('nav.level') }} {{ $user->level ?? 1 }}</small>
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <div class="badge bg-success fs-6 px-3 py-2 mb-2">
-                            IDR {{ number_format($user->money_earned, 0, ',', '.') }}
+                    <div class="col-4">
+                        <div class="badge bg-success px-2 py-1 w-100">
+                            <small>IDR {{ number_format($user->money_earned, 0, ',', '.') }}</small>
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <div class="badge bg-warning text-dark fs-6 px-3 py-2 mb-2">
-                            {{ $user->treasure }} {{ __('nav.treasures') }}
+                    <div class="col-4">
+                        <div class="badge bg-warning text-dark px-2 py-1 w-100">
+                            <small>{{ $user->treasure }} {{ __('nav.treasures') }}</small>
                         </div>
                     </div>
                 </div>
@@ -143,135 +148,120 @@
                 </div>
             </div>
 
-            <!-- Upgrade Levels -->
-            <div class="row g-4 mb-4">
+            <!-- Upgrade Levels - Space Optimized -->
+            <div class="row g-3 mb-4">
                 <div class="col-12">
                     <div class="card shadow-lg border-0">
-                        <div class="card-header bg-gradient-info text-white">
-                            <h5 class="mb-0">🔧 {{ __('nav.upgrade_levels') }}</h5>
+                        <div class="card-header bg-gradient-info text-white py-2">
+                            <h6 class="mb-0">🔧 {{ __('nav.upgrade_levels') }}</h6>
                         </div>
-                        <div class="card-body">
-                            <div class="row g-4">
+                        <div class="card-body py-3">
+                            <!-- Primary Upgrades -->
+                            <div class="row g-2 mb-3">
                                 <!-- Steal Level -->
-                                <div class="col-md-3 col-6">
-                                    <div class="text-center p-3 border rounded">
-                                        <div class="display-6 text-danger mb-2">🗡️</div>
-                                        <h4 class="mb-1">{{ $user->steal_level }}</h4>
-                                        <small class="text-muted">{{ __('nav.steal_level') }}</small>
-                                        <div class="mt-2">
-                                            <div class="progress" style="height: 4px;">
-                                                <div class="progress-bar bg-danger" style="width: {{ ($user->steal_level / 5) * 100 }}%"></div>
-                                            </div>
-                                            <small class="text-muted">{{ $user->steal_level }}/5</small>
+                                <div class="col-6 col-md-3">
+                                    <div class="upgrade-card-compact text-center p-2 border rounded">
+                                        <div class="fs-4 text-danger mb-1">🗡️</div>
+                                        <h6 class="mb-1">{{ $user->steal_level }}</h6>
+                                        <small class="text-muted d-block">{{ __('nav.steal_level') }}</small>
+                                        <div class="progress mt-1" style="height: 3px;">
+                                            <div class="progress-bar bg-danger" style="width: {{ ($user->steal_level / 5) * 100 }}%"></div>
                                         </div>
+                                        <small class="text-muted">{{ $user->steal_level }}/5</small>
                                     </div>
                                 </div>
 
                                 <!-- Auto Earning Level -->
-                                <div class="col-md-3 col-6">
-                                    <div class="text-center p-3 border rounded">
-                                        <div class="display-6 text-success mb-2">💸</div>
-                                        <h4 class="mb-1">{{ $user->auto_earning_level }}</h4>
-                                        <small class="text-muted">{{ __('nav.auto_earning') }}</small>
-                                        <div class="mt-2">
-                                            <div class="progress" style="height: 4px;">
-                                                <div class="progress-bar bg-success" style="width: {{ ($user->auto_earning_level / 20) * 100 }}%"></div>
-                                            </div>
-                                            <small class="text-muted">{{ $user->auto_earning_level }}/20</small>
+                                <div class="col-6 col-md-3">
+                                    <div class="upgrade-card-compact text-center p-2 border rounded">
+                                        <div class="fs-4 text-success mb-1">💸</div>
+                                        <h6 class="mb-1">{{ $user->auto_earning_level }}</h6>
+                                        <small class="text-muted d-block">{{ __('nav.auto_earning') }}</small>
+                                        <div class="progress mt-1" style="height: 3px;">
+                                            <div class="progress-bar bg-success" style="width: {{ ($user->auto_earning_level / 20) * 100 }}%"></div>
                                         </div>
+                                        <small class="text-muted">{{ $user->auto_earning_level }}/20</small>
                                     </div>
                                 </div>
 
                                 <!-- Treasure Multiplier Level -->
-                                <div class="col-md-3 col-6">
-                                    <div class="text-center p-3 border rounded">
-                                        <div class="display-6 text-warning mb-2">💎</div>
-                                        <h4 class="mb-1">{{ $user->treasure_multiplier_level }}</h4>
-                                        <small class="text-muted">{{ __('nav.treasure_multi') }}</small>
-                                        <div class="mt-2">
-                                            <div class="progress" style="height: 4px;">
-                                                <div class="progress-bar bg-warning" style="width: {{ ($user->treasure_multiplier_level / 10) * 100 }}%"></div>
-                                            </div>
-                                            <small class="text-muted">{{ $user->treasure_multiplier_level }}/10</small>
+                                <div class="col-6 col-md-3">
+                                    <div class="upgrade-card-compact text-center p-2 border rounded">
+                                        <div class="fs-4 text-warning mb-1">💎</div>
+                                        <h6 class="mb-1">{{ $user->treasure_multiplier_level }}</h6>
+                                        <small class="text-muted d-block">{{ __('nav.treasure_multi') }}</small>
+                                        <div class="progress mt-1" style="height: 3px;">
+                                            <div class="progress-bar bg-warning" style="width: {{ ($user->treasure_multiplier_level / 10) * 100 }}%"></div>
                                         </div>
+                                        <small class="text-muted">{{ $user->treasure_multiplier_level }}/10</small>
                                     </div>
                                 </div>
 
                                 <!-- Treasure Rarity Level -->
-                                <div class="col-md-3 col-6">
-                                    <div class="text-center p-3 border rounded">
-                                        <div class="display-6 text-purple mb-2">🎁</div>
-                                        <h4 class="mb-1">{{ $user->treasure_rarity_level }}</h4>
-                                        <small class="text-muted">{{ __('nav.treasure_rarity') }}</small>
-                                        <div class="mt-2">
-                                            <div class="progress" style="height: 4px;">
-                                                <div class="progress-bar bg-purple" style="width: {{ ($user->treasure_rarity_level / 7) * 100 }}%"></div>
-                                            </div>
-                                            <small class="text-muted">{{ $user->treasure_rarity_level }}/7</small>
+                                <div class="col-6 col-md-3">
+                                    <div class="upgrade-card-compact text-center p-2 border rounded">
+                                        <div class="fs-4 text-purple mb-1">🎁</div>
+                                        <h6 class="mb-1">{{ $user->treasure_rarity_level }}</h6>
+                                        <small class="text-muted d-block">{{ __('nav.treasure_rarity') }}</small>
+                                        <div class="progress mt-1" style="height: 3px;">
+                                            <div class="progress-bar bg-purple" style="width: {{ ($user->treasure_rarity_level / 7) * 100 }}%"></div>
                                         </div>
+                                        <small class="text-muted">{{ $user->treasure_rarity_level }}/7</small>
                                     </div>
                                 </div>
                             </div>
                             
-                            <!-- Additional Upgrades Row -->
-                            <div class="row g-4 mt-2">
+                            <!-- Secondary Upgrades -->
+                            <div class="row g-2">
                                 <!-- Lucky Strikes Level -->
-                                <div class="col-md-3 col-6">
-                                    <div class="text-center p-3 border rounded">
-                                        <div class="display-6 text-primary mb-2">⚡</div>
-                                        <h4 class="mb-1">{{ $user->lucky_strikes_level }}</h4>
-                                        <small class="text-muted">{{ __('nav.lucky_strikes') }}</small>
-                                        <div class="mt-2">
-                                            <div class="progress" style="height: 4px;">
-                                                <div class="progress-bar bg-primary" style="width: {{ ($user->lucky_strikes_level / 5) * 100 }}%"></div>
-                                            </div>
-                                            <small class="text-muted">{{ $user->lucky_strikes_level }}/5</small>
+                                <div class="col-6 col-md-3">
+                                    <div class="upgrade-card-compact text-center p-2 border rounded">
+                                        <div class="fs-4 text-primary mb-1">⚡</div>
+                                        <h6 class="mb-1">{{ $user->lucky_strikes_level }}</h6>
+                                        <small class="text-muted d-block">{{ __('nav.lucky_strikes') }}</small>
+                                        <div class="progress mt-1" style="height: 3px;">
+                                            <div class="progress-bar bg-primary" style="width: {{ ($user->lucky_strikes_level / 5) * 100 }}%"></div>
                                         </div>
+                                        <small class="text-muted">{{ $user->lucky_strikes_level }}/5</small>
                                     </div>
                                 </div>
 
                                 <!-- Counter Attack Level -->
-                                <div class="col-md-3 col-6">
-                                    <div class="text-center p-3 border rounded">
-                                        <div class="display-6 text-dark mb-2">🛡️</div>
-                                        <h4 class="mb-1">{{ $user->counter_attack_level }}</h4>
-                                        <small class="text-muted">{{ __('nav.counter_attack') }}</small>
-                                        <div class="mt-2">
-                                            <div class="progress" style="height: 4px;">
-                                                <div class="progress-bar bg-dark" style="width: {{ ($user->counter_attack_level / 5) * 100 }}%"></div>
-                                            </div>
-                                            <small class="text-muted">{{ $user->counter_attack_level }}/5</small>
+                                <div class="col-6 col-md-3">
+                                    <div class="upgrade-card-compact text-center p-2 border rounded">
+                                        <div class="fs-4 text-dark mb-1">🛡️</div>
+                                        <h6 class="mb-1">{{ $user->counter_attack_level }}</h6>
+                                        <small class="text-muted d-block">{{ __('nav.counter_attack') }}</small>
+                                        <div class="progress mt-1" style="height: 3px;">
+                                            <div class="progress-bar bg-dark" style="width: {{ ($user->counter_attack_level / 5) * 100 }}%"></div>
                                         </div>
+                                        <small class="text-muted">{{ $user->counter_attack_level }}/5</small>
                                     </div>
                                 </div>
 
                                 <!-- Intimidation Level -->
-                                <div class="col-md-3 col-6">
-                                    <div class="text-center p-3 border rounded">
-                                        <div class="display-6 text-secondary mb-2">😱</div>
-                                        <h4 class="mb-1">{{ $user->intimidation_level }}</h4>
-                                        <small class="text-muted">{{ __('nav.intimidation') }}</small>
-                                        <div class="mt-2">
-                                            <div class="progress" style="height: 4px;">
-                                                <div class="progress-bar bg-secondary" style="width: {{ ($user->intimidation_level / 5) * 100 }}%"></div>
-                                            </div>
-                                            <small class="text-muted">{{ $user->intimidation_level }}/5</small>
+                                <div class="col-6 col-md-3">
+                                    <div class="upgrade-card-compact text-center p-2 border rounded">
+                                        <div class="fs-4 text-secondary mb-1">😱</div>
+                                        <h6 class="mb-1">{{ $user->intimidation_level }}</h6>
+                                        <small class="text-muted d-block">{{ __('nav.intimidation') }}</small>
+                                        <div class="progress mt-1" style="height: 3px;">
+                                            <div class="progress-bar bg-secondary" style="width: {{ ($user->intimidation_level / 5) * 100 }}%"></div>
                                         </div>
+                                        <small class="text-muted">{{ $user->intimidation_level }}/5</small>
                                     </div>
                                 </div>
 
                                 <!-- Fast Recovery Level -->
-                                <div class="col-md-3 col-6">
-                                    <div class="text-center p-3 border rounded">
-                                        <div class="display-6 text-info mb-2">💨</div>
-                                        <h4 class="mb-1">{{ $user->fast_recovery_level }}</h4>
-                                        <small class="text-muted">{{ __('nav.fast_recovery') }}</small>
-                                        <div class="mt-2">
-                                            <div class="progress" style="height: 4px;">
-                                                <div class="progress-bar bg-info" style="width: {{ ($user->fast_recovery_level / 5) * 100 }}%"></div>
-                                            </div>
-                                            <small class="text-muted">{{ $user->fast_recovery_level }}/5</small>
+                                <div class="col-6 col-md-3">
+                                    <div class="upgrade-card-compact text-center p-2 border rounded">
+                                        <div class="fs-4 text-info mb-1">💨</div>
+                                        <h6 class="mb-1">{{ $user->fast_recovery_level }}</h6>
+                                        <small class="text-muted d-block">{{ __('nav.fast_recovery') }}</small>
+                                        <div class="progress mt-1" style="height: 3px;">
+                                            <div class="progress-bar bg-info" style="width: {{ ($user->fast_recovery_level / 5) * 100 }}%"></div>
                                         </div>
+                                        <small class="text-muted">{{ $user->fast_recovery_level }}/5</small>
                                     </div>
                                 </div>
                             </div>
@@ -575,6 +565,86 @@
     transform: scale(1.05);
 }
 
+/* ===== COMPACT OPTIMIZATIONS ===== */
+
+/* Player Profile Compact */
+.player-profile-card-compact {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    padding: 1rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.player-avatar-compact {
+    flex-shrink: 0;
+}
+
+.player-profile-avatar-small {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 3px solid #007bff;
+    box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+    transition: transform 0.3s ease;
+}
+
+.player-profile-avatar-small:hover {
+    transform: scale(1.1);
+}
+
+.player-info h2 {
+    font-size: 1.5rem;
+    margin-bottom: 0.25rem;
+}
+
+/* Upgrade Cards Compact */
+.upgrade-card-compact {
+    background: rgba(255, 255, 255, 0.95);
+    transition: all 0.3s ease;
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.upgrade-card-compact:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.upgrade-card-compact .fs-4 {
+    font-size: 1.5rem !important;
+    line-height: 1;
+}
+
+.upgrade-card-compact h6 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #333;
+    margin: 0;
+}
+
+.upgrade-card-compact small {
+    font-size: 0.7rem;
+    line-height: 1.2;
+}
+
+.upgrade-card-compact .progress {
+    margin-top: 0.25rem;
+    margin-bottom: 0.25rem;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Purple color support */
+.text-purple {
+    color: #6f42c1 !important;
+}
+
+.bg-purple {
+    background-color: #6f42c1 !important;
+}
+
+/* Responsive Adjustments */
 @media (max-width: 768px) {
     .player-profile-card {
         padding: 1.5rem;
@@ -583,6 +653,50 @@
     .player-profile-avatar {
         width: 80px;
         height: 80px;
+    }
+    
+    .player-profile-card-compact {
+        padding: 0.75rem;
+    }
+    
+    .player-profile-avatar-small {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .player-info h2 {
+        font-size: 1.25rem;
+    }
+    
+    .upgrade-card-compact {
+        min-height: 110px;
+        padding: 0.5rem !important;
+    }
+    
+    .upgrade-card-compact .fs-4 {
+        font-size: 1.25rem !important;
+    }
+    
+    .upgrade-card-compact h6 {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .upgrade-card-compact {
+        min-height: 100px;
+    }
+    
+    .upgrade-card-compact .fs-4 {
+        font-size: 1.1rem !important;
+    }
+    
+    .upgrade-card-compact h6 {
+        font-size: 0.9rem;
+    }
+    
+    .upgrade-card-compact small {
+        font-size: 0.65rem;
     }
 }
 </style>
