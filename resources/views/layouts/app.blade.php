@@ -44,9 +44,6 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('game.inventory') }}">
                                 <i class="fas fa-box me-1"></i>{{ __('nav.inventory') }}
-                                @if((auth()->user()->randombox ?? 0) > 0)
-                                    <span class="badge bg-info ms-1">{{ auth()->user()->randombox }}</span>
-                                @endif
                             </a>
                         </li>
                         <li class="nav-item">

@@ -24,6 +24,7 @@ class User extends Authenticatable
         'password',
         'profile_picture',
         'randombox',
+        'opened_randomboxes',
         'selected_class',
         'has_advanced_class',
         'class_selected_at',

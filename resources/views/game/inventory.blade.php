@@ -17,7 +17,7 @@
                         <h1 class="rpg-title">🎒 {{ __('nav.player_inventory') }}</h1>
                         <div class="title-decoration"></div>
                     </div>
-                    <p class="text-light fs-5 mt-3">{{ __('nav.open_random_boxes_and_view_stats') }}</p>
+                    <!-- <p class="text-light fs-5 mt-3">{{ __('nav.open_random_boxes_and_view_stats') }}</p>
                     <div class="rpg-wealth-display mb-0">
                         <div class="wealth-card" style="background: linear-gradient(135deg, rgba(106, 90, 205, 0.2) 0%, rgba(138, 43, 226, 0.1) 100%); border-color: #6A5ACD;">
                             <div class="wealth-icon" style="color: #6A5ACD;">
@@ -29,13 +29,13 @@
                             </div>
                             <div class="wealth-decoration"></div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
 
                 <!-- Main Content Area -->
                 <div class="rpg-inventory-grid">
                     <!-- Random Box Opening Area -->
-                    <div class="rpg-main-panel">
+                    <div class="rpg-main-panel rpg-mobile-top">
                         <div class="rpg-panel">
                             <div class="rpg-panel-header">
                                 <div class="ability-icon">
@@ -47,6 +47,26 @@
                             </div>
                             
                             <div class="rpg-panel-body text-center p-5">
+                                <!-- Achievement Milestones -->
+                                <div id="achievementSection" class="mt-0 mb-4">
+                                    <h5 class="text-warning mb-3">🏆 Achievements</h5>
+                                    @if(count($achievements) > 0)
+                                        <ul class="list-unstyled">
+                                            @foreach($achievements as $achievement)
+                                                <li class="mb-2">
+                                                    <span class="badge bg-warning text-dark px-3 py-2">{{ $achievement['label'] }}</span>
+                                                    <span class="text-light ms-2">({{ $achievement['count'] }} boxes opened)</span>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    @else
+                                        <span class="text-light">No achievements unlocked yet.</span>
+                                    @endif
+                                    <div class="text-light mt-2" style="font-size: 0.95em; opacity: 0.7;">
+                                        Total boxes opened: <span class="fw-bold" data-opened-boxes>{{ $openedBoxes }}</span>
+                                    </div>
+                                </div>
+
                                 @if($randomBoxCount > 0)
                                     <!-- Box Animation Area -->
                                     <div class="box-animation-area mb-4" id="boxAnimationArea">
@@ -117,27 +137,27 @@
                                     <i class="fas fa-chart-pie"></i>
                                 </div>
                                 <div class="ability-info">
-                                    <h5 class="ability-name">🎯 Drop Rates</h5>
+                                    <h5 class="ability-name">🎯 Reward Probability</h5>
                                 </div>
                             </div>
                             <div class="rpg-panel-body">
                                 <div class="drop-rate-item mb-3">
                                     <div class="drop-rate-header">
-                                        <span class="drop-rate-name text-secondary">Common</span>
-                                        <span class="drop-rate-badge bg-secondary">70%</span>
+                                        <span class="drop-rate-name text-secondary">Common Reward</span>
+                                        <span class="drop-rate-badge bg-secondary">85%</span>
                                     </div>
                                     <small class="drop-rate-description">Money, Treasures, Experience</small>
                                 </div>
                                 <div class="drop-rate-item mb-3">
                                     <div class="drop-rate-header">
-                                        <span class="drop-rate-name text-primary">Rare</span>
-                                        <span class="drop-rate-badge bg-primary">25%</span>
+                                        <span class="drop-rate-name text-primary">Rare Reward</span>
+                                        <span class="drop-rate-badge bg-primary">10%</span>
                                     </div>
                                     <small class="drop-rate-description">Better rewards + Shield</small>
                                 </div>
                                 <div class="drop-rate-item mb-0">
                                     <div class="drop-rate-header">
-                                        <span class="drop-rate-name text-warning">Legendary</span>
+                                        <span class="drop-rate-name text-warning">Legendary Reward</span>
                                         <span class="drop-rate-badge bg-warning text-dark">5%</span>
                                     </div>
                                     <small class="drop-rate-description">Jackpot + Bonus boxes</small>
@@ -153,13 +173,13 @@
 
 <!-- Reward Display Modal -->
 <div class="modal fade" id="rewardModal" tabindex="-1" aria-labelledby="rewardModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-md">
         <div class="modal-content rpg-modal">
             <div class="modal-header border-0 text-center rpg-modal-header">
                 <h4 class="modal-title w-100 text-light" id="rewardModalLabel">🎉 Random Box Opened!</h4>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body text-center p-4 rpg-modal-body">
+            <div class="modal-body text-center p-4 rpg-modal-body" style="color: #000;">
                 <div id="rewardTierDisplay" class="mb-4">
                     <!-- Tier display will be populated by JavaScript -->
                 </div>
@@ -577,12 +597,14 @@
 /* Mobile Responsive */
 @media (max-width: 992px) {
     .rpg-inventory-grid {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
+        display: flex;
+        flex-direction: column;
     }
-    
-    .rpg-sidebar-panels {
+    .rpg-main-panel.rpg-mobile-top {
         order: -1;
+    }
+    .rpg-sidebar-panels {
+        order: 0;
     }
 }
 
@@ -749,7 +771,6 @@
     background: linear-gradient(145deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
     border: 2px solid rgba(106, 90, 205, 0.5);
     backdrop-filter: blur(10px);
-    color: white;
 }
 
 @keyframes rewardSlideIn {
@@ -779,7 +800,6 @@
         transform: translateX(0);
     }
 }
-</style>
 </style>
 
 <script>
@@ -817,7 +837,7 @@ function openRandomBox() {
     .then(data => {
         setTimeout(() => {
             if (data.success) {
-                showRewards(data.reward);
+                showRewards(data.reward, data.opened_boxes);
                 updateBoxCount(data.remaining_boxes);
                 addToRewardHistory(data.reward);
             } else {
@@ -837,39 +857,75 @@ function openRandomBox() {
     });
 }
 
-function showRewards(reward) {
+function showRewards(reward, openedBoxes) {
     const tierDisplay = document.getElementById('rewardTierDisplay');
     const itemsDisplay = document.getElementById('rewardItemsDisplay');
-    
-    // Show tier
+
+    // Space-optimized tier display
     tierDisplay.innerHTML = `
-        <h3 class="${reward.tier_class} mb-3">
-            ${reward.tier} Tier!
-        </h3>
+        <div class="d-flex align-items-center justify-content-center mb-2">
+            <span class="badge ${reward.tier_class} px-3 py-2 me-2" style="font-size:1.1em;">${reward.tier}</span>
+            <span class="text-light small" style="color:black !important;">Box Opened!</span>
+        </div>
     `;
-    
-    // Show reward items
+
+    // Space-optimized reward items
     itemsDisplay.innerHTML = '';
     reward.rewards.forEach((item, index) => {
         const col = document.createElement('div');
-        col.className = 'col-md-6 reward-item';
-        col.style.animationDelay = `${index * 0.2}s`;
-        
+        col.className = 'col-12 col-md-6 reward-item';
+        col.style.animationDelay = `${index * 0.15}s`;
         col.innerHTML = `
-            <div class="card border-0 shadow-sm">
-                <div class="card-body text-center p-4">
-                    <div class="display-4 mb-2">${item.icon}</div>
-                    <h5 class="card-title">${item.display}</h5>
+            <div class="card border-0 shadow-sm mb-2">
+                <div class="card-body text-center p-3">
+                    <span class="display-6 mb-1 d-block">${item.icon}</span>
+                    <span class="fw-bold">${item.display}</span>
                 </div>
             </div>
         `;
-        
         itemsDisplay.appendChild(col);
     });
-    
+
     // Show modal
     const modal = new bootstrap.Modal(document.getElementById('rewardModal'));
     modal.show();
+
+    // Update openedBoxes count in achievement section if available
+    const openedBoxesSpan = document.querySelector('.fw-bold[data-opened-boxes]');
+    if (openedBoxesSpan) {
+        openedBoxesSpan.textContent = openedBoxes;
+    }
+
+    // Full dynamic update of achievement section
+    const achievementSection = document.getElementById('achievementSection');
+    if (achievementSection) {
+        const milestones = [
+            { count: 10, label: 'Bronze Collector' },
+            { count: 50, label: 'Silver Collector' },
+            { count: 100, label: 'Gold Collector' },
+            { count: 500, label: 'Legendary Collector' }
+        ];
+        let unlocked = 0;
+        let achievementListHtml = '';
+        milestones.forEach(milestone => {
+            if (openedBoxes >= milestone.count) {
+                unlocked++;
+                achievementListHtml += `<li class="mb-2"><span class="badge bg-warning text-dark px-3 py-2">${milestone.label}</span> <span class="text-light ms-2">(${milestone.count} boxes opened)</span></li>`;
+            }
+        });
+        if (unlocked === 0) {
+            achievementListHtml = '<span class="text-light">No achievements unlocked yet.</span>';
+        } else {
+            achievementListHtml = `<ul class="list-unstyled">${achievementListHtml}</ul>`;
+        }
+        achievementSection.innerHTML = `
+            <h5 class="text-warning mb-3">🏆 Achievements</h5>
+            ${achievementListHtml}
+            <div class="text-light mt-2" style="font-size: 0.95em; opacity: 0.7;">
+                Total boxes opened: <span class="fw-bold" data-opened-boxes>${openedBoxes}</span>
+            </div>
+        `;
+    }
 }
 
 function updateBoxCount(remaining) {

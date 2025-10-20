@@ -6,8 +6,8 @@
 @if(!session('welcome_shown') && auth()->check())
 <div id="welcome-overlay">
     <div class="welcome-box">
-        <h1 id="welcome-text">WELCOME, {{ strtoupper(auth()->user()->name) }}</h1>
-        <p class="subtext">Initializing your dashboard...</p>
+        <h1 id="welcome-text">{{ __('welcome.greeting') }}, {{ strtoupper(auth()->user()->name) }}</h1>
+        <p class="subtext">{{ __('welcome.initialize') }}</p>
         <div class="loading-dots">
             <span></span>
             <span></span>
@@ -773,7 +773,7 @@ document.addEventListener('DOMContentLoaded', function() {
         setTimeout(() => {
             const subtext = document.querySelector('.subtext');
             if (subtext) {
-                subtext.textContent = 'All systems online. Let\'s play!';
+                subtext.textContent = @json(__('welcome.online'));
                 subtext.style.color = '#00ff88';
                 subtext.style.animation = 'welcomeFadeIn 0.5s ease-in-out';
             }

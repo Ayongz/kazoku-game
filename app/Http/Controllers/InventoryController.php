@@ -16,10 +16,31 @@ class InventoryController extends Controller
     public function index()
     {
         $user = Auth::user();
-        
+
+        // Achievement milestones
+        $boxMilestones = [
+            10 => 'Bronze Collector',
+            50 => 'Silver Collector',
+            100 => 'Gold Collector',
+            500 => 'Legendary Collector'
+        ];
+
+        $achievements = [];
+        $openedBoxes = $user->opened_randomboxes ?? 0;
+        foreach ($boxMilestones as $count => $label) {
+            if ($openedBoxes >= $count) {
+                $achievements[] = [
+                    'label' => $label,
+                    'count' => $count
+                ];
+            }
+        }
+
         return view('game.inventory', [
             'user' => $user,
-            'randomBoxCount' => $user->randombox ?? 0
+            'randomBoxCount' => $user->randombox ?? 0,
+            'achievements' => $achievements,
+            'openedBoxes' => $openedBoxes
         ]);
     }
 
@@ -46,16 +67,18 @@ class InventoryController extends Controller
         
         // Decrease random box count
         $user->randombox = ($user->randombox ?? 1) - 1;
+        // Increment opened_randomboxes for achievement tracking
+        $user->opened_randomboxes = ($user->opened_randomboxes ?? 0) + 1;
         $user->save();
 
         // Create log entry for random box opening
-        $description = "Random box opened: " . $this->getRewardDescription($reward);
+        $description = "Random box opened: " . $this->getRewardDescription($reward['rewards']);
         $moneyChange = 0;
         $treasureChange = 0;
         $expGained = 0;
         
         // Calculate changes from rewards
-        foreach ($reward as $rewardItem) {
+        foreach ($reward['rewards'] as $rewardItem) {
             if ($rewardItem['type'] === 'money') {
                 $moneyChange += $rewardItem['amount'];
             } elseif ($rewardItem['type'] === 'treasures') {
@@ -81,6 +104,7 @@ class InventoryController extends Controller
             'success' => true,
             'reward' => $reward,
             'remaining_boxes' => $user->randombox ?? 0,
+            'opened_boxes' => $user->opened_randomboxes ?? 0,
             'message' => 'Random box opened successfully!'
         ]);
     }
@@ -91,15 +115,14 @@ class InventoryController extends Controller
     private function generateRandomReward(): array
     {
         $roll = rand(1, 100);
-        
         if ($roll <= 5) {
             // Legendary (5% chance)
             return $this->generateLegendaryReward();
-        } elseif ($roll <= 30) {
-            // Rare (25% chance)
+        } elseif ($roll <= 15) {
+            // Rare (10% chance)
             return $this->generateRareReward();
         } else {
-            // Common (70% chance)
+            // Common (85% chance)
             return $this->generateCommonReward();
         }
     }
@@ -348,5 +371,19 @@ class InventoryController extends Controller
         }
         
         return implode(', ', $descriptions);
+    }
+
+    /**
+     * Show rewards in the inventory UI
+     */
+    public function showRewards(Request $request)
+    {
+        $user = Auth::user();
+        $openedBoxes = $user->opened_randomboxes ?? 0;
+
+        return response()->json([
+            'success' => true,
+            'opened_boxes' => $openedBoxes
+        ]);
     }
 }

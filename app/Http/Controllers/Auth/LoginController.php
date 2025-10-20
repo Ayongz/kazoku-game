@@ -37,4 +37,12 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
         $this->middleware('auth')->only('logout');
     }
+
+    /**
+     * Override default redirect after login to always go to home.
+     */
+    protected function authenticated(\Illuminate\Http\Request $request, $user)
+    {
+        return redirect()->route('home');
+    }
 }

@@ -19,7 +19,7 @@ class UserSeeder extends Seeder
             'email' => 'yong@game.com',
             'password' => Hash::make('123'),
             'money_earned' => 0,
-            'treasure' => 300,
+            'treasure' => 20,
             'gambling_attempts_today' => 0,
         ]);
 
@@ -28,7 +28,7 @@ class UserSeeder extends Seeder
             'email' => 'wei@game.com',
             'password' => Hash::make('123'),
             'money_earned' => 0,
-            'treasure' => 300,
+            'treasure' => 20,
             'gambling_attempts_today' => 0,
         ]);
 
