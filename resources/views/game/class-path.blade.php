@@ -359,6 +359,7 @@
                         </div>
                     </div>
                 </div>
+                <br>
             </div>
         </div>
     </div>
@@ -379,16 +380,37 @@
     min-height: 100vh;
     position: relative;
     color: #1a202c;
+    background: linear-gradient(135deg, 
+        #1a1f2e 0%, 
+        #2d3748 25%, 
+        #1a202c 50%, 
+        #2a4365 75%, 
+        #1a1f2e 100%
+    );
+    background-attachment: fixed;
+    padding-top: 0;
+    margin-top: 0;
 }
 
 .rpg-background {
     position: fixed;
-    top: 0;
+    top: 80px; /* Start below the navigation bar */
     left: 0;
     width: 100%;
-    height: 100%;
+    height: calc(100% - 80px); /* Adjust height to account for nav */
     pointer-events: none;
-    z-index: 0;
+    z-index: -1; /* Ensure it stays behind all content */
+    background: 
+        radial-gradient(circle at 20% 80%, rgba(59,130,246,0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(139,92,246,0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(245,158,11,0.08) 0%, transparent 50%),
+        linear-gradient(135deg, 
+            rgba(30,41,59,0.8) 0%, 
+            rgba(45,55,72,0.9) 25%, 
+            rgba(26,32,44,0.95) 50%, 
+            rgba(42,67,101,0.9) 75%, 
+            rgba(30,41,59,0.8) 100%
+        );
 }
 
 .floating-particles::before {
@@ -397,12 +419,14 @@
     width: 100%;
     height: 100%;
     background-image: 
-        radial-gradient(2px 2px at 20px 30px, rgba(255,193,7,0.3), transparent),
-        radial-gradient(2px 2px at 40px 70px, rgba(59,130,246,0.2), transparent),
-        radial-gradient(1px 1px at 90px 40px, rgba(139,92,246,0.3), transparent);
+        radial-gradient(2px 2px at 20px 30px, rgba(255,193,7,0.4), transparent),
+        radial-gradient(2px 2px at 40px 70px, rgba(59,130,246,0.3), transparent),
+        radial-gradient(1px 1px at 90px 40px, rgba(139,92,246,0.4), transparent),
+        radial-gradient(3px 3px at 160px 30px, rgba(16,185,129,0.2), transparent);
     background-repeat: repeat;
     background-size: 200px 100px;
     animation: mysticFloat 15s linear infinite;
+    opacity: 0.6;
 }
 
 @keyframes mysticFloat {
@@ -415,7 +439,13 @@
 
 .container {
     position: relative;
-    z-index: 1;
+    z-index: 10; /* Ensure content stays above background */
+}
+
+/* Ensure navigation doesn't get affected */
+.navbar {
+    position: relative;
+    z-index: 1000 !important;
 }
 
 /* RPG Header */
@@ -424,15 +454,11 @@
 }
 
 .rpg-title-enhanced {
-    background: linear-gradient(135deg, #1f2937 0%, #374151 50%, #1f2937 100%);
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: #ffffff !important;
     font-weight: 900;
     letter-spacing: 2px;
     font-size: 2.5rem;
     margin-bottom: 0;
-    color: #1f2937 !important;
 }
 
 .rpg-subtitle {

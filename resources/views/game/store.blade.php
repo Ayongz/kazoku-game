@@ -7,6 +7,7 @@
     <div class="rpg-background">
         <div class="floating-particles"></div>
         <div class="magic-orbs"></div>
+        <div class="energy-waves"></div>
     </div>
 
     <div class="container-fluid pt-3">
@@ -832,22 +833,58 @@
 .rpg-store-container {
     position: relative;
     min-height: 100vh;
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f0f23 100%);
+    background: linear-gradient(135deg, 
+        #1a1f2e 0%, 
+        #2d3748 25%, 
+        #1a202c 50%, 
+        #2a4365 75%, 
+        #1a1f2e 100%
+    );
+    background-attachment: fixed;
     overflow-x: hidden;
+    padding-top: 0;
+    margin-top: 0;
 }
 
 .rpg-background {
-    position: absolute;
-    top: 0;
+    position: fixed;
+    top: 80px; /* Start below the navigation bar */
     left: 0;
     width: 100%;
-    height: 100%;
+    height: calc(100% - 80px); /* Adjust height to account for nav */
+    pointer-events: none;
     z-index: -1;
     overflow: hidden;
+    background: 
+        radial-gradient(circle at 20% 80%, rgba(59,130,246,0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(139,92,246,0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(245,158,11,0.08) 0%, transparent 50%),
+        linear-gradient(135deg, 
+            rgba(30,41,59,0.8) 0%, 
+            rgba(45,55,72,0.9) 25%, 
+            rgba(26,32,44,0.95) 50%, 
+            rgba(42,67,101,0.9) 75%, 
+            rgba(30,41,59,0.8) 100%
+        );
 }
 
 /* Animated Particles */
-.floating-particles::before,
+.floating-particles::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(2px 2px at 20px 30px, rgba(255,193,7,0.4), transparent),
+        radial-gradient(2px 2px at 40px 70px, rgba(59,130,246,0.3), transparent),
+        radial-gradient(1px 1px at 90px 40px, rgba(139,92,246,0.4), transparent),
+        radial-gradient(3px 3px at 160px 30px, rgba(16,185,129,0.2), transparent);
+    background-repeat: repeat;
+    background-size: 200px 100px;
+    animation: mysticFloat 15s linear infinite;
+    opacity: 0.6;
+}
+
 .floating-particles::after {
     content: '';
     position: absolute;
@@ -857,18 +894,17 @@
     border-radius: 50%;
     animation: float 6s ease-in-out infinite;
     box-shadow: 0 0 10px #ffd700;
-}
-
-.floating-particles::before {
-    top: 20%;
-    left: 10%;
-    animation-delay: 0s;
-}
-
-.floating-particles::after {
     top: 60%;
     right: 15%;
     animation-delay: 3s;
+}
+
+@keyframes mysticFloat {
+    0% { transform: translateY(0px) translateX(0px); }
+    25% { transform: translateY(-10px) translateX(5px); }
+    50% { transform: translateY(-20px) translateX(0px); }
+    75% { transform: translateY(-10px) translateX(-5px); }
+    100% { transform: translateY(0px) translateX(0px); }
 }
 
 .magic-orbs::before,
@@ -894,6 +930,17 @@
     animation-delay: 4s;
 }
 
+/* Ensure navigation doesn't get affected */
+.container-fluid {
+    position: relative;
+    z-index: 10;
+}
+
+.navbar {
+    position: relative;
+    z-index: 1000 !important;
+}
+
 @keyframes float {
     0%, 100% { transform: translateY(0px) rotate(0deg); }
     50% { transform: translateY(-20px) rotate(180deg); }
@@ -902,6 +949,41 @@
 @keyframes orbit {
     0% { transform: rotate(0deg) translateX(50px) rotate(0deg); }
     100% { transform: rotate(360deg) translateX(50px) rotate(-360deg); }
+}
+
+.energy-waves::before,
+.energy-waves::after {
+    content: '';
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    border: 2px solid rgba(255, 193, 7, 0.3);
+    border-radius: 50%;
+    animation: energyPulse 4s ease-in-out infinite;
+}
+
+.energy-waves::before {
+    top: 40%;
+    left: 30%;
+    animation-delay: 0s;
+}
+
+.energy-waves::after {
+    bottom: 30%;
+    right: 25%;
+    animation-delay: 2s;
+    border-color: rgba(139, 92, 246, 0.3);
+}
+
+@keyframes energyPulse {
+    0%, 100% { 
+        transform: scale(0.8);
+        opacity: 0.4;
+    }
+    50% { 
+        transform: scale(1.2);
+        opacity: 0.8;
+    }
 }
 
 /* Header Styles */

@@ -36,7 +36,7 @@ class UserSeeder extends Seeder
             'name' => 'Lina',
             'email' => 'lina@game.com',
             'password' => Hash::make('123'),
-            'money_earned' => 25000, 
+            'money_earned' => 10000, 
             'treasure' => 20,
             'gambling_attempts_today' => 0,
         ]);
@@ -46,6 +46,15 @@ class UserSeeder extends Seeder
             'email' => 'ma@game.com',
             'password' => Hash::make('123'),
             'money_earned' => 15000, 
+            'treasure' => 20,
+            'gambling_attempts_today' => 0,
+        ]);
+
+        User::create([
+            'name' => 'Pa',
+            'email' => 'pa@game.com',
+            'password' => Hash::make('123'),
+            'money_earned' => 20000, 
             'treasure' => 20,
             'gambling_attempts_today' => 0,
         ]);

@@ -1,26 +1,56 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="rpg-dashboard-container">
+<div class="rpg-dashboard-container @if($isNightTime) night-theme @else day-theme @endif">
     <!-- RPG Background Elements -->
-    <div class="rpg-background">
+    <div class="rpg-background @if($isNightTime) night-particles @else day-particles @endif">
         <div class="floating-particles"></div>
         <div class="magic-orbs"></div>
         <div class="energy-waves"></div>
     </div>
 
-    <div class="container pt-1">
+    <div class="container pt-1" style="position: relative; z-index: 1;">
         <div class="row justify-content-center">
             <div class="col-lg-10 col-xl-8">
                 
                 <!-- RPG Header -->
                 <div class="rpg-header text-center mb-4">
-                    <div class="store-title-container">
-                        <h1 class="rpg-title-enhanced @if($isNightTime) rpg-title-night @endif">
-                            <i class="fas fa-crown me-2"></i>{{ __('nav.the_game_dashboard') }}
-                        </h1>
-                        <div class="title-decoration-enhanced"></div>
-                    </div>
+                    @if($isNightTime)
+                        <!-- Night Mode Awesome Header -->
+                        <div class="rpg-night-header-container">
+                            <div class="mystical-background-overlay"></div>
+                            <div class="floating-runes">
+                                <span class="rune rune-1">🌙</span>
+                                <span class="rune rune-2">⭐</span>
+                                <span class="rune rune-3">🔮</span>
+                                <span class="rune rune-4">✨</span>
+                                <span class="rune rune-5">🌟</span>
+                            </div>
+                            <div class="night-crown-container">
+                                <i class="fas fa-crown night-crown-icon"></i>
+                                <div class="crown-glow-effect"></div>
+                            </div>
+                            <h1 class="rpg-title-night-enhanced">
+                                <span class="title-main">{{ __('nav.the_game_dashboard') }}</span>
+                            </h1>
+                            <div class="night-subtitle">
+                                <span class="mystical-text" style="color: white !important;">🌙 {{ __('nav.opening_treasures_risk') }} 🌙</span>
+                            </div>
+                            <div class="night-title-decoration">
+                                <div class="magic-line left-line"></div>
+                                <div class="center-crystal">💎</div>
+                                <div class="magic-line right-line"></div>
+                            </div>
+                        </div>
+                    @else
+                        <!-- Day Mode Header -->
+                        <div class="store-title-container">
+                            <h1 class="rpg-title-enhanced">
+                                <i class="fas fa-crown me-2"></i>{{ __('nav.the_game_dashboard') }}
+                            </h1>
+                            <div class="title-decoration-enhanced"></div>
+                        </div>
+                    @endif
                 </div>
 
                 <!-- RPG Time Mode & Game Actions Row - Optimized -->
@@ -736,16 +766,380 @@
     
     .container-fluid > .container {
         position: relative;
-        z-index: 1;
+        z-index: 10;
     }
     
     /* General Text Visibility Improvements */
     .rpg-dashboard-container {
         color: #1a202c;
+        position: relative;
+        padding: 1rem 0;
+        transition: background 0.5s ease;
+    }
+
+    /* Day Theme Background */
+    .rpg-dashboard-container.day-theme {
+        background: linear-gradient(135deg, 
+            #f8fafc 0%, 
+            #e2e8f0 25%, 
+            #cbd5e0 50%, 
+            #a0aec0 75%, 
+            #718096 100%
+        );
+    }
+
+    /* Night Theme Background */
+    .rpg-dashboard-container.night-theme {
+        background: linear-gradient(135deg, 
+            #1a202c 0%, 
+            #2d3748 25%, 
+            #4a5568 50%, 
+            #2d3748 75%, 
+            #1a202c 100%
+        );
+    }
+
+    /* Enhanced background effects for day/night - contained within dashboard */
+    .rpg-dashboard-container.day-theme::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: 
+            radial-gradient(circle at 20% 30%, rgba(255,193,7,0.15) 0%, transparent 50%),
+            radial-gradient(circle at 80% 70%, rgba(59,130,246,0.1) 0%, transparent 50%),
+            radial-gradient(circle at 40% 80%, rgba(16,185,129,0.1) 0%, transparent 50%);
+        pointer-events: none;
+        z-index: 0;
+        animation: dayBackgroundShift 25s ease-in-out infinite;
+    }
+
+    .rpg-dashboard-container.night-theme::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: 
+            radial-gradient(circle at 20% 30%, rgba(139,92,246,0.2) 0%, transparent 50%),
+            radial-gradient(circle at 80% 70%, rgba(59,130,246,0.15) 0%, transparent 50%),
+            radial-gradient(circle at 40% 80%, rgba(6,182,212,0.1) 0%, transparent 50%);
+        pointer-events: none;
+        z-index: 0;
+        animation: nightBackgroundShift 30s ease-in-out infinite;
+    }
+
+    @keyframes dayBackgroundShift {
+        0%, 100% { opacity: 0.6; }
+        50% { opacity: 0.9; }
+    }
+
+    @keyframes nightBackgroundShift {
+        0%, 100% { opacity: 0.8; }
+        50% { opacity: 1.0; }
+    }
+
+    /* Day/Night Particle Themes */
+    .rpg-background.day-particles .floating-particles::before {
+        background-image: 
+            radial-gradient(2px 2px at 20px 30px, rgba(255,193,7,0.6), transparent),
+            radial-gradient(2px 2px at 40px 70px, rgba(34,197,94,0.4), transparent),
+            radial-gradient(1px 1px at 90px 40px, rgba(59,130,246,0.5), transparent),
+            radial-gradient(3px 3px at 160px 30px, rgba(245,158,11,0.3), transparent);
+    }
+
+    .rpg-background.night-particles .floating-particles::before {
+        background-image: 
+            radial-gradient(2px 2px at 20px 30px, rgba(139,92,246,0.6), transparent),
+            radial-gradient(2px 2px at 40px 70px, rgba(59,130,246,0.5), transparent),
+            radial-gradient(1px 1px at 90px 40px, rgba(6,182,212,0.4), transparent),
+            radial-gradient(3px 3px at 160px 30px, rgba(147,51,234,0.3), transparent);
+    }
+
+    .rpg-background.day-particles .magic-orbs::before,
+    .rpg-background.day-particles .magic-orbs::after {
+        background: radial-gradient(circle, #fbbf24 0%, #f59e0b 100%);
+        box-shadow: 0 0 15px #fbbf24;
+    }
+
+    .rpg-background.night-particles .magic-orbs::before,
+    .rpg-background.night-particles .magic-orbs::after {
+        background: radial-gradient(circle, #8b5cf6 0%, #7c3aed 100%);
+        box-shadow: 0 0 15px #8b5cf6;
     }
     
     .rpg-header {
         color: #1a202c !important;
+    }
+
+    /* === AWESOME NIGHT MODE HEADER STYLING === */
+    .rpg-night-header-container {
+        position: relative;
+        padding: 2rem 1rem;
+        margin: 0 0 2rem 0;
+        background: linear-gradient(135deg, 
+            rgba(17,24,39,0.9) 0%, 
+            rgba(31,41,55,0.95) 25%, 
+            rgba(55,65,81,0.9) 50%, 
+            rgba(31,41,55,0.95) 75%, 
+            rgba(17,24,39,0.9) 100%
+        );
+        border-radius: 20px;
+        border: 2px solid rgba(139,92,246,0.3);
+        overflow: hidden;
+        backdrop-filter: blur(10px);
+    }
+
+    .mystical-background-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: 
+            radial-gradient(circle at 20% 30%, rgba(139,92,246,0.1) 0%, transparent 40%),
+            radial-gradient(circle at 80% 70%, rgba(99,102,241,0.08) 0%, transparent 40%),
+            radial-gradient(circle at 50% 50%, rgba(168,85,247,0.05) 0%, transparent 60%);
+        animation: mysticalPulse 8s ease-in-out infinite;
+    }
+
+    @keyframes mysticalPulse {
+        0%, 100% { opacity: 0.5; }
+        50% { opacity: 1; }
+    }
+
+    /* Floating Runes */
+    .floating-runes {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        pointer-events: none;
+    }
+
+    .rune {
+        position: absolute;
+        font-size: 1.5rem;
+        opacity: 0.6;
+        animation: floatRune 6s ease-in-out infinite;
+    }
+
+    .rune-1 {
+        top: 15%;
+        left: 10%;
+        animation-delay: 0s;
+        filter: drop-shadow(0 0 10px rgba(139,92,246,0.8));
+    }
+
+    .rune-2 {
+        top: 20%;
+        right: 15%;
+        animation-delay: 1.2s;
+        filter: drop-shadow(0 0 8px rgba(99,102,241,0.7));
+    }
+
+    .rune-3 {
+        bottom: 25%;
+        left: 20%;
+        animation-delay: 2.4s;
+        filter: drop-shadow(0 0 12px rgba(168,85,247,0.9));
+    }
+
+    .rune-4 {
+        bottom: 20%;
+        right: 25%;
+        animation-delay: 3.6s;
+        filter: drop-shadow(0 0 6px rgba(147,51,234,0.6));
+    }
+
+    .rune-5 {
+        top: 50%;
+        left: 5%;
+        animation-delay: 4.8s;
+        filter: drop-shadow(0 0 14px rgba(79,70,229,0.8));
+    }
+
+    @keyframes floatRune {
+        0%, 100% { 
+            transform: translateY(0px) rotate(0deg); 
+            opacity: 0.6; 
+        }
+        50% { 
+            transform: translateY(-15px) rotate(180deg); 
+            opacity: 1; 
+        }
+    }
+
+    /* Night Crown */
+    .night-crown-container {
+        position: relative;
+        display: inline-block;
+        margin-bottom: 1rem;
+    }
+
+    .night-crown-icon {
+        font-size: 3rem;
+        color: #fbbf24;
+        z-index: 3;
+        position: relative;
+        filter: drop-shadow(0 0 20px rgba(251,191,36,0.8));
+        animation: crownPulse 3s ease-in-out infinite;
+    }
+
+    .crown-glow-effect {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(251,191,36,0.3) 0%, transparent 70%);
+        animation: crownGlow 4s ease-in-out infinite;
+    }
+
+    @keyframes crownPulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+    }
+
+    @keyframes crownGlow {
+        0%, 100% { 
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 0.5; 
+        }
+        50% { 
+            transform: translate(-50%, -50%) scale(1.3);
+            opacity: 0.8; 
+        }
+    }
+
+    /* Enhanced Night Title */
+    .rpg-title-night-enhanced {
+        position: relative;
+        font-size: 2.5rem;
+        font-weight: 900;
+        letter-spacing: 3px;
+        margin: 1rem 0;
+        z-index: 2;
+    }
+
+    .title-main {
+        position: relative;
+        background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e0 50%, #e2e8f0 100%);
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        z-index: 2;
+        filter: drop-shadow(0 0 10px rgba(226,232,240,0.5));
+    }
+
+    .title-glow {
+        position: absolute;
+        top: 0;
+        left: 0;
+        color: rgba(139,92,246,0.4);
+        z-index: 0;
+        animation: titleGlow 4s ease-in-out infinite;
+    }
+
+    @keyframes titleGlow {
+        0%, 100% { 
+            transform: scale(1);
+            opacity: 0.4; 
+        }
+        50% { 
+            transform: scale(1.02);
+            opacity: 0.7; 
+        }
+    }
+
+    /* Night Subtitle */
+    .night-subtitle {
+        margin: 1rem 0;
+    }
+
+    .mystical-text {
+        font-size: 1.1rem;
+        color: #ffffffff !important;
+        font-style: italic;
+        font-weight: 600;
+        letter-spacing: 1px;
+        filter: drop-shadow(0 0 8px rgba(167,139,250,0.6));
+        animation: mysticalGlow 3s ease-in-out infinite;
+    }
+
+    @keyframes mysticalGlow {
+        0%, 100% { opacity: 0.8; }
+        50% { opacity: 1; }
+    }
+
+    /* Night Title Decoration */
+    .night-title-decoration {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 1.5rem;
+        gap: 1rem;
+    }
+
+    .magic-line {
+        height: 2px;
+        flex: 1;
+        max-width: 150px;
+        background: linear-gradient(90deg, 
+            transparent 0%, 
+            rgba(139,92,246,0.8) 20%, 
+            rgba(168,85,247,1) 50%, 
+            rgba(139,92,246,0.8) 80%, 
+            transparent 100%
+        );
+        animation: magicLineGlow 4s ease-in-out infinite;
+    }
+
+    .center-crystal {
+        font-size: 1.5rem;
+        filter: drop-shadow(0 0 15px rgba(168,85,247,0.8));
+        animation: crystalSpin 8s linear infinite;
+    }
+
+    @keyframes magicLineGlow {
+        0%, 100% { opacity: 0.6; }
+        50% { opacity: 1; }
+    }
+
+    @keyframes crystalSpin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+        .rpg-night-header-container {
+            padding: 1.5rem 0.5rem;
+            margin: -0.5rem -0.5rem 1.5rem -0.5rem;
+        }
+        
+        .rpg-title-night-enhanced {
+            font-size: 1.8rem;
+            letter-spacing: 2px;
+        }
+        
+        .night-crown-icon {
+            font-size: 2.5rem;
+        }
+        
+        .rune {
+            font-size: 1.2rem;
+        }
+        
+        .mystical-text {
+            font-size: 1rem;
+        }
     }
     
     .rpg-header * {

@@ -104,7 +104,7 @@
     font-family: 'Cinzel', serif;
     font-weight: 700;
     letter-spacing: 1px;
-    background: linear-gradient(45deg, #fbbf24, #f59e0b, #d97706);
+    background: skyblue;
     background-size: 200% 200%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;

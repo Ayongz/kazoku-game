@@ -15,7 +15,7 @@ use DateTimeZone;
 
 class GameController extends Controller
 {
-    const FORCE_NIGHT_MODE = false;       // Set to true to force night mode, false to follow actual time
+    const FORCE_NIGHT_MODE = true;       // Set to true to force night mode, false to follow actual time
     const FORCE_DAY_MODE = false;        // Set to true to force day mode, false to follow actual time
     
     // Game Constants
