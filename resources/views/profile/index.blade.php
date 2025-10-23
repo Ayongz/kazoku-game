@@ -353,7 +353,7 @@
 }
 
 .wealth-content {
-    text-align: left;
+    text-align: center;
 }
 
 .wealth-title {

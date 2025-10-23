@@ -7,7 +7,7 @@ return [
     'inventory' => 'Inventory',
     'status' => 'Status',
     'class_path' => 'Class Path',
-    'gambling_hall' => 'Gambling Hall',
+    'gambling_hall' => 'Gambling',
     'guide' => 'Guide',
     'login' => 'Login',
     'logout' => 'Logout',

@@ -600,7 +600,11 @@
                                     <td>
                                         <div class="d-flex align-items-center">
                                             <div class="rpg-avatar me-3">
-                                                <i class="fas fa-user"></i>
+                                                @if(!empty($player->profile_picture))
+                                                    <img src="{{ asset('images/profile/' . $player->profile_picture) }}" alt="{{ $player->name }}" class="rpg-avatar-img" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" />
+                                                @else
+                                                    <i class="fas fa-user"></i>
+                                                @endif
                                             </div>
                                             <div>
                                                 <h6 class="mb-0 fw-bold text-white">{{ $player->name }}</h6>

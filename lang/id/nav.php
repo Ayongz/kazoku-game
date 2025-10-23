@@ -7,7 +7,7 @@ return [
     'inventory' => 'Persediaan',
     'status' => 'Status',
     'class_path' => 'Jalur Kelas',
-    'gambling_hall' => 'Ruang Judi',
+    'gambling_hall' => 'Perjudian',
     'guide' => 'Panduan',
     'login' => 'Masuk',
     'logout' => 'Keluar',

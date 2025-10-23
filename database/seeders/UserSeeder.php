@@ -19,8 +19,7 @@ class UserSeeder extends Seeder
             'email' => 'yong@game.com',
             'password' => Hash::make('123'),
             'money_earned' => 0,
-            'treasure' => 20,
-            'gambling_attempts_today' => 0,
+            'treasure' => 100
         ]);
 
         User::create([
@@ -28,35 +27,31 @@ class UserSeeder extends Seeder
             'email' => 'wei@game.com',
             'password' => Hash::make('123'),
             'money_earned' => 0,
-            'treasure' => 20,
-            'gambling_attempts_today' => 0,
+            'treasure' => 20
         ]);
 
         User::create([
             'name' => 'Lina',
             'email' => 'lina@game.com',
             'password' => Hash::make('123'),
-            'money_earned' => 10000, 
-            'treasure' => 20,
-            'gambling_attempts_today' => 0,
+            'money_earned' => 0, 
+            'treasure' => 20
         ]);
 
         User::create([
             'name' => 'Ma',
             'email' => 'ma@game.com',
             'password' => Hash::make('123'),
-            'money_earned' => 15000, 
-            'treasure' => 20,
-            'gambling_attempts_today' => 0,
+            'money_earned' => 0, 
+            'treasure' => 20
         ]);
 
         User::create([
             'name' => 'Pa',
             'email' => 'pa@game.com',
             'password' => Hash::make('123'),
-            'money_earned' => 20000, 
-            'treasure' => 20,
-            'gambling_attempts_today' => 0,
+            'money_earned' => 0, 
+            'treasure' => 20
         ]);
 
     }

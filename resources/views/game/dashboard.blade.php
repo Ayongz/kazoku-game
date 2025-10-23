@@ -442,7 +442,7 @@
                                             </div>
                                             <div class="text-end">
                                                 <small class="text-light d-block">{{ __('nav.player_level') }}</small>
-                                                <small class="text-muted">{{ number_format($user->experience) }} EXP</small>
+                                                <small class="text-muted" id="playerExperienceDisplay">{{ number_format($user->experience) }} EXP</small>
                                             </div>
                                         </div>
                                         
@@ -2536,6 +2536,11 @@ document.addEventListener('DOMContentLoaded', function() {
         const expPercentDisplay = document.getElementById('expProgressPercentDisplay');
         if (expPercentDisplay && data.exp_progress_percentage !== undefined) {
             expPercentDisplay.textContent = `${parseFloat(data.exp_progress_percentage).toFixed(1)}% Progress`;
+        }
+        // Update experience display (total exp)
+        const playerExperienceDisplay = document.getElementById('playerExperienceDisplay');
+        if (playerExperienceDisplay && data.total_experience !== undefined) {
+            playerExperienceDisplay.textContent = `${new Intl.NumberFormat().format(data.total_experience)} EXP`;
         }
         // Update local treasure count immediately
         if (data.treasure_remaining !== undefined) {

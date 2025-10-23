@@ -36,15 +36,15 @@
                                 <div class="rpg-info-list">
                                     <div class="rpg-info-item">
                                         <i class="fas fa-star text-warning me-2"></i>
-                                        <strong>{{ __('nav.level') }} 4:</strong> {{ __('nav.level_4_choose') }}
+                                        <strong>{{ __('nav.level') }} 4: &nbsp; </strong> {{ __('nav.level_4_choose') }}
                                     </div>
                                     <div class="rpg-info-item">
                                         <i class="fas fa-crown text-warning me-2"></i>
-                                        <strong>{{ __('nav.level') }} 8:</strong> {{ __('nav.level_8_advance') }}
+                                        <strong>{{ __('nav.level') }} 8: &nbsp; </strong> {{ __('nav.level_8_advance') }}
                                     </div>
                                     <div class="rpg-info-item">
                                         <i class="fas fa-lock text-danger me-2"></i>
-                                        <strong>{{ __('nav.selection_permanent') }}:</strong> {{ __('nav.selection_permanent') }}
+                                        <strong>{{ __('nav.selection_permanent') }}: &nbsp; </strong> {{ __('nav.selection_permanent') }}
                                     </div>
                                 </div>
                             </div>
@@ -336,7 +336,7 @@
                 </div>
 
                 <!-- RPG Navigation Actions -->
-                <div class="rpg-navigation-section">
+                <!-- <div class="rpg-navigation-section">
                     <div class="rpg-panel panel-navigation">
                         <div class="panel-content p-3">
                             <div class="navigation-buttons">
@@ -358,8 +358,8 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <br>
+                </div> 
+                <br> -->
             </div>
         </div>
     </div>

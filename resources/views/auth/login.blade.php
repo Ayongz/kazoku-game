@@ -95,21 +95,37 @@
 
                     <!-- Game Features Preview -->
                     <div class="features-preview">
-                        <div class="feature">
-                            <i class="fas fa-coins"></i>
-                            <span>Earn Money</span>
+                        <div class="row">
+                            <div class="feature col-6">
+                                <span>🏴‍☠️ Treasure Hunt</span>
+                            </div>
+                            <div class="feature col-6">
+                                <span>⚡ Level & Experience</span>
+                            </div>
                         </div>
-                        <div class="feature">
-                            <i class="fas fa-mask"></i>
-                            <span>Auto Steal</span>
+                        <div class="row">
+                            <div class="feature col-6">
+                                <span>🛡️ PvP Combat</span>
+                            </div>
+                            <div class="feature col-6">
+                                <span>📦 Inventory System</span>
+                            </div>
                         </div>
-                        <div class="feature">
-                            <i class="fas fa-shield-alt"></i>
-                            <span>Shield Protection</span>
+                        <div class="row">
+                            <div class="feature col-6">
+                                <span>👑 Prestige System</span>
+                            </div>
+                            <div class="feature col-6">
+                                <span>🎰 Gambling Hall</span>
+                            </div>
                         </div>
-                        <div class="feature">
-                            <i class="fas fa-star"></i>
-                            <span>Lucky Strikes</span>
+                        <div class="row">
+                            <div class="feature col-6">
+                                <span>☀️ Time Strategy</span>
+                            </div>
+                            <div class="feature col-6">
+                                <span>🏪 Upgrade Store</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -275,7 +291,6 @@
     grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
     margin-top: 1.5rem;
-    padding-top: 1.5rem;
     border-top: 1px solid #e2e8f0;
 }
 
@@ -284,7 +299,7 @@
     align-items: center;
     gap: 0.5rem;
     color: #4a5568;
-    font-size: 0.85rem;
+    font-size: 0.70rem;
     font-weight: 500;
 }
 
