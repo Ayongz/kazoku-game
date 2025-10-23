@@ -416,7 +416,7 @@
 
                 <!-- Player Level & Experience and Class System Row -->
                 <div class="row">
-                    <!-- Player Level & Experience Card - Optimized -->
+                    <!-- Player Level & Experience Card-->
                     <div class="col-12 col-lg-7">
                         <div class="rpg-panel panel-main">
                             <div class="panel-content p-3">
@@ -446,7 +446,7 @@
                                             </div>
                                         </div>
                                         
-                                        <!-- Experience Progress - Compact -->
+                                        <!-- Experience Progress -->
                                         <div class="exp-section-compact">
                                             @php
                                                 use App\Services\ExperienceService;
@@ -455,14 +455,14 @@
                                             @endphp
                                             <div class="progress progress-compact mb-1" style="height: 8px; border-radius: 6px; background: rgba(255,255,255,0.1);">
                                                 <div class="progress-bar" role="progressbar" 
-                                                     style="width: {{ $expProgress }}%; background: linear-gradient(90deg, #ffd700, #ffed4e);" 
+                                                     style="width: {{ $expProgress }}%; background: linear-gradient(90deg, #22c55e, #16a34a);" 
                                                      aria-valuenow="{{ $expProgress }}" 
                                                      aria-valuemin="0" 
                                                      aria-valuemax="100">
                                                 </div>
                                             </div>
                                             <div class="d-flex justify-content-between">
-                                                <small class="text-light">{{ number_format($expProgress, 1) }}% Progress</small>
+                                                <small class="text-light" id="expProgressPercentDisplay">{{ number_format($expProgress, 1) }}% Progress</small>
                                                 <small class="text-white" id="playerExpDisplay">{{ number_format($expToNext) }} EXP to next</small>
                                             </div>
                                         </div>
@@ -2532,6 +2532,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     function updateUIDisplays(data) {
+        // Update exp progress percent text
+        const expPercentDisplay = document.getElementById('expProgressPercentDisplay');
+        if (expPercentDisplay && data.exp_progress_percentage !== undefined) {
+            expPercentDisplay.textContent = `${parseFloat(data.exp_progress_percentage).toFixed(1)}% Progress`;
+        }
         // Update local treasure count immediately
         if (data.treasure_remaining !== undefined) {
             currentTreasure = data.treasure_remaining;

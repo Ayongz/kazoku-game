@@ -23,7 +23,7 @@ return [
     'global_prize_pool' => 'Global Prize Pool',
     'distributed_daily' => 'Distributed Daily',
     'master_treasure_hunt' => 'Master the treasure hunt!',
-    'total_wealth' => 'Total Wealth',
+    'total_wealth' => 'Total Wealth All Players',
     'earned_by_all_players' => 'Earned by all players',
     'total_random_boxes' => 'Total Random Boxes',
     'collected_worldwide' => 'Collected worldwide',

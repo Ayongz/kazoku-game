@@ -560,7 +560,22 @@ class GameController extends Controller
         // Rare treasures give 5-6x normal treasure rewards
         $baseReward = rand(self::MIN_EARN_AMOUNT, self::MAX_EARN_AMOUNT);
         $rareMultiplier = rand(5, 6); // 5-6x multiplier
-        $moneyEarned = $baseReward * $rareMultiplier;
+        $rawReward = $baseReward * $rareMultiplier;
+
+        $nightRiskMessage = '';
+        $nightRareTreasureGained = false;
+        $moneyEarned = $rawReward;
+
+        // Apply night effects if night time
+        if ($this->isNightTime()) {
+            $nightRisk = $this->applyNightTimeRisk($rawReward);
+            $moneyEarned = $nightRisk['amount'];
+            $nightRiskMessage = ' ' . $nightRisk['message'];
+            if (isset($nightRisk['rare_treasure_gained']) && $nightRisk['rare_treasure_gained']) {
+                $user->rare_treasures = ($user->rare_treasures ?? 0) + 1;
+                $nightRareTreasureGained = true;
+            }
+        }
 
         // Apply class bonuses if applicable
         if ($user->selected_class === 'proud_merchant') {
@@ -588,8 +603,8 @@ class GameController extends Controller
         $user->save();
 
         // Create success message
-        $successMessage = "🌟 Rare Treasure Opened! You received IDR " . number_format($moneyEarned) . 
-                         " (+" . $expGained . " EXP)" . $levelUpMessage;
+        $successMessage = "🌟 Rare Treasure Opened! You received IDR " . number_format($moneyEarned) .
+                         " (+" . $expGained . " EXP)" . $levelUpMessage . $nightRiskMessage;
 
         // Create log entry for rare treasure opening
         $additionalData = [
@@ -597,7 +612,10 @@ class GameController extends Controller
             'rare_multiplier' => $rareMultiplier,
             'money_earned' => $moneyEarned,
             'level_up' => $levelUpCheck['shouldLevelUp'],
-            'class_bonus_applied' => $user->selected_class === 'proud_merchant'
+            'class_bonus_applied' => $user->selected_class === 'proud_merchant',
+            'night_mode' => $this->isNightTime(),
+            'night_risk_message' => $nightRiskMessage,
+            'night_rare_treasure_gained' => $nightRareTreasureGained
         ];
 
         PlayerLog::createLog(
@@ -606,10 +624,10 @@ class GameController extends Controller
             description: strip_tags($successMessage),
             moneyChange: $moneyEarned,
             treasureChange: 0,
-            rareTreasureChange: -1,
+            rareTreasureChange: $nightRareTreasureGained ? 0 : -1,
             experienceGained: $expGained,
             additionalData: $additionalData,
-            isSuccess: true
+            isSuccess: $moneyEarned >= 0
         );
 
         return redirect()->route('game.dashboard')

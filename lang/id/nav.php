@@ -23,7 +23,7 @@ return [
     'global_prize_pool' => 'Kumpulan Hadiah Global',
     'distributed_daily' => 'Dibagikan Harian',
     'master_treasure_hunt' => 'Kuasai perburuan harta!',
-    'total_wealth' => 'Total Kekayaan',
+    'total_wealth' => 'Total Kekayaan Semua Pemain',
     'earned_by_all_players' => 'Diperoleh oleh semua pemain',
     'total_random_boxes' => 'Total Kotak Acak',
     'collected_worldwide' => 'Dikumpulkan di seluruh dunia',
