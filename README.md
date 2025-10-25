@@ -130,203 +130,6 @@ Kazoku Game is a **multi-layered RPG strategy game** where players:
 
 ---
 
-## 🛠️ Technical Implementation
-
-### **Built With Laravel 11**
-- **MVC Architecture**: Clean separation of game logic, controllers, and views
-- **Eloquent ORM**: Complex database relationships for users, inventory, logs
-- **Middleware Protection**: Authentication required for all game features
-- **Scheduled Commands**: Automated systems for treasure regen, auto earning, prize distribution
-- **Service Classes**: ExperienceService for level calculations and progression
-
-### **Frontend Technologies**
-- **Bootstrap 5**: Responsive RPG-themed UI with custom components
-- **Font Awesome**: 500+ icons for abilities, classes, and game elements
-- **Blade Templates**: Server-side rendering with multilingual support (EN/ID)
-- **Custom CSS**: RPG-style themes with night/day mode styling
-- **JavaScript**: Auto-click functionality, AJAX treasure opening, real-time updates
-
-### **Enhanced Database Schema**
-```sql
-users:
-- money_earned (BIGINT): Player's total accumulated money
-- level (INT): Player level (unlocks features)
-- experience (BIGINT): Experience points for level progression
-- treasure (INT): Current treasure count (regenerates hourly)
-- rare_treasures (INT): Special high-value treasures from night mode
-
--- Upgrade System (15+ upgrade types)
-- steal_level, auto_earning_level, treasure_multiplier_level
-- lucky_strikes_level, counter_attack_level, intimidation_level
-- fast_recovery_level, treasure_rarity_level, prestige_level
-- shield_expires_at (TIMESTAMP): PvP protection status
-
--- Class System
-- selected_class (STRING): One of 7 unique classes
-- has_advanced_class (BOOLEAN): Advanced class upgrade status
-- class_selected_at (TIMESTAMP): Class selection history
-
-game_settings:
-- global_prize_pool (DECIMAL): Community prize pool from all earnings
-
-inventories:
-- user_id, item_type (random_box, shield, etc.)
-- quantity (INT): Number of items owned
-
-player_logs:
-- Comprehensive action logging system
-- Tracks treasure opening, stealing, class bonuses, level ups
-- JSON additional_data for complex event details
-```
-
-### **Automated Systems & Scheduling**
-- **Treasure Regeneration**: `game:add-treasure` - +5 treasure every 60min (affected by Fast Recovery)
-- **Auto Earning Processing**: `game:process-auto-earning` - Processes passive income hourly
-- **Daily Prize Distribution**: `game:distribute-prize` - Awards richest player at midnight GMT+7  
-- **Prestige Income**: Hourly processing for elite passive income (1-5% per hour)
-- **Shield Expiration**: Automatic cleanup of expired PvP protection
-
----
-
-## 🚀 Installation & Setup
-
-### **System Requirements**
-- **PHP 8.1+** with extensions: mbstring, pdo_mysql, bcmath, ctype, fileinfo
-- **Composer 2.x** for PHP dependency management
-- **MySQL 8.0+** or **MariaDB 10.4+** for database
-- **Node.js 16+** & **NPM** for frontend asset compilation
-- **Web Server**: Apache/Nginx with proper URL rewriting
-
-### **Quick Installation Guide**
-
-#### **1. Repository Setup**
-```bash
-git clone https://github.com/Ayongz/kazoku-game.git
-cd kazoku-game
-chmod -R 755 storage bootstrap/cache  # Set proper permissions
-```
-
-#### **2. Backend Dependencies**
-```bash
-composer install --optimize-autoloader
-```
-
-#### **3. Environment Configuration**
-```bash
-cp .env.example .env
-php artisan key:generate
-```
-
-**Configure your `.env` file:**
-```env
-APP_NAME="Kazoku Game"
-APP_ENV=production
-APP_DEBUG=false
-APP_URL=http://your-domain.com
-
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=kazoku_game
-DB_USERNAME=your_username
-DB_PASSWORD=your_password
-
-CACHE_DRIVER=file
-SESSION_DRIVER=file
-QUEUE_CONNECTION=database
-```
-
-#### **4. Database Setup**
-```bash
-# Create database (MySQL)
-mysql -u root -p -e "CREATE DATABASE kazoku_game;"
-
-# Run all migrations (creates 15+ tables)
-php artisan migrate
-
-# Optional: Seed with sample data
-php artisan db:seed
-```
-
-#### **5. Frontend Assets**
-```bash
-npm install
-npm run production  # For production
-# OR
-npm run dev        # For development
-npm run watch      # For development with auto-recompilation
-```
-
-#### **6. Application Launch**
-```bash
-# Start Laravel development server
-php artisan serve --host=0.0.0.0 --port=8000
-
-# Start the scheduler (CRITICAL for game mechanics)
-php artisan schedule:work
-```
-
-### **🔧 Production Deployment**
-
-#### **Web Server Configuration (Apache)**
-```apache
-<VirtualHost *:80>
-    ServerName kazoku-game.example.com
-    DocumentRoot /path/to/kazoku-game/public
-    
-    <Directory /path/to/kazoku-game/public>
-        AllowOverride All
-        Require all granted
-    </Directory>
-    
-    ErrorLog ${APACHE_LOG_DIR}/kazoku_error.log
-    CustomLog ${APACHE_LOG_DIR}/kazoku_access.log combined
-</VirtualHost>
-```
-
-#### **Crontab Setup (Essential for Game Mechanics)**
-```bash
-# Edit crontab
-crontab -e
-
-# Add Laravel scheduler (runs every minute)
-* * * * * cd /path/to/kazoku-game && php artisan schedule:run >> /dev/null 2>&1
-```
-
-#### **Supervisor Configuration (For Queue Workers)**
-```ini
-[program:kazoku-worker]
-process_name=%(program_name)s_%(process_num)02d
-command=php /path/to/kazoku-game/artisan queue:work --sleep=3 --tries=3 --max-time=3600
-autostart=true
-autorestart=true
-user=www-data
-numprocs=2
-redirect_stderr=true
-stdout_logfile=/path/to/kazoku-game/storage/logs/worker.log
-```
-
-### **🎮 Game Balance Configuration**
-
-All game constants can be adjusted in `app/Http/Controllers/GameController.php`:
-
-```php
-// Treasure System
-const MIN_EARN_AMOUNT = 100;        // Base minimum earnings
-const MAX_EARN_AMOUNT = 2000;       // Base maximum earnings
-
-// Night Risk System
-const NIGHT_RISK_LOSS_CHANCE = 25;     // 25% money loss chance
-const NIGHT_RISK_BONUS_CHANCE = 25;    // 25% bonus chance
-const NIGHT_RARE_TREASURE_CHANCE = 5;  // 5% rare treasure chance
-
-// Class System Constants  
-const CLASS_UNLOCK_LEVEL = 4;           // Level for class selection
-const ADVANCED_CLASS_LEVEL = 8;         // Level for class advancement
-```
-
----
-
 ## 🎯 Getting Started (Player Guide)
 
 ### **📝 Account Creation**
@@ -357,42 +160,6 @@ const ADVANCED_CLASS_LEVEL = 8;         // Level for class advancement
 
 ---
 
-## 🤝 Contributing & Development
-
-### **🐛 Bug Reports**
-- **Issue Template**: Use provided GitHub issue template with reproduction steps
-- **Include Details**: Laravel version, PHP version, browser, and error logs
-- **Screenshots**: Visual bugs should include before/after screenshots
-
-### **✨ Feature Requests**
-- **Game Balance**: Suggest changes to upgrade costs, success rates, or rewards
-- **New Features**: Propose new game mechanics with detailed descriptions
-- **UI/UX**: Interface improvements and user experience enhancements
-
-### **💻 Code Contributions**
-1. **Fork the repository** and create a feature branch
-2. **Follow PSR-12** coding standards for PHP code
-3. **Add tests** for new game mechanics and features
-4. **Update documentation** including README and code comments
-5. **Submit pull request** with clear description of changes
-
-### **🔧 Development Setup**
-```bash
-# Development with hot reloading
-npm run dev
-npm run watch
-
-# Run tests
-php artisan test
-
-# Code style checking
-./vendor/bin/pint
-
-# Database refresh for testing
-php artisan migrate:fresh --seed
-```
-
----
 
 ## 📄 License & Legal
 
@@ -406,10 +173,6 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 ---
 
 ## 🎮 Start Your Adventure
-
-### **🌟 Ready to Begin?**
-
-**[🚀 Play Now - Register Here!](http://localhost:8000/register)**
 
 ### **🏆 What Awaits You**
 - **🗝️ Treasure Hunting**: Open treasures and discover rare rewards
@@ -435,24 +198,24 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 ### **Earning & Economy System**
 | Action | Base Amount | Frequency | Special Features |
 |--------|-------------|-----------|------------------|
-| Treasure Hunting | 100-2,000 IDR | Per treasure | Class bonuses, Lucky Strikes 2x, Night risks |
+| Treasure Hunting | 500–5,000 IDR | Per treasure | Class bonuses, Lucky Strikes 2x, Night risks |
 | Auto Earning (Lv1-20) | 0.05-1.0% per hour | Hourly | Works offline, no treasure required |
 | Auto Steal (Lv1-5) | 1-5% of target's money | Auto-trigger | Intimidation resistance, Counter-attacks |
 | Gambling (Coin Flip) | Custom bet amounts | Manual | 10 XP per game, 50/50 odds |
-| Rare Treasures | 5-6x normal (500-12,000) | From night mode/fusion | Double XP, class bonuses apply |
+| Rare Treasures | 5–6x normal (2,500–30,000) | From night mode/fusion | Double XP, class bonuses apply |
 | Prestige Income | 1-5% per hour | Elite system | Massive passive income for veterans |
 
 ### **Comprehensive Upgrade Costs**
 | Upgrade Type | Base Cost | Max Level | Scaling | Special Notes |
 |--------------|-----------|-----------|---------|---------------|
-| Auto Steal | IDR 10K | Level 5 | Linear × level | PvP core mechanic |
-| Auto Earning | IDR 10K | Level 20 | Linear × level | Passive income foundation |
-| Treasure Multiplier | IDR 15K | Level 10 | Linear × level | +5 capacity + efficiency |
-| Lucky Strikes | IDR 15K | Level 5 | Linear × level | 2% chance per level to double |
-| Counter-Attack | IDR 40K | Level 5 | Linear × level | 20% steal-back chance per level |
-| Intimidation | IDR 20K | Level 5 | Linear × level | -2% enemy success per level |
-| Fast Recovery | IDR 20K | Level 3 | Linear × level | 60min → 30min treasure regen |
-| Treasure Rarity | IDR 20K | Level 7 | Linear × level | Better random box chances |
+| Auto Steal | IDR 10K | Level 5 | Linear (10K × level) | PvP core mechanic |
+| Auto Earning | IDR 10K | Level 20 | Linear (10K × level) | Passive income foundation |
+| Treasure Multiplier | IDR 15K | Level 10 | Linear (15K × level) | +5 capacity + efficiency |
+| Lucky Strikes | IDR 15K | Level 5 | Linear (15K × level) | 2% chance per level to double |
+| Counter-Attack | IDR 40K | Level 5 | Linear (40K × level) | 20% steal-back chance per level |
+| Intimidation | IDR 20K | Level 5 | Linear (20K × level) | -2% enemy success per level |
+| Fast Recovery | IDR 20K | Level 3 | Linear (20K × level) | 60min → 30min treasure regen |
+| Treasure Rarity | IDR 20K | Level 7 | Linear (20K × level) | Better random box chances |
 | Shield Protection | IDR 10K | Consumable | Fixed | 3 hours PvP immunity |
 | Prestige System | IDR 100K+ | Level 5 | Exponential | Elite passive income unlock |
 
@@ -592,47 +355,10 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 
 ---
 
-## � Roadmap & Future Enhancements
-
-### **🎮 Gameplay Expansions**
-- **Guild System**: Collaborative gameplay with team objectives and shared rewards
-- **Achievement System**: 100+ achievements with unlock rewards and prestige points
-- **Seasonal Events**: Limited-time events with exclusive rewards and mechanics
-- **PvP Arena**: Structured combat system beyond stealing mechanics
-- **Mini-Games**: Additional earning methods like puzzles, skill games, and challenges
-
-### **🛡️ Advanced Systems**
-- **Reputation System**: Player behavior tracking with rewards for positive interactions
-- **Trading System**: Player-to-player item and resource trading marketplace
-- **Clan Wars**: Large-scale competitive events between player groups
-- **Advanced Classes**: Third-tier class evolution system with unique mechanics
-
-### **📱 Platform Expansion**
-- **Native Mobile Apps**: iOS and Android applications with push notifications
-- **API Development**: RESTful API for third-party integrations and tools
-- **Social Media Integration**: Sharing achievements and competing with friends
-- **Cross-Platform Sync**: Seamless gameplay across web and mobile platforms
-
-### **🔮 Innovation Features**
-- **AI-Powered NPCs**: Dynamic computer-controlled players for enhanced competition
-- **Machine Learning**: Personalized game recommendations and difficulty adjustment
-- **Blockchain Integration**: Verified rare items and cross-game asset portability
-- **VR Support**: Immersive treasure hunting experience in virtual reality
-
----
-
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
-
 ## 📄 License
 
 This project is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 
 ---
-
-## 🎮 Start Playing
-
-Ready to join the money game? [Register now](http://localhost:8000/register) and start your journey to the top of the leaderboard!
 
 **May the best earner win! 💰**
