@@ -95,36 +95,36 @@
 
                     <!-- Game Features Preview -->
                     <div class="features-preview">
-                        <div class="row">
+                        <div class="row" style="margin-top: 10px;">
                             <div class="feature col-6">
-                                <span>🏴‍☠️ Treasure Hunt</span>
+                                <span>🏴‍☠️ {{ __('auth.treasure_hunt') }}</span>
                             </div>
                             <div class="feature col-6">
-                                <span>⚡ Level & Experience</span>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="feature col-6">
-                                <span>🛡️ PvP Combat</span>
-                            </div>
-                            <div class="feature col-6">
-                                <span>📦 Inventory System</span>
+                                <span>⚡ {{ __('auth.level_experience') }}</span>
                             </div>
                         </div>
                         <div class="row">
                             <div class="feature col-6">
-                                <span>👑 Prestige System</span>
+                                <span>🛡️ {{ __('auth.pvp_combat') }}</span>
                             </div>
                             <div class="feature col-6">
-                                <span>🎰 Gambling Hall</span>
+                                <span>📦 {{ __('auth.inventory_system') }}</span>
                             </div>
                         </div>
                         <div class="row">
                             <div class="feature col-6">
-                                <span>☀️ Time Strategy</span>
+                                <span>👑 {{ __('auth.prestige_system') }}</span>
                             </div>
                             <div class="feature col-6">
-                                <span>🏪 Upgrade Store</span>
+                                <span>🎰 {{ __('auth.gambling_hall') }}</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="feature col-6">
+                                <span>☀️ {{ __('auth.time_strategy') }}</span>
+                            </div>
+                            <div class="feature col-6">
+                                <span>🏪 {{ __('auth.upgrade_store') }}</span>
                             </div>
                         </div>
                     </div>
@@ -184,7 +184,6 @@
     align-items: center;
     justify-content: center;
     margin: 0 auto 1rem;
-    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
     animation: float 3s ease-in-out infinite;
 }
 
