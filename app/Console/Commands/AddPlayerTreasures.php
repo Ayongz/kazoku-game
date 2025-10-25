@@ -29,7 +29,7 @@ class AddPlayerTreasures extends Command
     {
         // Constants for treasure system
         $treasureToAdd = 5;
-        $baseMexTreasure = 20;
+        $baseMaxTreasure = 20;
         
         // Fast Recovery intervals in minutes [level 0, 1, 2, 3, 4, 5]
         $fastRecoveryIntervals = [60, 55, 50, 45, 40, 30];
@@ -47,7 +47,7 @@ class AddPlayerTreasures extends Command
             
             // Calculate max treasure based on treasure multiplier level
             // Base: 20, Level 1: 25, Level 2: 30, ..., Level 10: 70
-            $maxTreasure = $baseMexTreasure + ($user->treasure_multiplier_level * 5);
+            $maxTreasure = $baseMaxTreasure + ($user->treasure_multiplier_level * 5);
             
             if ($currentTreasure >= $maxTreasure) {
                 // User already at max treasure, skip

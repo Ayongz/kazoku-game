@@ -9,3 +9,4 @@ Schedule::command('game:add-treasure')->everyMinute();  // Check treasure regene
 Schedule::command('game:distribute-prize')->dailyAt('00:00')->timezone('Asia/Jakarta'); // Distribute prize pool daily at midnight GMT+7
 Schedule::command('game:process-auto-earning')->hourly(); // Process auto earning every hour  
 Schedule::command('gambling:reset-daily-attempts')->dailyAt('00:00')->timezone('Asia/Jakarta'); // Reset gambling attempts daily at midnight GMT+7
+Schedule::command('game:distribute-daily-randombox')->dailyAt('00:00')->timezone('Asia/Jakarta'); // Distribute 3 random boxes daily
