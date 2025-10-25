@@ -603,7 +603,7 @@ return [
 
     // Profile translations
     'profile_settings' => 'Profile Settings',
-    'customize_your_avatar' => 'Customize your avatar and profile',
+    'customize_your_avatar' => 'Unlock more avatars as you level up',
     'success' => 'Success',
     'error' => 'Error',
     'current_avatar' => 'Current Avatar',

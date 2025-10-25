@@ -11,9 +11,8 @@
     <div class="container pt-5">
         <div class="row justify-content-center">
             <div class="col-lg-10 col-xl-8">
-                
                 <!-- Header -->
-                <div class="rpg-header text-center mb-5">
+                <div class="rpg-header text-center mb-3">
                     <div class="store-title-container">
                         <h1 class="rpg-title"><i class="fas fa-user-circle me-2"></i>{{ __('nav.profile_settings') }}</h1>
                         <div class="title-decoration"></div>
@@ -50,16 +49,20 @@
 
                 <!-- Current Profile Display -->
                 <div class="rpg-wealth-display mb-4">
-                    <div class="wealth-card" style="background: linear-gradient(135deg, rgba(106, 90, 205, 0.2) 0%, rgba(138, 43, 226, 0.1) 100%); border-color: #6A5ACD;">
-                        <div class="current-avatar-display">
+                    <div class="wealth-card profile-glow-card position-relative" style="background: linear-gradient(135deg, rgba(106, 90, 205, 0.2) 0%, rgba(138, 43, 226, 0.1) 100%); border-color: #6A5ACD;">
+                        <div class="current-avatar-display profile-avatar-glow" style="display:flex;justify-content:center;align-items:center;">
                             <img src="{{ \App\Http\Controllers\ProfileController::getProfilePictureUrl($user) }}" 
-                                 alt="Current Avatar" class="current-avatar-img">
+                                 alt="Current Avatar" class="current-avatar-img" style="width:160px;height:160px;max-width:100%;max-height:100%;border-radius:50%;object-fit:cover;border:4px solid #ffd700;box-shadow:0 0 30px #ffd700,0 0 10px #6A5ACD;animation:avatarGlow 2s ease-in-out infinite alternate;">
                         </div>
                         <div class="wealth-content">
                             <h3 class="wealth-title" style="color: #6A5ACD;">{{ __('nav.current_avatar') }}</h3>
                             <h2 class="wealth-amount">{{ $user->name }}</h2>
+                            <div class="profile-stats-animated mt-2">
+                                <span class="badge profile-badge-glow" style="background:linear-gradient(90deg,#ffd700,#6A5ACD);color:#fff;font-size:1rem;padding:0.5em 1em;animation:badgePulse 2s infinite alternate;">
+                                    <i class="fas fa-star"></i> Level {{ $user->level }}
+                                </span>
+                            </div>
                         </div>
-                        <div class="wealth-decoration"></div>
                     </div>
                 </div>
 
@@ -94,12 +97,17 @@
 
                                 <!-- Available Profile Pictures -->
                                 @foreach($availableProfiles as $profile)
-                                    <div class="avatar-option {{ $user->profile_picture === $profile['filename'] ? 'selected' : '' }}" 
-                                         data-value="{{ $profile['filename'] }}">
+                                    @php $unlocked = $user->level >= $profile['id']; @endphp
+                                    <div class="avatar-option {{ $user->profile_picture === $profile['filename'] ? 'selected' : '' }} {{ !$unlocked ? 'locked' : '' }}" 
+                                         data-value="{{ $unlocked ? $profile['filename'] : '' }}" style="opacity:{{ $unlocked ? '1' : '0.5' }};pointer-events:{{ $unlocked ? 'auto' : 'none' }};">
                                         <img src="{{ $profile['path'] }}" 
                                              alt="{{ __('nav.avatar_number', ['number' => $profile['id']]) }}" class="avatar-img">
                                         <div class="avatar-label">{{ __('nav.avatar_number', ['number' => $profile['id']]) }}</div>
-                                        @if($user->profile_picture === $profile['filename'])
+                                        @if(!$unlocked)
+                                            <div class="selection-indicator" style="background:linear-gradient(135deg,#aaa,#666);color:#fff;">
+                                                <i class="fas fa-lock"></i>
+                                            </div>
+                                        @elseif($user->profile_picture === $profile['filename'])
                                             <div class="selection-indicator">
                                                 <i class="fas fa-check"></i>
                                             </div>
@@ -135,6 +143,46 @@
 
 <style>
 /* ===== RPG PROFILE INTERFACE STYLES ===== */
+
+/* Profile Glow Card Enhancement */
+.profile-glow-card {
+    box-shadow: 0 0 40px 10px #ffd70055, 0 0 80px 20px #6A5ACD33;
+    border: 3px solid #ffd700;
+    animation: profileGlow 3s ease-in-out infinite alternate;
+}
+.profile-avatar-glow img {
+    box-shadow: 0 0 30px #ffd700, 0 0 10px #6A5ACD;
+    border: 4px solid #ffd700;
+    animation: avatarGlow 2s ease-in-out infinite alternate;
+}
+.profile-stats-animated {
+    display: flex;
+    gap: 0.5em;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.profile-badge-glow {
+    box-shadow: 0 0 12px #ffd700, 0 0 8px #6A5ACD;
+    border-radius: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+@keyframes profileGlow {
+    0% { box-shadow: 0 0 40px 10px #ffd70055, 0 0 80px 20px #6A5ACD33; }
+    100% { box-shadow: 0 0 60px 20px #ffd70099, 0 0 120px 40px #6A5ACD66; }
+}
+@keyframes avatarGlow {
+    0% { box-shadow: 0 0 30px #ffd700, 0 0 10px #6A5ACD; }
+    100% { box-shadow: 0 0 50px #ffd700, 0 0 20px #6A5ACD; }
+}
+@keyframes badgePulse {
+    0% { transform: scale(1); opacity: 0.85; }
+    100% { transform: scale(1.08); opacity: 1; }
+}
+@keyframes crystalSpin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
 
 /* Background & Container */
 .rpg-profile-container {
@@ -387,10 +435,6 @@
     100% { box-shadow: 0 0 50px rgba(255, 215, 0, 0.5), inset 0 0 50px rgba(255, 215, 0, 0.2); }
 }
 
-@keyframes sparkle {
-    0%, 100% { opacity: 0; transform: scale(0); }
-    50% { opacity: 1; transform: scale(1); }
-}
 
 /* Panel Styles */
 .rpg-panel {

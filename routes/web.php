@@ -90,7 +90,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/game/guide', [GuideController::class, 'index'])->name('game.guide');
     
     // --- PLAYER LOGS ROUTES ---
-    // Player activity logs
     Route::get('/game/logs', [PlayerLogController::class, 'index'])->name('game.logs');
     Route::post('/game/logs/clear-old', [PlayerLogController::class, 'clearOldLogs'])->name('game.logs.clear-old');
     

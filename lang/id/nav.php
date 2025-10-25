@@ -606,7 +606,7 @@ return [
 
     // Profile translations
     'profile_settings' => 'Pengaturan Profil',
-    'customize_your_avatar' => 'Kustomisasi avatar dan profil Anda',
+    'customize_your_avatar' => 'Buka lebih banyak avatar saat kamu naik level',
     'success' => 'Berhasil',
     'error' => 'Kesalahan',
     'current_avatar' => 'Avatar Saat Ini',
