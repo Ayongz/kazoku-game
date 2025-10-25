@@ -113,6 +113,7 @@
     backdrop-filter: blur(10px);
     position: relative;
     overflow: hidden;
+    font-size: 0.95em;
 }
 
 .rpg-panel::before {
@@ -398,7 +399,7 @@
 }
 </style>
 
-<div class="rpg-dashboard-container">
+<div class="rpg-dashboard-container" style="font-size: 0.85rem;">
     <!-- RPG Background Elements -->
     <div class="rpg-background">
         <div class="floating-particles"></div>
@@ -406,17 +407,16 @@
         <div class="energy-waves"></div>
     </div>
 
-    <div class="container pt-5">
+    <div class="container pt-3">
         <div class="row justify-content-center">
             <div class="col-lg-10 col-xl-8">
-                
                 <!-- RPG Header -->
-                <div class="rpg-header text-center mb-5">
+                <div class="rpg-header text-center mb-3">
                     <div class="store-title-container">
-                        <h1 class="rpg-title">
-                            <i class="fas fa-dice me-3"></i>{{ __('nav.gambling_hall') }}
+                        <h1 class="rpg-title mb-1">
+                            <i class="fas fa-dice me-2"></i>{{ __('nav.gambling_hall') }}
                         </h1>
-                        <div class="title-decoration"></div>
+                        <div class="title-decoration" style="margin-bottom: 0.5rem;"></div>
                     </div>
                 </div>
 
@@ -465,7 +465,7 @@
                 @endif
 
                 <!-- Gambling Stats Panel -->
-                <div class="row mb-5">
+                <div class="row mb-3">
                     <div class="col-12">
                         <div class="rpg-panel panel-main">
                             <div class="panel-content p-4">
@@ -506,9 +506,9 @@
                 </div>
 
                 <!-- Gambling Games -->
-                <div class="row">
+                <div class="row g-3">
                     <!-- Dice Duel -->
-                    <div class="col-12 col-lg-4 mb-4">
+                    <div class="col-12 col-lg-4 mb-3">
                         <div class="rpg-panel panel-class position-relative overflow-hidden h-100">
                             <div class="position-absolute w-100 h-100" style="top: 0; left: 0; opacity: 0.05; background: radial-gradient(circle at 50% 50%, #dc2626 0%, transparent 70%);"></div>
                             
@@ -566,7 +566,7 @@
                     </div>
 
                     <!-- Treasure Fusion Gamble -->
-                    <div class="col-12 col-lg-4 mb-4">
+                    <div class="col-12 col-lg-4 mb-3">
                         <div class="rpg-panel panel-class position-relative overflow-hidden h-100">
                             <div class="position-absolute w-100 h-100" style="top: 0; left: 0; opacity: 0.05; background: radial-gradient(circle at 50% 50%, #d97706 0%, transparent 70%);"></div>
                             

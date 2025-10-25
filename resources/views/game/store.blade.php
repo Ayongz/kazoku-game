@@ -161,8 +161,8 @@
                                         <div class="next-level-preview">
                                             <strong>{{ __('nav.next_level', ['level' => $user->auto_earning_level + 1]) }}:</strong>
                                             <ul>
-                                                <li>{{ __('nav.rate_per_hour') }}: {{ ($user->auto_earning_level + 1) * 0.05 }}% per hour</li>
-                                                <li>{{ __('nav.hourly_income') }}: IDR {{ number_format($user->money_earned * (($user->auto_earning_level + 1) * 0.05 / 100), 0, ',', '.') }}</li>
+                                                <li>{{ __('nav.rate_per_hour') }}: {{ ($user->auto_earning_level + 1) * 0.20 }}% per hour</li>
+                                                <li>{{ __('nav.hourly_income') }}: IDR {{ number_format($user->money_earned * (($user->auto_earning_level + 1) * 0.20 / 100), 0, ',', '.') }}</li>
                                             </ul>
                                         </div>
                                     @endif
@@ -175,11 +175,11 @@
                                     <div class="stats-grid">
                                         <div class="stat-item">
                                             <span class="stat-label">{{ __('nav.rate_per_hour') }}</span>
-                                            <span class="stat-value">{{ $user->auto_earning_level * 0.05 }}%/hour</span>
+                                            <span class="stat-value">{{ $user->auto_earning_level * 0.20 }}%/hour</span>
                                         </div>
                                         <div class="stat-item">
                                             <span class="stat-label">{{ __('nav.hourly_income') }}</span>
-                                            <span class="stat-value">IDR {{ number_format($user->money_earned * ($user->auto_earning_level * 0.05 / 100), 0, ',', '.') }}</span>
+                                            <span class="stat-value">IDR {{ number_format($user->money_earned * ($user->auto_earning_level * 0.20 / 100), 0, ',', '.') }}</span>
                                         </div>
                                     </div>
                                 </div>

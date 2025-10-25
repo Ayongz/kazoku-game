@@ -166,7 +166,7 @@ class StoreController extends Controller
 
         return redirect()->route('store.index')
             ->with('success', "Successfully upgraded auto earning level to {$user->auto_earning_level}! You now earn " . 
-                   ($user->auto_earning_level * 0.05) . "% of your money every hour!");
+                   ($user->auto_earning_level * 0.20) . "% of your money every hour!");
     }
 
     /**

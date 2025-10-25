@@ -50,9 +50,9 @@ class ProcessAutoEarning extends Command
             $totalEarnAmount = 0;
             $earningDetails = [];
 
-            // Calculate auto earning amount (0.05% per level per hour)
+            // Calculate auto earning amount (0.20% per level per hour)
             if ($player->auto_earning_level > 0) {
-                $autoEarningRate = $player->auto_earning_level * 0.05; // 0.05% per level
+                $autoEarningRate = $player->auto_earning_level * 0.20; // 0.20% per level
                 $autoEarnAmount = $player->money_earned * ($autoEarningRate / 100);
                 $totalEarnAmount += $autoEarnAmount;
                 $totalAutoEarned += $autoEarnAmount;
