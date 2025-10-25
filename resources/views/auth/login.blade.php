@@ -7,27 +7,27 @@
             <div class="col-xl-4 col-lg-5 col-md-6 col-sm-8">
                 <div class="login-card">
                     <!-- Language Switcher -->
-                    <div class="language-switcher mb-3">
+                    <div class="language-switcher mb-3 text-start" style="position: absolute; left: 1.5rem; top: 1.5rem; z-index: 3; font-size: 0.72rem;">
                         <div class="dropdown">
-                            <button class="btn btn-light btn-sm dropdown-toggle shadow-sm" type="button" id="languageDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fas fa-globe me-2"></i>
+                            <button class="btn btn-light btn-sm dropdown-toggle shadow-sm" type="button" id="languageDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="font-size: inherit; padding: 0.22rem 0.55rem;">
+                                <i class="fas fa-globe me-2" style="font-size: 0.8em;"></i>
                                 @if(app()->getLocale() == 'id')
-                                    {{ __('auth.indonesian') }}
+                                    <span style="font-size: inherit;">{{ __('auth.indonesian') }}</span>
                                 @else
-                                    {{ __('auth.english') }}
+                                    <span style="font-size: inherit;">{{ __('auth.english') }}</span>
                                 @endif
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="languageDropdown">
                                 <li>
                                     <a class="dropdown-item @if(app()->getLocale() == 'en') active @endif" 
-                                       href="{{ route('language.switch', 'en') }}">
-                                        <i class="fas fa-flag-usa me-2"></i>{{ __('auth.english') }}
+                                       href="{{ route('language.switch', 'en') }}" style="font-size: 0.72rem;">
+                                        <i class="fas fa-flag-usa me-2" style="font-size: 0.8em;"></i>{{ __('auth.english') }}
                                     </a>
                                 </li>
                                 <li>
                                     <a class="dropdown-item @if(app()->getLocale() == 'id') active @endif" 
-                                       href="{{ route('language.switch', 'id') }}">
-                                        <i class="fas fa-flag me-2"></i>{{ __('auth.indonesian') }}
+                                       href="{{ route('language.switch', 'id') }}" style="font-size: 0.72rem;">
+                                        <i class="fas fa-flag me-2" style="font-size: 0.8em;"></i>{{ __('auth.indonesian') }}
                                     </a>
                                 </li>
                             </ul>
@@ -134,22 +134,111 @@
     </div>
 </div>
 
+
 <style>
 .login-wrapper {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 25%, #0f3460 50%, #1a1a2e 75%, #16213e 100%);
+    background-size: 400% 400%;
+    animation: backgroundShift 20s ease-in-out infinite;
     position: relative;
     overflow: hidden;
 }
 
+
 .login-wrapper::before {
     content: '';
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
-    right: 0;
-    bottom: 0;
-    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.05)"/><circle cx="10" cy="50" r="0.5" fill="rgba(255,255,255,0.05)"/><circle cx="90" cy="30" r="0.5" fill="rgba(255,255,255,0.05)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
-    opacity: 0.6;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 1;
+    background-image:
+        radial-gradient(2px 2px at 20px 30px, rgba(255,193,7,0.4), transparent),
+        radial-gradient(2px 2px at 40px 70px, rgba(59,130,246,0.3), transparent),
+        radial-gradient(1px 1px at 90px 40px, rgba(147,51,234,0.4), transparent),
+        radial-gradient(1px 1px at 130px 80px, rgba(34,197,94,0.3), transparent),
+        radial-gradient(2px 2px at 160px 30px, rgba(239,68,68,0.3), transparent);
+    background-repeat: repeat;
+    background-size: 200px 100px;
+    opacity: 0.7;
+    animation: starParallax 18s linear infinite;
+}
+
+@keyframes starParallax {
+    0% { background-position: 0 0, 0 0, 0 0, 0 0, 0 0; }
+    20% { background-position: 40px 20px, 80px 40px, 60px 30px, 100px 50px, 120px 60px; }
+    40% { background-position: 80px 40px, 160px 80px, 120px 60px, 200px 100px, 240px 120px; }
+    60% { background-position: 120px 60px, 240px 120px, 180px 90px, 300px 150px, 360px 180px; }
+    80% { background-position: 160px 80px, 320px 160px, 240px 120px, 400px 200px, 480px 240px; }
+    100% { background-position: 0 0, 0 0, 0 0, 0 0, 0 0; }
+}
+
+@keyframes backgroundShift {
+    0%, 100% { background-position: 0% 50%; }
+    25% { background-position: 100% 50%; }
+    50% { background-position: 100% 100%; }
+    75% { background-position: 0% 100%; }
+}
+
+@keyframes floatingStars {
+    0% { transform: translateY(0px) translateX(0px); }
+    25% { transform: translateY(-10px) translateX(5px); }
+    50% { transform: translateY(0px) translateX(-5px); }
+    75% { transform: translateY(5px) translateX(5px); }
+    100% { transform: translateY(0px) translateX(0px); }
+}
+
+.rpg-glow {
+    box-shadow: 0 0 30px 10px #3b82f6, 0 0 60px 20px #7c3aed;
+    animation: glowPulse 2.5s infinite alternate;
+}
+
+@keyframes glowPulse {
+    from { box-shadow: 0 0 30px 10px #3b82f6, 0 0 60px 20px #7c3aed; }
+    to { box-shadow: 0 0 60px 20px #7c3aed, 0 0 30px 10px #3b82f6; }
+}
+
+.rpg-floating {
+    animation: float 3s ease-in-out infinite;
+}
+
+.rpg-animated-logo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #3b82f6, #7c3aed);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    box-shadow: 0 0 40px 10px #7c3aed;
+    position: relative;
+    z-index: 2;
+}
+
+.rpg-animated-logo i {
+    font-size: 2.5rem;
+    color: #fff;
+    filter: drop-shadow(0 0 10px #fff);
+}
+
+/* Add animated sparkles around logo */
+.rpg-animated-logo::after {
+    content: '';
+    position: absolute;
+    top: 10px; left: 10px; right: 10px; bottom: 10px;
+    pointer-events: none;
+    background: url('data:image/svg+xml;utf8,<svg width="80" height="80" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="10" r="2" fill="%23fff" opacity="0.5"/><circle cx="70" cy="20" r="1.5" fill="%23fff" opacity="0.3"/><circle cx="40" cy="70" r="1.2" fill="%23fff" opacity="0.4"/><circle cx="60" cy="60" r="1.8" fill="%23fff" opacity="0.3"/></svg>');
+    background-size: cover;
+    animation: sparkle 2.5s infinite alternate;
+}
+
+@keyframes sparkle {
+    from { opacity: 0.7; }
+    to { opacity: 1; }
 }
 
 .login-card {

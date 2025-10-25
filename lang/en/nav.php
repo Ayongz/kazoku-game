@@ -349,7 +349,7 @@ return [
     // Dashboard translations
     'the_game_dashboard' => 'The Game Dashboard',
     'night_time_risk_active' => '🌙 Night-time Risk Active (6 PM - 6 AM GMT+7)',
-    'opening_treasures_risk' => 'Opening treasures now has special risks and rewards:',
+    'opening_treasures_risk' => 'Opening treasures now has special risks and rewards',
     'chance_to_lose_money' => 'chance to lose money',
     'chance_for_bonus' => 'chance for 1.5x bonus',
     'chance_rare_treasure' => 'chance for rare treasure',
@@ -697,4 +697,6 @@ return [
     'no_prestige_bonus' => 'No prestige bonus',
     'logs' => 'Activity Logs',
 
+    'farewell_adventurer' => 'Farewell, Adventurer!',
+    'your_journey_continues' => 'Your journey continues...',
 ];

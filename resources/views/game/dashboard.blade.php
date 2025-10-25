@@ -399,12 +399,16 @@
 
                     <!-- Global Prize Pool Card -->
                     <div class="col-12 col-md-4 col-lg-2-4 mb-3">
-                        <div class="rpg-stat-card-compact stat-prize">
-                            <div class="rpg-stat-icon-compact">
-                                <i class="fas fa-trophy"></i>
+                        <div class="rpg-stat-card-compact stat-prize rpg-prize-glow-redesign" style="min-height:120px; background: linear-gradient(135deg, #e0f2ff 0%, #b6e0fe 100%);">
+                            <br>
+                            <div class="rpg-stat-icon-compact rpg-prize-sparkle-redesign">
+                                <span class="rpg-trophy-aura">
+                                    <i class="fas fa-trophy"></i>
+                                </span>
                             </div>
-                            <h6 class="rpg-stat-label-compact">{{ __('nav.global_prize_pool') }}</h6>
-                            <h5 class="rpg-stat-value-compact" id="globalPrizePoolDisplay">
+                            <br>
+                            <h6 class="rpg-stat-label-compact" style="letter-spacing:1px;font-weight:700;text-shadow:0 0 8px #fbbf24,0 0 16px #3b82f6;">{{ __('nav.global_prize_pool') }}</h6>
+                            <h5 class="rpg-stat-value-compact prize-pool-amount" id="globalPrizePoolDisplay" style="font-size:1.5rem;color:#fbbf24;text-shadow:0 0 10px #fbbf24,0 0 20px #3b82f6;">
                                 <span class="d-none d-sm-inline">IDR </span>{{ number_format($globalPrizePool, 0, ',', '.') }}
                             </h5>
                             <div class="rpg-stat-details-compact">
@@ -418,7 +422,7 @@
                 <div class="row">
                     <!-- Player Level & Experience Card-->
                     <div class="col-12 col-lg-7">
-                        <div class="rpg-panel panel-main">
+                        <div class="rpg-panel panel-main" style="background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);">
                             <div class="panel-content p-3">
                                 <div class="row align-items-center">
                                     <div class="col-auto text-center">
@@ -1858,6 +1862,52 @@
     .stat-boxes .rpg-stat-icon { background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%); }
     .stat-shield .rpg-stat-icon { background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%); }
     .stat-prize .rpg-stat-icon { background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); }
+    .rpg-prize-glow-redesign {
+        box-shadow: 0 0 32px 10px #fbbf24, 0 0 60px 20px #3b82f6;
+        position: relative;
+        animation: prizeGlowPulseRedesign 2.2s infinite alternate;
+    }
+    @keyframes prizeGlowPulseRedesign {
+        from { box-shadow: 0 0 32px 10px #fbbf24, 0 0 60px 20px #3b82f6; }
+        to { box-shadow: 0 0 60px 20px #3b82f6, 0 0 32px 10px #fbbf24; }
+    }
+    .rpg-prize-sparkle-redesign {
+        position: relative;
+        animation: floatTrophy 2.8s ease-in-out infinite;
+    }
+    @keyframes floatTrophy {
+        0%,100% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+    }
+    .rpg-trophy-aura {
+        display: inline-block;
+        position: relative;
+    }
+    .rpg-trophy-aura::before {
+        content: '';
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%,-50%);
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: radial-gradient(circle, #fbbf24 0%, #3b82f6 80%, transparent 100%);
+        opacity: 0.5;
+        z-index: 0;
+        animation: auraPulse 2.2s infinite alternate;
+    }
+    @keyframes auraPulse {
+        from { opacity: 0.5; }
+        to { opacity: 0.8; }
+    }
+    .rpg-trophy-aura i {
+        position: relative;
+        z-index: 1;
+        font-size: 1.5rem;
+        color: #fff;
+        text-shadow: 0 0 12px #fbbf24, 0 0 24px #3b82f6;
+    }
     
     /* Responsive Design */
     @media (max-width: 768px) {

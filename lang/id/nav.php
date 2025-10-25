@@ -35,7 +35,7 @@ return [
     'treasure_masters' => 'Master Harta',
     'box_collectors' => 'Kolektor Kotak',
     'highest_levels' => 'Level Tertinggi',
-    'rank' => 'Peringkat',
+    'rank' => 'Posisi',
     'player' => 'Pemain',
     'money_earned' => 'Uang yang Diperoleh',
     'level' => 'Level',
@@ -352,7 +352,7 @@ return [
     // Dashboard translations
     'the_game_dashboard' => 'Dashboard Permainan',
     'night_time_risk_active' => '🌙 Mode Risiko Malam Aktif (18:00 - 06:00 WIB)',
-    'opening_treasures_risk' => 'Membuka harta karun sekarang memiliki risiko dan hadiah khusus:',
+    'opening_treasures_risk' => 'Membuka harta karun sekarang memiliki risiko dan hadiah khusus',
     'chance_to_lose_money' => 'kemungkinan kehilangan uang',
     'chance_for_bonus' => 'kemungkinan bonus 1.5x',
     'chance_rare_treasure' => 'kemungkinan harta karun langka',
@@ -700,4 +700,6 @@ return [
     'no_prestige_bonus' => 'Tidak ada bonus prestise',
     'logs' => 'Log Aktivitas',
 
+    'farewell_adventurer' => 'Selamat tinggal, Petualang!',
+    'your_journey_continues' => 'Perjalanan Anda berlanjut...',
 ];

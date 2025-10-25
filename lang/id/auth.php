@@ -17,8 +17,8 @@ return [
     'login_subtitle' => 'Masuk untuk melanjutkan petualangan Anda',
     
     'language' => 'Bahasa',
-    'english' => 'Bahasa Inggris',
-    'indonesian' => 'Bahasa Indonesia',
+    'english' => 'Inggris',
+    'indonesian' => 'Indonesia',
 
     'treasure_hunt' => 'Berburu Harta',
     'level_experience' => 'Level & Pengalaman',

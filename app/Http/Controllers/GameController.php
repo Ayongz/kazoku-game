@@ -41,7 +41,7 @@ class GameController extends Controller
     const TREASURE_HUNTER_FREE_TREASURE_CHANCE = 15;  // 15% chance for free treasure
     const PROUD_MERCHANT_BONUS_EARNING = 20;          // 20% additional earnings
     const FORTUNE_GAMBLER_DOUBLE_CHANCE = 15;         // 15% chance to double rewards
-    const FORTUNE_GAMBLER_LOSE_CHANCE = 8;            // 8% chance to lose all rewards
+    const FORTUNE_GAMBLER_LOSE_CHANCE = 10;           // 10% chance to lose all rewards
     const MOON_GUARDIAN_RANDOM_BOX_CHANCE = 20;       // 20% chance for random box at night
     const DAY_BREAKER_RANDOM_BOX_CHANCE = 20;         // 20% chance for random box at day
     const BOX_COLLECTOR_DOUBLE_BOX_CHANCE = 10;       // 10% chance for 2 random boxes
@@ -51,7 +51,7 @@ class GameController extends Controller
     const ADV_TREASURE_HUNTER_FREE_TREASURE_CHANCE = 25;  // 25% chance for free treasure
     const ADV_PROUD_MERCHANT_BONUS_EARNING = 30;          // 30% additional earnings
     const ADV_FORTUNE_GAMBLER_DOUBLE_CHANCE = 25;         // 25% chance to double rewards
-    const ADV_FORTUNE_GAMBLER_LOSE_CHANCE = 12;           // 12% chance to lose all rewards
+    const ADV_FORTUNE_GAMBLER_LOSE_CHANCE = 15;           // 15% chance to lose all rewards
     const ADV_MOON_GUARDIAN_RANDOM_BOX_CHANCE = 30;       // 30% chance for random box at night
     const ADV_DAY_BREAKER_RANDOM_BOX_CHANCE = 30;         // 30% chance for random box at day
     const ADV_BOX_COLLECTOR_DOUBLE_BOX_CHANCE = 15;       // 15% chance for 2 random boxes
@@ -102,7 +102,7 @@ class GameController extends Controller
         
         // Apply class abilities
         $this->applyClassAbilities($user, $earningsResult);
-        
+
         // Update user progress
         $this->updateUserProgress($user, $earningsResult);
         
