@@ -702,4 +702,5 @@ return [
 
     'farewell_adventurer' => 'Selamat tinggal, Petualang!',
     'your_journey_continues' => 'Perjalanan Anda berlanjut...',
+    'status_page_title' => 'Status',
 ];

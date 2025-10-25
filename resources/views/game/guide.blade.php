@@ -606,7 +606,7 @@
                                     <h6>🎲 {{ __('gambling.dice_duel') }}</h6>
                                     <p class="rpg-content-text">{{ __('gambling.dice_duel_desc') }}</p>
                                     <ul class="rpg-content-list">
-                                        <li>{{ __('nav.bet_range') }}: IDR 3,000 - {{ __('nav.level_based') }}</li>
+                                        <li>{{ __('nav.bet_range') }}: IDR 10,000 - {{ __('nav.level_based') }}</li>
                                         <li>{{ __('nav.win_rate') }}: ~45%</li>
                                         <li>{{ __('nav.payout') }}: 2x {{ __('nav.bet_amount') }}</li>
                                     </ul>
@@ -624,7 +624,7 @@
                                     <h6>🃏 {{ __('gambling.card_flip') }}</h6>
                                     <p class="rpg-content-text">{{ __('gambling.card_flip_desc') }}</p>
                                     <ul class="rpg-content-list">
-                                        <li>{{ __('nav.bet_range') }}: IDR 3,000 - {{ __('nav.level_based') }}</li>
+                                        <li>{{ __('nav.bet_range') }}: IDR 10,000 - {{ __('nav.level_based') }}</li>
                                         <li>{{ __('nav.win_rate') }}: ~45%</li>
                                         <li>{{ __('nav.payout') }}: 2x {{ __('nav.bet_amount') }}</li>
                                     </ul>

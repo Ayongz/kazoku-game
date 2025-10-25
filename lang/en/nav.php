@@ -699,4 +699,5 @@ return [
 
     'farewell_adventurer' => 'Farewell, Adventurer!',
     'your_journey_continues' => 'Your journey continues...',
+    'status_page_title' => 'Status',
 ];

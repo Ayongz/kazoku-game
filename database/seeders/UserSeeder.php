@@ -19,7 +19,7 @@ class UserSeeder extends Seeder
             'email' => 'yong@game.com',
             'password' => Hash::make('123'),
             'money_earned' => 0,
-            'treasure' => 100
+            'treasure' => 20
         ]);
 
         User::create([

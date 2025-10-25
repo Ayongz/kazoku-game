@@ -10,7 +10,7 @@ use Carbon\Carbon;
 
 class GamblingController extends Controller
 {
-    const BASE_BET_AMOUNT = 3000;
+    const BASE_BET_AMOUNT = 10000;
     const BET_INCREASE_PER_LEVEL = 1000;
     const BASE_DAILY_ATTEMPTS = 20;
     const ATTEMPTS_INCREASE_PER_LEVEL = 2;

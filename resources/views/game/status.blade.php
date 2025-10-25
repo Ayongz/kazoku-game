@@ -10,10 +10,12 @@
         <div class="energy-waves"></div>
     </div>
 
-    <div class="container py-5">
+    <div class="container pt-3">
         <div class="row justify-content-center">
             <div class="col-lg-10 col-xl-8">
-            <!-- Header -->
+            <div class="text-center mb-4">
+                <h1 class="fw-bold display-5" style="color: white;">{{ __('nav.status_page_title') }}</h1>
+            </div>
             <div class="text-center mb-3">
                 <!-- Player Profile Section - Optimized -->
                 <div class="player-profile-card-compact mb-3">
@@ -133,7 +135,6 @@
                             
                             <div class="mb-3">
                                 <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <small class="text-muted">{{ __('nav.next_level_at', ['exp' => $currentLevel + 1]) }}</small>
                                     <small class="text-muted">{{ $expToNext }} {{ __('nav.experience_needed') }}</small>
                                 </div>
                                 <div class="progress" style="height: 10px;">
