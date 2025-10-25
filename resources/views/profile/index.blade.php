@@ -52,11 +52,10 @@
                     <div class="wealth-card profile-glow-card position-relative" style="background: linear-gradient(135deg, rgba(106, 90, 205, 0.2) 0%, rgba(138, 43, 226, 0.1) 100%); border-color: #6A5ACD;">
                         <div class="current-avatar-display profile-avatar-glow" style="display:flex;justify-content:center;align-items:center;">
                             <img src="{{ \App\Http\Controllers\ProfileController::getProfilePictureUrl($user) }}" 
-                                 alt="Current Avatar" class="current-avatar-img" style="width:160px;height:160px;max-width:100%;max-height:100%;border-radius:50%;object-fit:cover;border:4px solid #ffd700;box-shadow:0 0 30px #ffd700,0 0 10px #6A5ACD;animation:avatarGlow 2s ease-in-out infinite alternate;">
+                                 alt="Current Avatar" class="current-avatar-img" style="width:350px;height:350px;max-width:100%;max-height:100%;border-radius:50%;object-fit:cover;border:4px solid #ffd700;box-shadow:0 0 30px #ffd700,0 0 10px #6A5ACD;animation:avatarGlow 2s ease-in-out infinite alternate;">
                         </div>
                         <div class="wealth-content">
                             <h3 class="wealth-title" style="color: #6A5ACD;">{{ __('nav.current_avatar') }}</h3>
-                            <h2 class="wealth-amount">{{ $user->name }}</h2>
                             <div class="profile-stats-animated mt-2">
                                 <span class="badge profile-badge-glow" style="background:linear-gradient(90deg,#ffd700,#6A5ACD);color:#fff;font-size:1rem;padding:0.5em 1em;animation:badgePulse 2s infinite alternate;">
                                     <i class="fas fa-star"></i> Level {{ $user->level }}

@@ -68,20 +68,6 @@
                                 </div>
 
                                 @if($randomBoxCount > 0)
-                                    <!-- Box Animation Area -->
-                                    <div class="box-animation-area mb-4" id="boxAnimationArea">
-                                        <div class="treasure-box-container" id="treasureBoxContainer">
-                                            <div class="treasure-box-3d" id="animatedBox">
-                                                <div class="box-face box-front">🎁</div>
-                                                <div class="box-face box-back">🎁</div>
-                                                <div class="box-face box-left">🎁</div>
-                                                <div class="box-face box-right">🎁</div>
-                                                <div class="box-face box-top">🎁</div>
-                                                <div class="box-face box-bottom">🎁</div>
-                                            </div>
-                                        </div>
-                                    </div>
-
                                     <!-- Action Button -->
                                     <button class="rpg-btn rpg-primary-btn px-5 pt-3" id="openBoxBtn" onclick="openRandomBox()">
                                         <span class="btn-text">
@@ -89,7 +75,6 @@
                                             {{ __('nav.open_random_box') }}
                                         </span>
                                     </button>
-                                    
                                     <!-- Remaining Boxes -->
                                     <p class="text-light mt-3 mb-0 inventory-info">
                                         {!! __('nav.you_have_boxes', ['count' => $randomBoxCount]) !!}
@@ -169,6 +154,14 @@
             </div>
         </div>
     </div>
+<!-- Unboxing Video Overlay (moved outside main content for true fullscreen) -->
+<div id="unboxingVideoOverlay" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.85); z-index:99999; justify-content:center; align-items:center; flex-direction:column;">
+    <video id="unboxingVideo" width="480" height="320" style="max-width:90vw; max-height:80vh; border-radius:16px; box-shadow:0 0 32px #fff;" preload="auto">
+        <source src="/videos/unboxing.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <button id="skipUnboxingBtn" style="margin-top:32px; padding:12px 32px; font-size:1.2em; border-radius:8px; background:#ffc107; color:#222; border:none; box-shadow:0 2px 8px #0002; cursor:pointer; font-weight:bold;">Skip</button>
+</div>
 </div>
 
 <!-- Reward Display Modal -->
@@ -807,35 +800,40 @@ let isOpening = false;
 
 function openRandomBox() {
     if (isOpening) return;
-    
     const btn = document.getElementById('openBoxBtn');
-    const box = document.getElementById('animatedBox');
-    
+    const overlay = document.getElementById('unboxingVideoOverlay');
+    const video = document.getElementById('unboxingVideo');
+    const skipBtn = document.getElementById('skipUnboxingBtn');
+
     // Start loading state
     isOpening = true;
     btn.classList.add('btn-loading');
     btn.disabled = true;
-    
-    // Start box opening animation
-    box.classList.add('opening');
-    
-    // Make API call
-    fetch('/game/inventory/open-random-box', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-        },
-        body: JSON.stringify({})
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.json();
-    })
-    .then(data => {
-        setTimeout(() => {
+
+    // Show overlay and play video
+    overlay.style.display = 'flex';
+    video.currentTime = 0;
+    video.play();
+
+    // Helper to finish unboxing and show reward
+    function finishUnboxing() {
+        overlay.style.display = 'none';
+        // Make API call
+        fetch('/game/inventory/open-random-box', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: JSON.stringify({})
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
             if (data.success) {
                 showRewards(data.reward, data.opened_boxes);
                 updateBoxCount(data.remaining_boxes);
@@ -843,18 +841,25 @@ function openRandomBox() {
             } else {
                 alert(data.message);
             }
-            
-            // Reset states
-            resetBoxAnimation();
             resetButton();
-        }, 2000); // Wait for animation
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('An error occurred while opening the box: ' + error.message);
-        resetBoxAnimation();
-        resetButton();
-    });
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while opening the box: ' + error.message);
+            resetButton();
+        });
+        // Remove event listeners to avoid duplicate calls
+        video.onended = null;
+        skipBtn.onclick = null;
+    }
+
+    // When video ends, finish unboxing
+    video.onended = finishUnboxing;
+    // When skip button clicked, finish unboxing
+    skipBtn.onclick = function() {
+        video.pause();
+        finishUnboxing();
+    };
 }
 
 function showRewards(reward, openedBoxes) {
@@ -968,10 +973,8 @@ function addToRewardHistory(reward) {
     }
 }
 
-function resetBoxAnimation() {
-    const box = document.getElementById('animatedBox');
-    box.classList.remove('opening');
-}
+
+// No longer needed: resetBoxAnimation
 
 function resetButton() {
     const btn = document.getElementById('openBoxBtn');
