@@ -21,8 +21,6 @@
 <div id="home-dashboard" class="@if(!session('welcome_shown') && auth()->check()) hidden @endif">
 
 <style>
-/* === RPG THEME STYLING === */
-
 /* Main Container Background */
 .rpg-dashboard-container {
     position: relative;
@@ -561,7 +559,7 @@
         <!-- Leaderboard Panel -->
         <div class="rpg-panel panel-leaderboard">
             <div class="p-4">
-                <h3 class="text-white fw-bold mb-3">
+                <h3 class="text-white fw-bold mb-3" style="text-align: center;">
                     <i class="fas fa-trophy me-2 text-warning"></i>{{ __('nav.top_players') }}
                 </h3>
                 <p class="text-muted mb-4">{{ __('nav.richest_players_description') }}</p>
@@ -599,6 +597,13 @@
                                     </td>
                                     <td>
                                         <div class="d-flex align-items-center">
+                                            @if($player->is_admin)
+                                                <div style="position:relative;">
+                                                    <span class="badge bg-danger" style="position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:0.75em;z-index:2;box-shadow:0 2px 8px #0002;">
+                                                        <i class="fas fa-shield-alt"></i>
+                                                    </span>
+                                                </div>
+                                            @endif
                                             <div class="rpg-avatar me-3">
                                                 @if(!empty($player->profile_picture))
                                                     <img src="{{ asset('images/profile/' . $player->profile_picture) }}" alt="{{ $player->name }}" class="rpg-avatar-img" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" />
@@ -609,7 +614,7 @@
                                             <div>
                                                 <h6 class="mb-0 fw-bold text-white">{{ $player->name }}</h6>
                                                 @if($player->id === $currentUser->id)
-                                                    <small class="text-primary fw-bold">
+                                                    <small class="fw-bold">
                                                         <i class="fas fa-user-check me-1"></i>{{ __('nav.you') }}
                                                     </small>
                                                 @endif
@@ -633,7 +638,7 @@
                                     </td>
                                     <td class="text-center">
                                         <div class="rpg-level-badge">
-                                            <i class="fas fa-star me-2 text-warning"></i>
+                                            
                                             <span class="fw-bold text-white">{{ __('nav.level') }} {{ $player->level ?? 1 }}</span>
                                         </div>
                                     </td>

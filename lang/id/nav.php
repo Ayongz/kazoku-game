@@ -90,7 +90,7 @@ return [
     
     // Leaderboard headers
     'top_players' => 'Pemain Teratas',
-    'richest_players_description' => 'Para pencetak uang terbanyak dan penghasil terbesar dalam permainan.',
+    'richest_players_description' => 'Para pencetak uang terbanyak',
     'abilities_status' => 'Kemampuan & Status',
     'player_id' => 'ID Pemain: :id',
     'auto_steal_level' => 'Auto Steal Lv.:level',

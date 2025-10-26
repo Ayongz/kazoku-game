@@ -15,15 +15,6 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         User::create([
-            'name' => 'Admin',
-            'email' => 'admin@game.com',
-            'password' => Hash::make('123'),
-            'money_earned' => 0,
-            'treasure' => 20,
-            'is_admin' => true
-        ]);
-
-        User::create([
             'name' => 'Wei',
             'email' => 'wei@game.com',
             'password' => Hash::make('123'),
@@ -55,5 +46,13 @@ class UserSeeder extends Seeder
             'treasure' => 20
         ]);
 
+        User::create([
+            'name' => 'GM',
+            'email' => 'gm@game.com',
+            'password' => Hash::make('123'),
+            'money_earned' => 0,
+            'treasure' => 80,
+            'is_admin' => true
+        ]);
     }
 }

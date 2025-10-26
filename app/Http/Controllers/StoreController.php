@@ -30,11 +30,11 @@ class StoreController extends Controller
     // Prestige System Constants
     const MAX_PRESTIGE_LEVEL = 5;       // Maximum prestige level
     const PRESTIGE_COSTS = [            // Costs for each prestige level
-        1 => 100000,  // Level 1: 100k
-        2 => 120000,  // Level 2: 120k
-        3 => 140000,  // Level 3: 140k
-        4 => 160000,  // Level 4: 160k
-        5 => 180000,  // Level 5: 180k
+        1 => 50000,
+        2 => 70000,
+        3 => 90000,
+        4 => 110000, 
+        5 => 130000,
     ];
     const PRESTIGE_LEVEL_REQUIREMENTS = [ // Minimum player level requirements
         1 => 5,  // Level 1: Player level 5

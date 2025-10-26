@@ -1,12 +1,54 @@
 @extends('layouts.app')
 @section('content')
-<div class="rpg-topup-bg" style="position:fixed; inset:0; z-index:-1; background:radial-gradient(ellipse at top left, #6a5acd 0%, #1a1a2e 100%), url('/images/site/rpg-bg.png') center/cover no-repeat; opacity:0.7;"></div>
-<div class="container py-5 d-flex justify-content-center align-items-center" style="min-height:80vh;">
-    <div class="rpg-card shadow-lg p-4" style="background:rgba(34,30,60,0.95); border-radius:18px; max-width:420px; width:100%; border:2px solid #6a5acd; box-shadow:0 0 32px #6a5acd55;">
-        <div class="text-center mb-4">
-            <h2 class="rpg-title" style="color:#ffd700; font-family:'Cinzel',serif; letter-spacing:2px; text-shadow:0 2px 8px #6a5acd;">{{ __('topup.top_up') }}</h2>
-            <div style="height:4px; width:80px; margin:0 auto; background:linear-gradient(90deg,#ffd700,#6a5acd); border-radius:2px;"></div>
-        </div>
+<style>
+.rpg-topup-bg {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 25%, #0f3460 50%, #1a1a2e 75%, #16213e 100%);
+    background-size: 400% 400%;
+    animation: backgroundShift 20s ease-in-out infinite;
+}
+.rpg-topup-bg::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(2px 2px at 20px 30px, rgba(255,193,7,0.4), transparent),
+        radial-gradient(2px 2px at 40px 70px, rgba(59,130,246,0.3), transparent),
+        radial-gradient(1px 1px at 90px 40px, rgba(147,51,234,0.4), transparent),
+        radial-gradient(1px 1px at 130px 80px, rgba(34,197,94,0.3), transparent),
+        radial-gradient(2px 2px at 160px 30px, rgba(239,68,68,0.3), transparent);
+    background-repeat: repeat;
+    background-size: 200px 100px;
+    animation: floatingStars 25s linear infinite;
+    pointer-events: none;
+    z-index: 1;
+}
+@keyframes backgroundShift {
+    0%, 100% { background-position: 0% 50%; }
+    25% { background-position: 100% 50%; }
+    50% { background-position: 100% 100%; }
+    75% { background-position: 0% 100%; }
+}
+@keyframes floatingStars {
+    0% { transform: translateY(0px) translateX(0px); }
+    25% { transform: translateY(-10px) translateX(5px); }
+    50% { transform: translateY(0px) translateX(-5px); }
+    75% { transform: translateY(5px) translateX(5px); }
+    100% { transform: translateY(0px) translateX(0px); }
+}
+</style>
+<div class="rpg-topup-bg"></div>
+<div class="container pt-3 d-flex flex-column justify-content-center align-items-center">
+    <div class="d-flex flex-column align-items-center mb-4" style="width:100%;">
+        <h2 class="rpg-title text-center" style="color:#ffd700; font-family:'Cinzel',serif; letter-spacing:2px; text-shadow:0 2px 8px #6a5acd;">{{ __('topup.top_up') }}</h2>
+        <div style="height:4px; width:80px; background:linear-gradient(90deg,#ffd700,#6a5acd); border-radius:2px;"></div>
+    </div>
+    <div class="rpg-card shadow-lg p-4" style="background:rgba(34,30,60,0.95); border-radius:18px; max-width:420px; width:100%; border:2px solid #6a5acd; box-shadow:0 0 32px #6a5acd55;font-size: 14px;">
         @if(session('success'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 <strong>{{ session('success') }}</strong>
@@ -22,32 +64,32 @@
         @if($pending)
             <div class="rpg-pending-box mb-3 p-3 text-center" style="background:rgba(106,90,205,0.15); border:1.5px solid #ffd700; border-radius:12px;">
                 <div class="mb-2" style="font-size:2em;">🧙‍♂️</div>
-                <strong style="color:#ffd700;">{{ __('topup.top_up_request_pending_review') }}</strong><br>
-                <span style="color:#fff;">{{ __('topup.package') }}:</span> <span class="badge bg-warning text-dark">@if($pending->package=='random_box') 20 Random Box @else 40 Treasure @endif + <span class='badge bg-info text-dark'>12h Shield</span></span><br>
-                <span style="color:#fff;">{{ __('topup.status') }}:</span> <span class="badge bg-warning">Pending</span>
-                <div class="mt-2" style="font-size:0.95em; color:#ccc;">{{ __('topup.each_package_include') }}</div>
-                <div class="mt-2" style="font-size:0.95em; color:#ccc;">{{ __('topup.please_wait') }}</div>
+                <strong style="color:#ffd700;">Top Up Request Pending Review</strong><br>
+                <span style="color:#fff;">Package:</span> <span class="badge bg-warning text-dark">@if($pending->package=='random_box') 20 Random Box @else 40 Treasure @endif + <span class='badge bg-info text-dark'>12h Shield</span> + <span class='badge bg-success text-dark'>IDR 50,000</span></span><br>
+                <span style="color:#fff;">Status:</span> <span class="badge bg-warning">Pending</span>
+                <div class="mt-2" style="font-size:0.95em; color:#ccc;">If you already have shield, the duration will be added.</div>
+                <div class="mt-2" style="font-size:0.95em; color:#ccc;">Please wait for admin approval before submitting another request.</div>
             </div>
         @else
             <form method="POST" action="{{ route('topup.store') }}" class="rpg-form" id="topupForm">
                 @csrf
                 <div class="mb-3">
-                    <label class="form-label" style="color:#ffd700; font-weight:bold;"> {{ __('topup.choose_package') }} <span style="color:#fff;">(50,000 IDR)</span></label>
+                    <label class="form-label" style="color:#ffd700; font-weight:bold;">Choose Package <span style="color:#fff;">(50,000 IDR)</span></label>
                     <div class="d-flex flex-column gap-2">
                         <div class="form-check rpg-radio">
                             <input class="form-check-input" type="radio" name="package" id="packageRandomBox" value="random_box" checked required>
                             <label class="form-check-label" for="packageRandomBox" style="color:#ffd700; font-weight:bold;">
-                                🗃️ 20 {{ __('topup.random_box') }}
+                                🗃️ 20 Random Box <span class='badge bg-info text-dark'>+ 12h Shield</span> <span class='badge bg-success text-dark'>+ IDR 50,000</span>
                             </label>
                         </div>
                         <div class="form-check rpg-radio">
                             <input class="form-check-input" type="radio" name="package" id="packageTreasure" value="treasure" required>
                             <label class="form-check-label" for="packageTreasure" style="color:#ffd700; font-weight:bold;">
-                                💎 40 {{ __('topup.treasure') }}
+                                💎 40 Treasure <span class='badge bg-info text-dark'>+ 12h Shield</span> <span class='badge bg-success text-dark'>+ IDR 50,000</span>
                             </label>
                         </div>
                     </div>
-                    <div class="mt-2" style="font-size:0.95em; color:#ccc;">{{ __('topup.each_package_include') }}</div>
+                    <div class="mt-2" style="font-size:0.95em; color:#ccc;">If you already have shield, the duration will be added.</div>
                 </div>
                 <button type="button" class="btn rpg-btn w-100" style="background:linear-gradient(90deg,#ffd700,#6a5acd); color:#232046; font-weight:bold; border-radius:8px; box-shadow:0 2px 8px #6a5acd55;" onclick="showTopupConfirm()">Submit Top Up</button>
             </form>

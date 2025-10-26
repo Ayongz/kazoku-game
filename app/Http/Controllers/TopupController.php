@@ -9,6 +9,8 @@ use App\Models\TopupRequest;
 
 class TopupController extends Controller
 {
+    public static $PACKAGE_COST = 50000;
+
     public function index()
     {
         $pending = TopupRequest::where('user_id', Auth::id())
@@ -39,7 +41,29 @@ class TopupController extends Controller
         $this->authorizeAdmin();
         $requests = TopupRequest::with('user')->orderByDesc('created_at')->get();
         $grouped = $requests->groupBy('user_id');
-        return view('topup.admin', compact('grouped'));
+
+        // Calculate total approved topup amount per user
+        $totals = [];
+        foreach ($grouped as $userId => $reqs) {
+            $totals[$userId] = $reqs->where('status', 'success')->count() * self::$PACKAGE_COST;
+        }
+
+        // Scoreboard: all players who have already topup (approved at least once)
+        $scoreboard = [];
+        foreach ($grouped as $userId => $reqs) {
+            $approvedCount = $reqs->where('status', 'success')->count();
+            if ($approvedCount > 0) {
+                $scoreboard[] = [
+                    'user' => $reqs->first()->user,
+                    'total' => $approvedCount * self::$PACKAGE_COST,
+                    'count' => $approvedCount,
+                ];
+            }
+        }
+        // Sort scoreboard by total descending
+        usort($scoreboard, function($a, $b) { return $b['total'] <=> $a['total']; });
+
+        return view('topup.admin', compact('grouped', 'totals', 'scoreboard'));
     }
 
     // Admin approve specific request
@@ -61,6 +85,8 @@ class TopupController extends Controller
             } else {
                 $user->shield_expires_at = $now->addHours(12);
             }
+            // Add 50,000 IDR to money_earned
+            $user->money_earned += 50000;
             $user->save();
             $pending->status = 'success';
             $pending->save();

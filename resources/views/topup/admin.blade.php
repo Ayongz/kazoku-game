@@ -2,8 +2,38 @@
 @section('content')
 <div class="container py-5">
     <h2 class="mb-4">Player Top Up Request History</h2>
+
+    @if(!empty($scoreboard))
+    <div class="mb-4">
+        <h4 class="mb-2" style="color:#ffd700; font-family:'Cinzel',serif;">Top Up Scoreboard</h4>
+        <div class="table-responsive">
+            <table class="table table-bordered table-sm bg-dark text-light align-middle" style="border-radius:8px; overflow:hidden; min-width:400px;">
+                <thead>
+                    <tr>
+                        <th>Player</th>
+                        <th>Total Top Up</th>
+                        <th>Approved Count</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($scoreboard as $entry)
+                    <tr>
+                        <td><i class="fas fa-user me-2"></i>{{ $entry['user']->name }}</td>
+                        <td><span class="badge bg-success">IDR {{ number_format($entry['total'], 0, ',', '.') }}</span></td>
+                        <td>{{ $entry['count'] }}</td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+    @endif
+
     @foreach($grouped as $userId => $requests)
         <div class="mb-4 p-3" style="background:rgba(106,90,205,0.08); border-radius:12px; border:1.5px solid #6a5acd;">
+            <div class="mb-2">
+                <span class="badge bg-info text-dark">Total Approved Top Up: IDR {{ number_format($totals[$userId] ?? 0, 0, ',', '.') }}</span>
+            </div>
             <h5 style="color:blue; font-family:'Cinzel',serif;">
                 <i class="fas fa-user me-2"></i>{{ $requests->first()->user->name }}
             </h5>
@@ -12,6 +42,7 @@
                     <thead>
                         <tr>
                             <th>Package</th>
+                            <th>Cost</th>
                             <th>Status</th>
                             <th>Requested At</th>
                             <th>Action</th>
@@ -21,6 +52,7 @@
                         @foreach($requests as $req)
                         <tr>
                             <td>@if($req->package=='random_box') 20 Random Box @else 40 Treasure @endif</td>
+                            <td><span class="badge bg-success">IDR {{ number_format(\App\Http\Controllers\TopupController::$PACKAGE_COST, 0, ',', '.') }}</span></td>
                             <td>
                                 @if($req->status=='pending')
                                     <span class="badge bg-warning">Pending</span>
@@ -32,7 +64,7 @@
                                     <span class="badge bg-secondary">{{ ucfirst($req->status) }}</span>
                                 @endif
                             </td>
-                            <td>{{ $req->created_at->format('Y-m-d H:i') }}</td>
+                            <td>{{ $req->created_at->setTimezone('Asia/Jakarta')->format('Y-m-d H:i') }} <span class="text-muted" style="font-size:0.9em;">(UTC+7)</span></td>
                             <td>
                                 @if($req->status=='pending')
                                 <div class="d-flex gap-2">

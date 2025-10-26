@@ -87,7 +87,7 @@ return [
     
     // Leaderboard headers
     'top_players' => 'Top Players',
-    'richest_players_description' => 'The top money-makers and biggest earners in the game.',
+    'richest_players_description' => 'The top money-makers',
     'abilities_status' => 'Abilities & Status',
     'player_id' => 'Player ID: :id',
     'auto_steal_level' => 'Auto Steal Lv.:level',
