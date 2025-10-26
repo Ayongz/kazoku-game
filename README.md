@@ -1,5 +1,16 @@
 # 🎮 Kazoku Game
 
+## 💸 Top Up Mechanism
+Kazoku Game features a Top Up system where players can purchase in-game packages to boost their progress. The Top Up process works as follows:
+- Players choose from available packages (Random Box or Treasure) with different quantities and shield durations.
+- Each package has a fixed cost (IDR 50,000 or IDR 100,000) and grants either random boxes or treasures, plus shield protection (6h or 12h).
+- After submitting a Top Up request, the player must wait for admin approval.
+- Admins can approve or reject requests. Approved requests immediately grant the items and add shield duration (stacking if already active).
+- All Top Up transactions are tracked in the player's history, showing package, cost, status, and timestamp.
+- The leaderboard (scoreboard) displays total top up amounts for all players, calculated using the actual cost of approved packages.
+
+---
+
 **A comprehensive RPG-style money-earning web game built with Laravel**
 
 Kazoku Game is an advanced browser-based strategy RPG where players compete to earn virtual money, level up, select classes, upgrade abilities, and dominate the leaderboard. Built with Laravel and Bootstrap, it features a complex economy system with day/night cycles, PvP mechanics, class systems, and prestige progression.
