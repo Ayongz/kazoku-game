@@ -65,7 +65,14 @@
             <div class="rpg-pending-box mb-3 p-3 text-center" style="background:rgba(106,90,205,0.15); border:1.5px solid #ffd700; border-radius:12px;">
                 <div class="mb-2" style="font-size:2em;">🧙‍♂️</div>
                 <strong style="color:#ffd700;">Top Up Request Pending Review</strong><br>
-                <span style="color:#fff;">Package:</span> <span class="badge bg-warning text-dark">@if($pending->package=='random_box') 20 Random Box @else 40 Treasure @endif + <span class='badge bg-info text-dark'>12h Shield</span> + <span class='badge bg-success text-dark'>IDR 50,000</span></span><br>
+                <span style="color:#fff;">Package:</span> <span class="badge bg-warning text-dark">
+                @if($pending->package=='random_box_20') 20 Random Box <span class='badge bg-info text-dark'>6h Shield</span> <span class='badge bg-success text-dark'>IDR 50,000</span>
+                @elseif($pending->package=='treasure_40') 40 Treasure <span class='badge bg-info text-dark'>6h Shield</span> <span class='badge bg-success text-dark'>IDR 50,000</span>
+                @elseif($pending->package=='random_box_40') 40 Random Box <span class='badge bg-info text-dark'>12h Shield</span> <span class='badge bg-success text-dark'>IDR 100,000</span>
+                @elseif($pending->package=='treasure_80') 80 Treasure <span class='badge bg-info text-dark'>12h Shield</span> <span class='badge bg-success text-dark'>IDR 100,000</span>
+                @else Unknown Package
+                @endif
+                </span><br>
                 <span style="color:#fff;">Status:</span> <span class="badge bg-warning">Pending</span>
                 <div class="mt-2" style="font-size:0.95em; color:#ccc;">If you already have shield, the duration will be added.</div>
                 <div class="mt-2" style="font-size:0.95em; color:#ccc;">Please wait for admin approval before submitting another request.</div>
@@ -74,18 +81,30 @@
             <form method="POST" action="{{ route('topup.store') }}" class="rpg-form" id="topupForm">
                 @csrf
                 <div class="mb-3">
-                    <label class="form-label" style="color:#ffd700; font-weight:bold;">Choose Package <span style="color:#fff;">(50,000 IDR)</span></label>
+                    <label class="form-label" style="color:#ffd700; font-weight:bold;">Choose Package</label>
                     <div class="d-flex flex-column gap-2">
                         <div class="form-check rpg-radio">
-                            <input class="form-check-input" type="radio" name="package" id="packageRandomBox" value="random_box" checked required>
+                            <input class="form-check-input" type="radio" name="package" id="packageRandomBox" value="random_box_20" checked required>
                             <label class="form-check-label" for="packageRandomBox" style="color:#ffd700; font-weight:bold;">
-                                🗃️ 20 Random Box <span class='badge bg-info text-dark'>+ 12h Shield</span> <span class='badge bg-success text-dark'>+ IDR 50,000</span>
+                                🗃️ 20 Random Box <span class='badge bg-info text-dark'>+ 6h Shield</span> <span class='badge bg-success text-dark'>+ IDR 50,000</span>
                             </label>
                         </div>
                         <div class="form-check rpg-radio">
-                            <input class="form-check-input" type="radio" name="package" id="packageTreasure" value="treasure" required>
+                            <input class="form-check-input" type="radio" name="package" id="packageTreasure" value="treasure_40" required>
                             <label class="form-check-label" for="packageTreasure" style="color:#ffd700; font-weight:bold;">
-                                💎 40 Treasure <span class='badge bg-info text-dark'>+ 12h Shield</span> <span class='badge bg-success text-dark'>+ IDR 50,000</span>
+                                💎 40 Treasure <span class='badge bg-info text-dark'>+ 6h Shield</span> <span class='badge bg-success text-dark'>+ IDR 50,000</span>
+                            </label>
+                        </div>
+                        <div class="form-check rpg-radio">
+                            <input class="form-check-input" type="radio" name="package" id="packageRandomBox40" value="random_box_40" required>
+                            <label class="form-check-label" for="packageRandomBox40" style="color:#ffd700; font-weight:bold;">
+                                🗃️ 40 Random Box <span class='badge bg-info text-dark'>+ 12h Shield</span> <span class='badge bg-success text-dark'>+ IDR 100,000</span>
+                            </label>
+                        </div>
+                        <div class="form-check rpg-radio">
+                            <input class="form-check-input" type="radio" name="package" id="packageTreasure80" value="treasure_80" required>
+                            <label class="form-check-label" for="packageTreasure80" style="color:#ffd700; font-weight:bold;">
+                                💎 80 Treasure <span class='badge bg-info text-dark'>+ 12h Shield</span> <span class='badge bg-success text-dark'>+ IDR 100,000</span>
                             </label>
                         </div>
                     </div>
@@ -104,8 +123,8 @@
                         <div class="modal-body text-center">
                             <div style="font-size:2em;">⚠️</div>
                             <p>{{ __('topup.are_you_sure') }}</p>
-                            <div class="mb-2">
-                                <span style="color:#fff; font-weight:bold;">{{ __('topup.amount') }}:</span> <span class="badge bg-warning text-dark">50,000 IDR</span>
+                            <div class="mb-2" id="confirmAmountBox">
+                                <span style="color:#fff; font-weight:bold;">{{ __('topup.amount') }}:</span> <span id="confirmAmount" class="badge bg-warning text-dark">50,000 IDR</span>
                             </div>
                             <div class="mb-2">
                                 <span style="color:#fff; font-weight:bold;">{{ __('topup.package') }}:</span> <span id="confirmPackage" class="badge bg-primary"></span>
@@ -121,8 +140,15 @@
             <script>
             function showTopupConfirm() {
                 var pkg = document.querySelector('input[name="package"]:checked').value;
-                var pkgText = pkg === 'random_box' ? '🗃️ 20 Random Box' : '💎 40 Treasure';
+                var pkgText = '';
+                var amountText = '';
+                if(pkg === 'random_box_20') { pkgText = '🗃️ 20 Random Box + 6h Shield'; amountText = '50,000 IDR'; }
+                else if(pkg === 'treasure_40') { pkgText = '💎 40 Treasure + 6h Shield'; amountText = '50,000 IDR'; }
+                else if(pkg === 'random_box_40') { pkgText = '🗃️ 40 Random Box + 12h Shield'; amountText = '100,000 IDR'; }
+                else if(pkg === 'treasure_80') { pkgText = '💎 80 Treasure + 12h Shield'; amountText = '100,000 IDR'; }
+                else { pkgText = 'Unknown Package'; amountText = '-'; }
                 document.getElementById('confirmPackage').textContent = pkgText;
+                document.getElementById('confirmAmount').textContent = amountText;
                 var modal = new bootstrap.Modal(document.getElementById('topupConfirmModal'));
                 modal.show();
             }
@@ -140,6 +166,7 @@
                     <thead>
                         <tr>
                             <th>{{ __('topup.package') }}</th>
+                            <th>Cost</th>
                             <th>{{ __('topup.status') }}</th>
                             <th>{{ __('topup.requested_at') }}</th>
                         </tr>
@@ -147,7 +174,19 @@
                     <tbody>
                         @foreach(\App\Models\TopupRequest::where('user_id', Auth::id())->orderByDesc('created_at')->get() as $req)
                         <tr>
-                            <td>@if($req->package=='random_box') 20 Random Box @else 40 Treasure @endif</td>
+                            <td>
+                            @if($req->package=='random_box_20') 20 Random Box
+                            @elseif($req->package=='random_box_40') 40 Random Box
+                            @elseif($req->package=='treasure_80') 80 Treasure
+                            @else 40 Treasure
+                            @endif
+                            </td>
+                            <td>
+                            @if($req->package=='random_box_20' || $req->package=='treasure_40') <span class='badge bg-success text-dark'>IDR 50,000</span>
+                            @elseif($req->package=='random_box_40' || $req->package=='treasure_80') <span class='badge bg-success text-dark'>IDR 100,000</span>
+                            @else <span class='badge bg-secondary text-light'>Unknown</span>
+                            @endif
+                            </td>
                             <td>
                                 @if($req->status=='pending')
                                     <span class="badge bg-warning">{{ __('topup.pending') }}</span>

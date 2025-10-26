@@ -9,8 +9,6 @@ use App\Models\TopupRequest;
 
 class TopupController extends Controller
 {
-    public static $PACKAGE_COST = 50000;
-
     public function index()
     {
         $pending = TopupRequest::where('user_id', Auth::id())
@@ -23,7 +21,7 @@ class TopupController extends Controller
     {
         try {
             $request->validate([
-                'package' => 'required|in:random_box,treasure',
+                'package' => 'required|in:random_box_20,treasure_40,random_box_40,treasure_80',
             ]);
             TopupRequest::create([
                 'user_id' => Auth::id(),
@@ -42,20 +40,25 @@ class TopupController extends Controller
         $requests = TopupRequest::with('user')->orderByDesc('created_at')->get();
         $grouped = $requests->groupBy('user_id');
 
-        // Calculate total approved topup amount per user
+        // Calculate total approved topup amount per user (sum actual cost)
         $totals = [];
-        foreach ($grouped as $userId => $reqs) {
-            $totals[$userId] = $reqs->where('status', 'success')->count() * self::$PACKAGE_COST;
-        }
-
-        // Scoreboard: all players who have already topup (approved at least once)
         $scoreboard = [];
         foreach ($grouped as $userId => $reqs) {
-            $approvedCount = $reqs->where('status', 'success')->count();
+            $approved = $reqs->where('status', 'success');
+            $totalAmount = 0;
+            foreach ($approved as $req) {
+                if ($req->package === 'random_box_20' || $req->package === 'treasure_40') {
+                    $totalAmount += 50000;
+                } elseif ($req->package === 'random_box_40' || $req->package === 'treasure_80') {
+                    $totalAmount += 100000;
+                }
+            }
+            $totals[$userId] = $totalAmount;
+            $approvedCount = $approved->count();
             if ($approvedCount > 0) {
                 $scoreboard[] = [
                     'user' => $reqs->first()->user,
-                    'total' => $approvedCount * self::$PACKAGE_COST,
+                    'total' => $totalAmount,
                     'count' => $approvedCount,
                 ];
             }
@@ -73,20 +76,32 @@ class TopupController extends Controller
         $pending = TopupRequest::where('id', $id)->where('status', 'pending')->first();
         if ($pending) {
             $user = User::find($pending->user_id);
-            if ($pending->package === 'random_box') {
+            if ($pending->package === 'random_box_20') {
                 $user->randombox += 20;
-            } else {
+                $shieldHours = 6;
+                $topupAmount = 50000;
+            } elseif ($pending->package === 'treasure_40') {
                 $user->treasure += 40;
+                $shieldHours = 6;
+                $topupAmount = 50000;
+            } elseif ($pending->package === 'random_box_40') {
+                $user->randombox += 40;
+                $shieldHours = 12;
+                $topupAmount = 100000;
+            } elseif ($pending->package === 'treasure_80') {
+                $user->treasure += 80;
+                $shieldHours = 12;
+                $topupAmount = 100000;
             }
-            // Add 12 hours shield (stack if already has shield)
+            // Add shield (stack if already has shield)
             $now = now();
             if ($user->shield_expires_at && $user->shield_expires_at > $now) {
-                $user->shield_expires_at = $user->shield_expires_at->addHours(12);
+                $user->shield_expires_at = $user->shield_expires_at->addHours($shieldHours);
             } else {
-                $user->shield_expires_at = $now->addHours(12);
+                $user->shield_expires_at = $now->addHours($shieldHours);
             }
-            // Add 50,000 IDR to money_earned
-            $user->money_earned += 50000;
+            // Add topup amount to money_earned
+            $user->money_earned += $topupAmount;
             $user->save();
             $pending->status = 'success';
             $pending->save();
