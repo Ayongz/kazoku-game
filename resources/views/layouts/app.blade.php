@@ -60,6 +60,18 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" href="{{ route('topup.index') }}">
+                                <i class="fas fa-coins me-1"></i>Top Up
+                            </a>
+                        </li>
+                        @if(Auth::user() && Auth::user()->is_admin)
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('topup.admin') }}">
+                                <i class="fas fa-user-shield me-1"></i>Top Up Admin
+                            </a>
+                        </li>
+                        @endif
+                        <li class="nav-item">
                             <a class="nav-link" href="{{ route('game.status') }}">
                                 <i class="fas fa-chart-line me-1"></i>{{ __('nav.status') }}
                             </a>

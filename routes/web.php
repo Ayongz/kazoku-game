@@ -11,6 +11,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\GamblingController;
 use App\Http\Controllers\PlayerLogController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\TopupController;
 
 // Language switching route
 Route::get('/language/{language}', [LanguageController::class, 'switchLanguage'])->name('language.switch');
@@ -35,6 +36,15 @@ Route::middleware(['auth'])->group(function () {
     // --- GAME ROUTES ---
     // Game Dashboard (The main view to show stats and actions)
     Route::get('/game', [GameController::class, 'index'])->name('game.dashboard');
+
+    // Top Up routes
+    Route::get('/topup', [TopupController::class, 'index'])->name('topup.index');
+    Route::post('/topup', [TopupController::class, 'store'])->name('topup.store');
+    Route::post('/topup/approve', [TopupController::class, 'approve'])->name('topup.approve');
+    // Admin routes
+    Route::get('/topup/admin', [TopupController::class, 'admin'])->name('topup.admin');
+    Route::post('/topup/admin/approve/{id}', [TopupController::class, 'adminApprove'])->name('topup.admin.approve');
+    Route::post('/topup/admin/reject/{id}', [TopupController::class, 'adminReject'])->name('topup.admin.reject');
 
     // Core Action: Earn Money
     Route::post('/game/earn', [GameController::class, 'earnMoney'])->name('game.earn');
