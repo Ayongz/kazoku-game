@@ -2692,8 +2692,11 @@ document.addEventListener('DOMContentLoaded', function() {
         // Update global prize pool display with pulse animation
         const prizePoolDisplay = document.getElementById('globalPrizePoolDisplay');
         if (prizePoolDisplay) {
-            // Format the number consistently with PHP number_format
-            const formattedAmount = new Intl.NumberFormat('id-ID').format(data.global_prize_pool || data.formatted_global_prize_pool?.replace(/[^\d]/g, '') || 0);
+            // Format the number consistently with PHP number_format (no decimals)
+            const formattedAmount = new Intl.NumberFormat('id-ID', { 
+                maximumFractionDigits: 0,
+                minimumFractionDigits: 0 
+            }).format(data.global_prize_pool || data.formatted_global_prize_pool?.replace(/[^\d]/g, '') || 0);
             prizePoolDisplay.textContent = `IDR ${formattedAmount}`;
             
             // Add pulse animation

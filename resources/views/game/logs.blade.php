@@ -579,6 +579,12 @@
     vertical-align: middle;
 }
 
+.rpg-log-money,
+.rpg-log-exp {
+    min-width: 130px;
+    white-space: nowrap;
+}
+
 /* Badges and Status */
 .time-badge {
     background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);

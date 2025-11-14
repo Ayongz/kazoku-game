@@ -17,11 +17,8 @@
                 <div class="rpg-header text-center mb-4">
                     <div class="store-title-container">
                         <h1 class="rpg-title">
-                            <i class="fas fa-scroll me-3"></i>
                             {{ __('nav.game_store') }}
-                            <i class="fas fa-scroll ms-3"></i>
                         </h1>
-                        <div class="title-decoration"></div>
                     </div>
                 </div>
 
@@ -785,7 +782,7 @@
                                             </button>
                                         </form>
                                         @if (!$isLevelRequirementMet)
-                                            <small class="text-muted mt-2 d-block text-center" style="color:white !important;">{{ __('nav.need_level') }} {{ $requiredLevel }}</small>
+                                            <small class="text-muted mt-2 d-block text-center" style="color:white !important;padding: 5px;">{{ __('nav.need_level') }} {{ $requiredLevel }}</small>
                                         @endif
                                     @else
                                         <div class="max-level-badge">
@@ -878,7 +875,7 @@
     margin-bottom: 1rem;
 }
 .rpg-card {
-    background: linear-gradient(145deg, #232046 80%, #6a5acd 100%);
+    background: #232046;
     border: 2px solid #ffd700;
     border-radius: 16px;
     box-shadow: 0 4px 16px #6a5acd55;
@@ -1066,7 +1063,7 @@
     .rpg-btn { font-size: 0.95rem; padding: 0.6rem 1rem; }
 }
 @media (max-width: 480px) {
-    .rpg-title { font-size: 1rem; }
+    .rpg-title { font-size: 2rem; }
     .wealth-amount { font-size: 1.1rem; }
     .rpg-card { padding: 0.3rem; }
     .rpg-description { padding: 0.3rem; }

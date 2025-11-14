@@ -172,7 +172,66 @@
         60% { opacity: 1; transform: scale(1.1); }
         100% { opacity: 1; transform: scale(1); }
     }
+
+    /* Back to Top Button Styles */
+    #backToTopBtn {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        width: 50px;
+        height: 50px;
+        background: linear-gradient(135deg, rgba(59, 130, 246, 0.4), rgba(37, 99, 235, 0.4));
+        color: white;
+        border: 2px solid rgba(96, 165, 250, 0.3);
+        border-radius: 50%;
+        font-size: 24px;
+        cursor: pointer;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 99;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(59, 130, 246, 0.2);
+        animation: pulse 2s ease-in-out infinite;
+        opacity: 0.6;
+    }
+
+    #backToTopBtn:hover {
+        background: linear-gradient(135deg, rgba(96, 165, 250, 0.7), rgba(59, 130, 246, 0.7));
+        box-shadow: 0 8px 25px rgba(59, 130, 246, 0.5);
+        transform: translateY(-5px);
+        animation: none;
+        opacity: 1;
+    }
+
+    #backToTopBtn.show {
+        display: flex;
+    }
+
+    @keyframes pulse {
+        0%, 100% {
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+        }
+        50% {
+            box-shadow: 0 4px 25px rgba(59, 130, 246, 0.8);
+        }
+    }
+
+    @media (max-width: 768px) {
+        #backToTopBtn {
+            bottom: 20px;
+            right: 20px;
+            width: 45px;
+            height: 45px;
+            font-size: 20px;
+        }
+    }
     </style>
+
+    <!-- Back to Top Button -->
+    <button id="backToTopBtn" title="Back to Top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
 
     <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -187,6 +246,26 @@
                 }, 1600); // Show animation for 1.6s before logout
             });
         }
+
+        // Back to Top Button Functionality
+        var backToTopBtn = document.getElementById('backToTopBtn');
+        
+        window.addEventListener('scroll', function() {
+            // Show button when user scrolls down
+            if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 500) {
+                backToTopBtn.classList.add('show');
+            } else {
+                backToTopBtn.classList.remove('show');
+            }
+        });
+
+        // Scroll to top when button is clicked
+        backToTopBtn.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
     });
     </script>
     <!-- Bootstrap 5 JavaScript Bundle (Local, includes Popper) -->
