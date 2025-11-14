@@ -383,7 +383,8 @@
                                 <a href="#day-night-cycle" class="rpg-toc-link">7. {{ __('nav.day_night_cycle') }}</a>
                                 <a href="#pvp-system" class="rpg-toc-link">8. {{ __('nav.pvp_system') }}</a>
                                 <a href="#auto-systems" class="rpg-toc-link">9. {{ __('nav.auto_systems') }}</a>
-                                <a href="#tips-strategies" class="rpg-toc-link">10. {{ __('nav.tips_strategies') }}</a>
+                                <a href="#prize-pool" class="rpg-toc-link">10. {{ __('nav.prize_pool_distribution') }}</a>
+                                <a href="#tips-strategies" class="rpg-toc-link">11. {{ __('nav.tips_strategies') }}</a>
                             </div>
                         </div>
                     </div>
@@ -767,12 +768,70 @@
                         </div>
                     </div>
 
-                    <!-- 10. Tips & Strategies -->
+                    <!-- 10. Prize Pool Distribution -->
+                    <div class="rpg-guide-section" id="prize-pool">
+                        <div class="rpg-section-header">
+                            <h3 class="rpg-section-title">
+                                <span class="rpg-section-icon">🏆</span>
+                                10. {{ __('nav.prize_pool_distribution') }}
+                            </h3>
+                        </div>
+                        <div class="rpg-section-content">
+                            <h5 class="rpg-content-title">{{ __('nav.what_is_prize_pool') }}</h5>
+                            <p class="rpg-content-text">
+                                The Prize Pool is a global fund that accumulates throughout the day from multiple sources. 
+                                Every time a player wins in gambling games (Dice Duel, Card Flip), a portion of their winnings (20%) 
+                                is automatically contributed to this shared global prize pool. Additionally, when players open treasures 
+                                and receive random rewards from boxes, a small percentage of those rewards also contributes to the prize pool.
+                            </p>
+
+                            <h5 class="rpg-content-title">{{ __('nav.daily_distribution') }}</h5>
+                            <p class="rpg-content-text">
+                                At the end of each day (midnight), the accumulated prize pool is automatically distributed to the top 2 richest players:
+                            </p>
+                            
+                            <div class="rpg-highlight-box">
+                                <div class="rpg-highlight-title">🥇 1st Place (Richest Player)</div>
+                                <p class="rpg-content-text">Receives <span class="rpg-badge rpg-badge-success">70%</span> of the total prize pool</p>
+                                
+                                <div class="rpg-highlight-title">🥈 2nd Place (2nd Richest Player)</div>
+                                <p class="rpg-content-text">Receives <span class="rpg-badge rpg-badge-info">30%</span> of the total prize pool</p>
+                            </div>
+
+                            <h5 class="rpg-content-title">{{ __('nav.how_to_maximize') }}</h5>
+                            <div class="rpg-highlight-box">
+                                <ul class="rpg-content-list">
+                                    <li>💰 Win gambling games to contribute to the pool (and accumulate your own wealth)</li>
+                                    <li>📈 Build up your money balance to compete for top positions</li>
+                                    <li>🎯 Focus on consistent wins rather than risky bets</li>
+                                    <li>⏰ The distribution happens daily at midnight, so your ranking is constantly changing</li>
+                                    <li>🚀 Strategic gambling and wealth management are key to claiming these bonuses</li>
+                                </ul>
+                            </div>
+
+                            <h5 class="rpg-content-title">{{ __('nav.prize_pool_example') }}</h5>
+                            <div class="rpg-highlight-box">
+                                <p class="rpg-content-text">
+                                    <strong>Example Scenario:</strong><br>
+                                    If the daily prize pool reaches <strong>1,000,000 IDR</strong>:
+                                </p>
+                                <ul class="rpg-content-list">
+                                    <li>🥇 1st Place Player: <span class="rpg-badge rpg-badge-success">700,000 IDR</span></li>
+                                    <li>🥈 2nd Place Player: <span class="rpg-badge rpg-badge-info">300,000 IDR</span></li>
+                                </ul>
+                                <p class="rpg-content-text">
+                                    The pool resets to 0 after distribution, and a new cycle begins for the next day!
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 11. Tips & Strategies -->
                     <div class="rpg-guide-section" id="tips-strategies">
                         <div class="rpg-section-header">
                             <h3 class="rpg-section-title">
                                 <span class="rpg-section-icon">💡</span>
-                                10. {{ __('nav.tips_strategies_title') }}
+                                11. {{ __('nav.tips_strategies_title') }}
                             </h3>
                         </div>
                         <div class="rpg-section-content">

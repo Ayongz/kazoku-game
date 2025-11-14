@@ -702,4 +702,10 @@ return [
     'farewell_adventurer' => 'Selamat tinggal, Petualang!',
     'your_journey_continues' => 'Perjalanan Anda berlanjut...',
     'status_page_title' => 'Status',
+    'duration' => 'Durasi',
+    'prize_pool_distribution' => 'Distribusi Hadiah',
+    'what_is_prize_pool' => 'Apa itu Hadiah?',
+    'daily_distribution' => 'Distribusi Harian',
+    'how_to_maximize' => 'Cara Memaksimalkan Penghasilan Anda',
+    'prize_pool_example' => 'Contoh Hadiah',
 ];

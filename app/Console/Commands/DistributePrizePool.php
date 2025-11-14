@@ -21,7 +21,7 @@ class DistributePrizePool extends Command
      *
      * @var string
      */
-    protected $description = 'Distribute daily prize pool to top 3 richest players (50%/30%/20% split) and reset pool to 0';
+    protected $description = 'Distribute daily prize pool to top 2 richest players (70%/30% split) and reset pool to 0';
 
     /**
      * Execute the console command.
@@ -41,8 +41,11 @@ class DistributePrizePool extends Command
         $prizePool = $gameSettings->global_prize_pool;
         $this->info("💰 Current Prize Pool: IDR " . number_format($prizePool, 0, ',', '.'));
         
-        // Find the top 3 players with the highest money_earned
-        $topPlayers = User::orderBy('money_earned', 'desc')->take(3)->get();
+        // Find the top 2 players with the highest money_earned
+        $topPlayers = User::where('is_admin', false)
+                           ->orderBy('money_earned', 'desc')
+                           ->take(2)
+                           ->get();
         
         if ($topPlayers->count() === 0) {
             $this->error('❌ No players found in the database');
@@ -51,12 +54,11 @@ class DistributePrizePool extends Command
         
         // Prize distribution percentages
         $distributionRates = [
-            1 => 0.50, // 1st place: 50%
+            1 => 0.70, // 1st place: 70%
             2 => 0.30, // 2nd place: 30%
-            3 => 0.20, // 3rd place: 20%
         ];
         
-        $this->info("🎯 Top 3 Richest Players:");
+        $this->info("🎯 Top 2 Richest Players:");
         foreach ($topPlayers as $index => $player) {
             $position = $index + 1;
             $this->info("#{$position}: {$player->name} (ID: {$player->id}) - IDR " . number_format($player->money_earned, 0, ',', '.'));
@@ -79,7 +81,7 @@ class DistributePrizePool extends Command
         
         // Use database transaction for consistency
         DB::transaction(function () use ($distributions, $gameSettings) {
-            // Award prizes to top 3 players
+            // Award prizes to top 2 players
             foreach ($distributions as $distribution) {
                 $player = $distribution['player'];
                 $amount = $distribution['amount'];

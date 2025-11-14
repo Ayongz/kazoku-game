@@ -699,4 +699,10 @@ return [
     'farewell_adventurer' => 'Farewell, Adventurer!',
     'your_journey_continues' => 'Your journey continues...',
     'status_page_title' => 'Status',
+    'duration' => 'Duration',
+    'prize_pool_distribution' => 'Prize Pool Distribution',
+    'what_is_prize_pool' => 'What is the Prize Pool?',
+    'daily_distribution' => 'Daily Distribution',
+    'how_to_maximize' => 'How to Maximize Your Earnings',
+    'prize_pool_example' => 'Prize Pool Example',
 ];

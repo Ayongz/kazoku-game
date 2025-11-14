@@ -544,7 +544,7 @@
                 <div class="rpg-stat-card">
                     <div class="rpg-stat-icon">💸</div>
                     <div class="rpg-stat-value">{{ number_format($totalTopupAmount, 0, ',', '.') }}</div>
-                    <div class="rpg-stat-label">Total Top Up</div>
+                    <div class="rpg-stat-label">Total Top Up All Players</div>
                 </div>
             </div>
             <div class="col-6 col-md-3">
