@@ -689,10 +689,6 @@
                                             <li>{{ __('gambling.rule_1') }}</li>
                                             <li>{{ __('gambling.rule_2') }}</li>
                                             <li>{{ __('gambling.rule_3') }}</li>
-                                        </ul>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <ul class="gambling-description">
                                             <li>{{ __('gambling.rule_4') }}</li>
                                             <li>{{ __('gambling.rule_5') }}</li>
                                             <li>{{ __('gambling.rule_6') }}</li>

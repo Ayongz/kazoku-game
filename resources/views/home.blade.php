@@ -542,9 +542,9 @@
             </div>
             <div class="col-6 col-md-3">
                 <div class="rpg-stat-card">
-                    <div class="rpg-stat-icon">📦</div>
-                    <div class="rpg-stat-value">{{ number_format($totalRandomBoxes, 0, ',', '.') }}</div>
-                    <div class="rpg-stat-label">{{ __('nav.random_boxes') }}</div>
+                    <div class="rpg-stat-icon">💸</div>
+                    <div class="rpg-stat-value">{{ number_format($totalTopupAmount, 0, ',', '.') }}</div>
+                    <div class="rpg-stat-label">Total Top Up</div>
                 </div>
             </div>
             <div class="col-6 col-md-3">

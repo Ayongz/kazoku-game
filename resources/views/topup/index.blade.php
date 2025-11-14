@@ -48,7 +48,7 @@
         <h2 class="rpg-title text-center" style="color:#ffd700; font-family:'Cinzel',serif; letter-spacing:2px; text-shadow:0 2px 8px #6a5acd;">{{ __('topup.top_up') }}</h2>
         <div style="height:4px; width:80px; background:linear-gradient(90deg,#ffd700,#6a5acd); border-radius:2px;"></div>
     </div>
-    <div class="rpg-card shadow-lg p-4" style="background:rgba(34,30,60,0.95); border-radius:18px; max-width:420px; width:100%; border:2px solid #6a5acd; box-shadow:0 0 32px #6a5acd55;font-size: 14px;">
+    <div class="rpg-card shadow-lg p-4" style="border-radius:18px; max-width:420px; width:100%; border:2px solid #6a5acd; box-shadow:0 0 32px #6a5acd55;font-size: 14px;">
         @if(session('success'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 <strong>{{ session('success') }}</strong>
@@ -172,7 +172,10 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach(\App\Models\TopupRequest::where('user_id', Auth::id())->orderByDesc('created_at')->get() as $req)
+                        @php
+                            $requests = \App\Models\TopupRequest::where('user_id', Auth::id())->orderByDesc('created_at')->paginate(5);
+                        @endphp
+                        @foreach($requests as $req)
                         <tr>
                             <td>
                             @if($req->package=='random_box_20') 20 Random Box
@@ -203,6 +206,9 @@
                         @endforeach
                     </tbody>
                 </table>
+                <div class="d-flex justify-content-center mt-3">
+                    {!! $requests->links('pagination::bootstrap-5') !!}
+                </div>
             </div>
         </div>
     </div>

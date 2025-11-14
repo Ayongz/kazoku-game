@@ -42,7 +42,7 @@ Kazoku Game is a **multi-layered RPG strategy game** where players:
 ## 🎮 Core Game Systems
 
 ### �️ **Treasure Hunting System**
-- **Base Earnings**: 500-5,000 IDR per treasure (updated from old 1K-10K)
+- **Base Earnings**: 500-3,000 IDR per treasure (updated from old 1K-10K)
 - **Treasure Capacity**: Starts at 20, upgradeable with Treasure Multiplier
 - **Regeneration**: +5 treasure every 60 minutes (improvable with Fast Recovery)
 - **Auto-Click**: Unlocks at Level 2 for automated treasure opening

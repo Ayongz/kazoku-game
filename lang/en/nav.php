@@ -574,7 +574,6 @@ return [
     'leaderboard_competition_desc' => 'Compete with other players for the top positions in money earned, treasure collected, and random boxes opened.',
     
     // Additional guide keys
-    'register_and_login' => 'Register and login',
     'open_treasures' => 'Open treasures to earn money',
     'choose_class_level_4' => 'Choose your class at level 4',
     'upgrade_abilities' => 'Upgrade abilities in store',

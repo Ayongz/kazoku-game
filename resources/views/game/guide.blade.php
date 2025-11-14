@@ -412,7 +412,7 @@
                                     <div class="rpg-highlight-box">
                                         <h6 class="rpg-highlight-title">{{ __('nav.how_to_play') }}</h6>
                                         <ol class="rpg-content-list">
-                                            <li>{{ __('nav.register_and_login') }}</li>
+                                            <li>{{ __('nav.login') }}</li>
                                             <li>{{ __('nav.open_treasures') }}</li>
                                             <li>{{ __('nav.choose_class_level_4') }}</li>
                                             <li>{{ __('nav.upgrade_abilities') }}</li>
@@ -607,7 +607,7 @@
                                     <p class="rpg-content-text">{{ __('gambling.dice_duel_desc') }}</p>
                                     <ul class="rpg-content-list">
                                         <li>{{ __('nav.bet_range') }}: IDR 10,000 - {{ __('nav.level_based') }}</li>
-                                        <li>{{ __('nav.win_rate') }}: ~45%</li>
+                                        <li>{{ __('nav.win_rate') }}: ~42%</li>
                                         <li>{{ __('nav.payout') }}: 2x {{ __('nav.bet_amount') }}</li>
                                     </ul>
                                 </div>
@@ -625,7 +625,7 @@
                                     <p class="rpg-content-text">{{ __('gambling.card_flip_desc') }}</p>
                                     <ul class="rpg-content-list">
                                         <li>{{ __('nav.bet_range') }}: IDR 10,000 - {{ __('nav.level_based') }}</li>
-                                        <li>{{ __('nav.win_rate') }}: ~45%</li>
+                                        <li>{{ __('nav.win_rate') }}: ~46%</li>
                                         <li>{{ __('nav.payout') }}: 2x {{ __('nav.bet_amount') }}</li>
                                     </ul>
                                 </div>

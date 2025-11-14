@@ -46,24 +46,31 @@ class HomeController extends Controller
         // Calculate total money in circulation
         $totalMoneyInGame = User::sum('money_earned');
         
-        // Calculate total random boxes in circulation
-        $totalRandomBoxes = User::sum('randombox');
-        
+        // Calculate total top up amount from approved top up requests
+        $totalTopupAmount = \App\Models\TopupRequest::where('status', 'success')->get()->sum(function($req) {
+            if ($req->package === 'random_box_20' || $req->package === 'treasure_40') {
+                return 50000;
+            } elseif ($req->package === 'random_box_40' || $req->package === 'treasure_80') {
+                return 100000;
+            }
+            return 0;
+        });
+
         // Calculate total treasures in circulation
         $totalTreasures = User::sum('treasure');
-        
+
         // Calculate average player level
         $averageLevel = User::avg('level') ?: 1;
-        
+
         // Get highest level player
         $highestLevelPlayer = User::orderBy('level', 'desc')->first();
-        
+
         // Get player with most random boxes
         $topRandomBoxPlayer = User::orderBy('randombox', 'desc')->first();
-        
+
         // Get player with highest treasure rarity
         $topTreasureRarityPlayer = User::orderBy('treasure_rarity_level', 'desc')->first();
-        
+
         return view('home', [
             'currentUser' => $currentUser,
             'topPlayers' => $topPlayers,
@@ -71,7 +78,7 @@ class HomeController extends Controller
             'totalPlayers' => $totalPlayers,
             'globalPrizePool' => $globalPrizePool,
             'totalMoneyInGame' => $totalMoneyInGame,
-            'totalRandomBoxes' => $totalRandomBoxes,
+            'totalTopupAmount' => $totalTopupAmount,
             'totalTreasures' => $totalTreasures,
             'averageLevel' => $averageLevel,
             'highestLevelPlayer' => $highestLevelPlayer,

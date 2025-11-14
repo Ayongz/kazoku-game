@@ -577,7 +577,6 @@ return [
     'leaderboard_competition_desc' => 'Bersaing dengan pemain lain untuk posisi teratas dalam uang yang diperoleh, harta karun yang dikumpulkan, dan kotak acak yang dibuka.',
     
     // Additional guide keys
-    'register_and_login' => 'Daftar dan masuk',
     'open_treasures' => 'Buka harta karun untuk mendapatkan uang',
     'choose_class_level_4' => 'Pilih kelas Anda di level 4',
     'upgrade_abilities' => 'Tingkatkan kemampuan di toko',

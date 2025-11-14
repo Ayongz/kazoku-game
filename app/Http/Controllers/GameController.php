@@ -19,8 +19,8 @@ class GameController extends Controller
     const FORCE_DAY_MODE = false;        // Set to true to force day mode, false to follow actual time
     
     // Game Constants
-    const MIN_EARN_AMOUNT = 500;      // Minimum IDR earned per attempt
-    const MAX_EARN_AMOUNT = 3000;     // Maximum IDR earned per attempt
+    const MIN_EARN_AMOUNT = 100;      // Minimum IDR earned per attempt
+    const MAX_EARN_AMOUNT = 2000;     // Maximum IDR earned per attempt
     const MAX_STEAL_LEVEL = 5;         // Maximum steal level
     const MAX_TREASURE_MULTIPLIER_LEVEL = 10; // Maximum treasure multiplier level
     const MAX_LUCKY_STRIKES_LEVEL = 5; // Maximum lucky strikes level
