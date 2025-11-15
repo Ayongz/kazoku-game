@@ -212,5 +212,36 @@
             </div>
         </div>
     </div>
+    <!-- Money Conversion Card -->
+    <div class="rpg-card shadow-lg p-4" style="border-radius:18px; max-width:420px; width:100%; border:2px solid #6a5acd; box-shadow:0 0 32px #6a5acd55; font-size: 14px; margin-top: 2rem;">
+        <div class="mb-4">
+            <h4 class="text-center" style="color:#ffd700; font-family:'Cinzel',serif; letter-spacing:1px;">Money Conversion Rate</h4>
+            <div style="height:2px; width:60px; background:linear-gradient(90deg,#ffd700,#6a5acd); border-radius:2px; margin: 0.5rem auto;"></div>
+        </div>
+
+        <!-- Current Game Money -->
+        <div class="mb-3 p-3" style="background:rgba(106,90,205,0.15); border:1.5px solid #ffd700; border-radius:12px;">
+            <div style="color:#999; font-size:0.9em; margin-bottom:0.5rem;">💎 Current Game Money</div>
+            <div style="color:#4ade80; font-size:1.6em; font-weight:bold;">
+                IDR {{ number_format(Auth::user()->money_earned, 0, ',', '.') }}
+            </div>
+        </div>
+
+        <!-- Real Money Conversion -->
+        <div class="mb-3 p-3" style="background:rgba(34,197,94,0.15); border:1.5px solid #22c55e; border-radius:12px;">
+            <div style="color:#999; font-size:0.9em; margin-bottom:0.5rem;">💵 Real Money (After Conversion)</div>
+            <div id="realMoneyDisplay" style="color:#fbbf24; font-size:1.6em; font-weight:bold;">
+                IDR {{ number_format(Auth::user()->money_earned / 2, 0, ',', '.') }}
+            </div>
+        </div>
+
+        <!-- Info Box -->
+        <div class="alert alert-secondary mb-0" style="background:rgba(255,193,7,0.1); border:1px solid #fbbf24; border-radius:8px; color:#ffd700; font-size:0.9em;">
+            <small>
+                📊 Your game money can be converted to real money at a 2:1 rate. This represents the actual value of your in-game wealth.
+            </small>
+        </div>
+    </div>
+    <br>
 </div>
 @endsection
