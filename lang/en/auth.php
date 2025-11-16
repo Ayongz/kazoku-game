@@ -28,4 +28,6 @@ return [
     'gambling_hall' => 'Gambling Hall',
     'time_strategy' => 'Time Strategy', 
     'upgrade_store' => 'Upgrade Store',
+    'kazoku_game' => 'Kazoku Game',
+    'profession_system' => 'Profession System'
 ];

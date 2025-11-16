@@ -17,19 +17,6 @@
                         <h1 class="rpg-title">🎒 {{ __('nav.player_inventory') }}</h1>
                         <div class="title-decoration"></div>
                     </div>
-                    <!-- <p class="text-light fs-5 mt-3">{{ __('nav.open_random_boxes_and_view_stats') }}</p>
-                    <div class="rpg-wealth-display mb-0">
-                        <div class="wealth-card" style="background: linear-gradient(135deg, rgba(106, 90, 205, 0.2) 0%, rgba(138, 43, 226, 0.1) 100%); border-color: #6A5ACD;">
-                            <div class="wealth-icon" style="color: #6A5ACD;">
-                                <i class="fas fa-gift"></i>
-                            </div>
-                            <div class="wealth-content">
-                                <h3 class="wealth-title" style="color: #6A5ACD;">{{ __('nav.random_box') }}</h3>
-                                <h2 class="wealth-amount">{{ $randomBoxCount }}</h2>
-                            </div>
-                            <div class="wealth-decoration"></div>
-                        </div>
-                    </div> -->
                 </div>
 
                 <!-- Main Content Area -->
@@ -98,23 +85,6 @@
 
                     <!-- Sidebar Panels -->
                     <div class="rpg-sidebar-panels">
-                        <!-- Reward History -->
-                        <div class="rpg-panel mb-4">
-                            <div class="rpg-panel-header">
-                                <div class="ability-icon">
-                                    <i class="fas fa-trophy"></i>
-                                </div>
-                                <div class="ability-info">
-                                    <h5 class="ability-name">🏆 {{ __('nav.recent_rewards') }}</h5>
-                                </div>
-                            </div>
-                            <div class="rpg-panel-body" id="rewardHistory">
-                                <p class="text-light text-center py-3 opacity-75">
-                                    {{ __('nav.open_boxes_to_see_rewards') }}
-                                </p>
-                            </div>
-                        </div>
-
                         <!-- Drop Rates Info -->
                         <div class="rpg-panel">
                             <div class="rpg-panel-header">
@@ -154,13 +124,18 @@
             </div>
         </div>
     </div>
-<!-- Unboxing Video Overlay (moved outside main content for true fullscreen) -->
-<div id="unboxingVideoOverlay" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.85); z-index:99999; justify-content:center; align-items:center; flex-direction:column;">
-    <video id="unboxingVideo" width="480" height="320" style="max-width:90vw; max-height:80vh; border-radius:16px; box-shadow:0 0 32px #fff;" preload="auto">
-        <source src="/videos/unboxing.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
-    <button id="skipUnboxingBtn" style="margin-top:32px; padding:12px 32px; font-size:1.2em; border-radius:8px; background:#ffc107; color:#222; border:none; box-shadow:0 2px 8px #0002; cursor:pointer; font-weight:bold;">Skip</button>
+<!-- Loading Overlay for Box Opening -->
+<div id="loadingOverlay" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.85); z-index:99999; justify-content:center; align-items:center; flex-direction:column;">
+    <div style="text-align:center;">
+        <div style="color:#ffd700; font-size:3rem; margin-bottom:2rem;">
+            <i class="fas fa-gift"></i>
+        </div>
+        <h3 style="color:#ffd700; margin-bottom:2rem; font-family:'Cinzel',serif; letter-spacing:1px;">Opening Box...</h3>
+        <div style="width:200px; height:8px; background:rgba(255,215,0,0.2); border-radius:10px; overflow:hidden; border:2px solid #ffd700;">
+            <div id="loadingBar" style="height:100%; background:linear-gradient(90deg, #ffd700, #ffed4e); width:0%; border-radius:8px; transition:width 0.1s linear;"></div>
+        </div>
+        <p style="color:#fff; margin-top:1.5rem; opacity:0.8; font-size:0.9rem;">Processing your reward...</p>
+    </div>
 </div>
 </div>
 
@@ -772,27 +747,6 @@
         transform: translateY(0);
     }
 }
-
-/* History Item Enhancement */
-.history-item {
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(106, 90, 205, 0.3);
-    border-radius: 10px;
-    padding: 0.75rem;
-    margin-bottom: 0.5rem;
-    animation: historySlideIn 0.3s ease-out;
-}
-
-@keyframes historySlideIn {
-    from {
-        opacity: 0;
-        transform: translateX(-20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
 </style>
 
 <script>
@@ -801,23 +755,37 @@ let isOpening = false;
 function openRandomBox() {
     if (isOpening) return;
     const btn = document.getElementById('openBoxBtn');
-    const overlay = document.getElementById('unboxingVideoOverlay');
-    const video = document.getElementById('unboxingVideo');
-    const skipBtn = document.getElementById('skipUnboxingBtn');
+    const overlay = document.getElementById('loadingOverlay');
+    const loadingBar = document.getElementById('loadingBar');
+    const loadingDuration = 2000; // 2 seconds
+    const updateInterval = 50; // Update every 50ms
+    let progress = 0;
 
     // Start loading state
     isOpening = true;
     btn.classList.add('btn-loading');
     btn.disabled = true;
 
-    // Show overlay and play video
+    // Show loading overlay
     overlay.style.display = 'flex';
-    video.currentTime = 0;
-    video.play();
+    loadingBar.style.width = '0%';
+    progress = 0;
 
-    // Helper to finish unboxing and show reward
-    function finishUnboxing() {
+    // Animate loading bar over 2 seconds
+    const loadingInterval = setInterval(() => {
+        progress += (updateInterval / loadingDuration) * 100;
+        if (progress >= 100) {
+            progress = 100;
+            clearInterval(loadingInterval);
+        }
+        loadingBar.style.width = progress + '%';
+    }, updateInterval);
+
+    // After 2 seconds, show reward
+    setTimeout(() => {
         overlay.style.display = 'none';
+        clearInterval(loadingInterval);
+        
         // Make API call
         fetch('/game/inventory/open-random-box', {
             method: 'POST',
@@ -837,7 +805,6 @@ function openRandomBox() {
             if (data.success) {
                 showRewards(data.reward, data.opened_boxes);
                 updateBoxCount(data.remaining_boxes);
-                addToRewardHistory(data.reward);
             } else {
                 alert(data.message);
             }
@@ -848,18 +815,7 @@ function openRandomBox() {
             alert('An error occurred while opening the box: ' + error.message);
             resetButton();
         });
-        // Remove event listeners to avoid duplicate calls
-        video.onended = null;
-        skipBtn.onclick = null;
-    }
-
-    // When video ends, finish unboxing
-    video.onended = finishUnboxing;
-    // When skip button clicked, finish unboxing
-    skipBtn.onclick = function() {
-        video.pause();
-        finishUnboxing();
-    };
+    }, loadingDuration);
 }
 
 function showRewards(reward, openedBoxes) {
@@ -948,30 +904,7 @@ function updateBoxCount(remaining) {
     }
 }
 
-function addToRewardHistory(reward) {
-    const historyContainer = document.getElementById('rewardHistory');
-    
-    if (historyContainer.children.length === 1 && historyContainer.children[0].textContent.includes('Open')) {
-        historyContainer.innerHTML = '';
-    }
-    
-    const historyItem = document.createElement('div');
-    historyItem.className = 'history-item';
-    historyItem.innerHTML = `
-        <small class="text-light opacity-75">${new Date().toLocaleTimeString()}</small>
-        <div class="${reward.tier_class} fw-bold">${reward.tier} Box</div>
-        <div class="small text-light opacity-75">
-            ${reward.rewards.map(item => `${item.icon} ${item.display}`).join(', ')}
-        </div>
-    `;
-    
-    historyContainer.insertBefore(historyItem, historyContainer.firstChild);
-    
-    // Keep only last 5 items
-    while (historyContainer.children.length > 5) {
-        historyContainer.removeChild(historyContainer.lastChild);
-    }
-}
+
 
 
 // No longer needed: resetBoxAnimation

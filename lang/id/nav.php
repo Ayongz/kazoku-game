@@ -7,7 +7,8 @@ return [
     'inventory' => 'Persediaan',
     'status' => 'Status',
     'class_path' => 'Jalur Kelas',
-    'gambling_hall' => 'Perjudian',
+    'gambling_hall' => 'Tempat Risiko',
+    'processing' => 'Memproses...',
     'guide' => 'Panduan',
     'login' => 'Masuk',
     'logout' => 'Keluar',
@@ -15,12 +16,12 @@ return [
     
     // Home page
     'leaderboard_title' => 'Papan Peringkat',
-    'leaderboard_subtitle' => 'Kuasai perburuan harta, kumpulkan kotak acak, dan dominasi peringkat!',
+    'leaderboard_subtitle' => 'Kuasai perburuan harta, kumpulkan kotak acak dan dominasi peringkat!',
     'play_now' => 'Main Sekarang',
     'view_your_stats' => 'Lihat Statistik Anda',
     
     // Statistics
-    'global_prize_pool' => 'Kumpulan Hadiah Global',
+    'global_prize_pool' => 'Hadiah Global',
     'distributed_daily' => 'Dibagikan Harian',
     'master_treasure_hunt' => 'Kuasai perburuan harta!',
     'total_wealth' => 'Total Kekayaan Semua Pemain',
@@ -330,7 +331,7 @@ return [
     // Class names
     'treasure_hunter' => 'Pemburu Harta',
     'proud_merchant' => 'Pedagang Bangga',
-    'fortune_gambler' => 'Penjudi Keberuntungan',
+    'fortune_gambler' => 'Pemain Keberuntungan',
     'moon_guardian' => 'Penjaga Bulan',
     'day_breaker' => 'Pemecah Siang',
     'box_collector' => 'Kolektor Kotak',
@@ -339,7 +340,7 @@ return [
     // Advanced class names
     'master_treasure_hunter' => 'Master Pemburu Harta',
     'elite_merchant' => 'Pedagang Elite',
-    'grand_gambler' => 'Penjudi Agung',
+    'grand_gambler' => 'Pemain Agung',
     'lunar_guardian' => 'Penjaga Lunar',
     'solar_champion' => 'Juara Solar',
     'grand_collector' => 'Kolektor Agung',
@@ -406,14 +407,14 @@ return [
     'auto_systems' => 'Sistem Otomatis',
     
     // Gambling Hall Translations
-    'gambling_overview' => 'Gambaran Ruang Judi',
-    'gambling_overview_desc' => 'Ruang Judi menawarkan tiga permainan menarik di mana Anda dapat bertaruh uang dan harta untuk hadiah lebih besar. Setiap permainan memiliki mekanisme, tingkat risiko, dan pembayaran yang berbeda.',
+    'gambling_overview' => 'Gambaran Ruang Taruhan',
+    'gambling_overview_desc' => 'Ruang Taruhan menawarkan tiga permainan menarik di mana Anda dapat bertaruh uang dan harta untuk hadiah lebih besar. Setiap permainan memiliki mekanisme, tingkat risiko, dan pembayaran yang berbeda.',
     'bet_range' => 'Rentang Taruhan',
     'level_based' => 'Berdasarkan Level',
     'win_rate' => 'Tingkat Menang',
     'payout' => 'Pembayaran',
     'bet_amount' => 'Jumlah Taruhan',
-    'gambling_progression' => 'Progres Judi',
+    'gambling_progression' => 'Progres Taruhan',
     'base_attempts' => 'Percobaan Dasar',
     'day' => 'Hari',
     'level_bonus' => 'Bonus Level',
@@ -468,7 +469,7 @@ return [
     'treasure_types' => 'Jenis Harta',
     'regular_treasures' => 'Harta Biasa',
     'regular_treasures_desc' => 'Harta standar yang regenerasi otomatis dan memberikan uang saat dibuka.',
-    'rare_treasure_desc' => 'Harta khusus yang dibuat melalui fusi judi yang memberikan 5-6x hadiah normal.',
+    'rare_treasure_desc' => 'Harta khusus yang dibuat melalui fusi taruhan yang memberikan 5-6x hadiah normal.',
     'fusion_cost' => 'Biaya Fusi',
     
     // Basic Gameplay Section
@@ -496,7 +497,7 @@ return [
     'available_classes' => 'Kelas yang Tersedia',
     'treasure_hunter_guide' => 'Pemburu Harta: 15% kesempatan untuk percobaan harta karun gratis',
     'proud_merchant_guide' => 'Pedagang Bangga: 20% bonus penghasilan uang',
-    'fortune_gambler_guide' => 'Penjudi Keberuntungan: 15% kesempatan menggandakan penghasilan, 8% kesempatan kehilangan semua',
+    'fortune_gambler_guide' => 'Pemain Keberuntungan: 15% kesempatan menggandakan penghasilan, 8% kesempatan kehilangan semua',
     'moon_guardian_guide' => 'Penjaga Bulan: 20% kesempatan kotak acak saat malam hari (18:00 - 06:00)',
     'day_breaker_guide' => 'Pemecah Siang: 20% kesempatan kotak acak saat siang hari (06:00 - 18:00)',
     'box_collector_guide' => 'Kolektor Kotak: 10% kesempatan menerima 2 kotak acak',
@@ -655,7 +656,7 @@ return [
     'money_lost' => 'Uang Hilang',
     'total_exp' => 'Total EXP',
     'treasures_opened' => 'Harta Dibuka',
-    'gambling_sessions' => 'Sesi Judi',
+    'gambling_sessions' => 'Sesi Taruhan',
     'success_rate' => 'Tingkat Keberhasilan',
     'filter_logs' => 'Filter Log',
     'action_type' => 'Jenis Aksi',
@@ -663,8 +664,8 @@ return [
     'treasure_opening' => 'Pembukaan Harta',
     'rare_treasure_opening' => 'Pembukaan Harta Langka',
     'random_box_opening' => 'Pembukaan Kotak Acak',
-    'dice_gambling' => 'Judi Dadu',
-    'card_gambling' => 'Judi Kartu',
+    'dice_gambling' => 'Taruhan Dadu',
+    'card_gambling' => 'Taruhan Kartu',
     'treasure_fusion' => 'Fusi Harta',
     'per_page' => 'Per Halaman',
     'apply_filter' => 'Terapkan Filter',
@@ -708,4 +709,5 @@ return [
     'daily_distribution' => 'Distribusi Harian',
     'how_to_maximize' => 'Cara Memaksimalkan Penghasilan Anda',
     'prize_pool_example' => 'Contoh Hadiah',
+    'total_top_up_all_players' => 'Total Top Up Semua Pemain'
 ];

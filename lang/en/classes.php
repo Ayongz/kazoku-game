@@ -1,0 +1,62 @@
+<?php
+
+return [
+    'treasure_hunter' => [
+        'description' => 'A skilled explorer specializing in treasure discovery and efficiency.',
+        'ability_1' => '15% chance for free treasure attempts',
+        'ability_2' => 'Enhanced treasure hunting skills',
+        'advanced_description' => 'Elite explorer with supreme treasure hunting mastery.',
+        'advanced_ability_1' => '25% chance for free treasure attempts',
+        'advanced_ability_2' => 'Superior treasure hunting expertise',
+    ],
+    'proud_merchant' => [
+        'description' => 'A savvy trader focused on maximizing profits and earnings.',
+        'ability_1' => '+20% bonus earnings from treasure',
+        'ability_2' => 'Enhanced profit margins',
+        'advanced_description' => 'Master merchant with supreme trading prowess.',
+        'advanced_ability_1' => '+30% bonus earnings from treasure',
+        'advanced_ability_2' => 'Supreme profit optimization',
+    ],
+    'fortune_gambler' => [
+        'description' => 'A risk-taker who lives for high stakes and big rewards.',
+        'ability_1' => '15% chance to double earnings',
+        'ability_2' => '8% chance to lose everything',
+        'ability_3' => 'High risk, high reward gameplay',
+        'advanced_description' => 'Elite player with enhanced fortune mechanics.',
+        'advanced_ability_1' => '25% chance to double earnings',
+        'advanced_ability_2' => '12% chance to lose everything',
+        'advanced_ability_3' => 'Extreme risk, extreme reward',
+    ],
+    'moon_guardian' => [
+        'description' => 'A mystical guardian who draws power from the night.',
+        'ability_1' => '20% chance for random box during nighttime (6 PM - 6 AM)',
+        'ability_2' => 'Enhanced night-time treasure hunting',
+        'advanced_description' => 'Supreme guardian blessed by lunar forces.',
+        'advanced_ability_1' => '30% chance for random box during nighttime (6 PM - 6 AM)',
+        'advanced_ability_2' => 'Master of nocturnal treasure arts',
+    ],
+    'day_breaker' => [
+        'description' => 'A radiant warrior who harnesses the power of sunlight.',
+        'ability_1' => '20% chance for random box during daytime (6 AM - 6 PM)',
+        'ability_2' => 'Enhanced day-time treasure hunting',
+        'advanced_description' => 'Elite champion empowered by solar energy.',
+        'advanced_ability_1' => '30% chance for random box during daytime (6 AM - 6 PM)',
+        'advanced_ability_2' => 'Master of solar treasure arts',
+    ],
+    'box_collector' => [
+        'description' => 'A dedicated collector who specializes in acquiring rare containers.',
+        'ability_1' => '10% chance to receive 2 random boxes',
+        'ability_2' => 'Enhanced box discovery skills',
+        'advanced_description' => 'Supreme collector with unmatched acquisition skills.',
+        'advanced_ability_1' => '15% chance to receive 2 random boxes',
+        'advanced_ability_2' => 'Master collection expertise',
+    ],
+    'divine_scholar' => [
+        'description' => 'A wise scholar blessed with knowledge and enhanced learning.',
+        'ability_1' => '+10% bonus experience from treasure',
+        'ability_2' => 'Wisdom-based learning enhancement',
+        'advanced_description' => 'Master scholar with divine knowledge and superior learning.',
+        'advanced_ability_1' => '+20% bonus experience from treasure',
+        'advanced_ability_2' => 'Enhanced divine wisdom and learning',
+    ],
+];

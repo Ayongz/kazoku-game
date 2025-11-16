@@ -25,7 +25,8 @@ return [
     'pvp_combat' => 'Pertarungan PvP',
     'inventory_system' => 'Sistem Inventaris',
     'prestige_system' => 'Sistem Prestise',
-    'gambling_hall' => 'Aula Judi',
     'time_strategy' => 'Strategi Waktu',
     'upgrade_store' => 'Toko Upgrade',
+    'kazoku_game' => 'Permainan Kazoku',
+    'profession_system' => 'Sistem Profesi'
 ];

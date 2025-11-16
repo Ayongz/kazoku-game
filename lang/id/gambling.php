@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'level' => 'Level Judi',
+    'level' => 'Level Taruhan',
     'max_bet' => 'Taruhan Max',
     'attempts' => 'Percobaan',
     'remaining_today' => 'tersisa hari ini',
@@ -19,7 +19,7 @@ return [
     'rare_treasure' => 'Harta Langka',
     'fusion_now' => 'Fusi Sekarang',
     'flip_card' => 'Balik Kartu',
-    'rules' => 'Aturan Judi',
+    'rules' => 'Aturan Taruhan',
     
     // Game names
     'dice_duel' => 'Duel Dadu',
@@ -32,10 +32,10 @@ return [
     'card_flip_desc' => 'Ambil kartu dan kalahkan bandar untuk menang dua kali lipat taruhan!',
     
     // Rules
-    'rule_1' => 'Percobaan harian bertambah dengan level judi.',
-    'rule_2' => 'Jumlah taruhan maksimum bertambah dengan level judi.',
+    'rule_1' => 'Percobaan harian bertambah dengan level taruhan.',
+    'rule_2' => 'Jumlah taruhan maksimum bertambah dengan level taruhan.',
     'rule_3' => 'Percobaan direset harian pada 00:00 GMT+7.',
-    'rule_4' => 'Menang atau kalah, Anda mendapat pengalaman judi.',
+    'rule_4' => 'Menang atau kalah, Anda mendapat pengalaman taruhan.',
     'rule_5' => '20% dari kemenangan masuk ke hadiah global.',
     'rule_6' => 'Harta langka bernilai 5-6x harta biasa.',
     
@@ -46,7 +46,7 @@ return [
     'fusion_failed' => 'Fusi Gagal!',
     'dice_result' => 'Dadu Anda: :player_roll, Dadu Bandar: :house_roll',
     'card_result' => 'Kartu Anda: :player_card, Kartu Bandar: :house_card',
-    'experience_gained' => 'Anda mendapat :exp pengalaman judi!',
-    'level_up' => 'Level judi naik ke :level!',
+    'experience_gained' => 'Anda mendapat :exp pengalaman taruhan!',
+    'level_up' => 'Level taruhan naik ke :level!',
     'prize_pool_contribution' => 'IDR :amount ditambahkan ke hadiah global.',
 ];

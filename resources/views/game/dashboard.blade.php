@@ -8,11 +8,9 @@
         <div class="magic-orbs"></div>
         <div class="energy-waves"></div>
     </div>
-
     <div class="container pt-1" style="position: relative; z-index: 1;">
         <div class="row justify-content-center">
             <div class="col-lg-10 col-xl-8">
-                
                 <!-- RPG Header -->
                 <div class="rpg-header text-center mb-4">
                     @if($isNightTime)
@@ -31,11 +29,8 @@
                                 <div class="crown-glow-effect"></div>
                             </div>
                             <h1 class="rpg-title-night-enhanced">
-                                <span class="title-main">{{ __('nav.the_game_dashboard') }}</span>
+                                <span class="title-main">{{ __('game.treasure_hunt') }}</span>
                             </h1>
-                            <div class="night-subtitle">
-                                <span class="mystical-text" style="color: white !important;">🌙 {{ __('nav.opening_treasures_risk') }} 🌙</span>
-                            </div>
                             <div class="night-title-decoration">
                                 <div class="magic-line left-line"></div>
                                 <div class="center-crystal">💎</div>
@@ -46,16 +41,14 @@
                         <!-- Day Mode Header -->
                         <div class="store-title-container">
                             <h1 class="rpg-title-enhanced">
-                                <i class="fas fa-crown me-2"></i>{{ __('nav.the_game_dashboard') }}
+                                {{ __('game.treasure_hunt') }}
                             </h1>
-                            <div class="title-decoration-enhanced"></div>
                         </div>
                     @endif
                 </div>
 
-                <!-- RPG Time Mode & Game Actions Row - Optimized -->
+                <!-- RPG Time Mode & Game Actions -->
                 <div class="row mb-3">
-                    <!-- RPG Time Mode Indicator - Compact -->
                     <div class="col-12 col-lg-5 mb-3 mb-lg-0">
                         @if($isNightTime)
                             <div class="rpg-time-indicator rpg-night-mode h-100 compact-mode">
@@ -70,7 +63,6 @@
                                         <span class="risk-item risk-danger" style="color: #ffffff; font-weight: 600;">25% {{ __('nav.chance_to_lose_money') }}</span><br>
                                         <span class="risk-item risk-success" style="color: #ffffff; font-weight: 600;">25% {{ __('nav.chance_for_bonus') }}</span><br>
                                         <span class="risk-item risk-rare" style="color: #ffffff; font-weight: 600;">5% {{ __('nav.chance_rare_treasure') }}</span><br>
-                                        <span class="risk-item risk-normal" style="color: #ffffff; font-weight: 600;">45% {{ __('nav.chance_normal') }}</span>
                                     </div>
                                     <div class="time-action pt-2">
                                         <a href="{{ route('game.logs') }}" class="btn btn-sm btn-outline-light compact-btn">
@@ -98,7 +90,7 @@
                         @endif
                     </div>
 
-                    <!-- Game Actions Section (Treasure Chamber) - Compact -->
+                    <!-- Game Actions Section (Treasure Chamber) -->
                     <div class="col-12 col-lg-7">
                         <div class="rpg-panel panel-main position-relative overflow-hidden h-100 compact-panel">
                             <!-- Background Pattern -->
@@ -110,7 +102,7 @@
                                     <div class="rpg-section-header">
                                         <h5 class="rpg-title-compact text-white mb-1">
                                             <i class="fas fa-treasure-chest me-2 text-warning"></i>
-                                            Treasure Chamber
+                                            {{ __('game.treasure_chamber') }}
                                         </h5>
                                     </div>
                                     
@@ -121,9 +113,8 @@
                                                 <input class="form-check-input rpg-switch-input" type="checkbox" id="autoClickToggle" 
                                                        @if($user->treasure <= 0) disabled @endif>
                                                 <label class="form-check-label rpg-switch-label fw-bold" for="autoClickToggle">
-                                                    <i class="fas fa-magic me-1"></i>
-                                                    <span class="d-none d-md-inline">Auto Click</span>
-                                                    <span class="d-md-none">Auto Click</span>
+                                                    <span class="d-none d-md-inline">{{ __('game.auto_click') }}</span>
+                                                    <span class="d-md-none">{{ __('game.auto_click') }}</span>
                                                 </label>
                                             </div>
                                         </div>
@@ -131,37 +122,12 @@
                                         <div class="rpg-locked-feature">
                                             <span class="badge bg-secondary small">
                                                 <i class="fas fa-lock me-1"></i>
-                                                Auto Click at Level 2
+                                                {{ __('game.auto_click_info') }}
                                             </span>
                                         </div>
                                     @endif
                                 </div>
-                                
-                                <!-- Description - Compact -->
-                                <!-- <div class="rpg-description-panel-compact mb-3">
-                                    <div class="text-center">
-                                        <p class="rpg-flavor-text-compact mb-2 small">
-                                            {{ __('nav.click_to_earn_money') }}
-                                        </p>
-                                        @if($user->steal_level > 0)
-                                            <div class="rpg-bonus-indicator-compact">
-                                                <span class="badge bg-info bg-gradient small">
-                                                    <i class="fas fa-mask me-1"></i>
-                                                    <strong>{{ __('nav.bonus') }}:</strong> {{ __('nav.steal_bonus', ['percent' => $user->steal_level * 5]) }}
-                                                </span>
-                                            </div>
-                                        @endif
-                                        @if($user->level < 2)
-                                            <div class="rpg-bonus-indicator-compact mt-2">
-                                                <span class="badge bg-warning text-dark small">
-                                                    <i class="fas fa-lock me-1"></i>
-                                                    <strong>Auto-click unlocks at Level 2</strong>
-                                                </span>
-                                            </div>
-                                        @endif
-                                    </div>
-                                </div> -->
-                                
+                                                            
                                 <!-- Treasure Section -->
                                 <div class="row justify-content-center">
                                     <div class="col-12">
@@ -190,7 +156,7 @@
                                                     <div class="rpg-bonus-chance-compact mt-1">
                                                         <small class="text-muted">
                                                             <i class="fas fa-gift me-1 text-warning"></i>
-                                                            {{ $currentRarity['chance'] }}% Random Box
+                                                            {{ $currentRarity['chance'] }}% {{ __('game.random_box') }}
                                                         </small>
                                                     </div>
                                                 @endif
@@ -198,7 +164,6 @@
                                             
                                             <!-- Open Treasure Buttons -->
                                             <div class="rpg-action-area-compact">
-                                                <!-- Regular Treasure Button -->
                                                 <form method="POST" action="{{ route('game.earn') }}" id="earnMoneyForm">
                                                     @csrf
                                                     <button type="submit" id="earnMoneyBtn"
@@ -207,12 +172,12 @@
                                                         <div class="rpg-button-content">
                                                             @if($user->treasure > 0)
                                                                 <i class="fas fa-hand-sparkles me-2"></i>
-                                                                <span class="d-none d-md-inline">OPEN TREASURE</span>
-                                                                <span class="d-md-none">OPEN TREASURE</span>
+                                                                <span class="d-none d-md-inline">{{ __('game.open_treasure') }}</span>
+                                                                <span class="d-md-none">{{ __('game.open_treasure') }}</span>
                                                             @else
                                                                 <i class="fas fa-times-circle me-2"></i>
-                                                                <span class="d-none d-md-inline">NO TREASURE</span>
-                                                                <span class="d-md-none">NO TREASURE</span>
+                                                                <span class="d-none d-md-inline">{{ __('game.no_treasure') }}</span>
+                                                                <span class="d-md-none">{{ __('game.no_treasure') }}</span>
                                                             @endif
                                                         </div>
                                                         <div class="rpg-button-glow"></div>
@@ -226,8 +191,8 @@
                                                         <button type="submit" class="rpg-button rpg-button-legendary rpg-button-compact">
                                                             <div class="rpg-button-content">
                                                                 <i class="fas fa-star me-2"></i>
-                                                                <span class="d-none d-md-inline">OPEN RARE TREASUE</span>
-                                                                <span class="d-md-none">OPEN RARE TREASURE</span>
+                                                                <span class="d-none d-md-inline">{{ __('game.open_rare_treasure') }}</span>
+                                                                <span class="d-md-none">{{ __('game.open_rare_treasure') }}</span>
                                                             </div>
                                                             <div class="rpg-button-glow"></div>
                                                         </button>
@@ -257,11 +222,11 @@
                                     <div class="rpg-alert rpg-alert-info">
                                         <div class="rpg-alert-icon">
                                             <div class="spinner-border spinner-border-sm" role="status">
-                                                <span class="visually-hidden">Loading...</span>
+                                                <span class="visually-hidden">{{ __('game.loading') }}</span>
                                             </div>
                                         </div>
                                         <div class="rpg-alert-content">
-                                            <strong>Auto Click Active:</strong> <span id="autoClickCounter">0</span> treasures opened
+                                            <strong>{{ __('game.auto_click_active') }}:</strong> <span id="autoClickCounter">0</span> {{ __('game.treasures_opened') }}
                                         </div>
                                     </div>
                                 </div>
@@ -300,7 +265,7 @@
                     </div>
                 @endif
 
-                <!-- RPG Player Stats Grid - Optimized -->
+                <!-- RPG Player Stats -->
                 <div class="row g-2">
                     <!-- Player Money Card -->
                     <div class="col-6 col-md-4 col-lg-2-4 mb-3">
@@ -355,15 +320,15 @@
                             </h5>
                             <div class="rpg-stat-details-compact">
                                 @if($user->treasure_rarity_level > 0)
-                                    <small>Rarity Lv{{ $user->treasure_rarity_level }}</small>
+                                    <small>{{ __('game.rarity_level') }} {{ $user->treasure_rarity_level }}</small>
                                 @else
-                                    <small>Common only</small>
+                                    <small>{{ __('game.common_only') }}</small>
                                 @endif
                             </div>
                             @if(($user->randombox ?? 0) > 0)
                                 <div class="rpg-stat-action-compact">
                                     <a href="{{ route('game.inventory') }}" class="btn btn-xs btn-outline-dark">
-                                        <i class="fas fa-gift me-1"></i>Open
+                                        <i class="fas fa-gift me-1"></i>{{ __('game.open') }}
                                     </a>
                                 </div>
                             @endif
@@ -382,7 +347,7 @@
                                     {{ __('nav.active') }}
                                 </h5>
                                 <div class="rpg-stat-details-compact">
-                                    <small>Until {{ $user->shield_expires_at->setTimezone('Asia/Jakarta')->format('H:i') }}</small>
+                                    <small>{{ __('game.until') }} {{ $user->shield_expires_at->setTimezone('Asia/Jakarta')->format('H:i') }}</small>
                                 </div>
                             @else
                                 <h5 class="rpg-stat-value-compact text-secondary">
@@ -390,7 +355,7 @@
                                 </h5>
                                 <div class="rpg-stat-action-compact">
                                     <a href="{{ route('store.index') }}" class="btn btn-xs btn-outline-dark">
-                                        <i class="fas fa-shopping-cart me-1"></i>Buy
+                                        <i class="fas fa-shopping-cart me-1"></i>{{ __('game.buy') }}
                                     </a>
                                 </div>
                             @endif
@@ -412,7 +377,7 @@
                                 <span class="d-none d-sm-inline">IDR </span>{{ number_format($globalPrizePool, 0, ',', '.') }}
                             </h5>
                             <div class="rpg-stat-details-compact">
-                                <small>Daily distributed</small>
+                                <small>{{ __('game.daily_distributed') }}</small>
                             </div>
                         </div>
                     </div>
@@ -466,8 +431,8 @@
                                                 </div>
                                             </div>
                                             <div class="d-flex justify-content-between">
-                                                <small class="text-light" id="expProgressPercentDisplay">{{ number_format($expProgress, 1) }}% Progress</small>
-                                                <small class="text-white" id="playerExpDisplay">{{ number_format($expToNext) }} EXP to next</small>
+                                                <small class="text-light" id="expProgressPercentDisplay">{{ number_format($expProgress, 1) }}% {{ __('game.progress') }}</small>
+                                                <small class="text-white" id="playerExpDisplay">{{ number_format($expToNext) }} EXP {{ __('game.to_next_level') }}</small>
                                             </div>
                                         </div>
                                     </div>
@@ -488,8 +453,8 @@
                                     <!-- Current Class Display -->
                                     <div class="rpg-class-display">
                                         <div class="d-flex flex-column">
-                                            <div class="rpg-class-info flex-grow-1 mb-3">
-                                                <div class="rpg-class-header mb-3">
+                                            <div class="rpg-class-info flex-grow-1 mb-2">
+                                                <div class="rpg-class-header">
                                                     <h3 class="rpg-class-title text-white mb-2">
                                                         <i class="fas fa-shield-alt me-2 text-warning"></i>
                                                         {{ $user->getClassDisplayName() }}
@@ -497,12 +462,6 @@
                                                     <p class="rpg-class-description text-light mb-2 opacity-90">
                                                         {{ $user->getClassDescription() }}
                                                     </p>
-                                                    @if($user->class_selected_at)
-                                                        <small class="text-light opacity-60">
-                                                            <i class="fas fa-calendar me-1"></i>
-                                                            Class selected on {{ $user->class_selected_at->format('M d, Y') }}
-                                                        </small>
-                                                    @endif
                                                 </div>
                                             </div>
                                             
@@ -513,7 +472,7 @@
                                                         <button type="submit" class="rpg-button rpg-button-legendary rpg-button-large">
                                                             <div class="rpg-button-content">
                                                                 <i class="fas fa-star me-2"></i>
-                                                                Advance Class
+                                                                {{ __('game.advance_class') }}
                                                             </div>
                                                             <div class="rpg-button-glow"></div>
                                                         </button>
@@ -521,14 +480,14 @@
                                                     <div class="mt-2">
                                                         <small class="text-light opacity-75">
                                                             <i class="fas fa-magic me-1"></i>
-                                                            Unlock enhanced abilities!
+                                                            {{ __('game.unlock_enhanced_abilities') }}!
                                                         </small>
                                                     </div>
                                                 @elseif($user->has_advanced_class)
                                                     <div class="rpg-advanced-badge">
                                                         <div class="badge bg-warning bg-gradient text-dark px-3 py-2" style="font-size: 1rem;">
                                                             <i class="fas fa-crown me-1"></i>
-                                                            ADVANCED CLASS
+                                                            {{ __('game.advanced_class') }}
                                                             <i class="fas fa-crown ms-1"></i>
                                                         </div>
                                                     </div>
@@ -542,10 +501,10 @@
                                         <div class="rpg-section-header mb-4">
                                             <h3 class="rpg-title text-white mb-3">
                                                 <i class="fas fa-star me-2 text-warning" style="animation: pulse 2s infinite;"></i>
-                                                Class Selection Available!
+                                                {{ __('game.class_selection_available') }}!
                                             </h3>
                                             <p class="rpg-subtitle text-light opacity-90 mb-4">
-                                                You've reached level {{ $user->level }}! Choose a class to unlock special abilities.
+                                                {{ __('game.you_have_reached_level') }} {{ $user->level }}! {{ __('game.choose_a_class_to_unlock_special_abilities') }}
                                             </p>
                                         </div>
                                         
@@ -553,7 +512,7 @@
                                             <a href="{{ route('game.class-selection') }}" class="rpg-button rpg-button-epic rpg-button-large">
                                                 <div class="rpg-button-content">
                                                     <i class="fas fa-magic me-2"></i>
-                                                    Choose Your Destiny
+                                                    {{ __('game.choose_your_destiny') }}
                                                 </div>
                                                 <div class="rpg-button-glow"></div>
                                             </a>
@@ -565,34 +524,19 @@
                                         <div class="rpg-section-header mb-4">
                                             <h3 class="rpg-title text-white mb-3">
                                                 <i class="fas fa-lock me-2 text-secondary"></i>
-                                                Class System
+                                                {{ __('game.class_system') }}
                                             </h3>
                                             <p class="rpg-subtitle text-light opacity-90 mb-3">
-                                                Unlock powerful class abilities and enhance your treasure hunting journey!
+                                                {{ __('game.unlock_powerful_class') }}!
                                             </p>
                                         </div>
                                         
                                         <div class="rpg-requirement-info">
                                             <div class="rpg-requirement-badge">
                                                 <i class="fas fa-star text-warning me-2"></i>
-                                                <strong class="text-white">Level 4 Required</strong>
+                                                <strong class="text-white">{{ __('game.level_4_required') }}</strong>
                                             </div>
-                                            <!-- <div class="mt-3">
-                                                <p class="text-light opacity-75 small mb-2">
-                                                    Current Level: <strong class="text-warning">{{ $user->level }}</strong>
-                                                </p>
-                                                <p class="text-light opacity-75 small">
-                                                    Levels to go: <strong class="text-info">{{ 4 - $user->level }}</strong>
-                                                </p>
-                                            </div> -->
                                         </div>
-                                        
-                                        <!-- <div class="rpg-class-preview">
-                                            <small class="text-light opacity-60">
-                                                <i class="fas fa-info-circle me-1"></i>
-                                                Classes provide unique abilities like enhanced treasure finding, combat skills, and special bonuses!
-                                            </small>
-                                        </div> -->
                                     </div>
                                 @endif
                             </div>
@@ -605,7 +549,7 @@
     </div>
 </div>
 
-<!-- Auto Click JavaScript -->
+
 <style>
     /* === RPG THEME STYLING === */
     
@@ -2388,8 +2332,8 @@
     }
     
     .rpg-avatar-compact {
-        width: 50px;
-        height: 50px;
+        width: 80px;
+        height: 80px;
         border-radius: 50%;
         object-fit: cover;
         border: 2px solid #ffd700;
@@ -2820,7 +2764,7 @@ document.addEventListener('DOMContentLoaded', function() {
         isProcessing = true;
         
         // Show processing state
-        earnMoneyBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Processing...';
+        earnMoneyBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>{{ __("nav.processing") }}';
         earnMoneyBtn.disabled = true;
         
         // Submit form via AJAX

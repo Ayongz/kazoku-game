@@ -39,7 +39,7 @@
                         <div class="login-logo">
                             <i class="fas fa-gamepad"></i>
                         </div>
-                        <h2 class="login-title">Kazoku Game</h2>
+                        <h2 class="login-title">{{ __('auth.kazoku_game') }}</h2>
                         <p class="login-subtitle">{{ __('auth.login_subtitle') }}</p>
                     </div>
 
@@ -116,7 +116,7 @@
                                 <span>👑 {{ __('auth.prestige_system') }}</span>
                             </div>
                             <div class="feature col-6">
-                                <span>🎰 {{ __('auth.gambling_hall') }}</span>
+                                <span>🎰 {{ __('auth.profession_system') }}</span>
                             </div>
                         </div>
                         <div class="row">

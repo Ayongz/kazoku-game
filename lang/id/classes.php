@@ -1,0 +1,62 @@
+<?php
+
+return [
+    'treasure_hunter' => [
+        'description' => 'Seorang penjelajah terampil yang ahli dalam penemuan harta karun dan efisiensi.',
+        'ability_1' => '15% kesempatan untuk upaya harta karun gratis',
+        'ability_2' => 'Keterampilan berburu harta karun yang ditingkatkan',
+        'advanced_description' => 'Penjelajah elit dengan penguasaan berburu harta karun tertinggi.',
+        'advanced_ability_1' => '25% kesempatan untuk upaya harta karun gratis',
+        'advanced_ability_2' => 'Keahlian berburu harta karun yang unggul',
+    ],
+    'proud_merchant' => [
+        'description' => 'Seorang pedagang cerdas yang berfokus pada pemaksimalan keuntungan dan penghasilan.',
+        'ability_1' => '+20% bonus penghasilan dari harta karun',
+        'ability_2' => 'Margin keuntungan yang ditingkatkan',
+        'advanced_description' => 'Pedagang master dengan kekuatan perdagangan tertinggi.',
+        'advanced_ability_1' => '+30% bonus penghasilan dari harta karun',
+        'advanced_ability_2' => 'Optimasi keuntungan tertinggi',
+    ],
+    'fortune_gambler' => [
+        'description' => 'Seorang pengambil risiko yang hidup untuk pertaruhan tinggi dan hadiah besar.',
+        'ability_1' => '15% kesempatan menggandakan penghasilan',
+        'ability_2' => '8% kesempatan kehilangan segalanya',
+        'ability_3' => 'Permainan risiko tinggi, hadiah tinggi',
+        'advanced_description' => 'Pemain elit dengan mekanik keberuntungan yang ditingkatkan.',
+        'advanced_ability_1' => '25% kesempatan menggandakan penghasilan',
+        'advanced_ability_2' => '12% kesempatan kehilangan segalanya',
+        'advanced_ability_3' => 'Risiko ekstrem, hadiah ekstrem',
+    ],
+    'moon_guardian' => [
+        'description' => 'Seorang penjaga mistis yang menarik kekuatan dari malam hari.',
+        'ability_1' => '20% kesempatan mendapatkan kotak acak saat malam (jam 6 sore - 6 pagi)',
+        'ability_2' => 'Berburu harta karun malam yang ditingkatkan',
+        'advanced_description' => 'Penjaga tertinggi yang diberkati oleh kekuatan lunar.',
+        'advanced_ability_1' => '30% kesempatan mendapatkan kotak acak saat malam (jam 6 sore - 6 pagi)',
+        'advanced_ability_2' => 'Master seni harta karun malam',
+    ],
+    'day_breaker' => [
+        'description' => 'Seorang prajurit bersinar yang memanfaatkan kekuatan sinar matahari.',
+        'ability_1' => '20% kesempatan mendapatkan kotak acak saat siang (jam 6 pagi - 6 sore)',
+        'ability_2' => 'Berburu harta karun siang yang ditingkatkan',
+        'advanced_description' => 'Juara elit yang diberdayakan oleh energi surya.',
+        'advanced_ability_1' => '30% kesempatan mendapatkan kotak acak saat siang (jam 6 pagi - 6 sore)',
+        'advanced_ability_2' => 'Master seni harta karun surya',
+    ],
+    'box_collector' => [
+        'description' => 'Seorang kolektor berdedikasi yang ahli dalam mengakuisisi wadah langka.',
+        'ability_1' => '10% kesempatan menerima 2 kotak acak',
+        'ability_2' => 'Keterampilan penemuan kotak yang ditingkatkan',
+        'advanced_description' => 'Kolektor tertinggi dengan keterampilan akuisisi tak tertandingi.',
+        'advanced_ability_1' => '15% kesempatan menerima 2 kotak acak',
+        'advanced_ability_2' => 'Keahlian koleksi master',
+    ],
+    'divine_scholar' => [
+        'description' => 'Seorang sarjana bijak yang diberkati dengan pengetahuan dan pembelajaran yang ditingkatkan.',
+        'ability_1' => '+10% bonus pengalaman dari harta karun',
+        'ability_2' => 'Peningkatan pembelajaran berbasis kebijaksanaan',
+        'advanced_description' => 'Sarjana master dengan pengetahuan ilahi dan pembelajaran yang lebih baik.',
+        'advanced_ability_1' => '+20% bonus pengalaman dari harta karun',
+        'advanced_ability_2' => 'Kebijaksanaan ilahi dan pembelajaran yang ditingkatkan',
+    ],
+];

@@ -7,7 +7,8 @@ return [
     'inventory' => 'Inventory',
     'status' => 'Status',
     'class_path' => 'Class Path',
-    'gambling_hall' => 'Gambling',
+    'gambling_hall' => 'Wagering Hall',
+    'processing' => 'Processing...',
     'guide' => 'Guide',
     'login' => 'Login',
     'logout' => 'Logout',
@@ -403,14 +404,14 @@ return [
     'auto_systems' => 'Auto Systems',
     
     // Gambling Hall Translations
-    'gambling_overview' => 'Gambling Overview',
-    'gambling_overview_desc' => 'The Gambling Hall offers three exciting games where you can bet money and treasures for bigger rewards. Each game has different mechanics, risk levels, and potential payouts.',
+    'gambling_overview' => 'Wagering Overview',
+    'gambling_overview_desc' => 'The Wagering Hall offers three exciting games where you can bet money and treasures for bigger rewards. Each game has different mechanics, risk levels, and potential payouts.',
     'bet_range' => 'Bet Range',
     'level_based' => 'Level Based',
     'win_rate' => 'Win Rate',
     'payout' => 'Payout',
     'bet_amount' => 'Bet Amount',
-    'gambling_progression' => 'Gambling Progression',
+    'gambling_progression' => 'Wagering Progression',
     'base_attempts' => 'Base Attempts',
     'day' => 'Day',
     'level_bonus' => 'Level Bonus',
@@ -465,7 +466,7 @@ return [
     'treasure_types' => 'Treasure Types',
     'regular_treasures' => 'Regular Treasures',
     'regular_treasures_desc' => 'Standard treasures that regenerate automatically and provide money when opened.',
-    'rare_treasure_desc' => 'Special treasures created through gambling fusion that provide 5-6x normal rewards.',
+    'rare_treasure_desc' => 'Special treasures created through wagering fusion that provide 5-6x normal rewards.',
     'fusion_cost' => 'Fusion Cost',
     
     // Basic Gameplay Section
@@ -652,7 +653,7 @@ return [
     'money_lost' => 'Money Lost',
     'total_exp' => 'Total EXP',
     'treasures_opened' => 'Treasures Opened',
-    'gambling_sessions' => 'Gambling Sessions',
+    'gambling_sessions' => 'Wagering Sessions',
     'success_rate' => 'Success Rate',
     'filter_logs' => 'Filter Logs',
     'action_type' => 'Action Type',
@@ -660,8 +661,8 @@ return [
     'treasure_opening' => 'Treasure Opening',
     'rare_treasure_opening' => 'Rare Treasure Opening',
     'random_box_opening' => 'Random Box Opening',
-    'dice_gambling' => 'Dice Gambling',
-    'card_gambling' => 'Card Gambling',
+    'dice_gambling' => 'Dice Wagering',
+    'card_gambling' => 'Card Wagering',
     'treasure_fusion' => 'Treasure Fusion',
     'per_page' => 'Per Page',
     'apply_filter' => 'Apply Filter',
@@ -705,4 +706,5 @@ return [
     'daily_distribution' => 'Daily Distribution',
     'how_to_maximize' => 'How to Maximize Your Earnings',
     'prize_pool_example' => 'Prize Pool Example',
+    'total_top_up_all_players' => 'Total Top-Up by All Players'
 ];

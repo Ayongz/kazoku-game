@@ -144,108 +144,108 @@ class User extends Authenticatable
             'treasure_hunter' => [
                 'name' => 'Treasure Hunter',
                 'icon' => '🗝️',
-                'description' => 'A skilled explorer specializing in treasure discovery and efficiency.',
+                'description' => __('classes.treasure_hunter.description'),
                 'abilities' => [
-                    '15% chance for free treasure attempts',
-                    'Enhanced treasure hunting skills'
+                    __('classes.treasure_hunter.ability_1'),
+                    __('classes.treasure_hunter.ability_2')
                 ],
                 'advanced_name' => 'Master Treasure Hunter',
-                'advanced_description' => 'Elite explorer with supreme treasure hunting mastery.',
+                'advanced_description' => __('classes.treasure_hunter.advanced_description'),
                 'advanced_abilities' => [
-                    '25% chance for free treasure attempts',
-                    'Superior treasure hunting expertise'
+                    __('classes.treasure_hunter.advanced_ability_1'),
+                    __('classes.treasure_hunter.advanced_ability_2')
                 ]
             ],
             'proud_merchant' => [
                 'name' => 'Proud Merchant',
                 'icon' => '💼',
-                'description' => 'A savvy trader focused on maximizing profits and earnings.',
+                'description' => __('classes.proud_merchant.description'),
                 'abilities' => [
-                    '+20% bonus earnings from treasure',
-                    'Enhanced profit margins'
+                    __('classes.proud_merchant.ability_1'),
+                    __('classes.proud_merchant.ability_2')
                 ],
                 'advanced_name' => 'Trade Emperor',
-                'advanced_description' => 'Master merchant with supreme trading prowess.',
+                'advanced_description' => __('classes.proud_merchant.advanced_description'),
                 'advanced_abilities' => [
-                    '+30% bonus earnings from treasure',
-                    'Supreme profit optimization'
+                    __('classes.proud_merchant.advanced_ability_1'),
+                    __('classes.proud_merchant.advanced_ability_2')
                 ]
             ],
             'fortune_gambler' => [
                 'name' => 'Fortune Gambler',
                 'icon' => '🎰',
-                'description' => 'A risk-taker who lives for high stakes and big rewards.',
+                'description' => __('classes.fortune_gambler.description'),
                 'abilities' => [
-                    '15% chance to double earnings',
-                    '8% chance to lose everything',
-                    'High risk, high reward gameplay'
+                    __('classes.fortune_gambler.ability_1'),
+                    __('classes.fortune_gambler.ability_2'),
+                    __('classes.fortune_gambler.ability_3')
                 ],
                 'advanced_name' => 'Luck Master',
-                'advanced_description' => 'Elite gambler with enhanced fortune mechanics.',
+                'advanced_description' => __('classes.fortune_gambler.advanced_description'),
                 'advanced_abilities' => [
-                    '25% chance to double earnings',
-                    '12% chance to lose everything',
-                    'Extreme risk, extreme reward'
+                    __('classes.fortune_gambler.advanced_ability_1'),
+                    __('classes.fortune_gambler.advanced_ability_2'),
+                    __('classes.fortune_gambler.advanced_ability_3')
                 ]
             ],
             'moon_guardian' => [
                 'name' => 'Moon Guardian',
                 'icon' => '🌙',
-                'description' => 'A mystical guardian who draws power from the night.',
+                'description' => __('classes.moon_guardian.description'),
                 'abilities' => [
-                    '20% chance for random box during nighttime (6 PM - 6 AM)',
-                    'Enhanced night-time treasure hunting'
+                    __('classes.moon_guardian.ability_1'),
+                    __('classes.moon_guardian.ability_2')
                 ],
                 'advanced_name' => 'Lunar Master',
-                'advanced_description' => 'Supreme guardian blessed by lunar forces.',
+                'advanced_description' => __('classes.moon_guardian.advanced_description'),
                 'advanced_abilities' => [
-                    '30% chance for random box during nighttime (6 PM - 6 AM)',
-                    'Master of nocturnal treasure arts'
+                    __('classes.moon_guardian.advanced_ability_1'),
+                    __('classes.moon_guardian.advanced_ability_2')
                 ]
             ],
             'day_breaker' => [
                 'name' => 'Day Breaker',
                 'icon' => '☀️',
-                'description' => 'A radiant warrior who harnesses the power of sunlight.',
+                'description' => __('classes.day_breaker.description'),
                 'abilities' => [
-                    '20% chance for random box during daytime (6 AM - 6 PM)',
-                    'Enhanced day-time treasure hunting'
+                    __('classes.day_breaker.ability_1'),
+                    __('classes.day_breaker.ability_2')
                 ],
                 'advanced_name' => 'Solar Champion',
-                'advanced_description' => 'Elite champion empowered by solar energy.',
+                'advanced_description' => __('classes.day_breaker.advanced_description'),
                 'advanced_abilities' => [
-                    '30% chance for random box during daytime (6 AM - 6 PM)',
-                    'Master of solar treasure arts'
+                    __('classes.day_breaker.advanced_ability_1'),
+                    __('classes.day_breaker.advanced_ability_2')
                 ]
             ],
             'box_collector' => [
                 'name' => 'Box Collector',
                 'icon' => '📦',
-                'description' => 'A dedicated collector who specializes in acquiring rare containers.',
+                'description' => __('classes.box_collector.description'),
                 'abilities' => [
-                    '10% chance to receive 2 random boxes',
-                    'Enhanced box discovery skills'
+                    __('classes.box_collector.ability_1'),
+                    __('classes.box_collector.ability_2')
                 ],
                 'advanced_name' => 'Grand Collector',
-                'advanced_description' => 'Supreme collector with unmatched acquisition skills.',
+                'advanced_description' => __('classes.box_collector.advanced_description'),
                 'advanced_abilities' => [
-                    '15% chance to receive 2 random boxes',
-                    'Master collection expertise'
+                    __('classes.box_collector.advanced_ability_1'),
+                    __('classes.box_collector.advanced_ability_2')
                 ]
             ],
             'divine_scholar' => [
                 'name' => 'Divine Scholar',
                 'icon' => '📜',
-                'description' => 'A wise scholar blessed with knowledge and enhanced learning.',
+                'description' => __('classes.divine_scholar.description'),
                 'abilities' => [
-                    '+10% bonus experience from treasure',
-                    'Wisdom-based learning enhancement'
+                    __('classes.divine_scholar.ability_1'),
+                    __('classes.divine_scholar.ability_2')
                 ],
                 'advanced_name' => 'Arcane Sage',
-                'advanced_description' => 'Master scholar with divine knowledge and superior learning.',
+                'advanced_description' => __('classes.divine_scholar.advanced_description'),
                 'advanced_abilities' => [
-                    '+20% bonus experience from treasure',
-                    'Enhanced divine wisdom and learning'
+                    __('classes.divine_scholar.advanced_ability_1'),
+                    __('classes.divine_scholar.advanced_ability_2')
                 ]
             ]
         ];
