@@ -164,7 +164,7 @@ class User extends Authenticatable
                     __('classes.proud_merchant.ability_1'),
                     __('classes.proud_merchant.ability_2')
                 ],
-                'advanced_name' => 'Trade Emperor',
+                'advanced_name' => 'Elite Merchant',
                 'advanced_description' => __('classes.proud_merchant.advanced_description'),
                 'advanced_abilities' => [
                     __('classes.proud_merchant.advanced_ability_1'),
@@ -180,7 +180,7 @@ class User extends Authenticatable
                     __('classes.fortune_gambler.ability_2'),
                     __('classes.fortune_gambler.ability_3')
                 ],
-                'advanced_name' => 'Luck Master',
+                'advanced_name' => 'Grand Gambler',
                 'advanced_description' => __('classes.fortune_gambler.advanced_description'),
                 'advanced_abilities' => [
                     __('classes.fortune_gambler.advanced_ability_1'),
@@ -196,7 +196,7 @@ class User extends Authenticatable
                     __('classes.moon_guardian.ability_1'),
                     __('classes.moon_guardian.ability_2')
                 ],
-                'advanced_name' => 'Lunar Master',
+                'advanced_name' => 'Lunar Guardian',
                 'advanced_description' => __('classes.moon_guardian.advanced_description'),
                 'advanced_abilities' => [
                     __('classes.moon_guardian.advanced_ability_1'),
@@ -241,7 +241,7 @@ class User extends Authenticatable
                     __('classes.divine_scholar.ability_1'),
                     __('classes.divine_scholar.ability_2')
                 ],
-                'advanced_name' => 'Arcane Sage',
+                'advanced_name' => 'Sage Scholar',
                 'advanced_description' => __('classes.divine_scholar.advanced_description'),
                 'advanced_abilities' => [
                     __('classes.divine_scholar.advanced_ability_1'),
